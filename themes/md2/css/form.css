@@ -70,6 +70,7 @@ button [disabled]{
 body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 
 /*边距*/
+.top0p{top:0px!important;}
 .mt-12 {margin-top: -12px;}
 .mt1{margin-top:1px;}
 .mt3{margin-top:3px;}

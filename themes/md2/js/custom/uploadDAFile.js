@@ -363,14 +363,24 @@ $(function () {
                     enableBtn(btnSubmit);
                     //电邮提醒
                     if (patientBookingId != '') {
-                        $.get({
+                        $.ajax({
                             url: patientAjaxDrTask + '/' + patientBookingId,
                             success: function (data) {
                                 //console.log(data);
+                            },
+                            error: function (XmlHttpRequest, textStatus, errorThrown) {
+                                //enableBtn(btnSubmit);
+                                console.log(XmlHttpRequest);
+                                console.log(textStatus);
+                                console.log(errorThrown);
+                            },
+                            complete: function () {
+                                location.href = uploadReturnUrl;
                             }
                         });
+                    } else {
+                        location.href = uploadReturnUrl;
                     }
-                    location.href = uploadReturnUrl;
                     //location.hash = uploadReturnUrl;
                 } else {
                     // 没有成功的图片，重设
