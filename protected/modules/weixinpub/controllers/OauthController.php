@@ -1,60 +1,48 @@
 <?php
 
 class OauthController extends WeixinpubController {
-
-    public $wx_pub_id = 'myzdztc';   // 微信公众号id.
+    
+    public $weixinPubId;
+    
+    public $weixinAppId;
+    
+    public $weixinAppSecret;
+    
     public $session_key_openid = 'wx.openid';
-
-    public function actionGetWxCode() {
-        //    require_once('protected/sdk/pingpp-php-master/init.php');
+    
+    public function init() {
+        parent::init();
+        $this->loadWechatAccount();
+        $wechatAccount = $this->wechatAccount;
+        $this->weixinPubId = $wechatAccount->getWeixinpubId();
+        $this->weixinAppId = $wechatAccount->getAppId();  
+        $this->weixinAppSecret = $wechatAccount->getAppSecret();     
+    }   
+    
+    public function actionTest() {
         $redirectUrl = $this->createAbsoluteUrl("oauth/getWxOpenId");
-        $wxConfig = new WeixinConfig();
-        //$wxAppId = 'wxb6dc36522aae7df2'; //@TODO: store in db.
-        $wxAppId = $wxConfig->getAppId();
-
-        //$url = \Pingpp\WxpubOAuth::createOauthUrlForCode($wxAppId, $redirectUrl);
-        $requestUrl = WeixinpubOAuth::createOauthUrlForCode($wxAppId, $redirectUrl);
-        $logMsg = 'Request url: ' . $requestUrl;
-        WeixinpubLog::log($logMsg, 'info', __METHOD__);
-        // var_dump($requestUrl);
-        header('Location: ' . $requestUrl);
-        Yii::app()->end();
+        echo $redirectUrl;
     }
+    
 
     public function actionGetWxOpenId() {
-        //CoreLogPayment::log(Yii::app()->request->querystring, 'info', null, __METHOD__);
-        // var_dump(Yii::app()->request->querystring);exit;        
         $code = '';
-        if (isset($_GET['code'])) {
-            //$output = array('status' => 'no', 'errorMsg' => '请求参数错误');
-            //$this->renderJsonOutput($output);
+        if (isset($_GET['code'])) {//请求中有code，通过code获取openid
+            $logMsg = '请求中的code为：' . $code . '，开始通过code换取openid';
+            WeixinpubLog::log("$logMsg", 'info', __METHOD__);
             $code = $_GET['code'];
-            $logMsg = 'Access code is found. Request: ' . Yii::app()->request->querystring;
-            WeixinpubLog::log($logMsg, 'info', __METHOD__);
-        } else {
-            // no $code, so redirect to getWxCode first, to get access_code from Weixin.
-            $logMsg = 'Access Code is missing, redirect to getWxCode. Request: ' . Yii::app()->request->querystring;
-            WeixinpubLog::log($logMsg, 'info', __METHOD__);
-            $this->redirect(array('getWxCode'));
-            //$output = array('status' => 'no', 'errorMsg' => '请求参数错误');
-            //$this->renderJsonOutput($output);
-
+        }else{
+            WeixinpubLog::log('请求中不含code，通过页面跳转获取code', 'info', __METHOD__);
+            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            $redirect_uri = urlencode($this->createAbsoluteUrl("oauth/getWxOpenId"));
+            $url = sprintf($url, $this->weixinAppId, $redirect_uri);  
+            header('Location: ' . $url);
             Yii::app()->end();
-        }
-
-        $wxConfig = new WeixinConfig();
-        //$wxAppId = 'wxb6dc36522aae7df2';
-        //$wxAppSecret = 'e70db8f5ea5baa991d71c0be3047b339';
-        $wxAppId = $wxConfig->getAppId();
-        $wxAppSecret = $wxConfig->getAppSecret();
-        //    require_once('protected/sdk/pingpp-php-master/init.php');
-        //    $openid = \Pingpp\WxpubOAuth::getOpenid($wxAppId, $wxAppSecret, $code);
-        $openid = WeixinpubOAuth::getOpenid($wxAppId, $wxAppSecret, $code);
+        }        
+        $openid = $this->getOpenidFromMp($code);
         if (isset($openid)) {
             $userId = Yii::app()->user->id;
-            $this->saveOpenId($openid, $this->wx_pub_id, $userId);
-            //Yii::app()->user->session($this->{$session_key_openid}, $openid);
-            //$userId=$this->getCurrentUserId();
+            $this->saveOpenId($openid, $this->weixinPubId, $userId);
         }
         $returnUrl = Yii::app()->session['wx.returnurl'];
         if (isset($returnUrl)) {
@@ -62,102 +50,76 @@ class OauthController extends WeixinpubController {
             $this->redirect($returnUrl);
             Yii::app()->end();
         }
-
         $output = new stdClass();
         $output->status = 'ok';
         $output->openid = $openid;
         $this->renderJsonOutput($output);
-        //    $this->redirect('http://mingyizhudao.com/order/view?openid=' . $openid . 'refno=' . $refno);
-        //$this->redirect('http://md.mingyizhudao.com/test/pingpp-html5-one/demo/demo.php?openid=' . $openid);
     }
-
-    public function actionGetWxOpenIdTest() {
-       
-        $wxConfig = new WeixinConfig();
-        //$wxAppId = 'wxb6dc36522aae7df2';
-        //$wxAppSecret = 'e70db8f5ea5baa991d71c0be3047b339';
-        $wxAppId = $wxConfig->getAppId();
-        $wxAppSecret = $wxConfig->getAppSecret();
-        //    require_once('protected/sdk/pingpp-php-master/init.php');
-        //    $openid = \Pingpp\WxpubOAuth::getOpenid($wxAppId, $wxAppSecret, $code);
-        //$openid = WxpubOAuth::getOpenid($wxAppId, $wxAppSecret, $code);
-        $openid='adsfasfdasdfasdfsdf';
-        if (isset($openid)) {
-            $userId = Yii::app()->user->id;
-            $this->saveOpenId($openid, $this->wx_pub_id, $userId);
-            //Yii::app()->user->session($this->{$session_key_openid}, $openid);
-            //$userId=$this->getCurrentUserId();
-        }
-        $returnUrl = Yii::app()->session['wx.returnurl'];
-        if (isset($returnUrl)) {
-            unset(Yii::app()->session['wx.returnurl']);
-            $this->redirect($returnUrl);
-            Yii::app()->end();
-        }
-
-        $output = new stdClass();
-        $output->status = 'ok';
-        $output->openid = $openid;
-        $this->renderJsonOutput($output);
-        //    $this->redirect('http://mingyizhudao.com/order/view?openid=' . $openid . 'refno=' . $refno);
-        //$this->redirect('http://md.mingyizhudao.com/test/pingpp-html5-one/demo/demo.php?openid=' . $openid);
-    }
-
-    /*
-      private function getStoredOpenId() {
-      if (isset(Yii::app()->session[$this->session_key_openid])) {
-      // get openid from session.
-      return Yii::app()->session[$this->session_key_openid];
-      } elseif (isset(Yii::app()->user->id)) {
-      // get openid from db.
-      $userId = Yii::app()->user->id;
-      $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($this->wx_pub_id, $userId);
-      if (isset($model)) {
-      $openId = $model->getOpenId();  // store openid in session.
-      Yii::app()->session[$this->session_key_openid] = $openId;
-      return $openId;
-      } else {
-      return null;
-      }
-      } else {
-      return null;
-      }
-      }
+        
+    /**
+     * 
+     * 通过code从工作平台获取openid及其access_token
+     * @param string $code 微信跳转回来带上的code
+     * 
+     * @return openid
      */
+    public function GetOpenidFromMp($code){
+        $url = $this->__CreateOauthUrlForOpenid($code);
+        WeixinpubLog::log("通过code换取openid的url为：$url", 'info', __METHOD__);
+        //初始化curl
+        $ch = curl_init();
+        //设置超时
+        //curl_setopt($ch, CURLOPT_TIMEOUT, $this->curl_timeout);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        //运行curl，结果以jason形式返回
+        $res = curl_exec($ch);
+        curl_close($ch);
+        //取出openid
+        $data = json_decode($res,true);
+        $openid = $data['openid'];
+        return $openid;
+    }
 
+    /**
+     * 
+     * 构造获取open和access_toke的url地址
+     * @param string $code，微信跳转带回的code
+     * 
+     * @return 请求的url
+     */
+    private function __CreateOauthUrlForOpenid($code){
+        $urlObj["appid"] = $this->weixinAppId;
+        $urlObj["secret"] = $this->weixinAppSecret;
+        $urlObj["code"] = $code;
+        $urlObj["grant_type"] = "authorization_code";
+        $bizString = CommonConfig::ToUrlParams($urlObj);
+        return "https://api.weixin.qq.com/sns/oauth2/access_token?".$bizString;
+    }   
+    
+    /**
+     * 将openid与userid关联存入数据库中
+     * @param type $openId
+     * @param type $wxPubId
+     * @param type $userId
+     * @return boolean
+     */
     private function saveOpenId($openId, $wxPubId, $userId = null) {
         Yii::app()->session[$this->session_key_openid] = $openId;
         if (isset($userId)) {
-            // user is logged in, so we can save the openid into db.
-            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($this->wx_pub_id, $userId);
+            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($wxPubId, $userId);
             if (isset($model) === false) {
-                // create a new WeixinpubOpenid model and save it into db.
                 $model = WeixinpubOpenid::createModel($wxPubId, $openId, $userId);
                 return $model->save();
             } elseif ($model->open_id != $openId) {
-                // update existing WeixinpubOpenid->open_id in db.
                 $model->setOpenId($openId);
                 return $model->save(true, array('openId', 'date_updated'));
             }
         }
         return true;
     }
-
-    public function actionTest() {
-        $returnUrl = $this->createAbsoluteUrl('testOpenId');
-        Yii::app()->session['wx.returnurl'] = $returnUrl;
-
-        $url = $this->createAbsoluteUrl('getWxOpenId');
-
-        echo $url;
-    }
-
-    public function actionTestOpenId() {
-        echo 'TestOpenId result<br>';
-        // Yii::app()->session['test'] = 'test value';
-        $openid = Yii::app()->session['wx.openid'];
-        echo $openid;
-        exit;
-    }
-
+    
 }
