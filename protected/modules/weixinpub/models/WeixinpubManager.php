@@ -1,7 +1,8 @@
 <?php
 
 class WeixinpubManager {
-    
+
+    public $wx_pub_id = 'myzdztc';   // 微信公众号id.
     public $session_key_openid = 'wx.openid';
 
     public function getStoredOpenId() {
@@ -11,8 +12,7 @@ class WeixinpubManager {
         } elseif (isset(Yii::app()->user->id)) {
             // get openid from db.
             $userId = Yii::app()->user->id;
-            $wx_pub_id = Yii::app()->getModule('weixinpub')->weixinpubId;
-            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($wx_pub_id, $userId);
+            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($this->wx_pub_id, $userId);
             if (isset($model)) {
                 $openId = $model->getOpenId();  // store openid in session.
                 Yii::app()->session[$this->session_key_openid] = $openId;
@@ -33,8 +33,7 @@ class WeixinpubManager {
         Yii::app()->session[$this->session_key_openid] = $openId;
         if (isset($userId)) {
             // user is logged in, so we can save the openid into db.
-            $wx_pub_id = Yii::app()->getModule('weixinpub')->weixinpubId;
-            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($wx_pub_id, $userId);
+            $model = WeixinpubOpenid::model()->getByWeixinPubIdAndUserId($this->wx_pub_id, $userId);
             if (isset($model) === false) {
                 // create a new WeixinpubOpenid model and save it into db.
                 $model = WeixinpubOpenid::createModel($wxPubId, $openId, $userId);
@@ -49,7 +48,7 @@ class WeixinpubManager {
     }
     
     public function getWeixinpubId(){
-        return Yii::app()->getModule('weixinpub')->weixinpubId;
+        return $this->wx_pub_id;
     }
     
     
