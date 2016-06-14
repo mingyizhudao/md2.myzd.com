@@ -290,3 +290,7 @@ function getFileExtension($file) {
     $extension = substr($name, strrpos($name, "."));
     return $extension;
 }
+
+function getHostInfo() {
+    return strtolower(Yii::app()->request->hostInfo);
+}

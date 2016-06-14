@@ -201,7 +201,6 @@ class PatientManager {
 
     public function apiSavePatientBooking($values, $user) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND, 'errorMsg' => '网络异常,请稍后尝试!');
-        $bookingDB = null;
         $patientId = null;
         $patientName = null;
         $patientMgr = new PatientManager();
@@ -241,7 +240,6 @@ class PatientManager {
                 $output['errorMsg'] = $patientBooking->getFirstErrors();
                 throw new CException('error saving data.');
             }
-            $bookingDB = $patientBooking;
             $apiRequest = new ApiRequestUrl();
             $remote_url = $apiRequest->getUrlAdminSalesBookingCreate() . '?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
             // $remote_url = 'http://localhost/admin/api/adminbooking?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
@@ -262,9 +260,6 @@ class PatientManager {
         } catch (CException $cex) {
             $output['errorCode'] = ErrorList::BAD_REQUEST;
             $output['errorMsg'] = '网络异常,请稍后尝试!';
-            if (isset($bookingDB)) {
-                $bookingDB->delete(true);
-            }
         }
         return $output;
     }
