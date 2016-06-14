@@ -11,12 +11,19 @@ $payUrl = $this->createUrl('payment/doPingxxPay');
 $refUrl = $this->createAbsoluteUrl('order/view', array('refNo' => $order->refNo));
 $bookingId = Yii::app()->request->getQuery('bookingId', 0);
 $isApp = Yii::app()->request->getQuery('app', 0);
+$showHeader = Yii::app()->request->getQuery('header', 1);
 $urlBookingView = $this->createUrl('patientbooking/view', array('id' => $bookingId, 'addBackBtn' => 1));
 $urlGetWxOpenId = $this->createUrl('/weixinpub/oauth/getWxOpenId');
 $openId = Yii::app()->session['wx.openid'];
 ?>
+<?php
+$sectinTop = '';
+if ($showHeader == 0) {
+    $sectinTop = 'top0p';
+}
+?>
 <div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="createPatinal_section" class="active" data-init="true">
+    <section id="createPatinal_section" class="active <?php echo $sectinTop; ?>" data-init="true">
         <article id="order" class="active" data-scroll="true">
             <div class="order-content"><span class="title color-green">请支付</span><span class="color-green pull-right"><?php echo $order->finalAmount ?>元</span></div>
             <div class="divider"></div>
