@@ -43,6 +43,7 @@ class PatientBooking extends EActiveRecord {
     /**
      * @return string the associated database table name
      */
+
     public function tableName() {
         return 'patient_booking';
     }
@@ -326,7 +327,10 @@ class PatientBooking extends EActiveRecord {
         return $this->getTextAttribute($this->remark, $ntext);
     }
 
-    public function getDoctorAccept() {
+    public function getDoctorAccept($ntext = false) {
+        if ($ntext) {
+            return $this->doctor_accept == 1 ? "已接受手术" : "已拒接手术";
+        }
         return $this->doctor_accept;
     }
 

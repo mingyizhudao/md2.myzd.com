@@ -359,7 +359,10 @@ class Booking extends EActiveRecord {
         }
     }
 
-    public function getDoctorAccept() {
+    public function getDoctorAccept($ntext = false) {
+        if ($ntext) {
+            return $this->doctor_accept == 1 ? "已接受手术" : "已拒接手术";
+        }
         return $this->doctor_accept;
     }
 

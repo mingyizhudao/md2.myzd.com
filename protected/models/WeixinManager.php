@@ -92,7 +92,7 @@ class WeixinManager {
         $open = $this->loadByUserId($userId);
         if (isset($open)) {
             $url = getHostInfo() . "/mobiledoctor/patientbooking/doctorPatientBooking/id/{$bookingId}/type/{$bkType}";
-            $detail = " 邀请医生手术 - " . $booking->getExpectedDoctor();
+            $detail = "邀请医生手术 - " . $booking->getExpectedDoctor();
             if (strIsEmpty($booking->getExpectedDoctor())) {
                 $detail = "暂无";
             }
