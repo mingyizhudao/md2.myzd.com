@@ -98,7 +98,7 @@ class PatientbookingController extends MobiledoctorController {
                 //$this->send_get($url);
                 //微信推送 医生回复
                 $wxMgr = new WeixinManager();
-                $wxMgr->doctorOpinion($id, $type);
+                $output['weixin'] = $wxMgr->doctorOpinion($id, $type);
                 $output['status'] = 'ok';
                 $output['id'] = $booking->getId();
             } else {
