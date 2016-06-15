@@ -277,12 +277,13 @@ class PatientController extends MobiledoctorController {
 
     //上传出院小结完成生成task
     public function actionAjaxDrTask($id) {
-        $apiRequest = new ApiRequestUrl();
-        $remote_url = $apiRequest->getUrlDaTask() . "?id={$id}";
-        $this->send_get($remote_url);
         //微信推送
         $wxMgr = new WeixinManager();
         $wxMgr->uploadDr($id);
+        //crm生成task
+        $apiRequest = new ApiRequestUrl();
+        $remote_url = $apiRequest->getUrlDaTask() . "?id={$id}";
+        $this->send_get($remote_url);
     }
 
 }
