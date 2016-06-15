@@ -147,7 +147,7 @@ class WeixinManager {
         $output = array("errcode" => '0', "errmsg" => "data error");
         $open = $this->loadByUserId($userId);
         if (isset($open)) {
-            $profile = UserDoctorProfile::model()->getByUserId($userId);
+            $profile = UserDoctorProfile::model()->getByAttributes(array('user_id' => $userId));
             if ($type == StatCode::PROFILE_SUCCESS) {
                 $url = getHostInfo() . "/mobiledoctor/doctor/doctorTerms";
                 $title = "您好！恭喜您的实名认证已通过审核。";

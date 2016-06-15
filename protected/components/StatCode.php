@@ -62,6 +62,8 @@ class StatCode {
     const TASK_DOCTOR_PROFILE_NEW = 2;      //医生新增个人信息
     const TASK_DOCTOR_PROFILE_UPDATE = 3;   //医生修改个人信息
     const OPERATION_FINISHED = 1;       //下级医生确认手术已完成
+    const PROFILE_SUCCESS = 1;
+    const PROFILE_FAIL = 1;
 
 // gender.
 
