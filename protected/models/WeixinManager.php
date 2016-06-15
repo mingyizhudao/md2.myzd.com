@@ -202,7 +202,8 @@ class WeixinManager {
                     "remark_Value" => "如有疑问请拨打热线400-6277-120。谢谢！");
                 $postJosn = CJSON::encode($params);
                 $apiRequesr = new ApiRequestUrl();
-                $output = $apiRequesr->send_post($apiRequesr->orderNotice(), $postJosn);
+                $output['params'] = $postJosn;
+                //$output = $apiRequesr->send_post($apiRequesr->orderNotice(), $postJosn);
             }
         } catch (Exception $e) {
             $output['errormsg'] = $e->getMessage();
