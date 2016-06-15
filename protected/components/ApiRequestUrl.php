@@ -14,7 +14,7 @@ class ApiRequestUrl {
     private function getHostInfo() {
         $hostInfo = getHostInfo();
         if (isset($this->hostArray[$hostInfo])) {
-            return $hostInfo[$hostInfo];
+            return $this->hostArray[$hostInfo];
         } else {
             return "http://crm.dev.mingyizd.com";
         }
