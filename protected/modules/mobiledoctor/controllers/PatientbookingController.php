@@ -93,9 +93,9 @@ class PatientbookingController extends MobiledoctorController {
             $booking->setDoctorOpinion($opinion);
             if ($booking->update(array('doctor_accept', 'doctor_opinion'))) {
                 //医生评价成功 调用crm接口修改admin_booking的接口
-                $urlMgr = new ApiRequestUrl();
-                $url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
-                $this->send_get($url);
+                //$urlMgr = new ApiRequestUrl();
+                //$url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
+                //$this->send_get($url);
                 //微信推送 医生回复
                 $wxMgr = new WeixinManager();
                 $wxMgr->doctorOpinion($id, $type);
