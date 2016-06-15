@@ -303,15 +303,12 @@ class Booking extends EActiveRecord {
     }
 
     public function getStatusText() {
-        return StatCode::getBookingStatus($this->bk_status);
-        /*
-          $options = $this->getOptionsStatus();
-          if (isset($options[$this->status])) {
-          return $options[$this->status];
-          } else {
-          return '未知';
-          }
-         */
+        $options = $this->getOptionsStatus();
+        if (isset($options[$this->status])) {
+            return $options[$this->status];
+        } else {
+            return '未知';
+        }
     }
 
     public function getOptionsBookingType() {

@@ -178,6 +178,7 @@ class WeixinManager {
             $booking = PatientBooking::model()->getById($bookingId);
             $userId = $booking->getDoctorId();
             $travelType = $booking->getTravelType();
+            $status = $booking->getStatus();
             $profile = UserDoctorProfile::model()->getByUserId($booking->getCreatorId());
             $from = $profile->getHospitalName() . $profile->getHpDeptName();
             $detail = $booking->getDetail();
@@ -185,6 +186,7 @@ class WeixinManager {
             $booking = Booking::model()->getById($bookingId);
             $userId = $booking->getDoctorUserId();
             $travelType = "";
+            $status = $booking->getStatusText();
             $from = $booking->getHospitalName() . $booking->getHpDeptName();
             $detail = $booking->getDiseaseDetail();
         }
@@ -196,9 +198,9 @@ class WeixinManager {
                 "first_Value" => "您好！您有新的手术预约单等待处理。",
                 "keyword1_Value" => $booking->getDateCreated('Y年m月d日 H:i'),
                 "keyword2_Value" => $travelType,
-                "keyword3_Value" => $booking->getStatus(),
-                "Keyword4_Value" => $from,
-                "Keyword5_Value" => $detail,
+                "keyword3_Value" => $status,
+                "keyword4_Value" => $from,
+                "keyword5_Value" => $detail,
                 "remark_Value" => "如有疑问请拨打热线400-6277-120。谢谢！");
             $postJosn = CJSON::encode($params);
             $apiRequesr = new ApiRequestUrl();
