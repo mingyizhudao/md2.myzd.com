@@ -178,7 +178,7 @@ class WeixinManager {
             $booking = PatientBooking::model()->getById($bookingId);
             $userId = $booking->getDoctorId();
             $travelType = $booking->getTravelType();
-            $profile = UserDoctorProfile::model()->getByUserId($booking->getCreatoId());
+            $profile = UserDoctorProfile::model()->getByUserId($booking->getCreatorId());
             $from = $profile->getHospitalName() . $profile->getHpDeptName();
             $detail = $booking->getDetail();
         } else {
