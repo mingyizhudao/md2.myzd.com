@@ -86,11 +86,7 @@ class WeixinpubOpenid extends EActiveRecord {
         return parent::model($className);
     }
 
-    public function loadByUserId($userId) {
-        return $this->getByAttributes(array('user_id' => $userId));
-    }
-    
-    public function getOpenId(){
+    public function getOpenId() {
         return $this->open_id;
     }
 

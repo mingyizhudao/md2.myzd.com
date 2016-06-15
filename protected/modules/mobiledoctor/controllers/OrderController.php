@@ -130,7 +130,8 @@ class OrderController extends MobiledoctorController {
         $this->send_get($url);
         //微信推送信息
         $pbooking = PatientBooking::model()->getById($order->bk_id);
-        $open = WeixinpubOpenid::model()->loadByUserId($pbooking->getCreatorId());
+        $wxMgr = new WeixinManager();
+        $open = $wxMgr->loadByUserId($pbooking->getCreatorId());
         if (isset($open)) {
             //参数构造
             $url = "http://md.mingyizhudao.com/mobiledoctor/order/orderView/bookingid/" . $pbooking->getId();

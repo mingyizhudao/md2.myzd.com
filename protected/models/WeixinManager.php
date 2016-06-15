@@ -2,6 +2,10 @@
 
 class WeixinManager {
 
+    public function loadByUserId($userId) {
+        return WeixinpubOpenid::model()->getByAttributes(array('user_id' => $userId));
+    }
+
     //支付成功推送信息
     public function paySuccess($values) {
         $params = array("touser" => $values['touser'],
@@ -20,7 +24,7 @@ class WeixinManager {
     public function unPaid($bookingId) {
         $output = array("errcode" => '0', "errmsg" => "data error");
         $pbooking = PatientBooking::model()->getById($bookingId);
-        $open = WeixinpubOpenid::model()->loadByUserId($pbooking->getCreatorId());
+        $open = $this->loadByUserId($pbooking->getCreatorId());
         if (isset($open)) {
             $url = getHostInfo() . "/mobiledoctor/order/orderView/bookingid/{$bookingId}";
             $doctor = "  会诊专家: " . $pbooking->getExpectedDoctor();
@@ -57,7 +61,7 @@ class WeixinManager {
     public function uploadDr($bookingId) {
         $output = array("errcode" => '0', "errmsg" => "data error");
         $pbooking = PatientBooking::model()->getById($bookingId);
-        $open = WeixinpubOpenid::model()->loadByUserId($pbooking->getCreatorId());
+        $open = $this->loadByUserId($pbooking->getCreatorId());
         if (isset($open)) {
             $detail = " 邀请医生手术 - " . $pbooking->getExpectedDoctor();
             if (strIsEmpty($pbooking->getExpectedDoctor())) {
@@ -85,7 +89,7 @@ class WeixinManager {
             $booking = Booking::model()->getById($bookingId);
             $userId = $booking->getDoctorUserId();
         }
-        $open = WeixinpubOpenid::model()->loadByUserId($userId);
+        $open = $this->loadByUserId($userId);
         if (isset($open)) {
             $url = getHostInfo() . "/mobiledoctor/patientbooking/doctorPatientBooking/id/{$bookingId}/type/{$bkType}";
             $detail = " 邀请医生手术 - " . $booking->getExpectedDoctor();
@@ -122,7 +126,7 @@ class WeixinManager {
         $output = array("errcode" => '0', "errmsg" => "data error");
         $with = array('pbCreator');
         $pbooking = PatientBooking::model()->getById($bookingId, $with);
-        $open = WeixinpubOpenid::model()->loadByUserId($pbooking->getCreatorId());
+        $open = $this->loadByUserId($pbooking->getCreatorId());
         if (isset($open)) {
             $user = $pbooking->getCreator();
             $url = getHostInfo() . "/mobiledoctor/order/orderView/bookingid/{$bookingId}";
@@ -141,7 +145,7 @@ class WeixinManager {
     //医生信息审核
     public function profileNotice($userId, $type = StatCode::PROFILE_SUCCESS) {
         $output = array("errcode" => '0', "errmsg" => "data error");
-        $open = WeixinpubOpenid::model()->loadByUserId($userId);
+        $open = $this->loadByUserId($userId);
         if (isset($open)) {
             $profile = UserDoctorProfile::model()->getByUserId($userId);
             if ($type == StatCode::PROFILE_SUCCESS) {
@@ -184,7 +188,7 @@ class WeixinManager {
             $from = $booking->getHospitalName() . $booking->getHpDeptName();
             $detail = $booking->getDiseaseDetail();
         }
-        $open = WeixinpubOpenid::model()->loadByUserId($userId);
+        $open = $this->loadByUserId($userId);
         if (isset($open)) {
             $url = getHostInfo() . "/mobiledoctor/patientbooking/doctorPatientBooking/id/{$bookingId}/type/{$bkType}";
             $params = array("touser" => $open->getOpenId(),
