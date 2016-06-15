@@ -86,19 +86,18 @@ class PatientbookingController extends MobiledoctorController {
         if ($type == StatCode::TRANS_TYPE_PB) {
             $booking = PatientBooking::model()->getByAttributes(array('doctor_id' => $userId, 'id' => $id));
         } else {
-            $booking = Booking::model()->getByIdAndDoctorUserId($id, $userId);
+            $booking = Booking::model()->getByAttributes(array('id' => $id, 'doctor_user_id' => $userId));
         }
         if (isset($booking)) {
             $booking->setDoctorAccept($accept);
             $booking->setDoctorOpinion($opinion);
             if ($booking->update(array('doctor_accept', 'doctor_opinion'))) {
-                //医生评价成功 调用crm接口修改admin_booking的接口
-                //$urlMgr = new ApiRequestUrl();
-                //$url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
-                //$this->send_get($url);
-                //微信推送 医生回复
                 $wxMgr = new WeixinManager();
-                $output['weixin'] = $wxMgr->doctorOpinion($id, $type);
+                $wxMgr->doctorOpinion($id, $type);
+                //医生评价成功 调用crm接口修改admin_booking的接口
+                $urlMgr = new ApiRequestUrl();
+                $url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
+                $this->send_get($url);
                 $output['status'] = 'ok';
                 $output['id'] = $booking->getId();
             } else {
