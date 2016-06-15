@@ -95,8 +95,10 @@ class PatientbookingController extends MobiledoctorController {
                 //医生评价成功 调用crm接口修改admin_booking的接口
                 $urlMgr = new ApiRequestUrl();
                 $url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
-//                $url = "http://192.168.31.119/admin/api/doctoraccept?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
                 $this->send_get($url);
+                //微信推送
+                //$wxMgr = new WeixinManager();
+                // $wxMgr->doctorOpinion($id, $type);
                 $output['status'] = 'ok';
                 $output['id'] = $booking->getId();
             } else {
@@ -181,7 +183,6 @@ class PatientbookingController extends MobiledoctorController {
             if ($booking->update(array('operation_finished'))) {
                 //远程调用接口
                 $apiRequest = new ApiRequestUrl();
-                //$url = 'http://192.168.1.216/admin/api/operationfinished?id={$id}';
                 $url = $apiRequest->getUrlFinished() . "?id=" . $id;
                 $this->send_get($url);
                 $output['status'] = 'ok';
@@ -227,7 +228,6 @@ class PatientbookingController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
-        $bookingDB = null;
         if (isset($post['booking'])) {
             $values = $post['booking'];
             $patientId = null;
@@ -267,10 +267,8 @@ class PatientbookingController extends MobiledoctorController {
                     $output['errors'] = $patientBooking->getErrors();
                     throw new CException('error saving data.');
                 }
-                $bookingDB = $patientBooking;
                 $apiRequest = new ApiRequestUrl();
                 $remote_url = $apiRequest->getUrlAdminSalesBookingCreate() . '?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
-                //$remote_url = 'http://localhost/admin/api/adminbooking?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
                 $data = $this->send_get($remote_url);
                 if ($data['status'] == "ok") {
                     $output['status'] = 'ok';
@@ -284,34 +282,9 @@ class PatientbookingController extends MobiledoctorController {
                 }
             } catch (CException $cex) {
                 $output['status'] = 'no';
-                if (isset($bookingDB)) {
-                    $bookingDB->delete(true);
-                }
             }
         }
         $this->renderJsonOutput($output);
-    }
-
-    //保存支付信息
-    public function initSalesOrder(PatientBooking $book) {
-        $model = new stdClass();
-        $model->refNo = $book->getRefNo();
-        $model->id = $book->getId();
-        $model->bk_type = StatCode::TRANS_TYPE_PB;
-        $model->user_id = $book->creator_id;
-        if ($book->getTravelType(false) == StatCode::BK_TRAVELTYPE_PATIENT_GO) {
-            $model->subject = '预约金';
-            $model->order_type = SalesOrder::ORDER_TYPE_DEPOSIT;
-        } else {
-            $model->subject = '服务费';
-            $model->order_type = SalesOrder::ORDER_TYPE_SERVICE;
-        }
-        $model->description = '预约号:' . $book->getRefNo() . '。' . $book->getTravelType(true) . '所支付的' . $model->subject . '!';
-        $model->amount = SalesOrder::ORDER_AMOUNT_DEPOSIT;
-
-        $orderMgr = new OrderManager();
-        $order = $orderMgr->initSalesOrder($model);
-        return $order;
     }
 
     public function sendSmsToCreator($patientBooking) {
