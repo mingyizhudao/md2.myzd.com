@@ -17,6 +17,8 @@ class ApimdController extends Controller {
 
     public function domainWhiteList() {
         return array(
+            "http://crm.dev.mingyizd.com",
+            "http://crm560.mingyizd.com"
         );
     }
 
@@ -131,6 +133,23 @@ class ApimdController extends Controller {
                 $apiService = new ApiViewDoctorSearch($values);
                 $output = $apiService->loadApiViewData();
                 break;
+            /*             * *************************crm调用接口**************************** */
+            case 'orderunpaid':     //状态改变 新增服务费
+                $wxMgr = new WeixinManager();
+                $output = $wxMgr->unPaid($values['bookingid']);
+                break;
+            case 'certdrdotice':     //出院小结审核结果通知
+                $wxMgr = new WeixinManager();
+                $output = $wxMgr->drNotice($values['bookingid']);
+                break;
+            case 'profilenotice':     //医生信息审核
+                $wxMgr = new WeixinManager();
+                $output = $wxMgr->profileNotice($values['userid'], $values['type']);
+                break;
+            case 'bookingtodoctor':     //订单关联上级医生
+                $wxMgr = new WeixinManager();
+                $output = $wxMgr->doctorBooking($values['bookingid'], $values['type']);
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
@@ -178,7 +197,6 @@ class ApimdController extends Controller {
                 );
                 $apiRequest = new ApiRequestUrl();
                 $remote_url = $apiRequest->getUrlDaTask() . "?id={$id}";
-                //本地测试请用 $remote_url="http://192.168.1.216/admin/api/taskpatientda?id={$id}";
                 $this->send_get($remote_url);
                 break;
             default:

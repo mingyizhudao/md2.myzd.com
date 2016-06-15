@@ -423,7 +423,6 @@ class DoctorController extends MobiledoctorController {
         $type = StatCode::TASK_DOCTOR_CERT;
         $apiUrl = new ApiRequestUrl();
         $url = $apiUrl->getUrlDoctorInfoTask() . "?userid={$userId}&type={$type}";
-        //本地测试请用 $remote_url="http://192.168.31.119/admin/api/taskuserdoctor?userid={$userId}&type={$type}";
         $this->send_get($url);
     }
 
@@ -483,7 +482,6 @@ class DoctorController extends MobiledoctorController {
         $type = StatCode::TASK_DOCTOR_PROFILE_UPDATE;
         $apiRequest = new ApiRequestUrl();
         $remote_url = $apiRequest->getUrlDoctorInfoTask() . "?userid={$userId}&type={$type}";
-        //本地测试请用 $remote_url="http://192.168.31.119/admin/api/taskuserdoctor?userid={$userId}&type={$type}";
         $this->send_get($remote_url);
     }
 

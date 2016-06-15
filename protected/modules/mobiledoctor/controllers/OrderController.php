@@ -128,10 +128,28 @@ class OrderController extends MobiledoctorController {
         $apiurl = new ApiRequestUrl();
         $url = $apiurl->getUrlPay();
         $this->send_get($url);
+        //微信推送信息
+        $pbooking = PatientBooking::model()->getById($order->bk_id);
+        $open = WeixinpubOpenid::model()->loadByUserId($pbooking->getCreatorId());
+        if (isset($open)) {
+            //参数构造
+            $url = "http://md.mingyizhudao.com/mobiledoctor/order/orderView/bookingid/" . $pbooking->getId();
+            $first_Value = '订单支付成功！名医助手将会尽快安排专家前去会诊。';
+            if ($order->order_type == SalesOrder::ORDER_TYPE_DEPOSIT) {
+                if (strIsEmpty($pbooking->getExpectedDoctor())) {
+                    $first_Value = '您已成功提交预约！名医助手将尽快与您联系确认信息';
+                } else {
+                    $first_Value = '您已成功预约' . $pbooking->getExpectedDoctor() . ' 医生！名医助手将尽快与您联系确认信息。';
+                }
+            }
+            $params = array("touser" => $open->getOpenId(), "url" => $url, "first_Value" => $first_Value, "Keyword1_Value" => $pbooking->getPatientName(),
+                "Keyword2_Value" => $order->getFinalAmount(), "Keyword3_Value" => $order->getDateClose('Y年m月d日 H:i'));
+            $wxMgr = new WeixinManager();
+            $wxMgr->paySuccess($params);
+        }
         $this->show_header = true;
         $this->show_footer = false;
         $this->show_baidushangqiao = false;
-
         $this->render('payResult', array('order' => $order));
     }
 

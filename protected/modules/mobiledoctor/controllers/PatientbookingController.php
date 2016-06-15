@@ -96,9 +96,9 @@ class PatientbookingController extends MobiledoctorController {
                 $urlMgr = new ApiRequestUrl();
                 $url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
                 $this->send_get($url);
-                //微信推送
-                //$wxMgr = new WeixinManager();
-                // $wxMgr->doctorOpinion($id, $type);
+                //微信推送 医生回复
+                $wxMgr = new WeixinManager();
+                $wxMgr->doctorOpinion($id, $type);
                 $output['status'] = 'ok';
                 $output['id'] = $booking->getId();
             } else {

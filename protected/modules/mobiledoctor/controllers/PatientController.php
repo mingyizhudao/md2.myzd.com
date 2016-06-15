@@ -272,7 +272,6 @@ class PatientController extends MobiledoctorController {
     public function actionAjaxTask($id) {
         $apiRequest = new ApiRequestUrl();
         $remote_url = $apiRequest->getUrlPatientMrTask() . "?id={$id}";
-        //本地测试请用 $remote_url="192.168.31.119/admin/api/taskpatientmr?id={$id}";
         $this->send_get($remote_url);
     }
 
@@ -280,8 +279,10 @@ class PatientController extends MobiledoctorController {
     public function actionAjaxDrTask($id) {
         $apiRequest = new ApiRequestUrl();
         $remote_url = $apiRequest->getUrlDaTask() . "?id={$id}";
-        //本地测试请用 $remote_url="192.168.1.216/admin/api/taskpatientda?id={$id}";
         $this->send_get($remote_url);
+        //微信推送
+        $wxMgr = new WeixinManager();
+        $wxMgr->uploadDr($id);
     }
 
 }
