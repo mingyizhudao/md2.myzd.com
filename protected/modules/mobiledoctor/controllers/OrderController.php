@@ -35,7 +35,11 @@ class OrderController extends MobiledoctorController {
      * So $order data will be saved in session at here.
      * @param type $refNo
      */
-    public function actionView($refNo) {
+    public function actionView() {
+        $refNo = Yii::app()->request->getParam('refNo');
+        if(empty($refNo)){
+            $refNo = Yii::app()->request->getParam('refno');
+        }
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
