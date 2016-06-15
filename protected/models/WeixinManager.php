@@ -63,7 +63,7 @@ class WeixinManager {
         $pbooking = PatientBooking::model()->getById($bookingId);
         $open = $this->loadByUserId($pbooking->getCreatorId());
         if (isset($open)) {
-            $detail = " 邀请医生手术 - " . $pbooking->getExpectedDoctor();
+            $detail = "邀请医生手术 - " . $pbooking->getExpectedDoctor();
             if (strIsEmpty($pbooking->getExpectedDoctor())) {
                 $detail = "暂无";
             }
