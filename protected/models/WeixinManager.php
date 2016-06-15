@@ -174,34 +174,38 @@ class WeixinManager {
     //订单关联上级医生
     public function bookingtodoctor($bookingId, $bkType = StatCode::TRANS_TYPE_PB) {
         $output = array("errcode" => '0', "errmsg" => "data error");
-        if ($bkType == StatCode::TRANS_TYPE_PB) {
-            $booking = PatientBooking::model()->getById($bookingId);
-            $userId = $booking->getDoctorId();
-            $travelType = $booking->getTravelType();
-            $profile = UserDoctorProfile::model()->getByUserId($booking->getCreatorId());
-            $from = $profile->getHospitalName() . $profile->getHpDeptName();
-            $detail = $booking->getDetail();
-        } else {
-            $booking = Booking::model()->getById($bookingId);
-            $userId = $booking->getDoctorUserId();
-            $travelType = "";
-            $from = $booking->getHospitalName() . $booking->getHpDeptName();
-            $detail = $booking->getDiseaseDetail();
-        }
-        $open = $this->loadByUserId($userId);
-        if (isset($open)) {
-            $url = getHostInfo() . "/mobiledoctor/patientbooking/doctorPatientBooking/id/{$bookingId}/type/{$bkType}";
-            $params = array("touser" => $open->getOpenId(),
-                "url" => $url,
-                "first_Value" => "您好！您有新的手术预约单等待处理。",
-                "keyword1_Value" => $booking->getDateCreated('Y年m月d日 H:i'),
-                "keyword2_Value" => $travelType,
-                "Keyword4_Value" => $from,
-                "Keyword5_Value" => $detail,
-                "remark_Value" => "如有疑问请拨打热线400-6277-120。谢谢！");
-            $postJosn = CJSON::encode($params);
-            $apiRequesr = new ApiRequestUrl();
-            $output = $apiRequesr->send_post($apiRequesr->orderNotice(), $postJosn);
+        try {
+            if ($bkType == StatCode::TRANS_TYPE_PB) {
+                $booking = PatientBooking::model()->getById($bookingId);
+                $userId = $booking->getDoctorId();
+                $travelType = $booking->getTravelType();
+                $profile = UserDoctorProfile::model()->getByUserId($booking->getCreatorId());
+                $from = $profile->getHospitalName() . $profile->getHpDeptName();
+                $detail = $booking->getDetail();
+            } else {
+                $booking = Booking::model()->getById($bookingId);
+                $userId = $booking->getDoctorUserId();
+                $travelType = "";
+                $from = $booking->getHospitalName() . $booking->getHpDeptName();
+                $detail = $booking->getDiseaseDetail();
+            }
+            $open = $this->loadByUserId($userId);
+            if (isset($open)) {
+                $url = getHostInfo() . "/mobiledoctor/patientbooking/doctorPatientBooking/id/{$bookingId}/type/{$bkType}";
+                $params = array("touser" => $open->getOpenId(),
+                    "url" => $url,
+                    "first_Value" => "您好！您有新的手术预约单等待处理。",
+                    "keyword1_Value" => $booking->getDateCreated('Y年m月d日 H:i'),
+                    "keyword2_Value" => $travelType,
+                    "Keyword4_Value" => $from,
+                    "Keyword5_Value" => $detail,
+                    "remark_Value" => "如有疑问请拨打热线400-6277-120。谢谢！");
+                $postJosn = CJSON::encode($params);
+                $apiRequesr = new ApiRequestUrl();
+                $output = $apiRequesr->send_post($apiRequesr->orderNotice(), $postJosn);
+            }
+        } catch (Exception $e) {
+            $output['errormsg'] = $e->getMessage();
         }
         return $output;
     }
