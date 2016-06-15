@@ -98,7 +98,7 @@ class PatientbookingController extends MobiledoctorController {
                 $this->send_get($url);
                 //微信推送
                 //$wxMgr = new WeixinManager();
-               // $wxMgr->doctorOpinion($id, $type);
+                // $wxMgr->doctorOpinion($id, $type);
                 $output['status'] = 'ok';
                 $output['id'] = $booking->getId();
             } else {
@@ -269,7 +269,6 @@ class PatientbookingController extends MobiledoctorController {
                 }
                 $apiRequest = new ApiRequestUrl();
                 $remote_url = $apiRequest->getUrlAdminSalesBookingCreate() . '?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
-                var_dump($remote_url); exit;
                 $data = $this->send_get($remote_url);
                 if ($data['status'] == "ok") {
                     $output['status'] = 'ok';
@@ -287,7 +286,6 @@ class PatientbookingController extends MobiledoctorController {
         }
         $this->renderJsonOutput($output);
     }
-
 
     public function sendSmsToCreator($patientBooking) {
         $user = $this->getCurrentUser();
