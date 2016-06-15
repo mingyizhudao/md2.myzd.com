@@ -224,12 +224,12 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
                                     },
                                     function () {
                                     });
-                            $('#closeLogout').tap(function () {
+                            $('#closeLogout').click(function () {
                                 J.hideMask();
                                 $('#fileBtn').addClass('hide');
                                 $('#fileCode').removeClass('hide');
                             });
-                            $('#uploadFile').tap(function () {
+                            $('#uploadFile').click(function () {
                                 J.hideMask();
                                 $('#fileBtn').addClass('hide');
                                 $('#fileCode').removeClass('hide');
