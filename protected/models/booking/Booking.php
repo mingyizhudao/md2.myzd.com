@@ -292,35 +292,10 @@ class Booking extends EActiveRecord {
 
     public function getOptionsStatus() {
         return StatCode::getOptionsBookingStatus();
-        /*
-          return array(
-          self::STATUS_NEW => Yii::t('booking', '新'),
-          self::STATUS_CONFIRMED => Yii::t('booking', '已确认'),
-          self::STATUS_PAID => Yii::t('booking', '已付款'),
-          self::STATUS_CANCELLED => Yii::t('booking', '已取消'),
-          );
-         */
-    }
-
-    public function getStatusText() {
-        $options = $this->getOptionsStatus();
-        if (isset($options[$this->status])) {
-            return $options[$this->status];
-        } else {
-            return '未知';
-        }
     }
 
     public function getOptionsBookingType() {
         return StatCode::getOptionsBookingType();
-        /*
-          return array(
-          //    self::BOOKING_TYPE_FACULTY => "科室",
-          self::BOOKING_TYPE_DOCTOR => "医生",
-          self::BOOKING_TYPE_EXPERTTEAM => "专家团队",
-          //    self::BOOKING_TYPE_HOSPITAL => "医院"
-          );
-         */
     }
 
     public function getBookingTypeText() {

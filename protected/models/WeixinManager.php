@@ -186,7 +186,7 @@ class WeixinManager {
             $booking = Booking::model()->getById($bookingId);
             $userId = $booking->getDoctorUserId();
             $travelType = "";
-            $status = $booking->getStatusText();
+            $status = $booking->getBookingStatus();
             $from = $booking->getHospitalName() . $booking->getHpDeptName();
             $detail = $booking->getDiseaseDetail();
         }
