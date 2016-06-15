@@ -585,4 +585,12 @@ class Booking extends EActiveRecord {
         return $this->user_agent;
     }
 
+    public function getDoctorUserId() {
+        return $this->doctor_user_id;
+    }
+
+    public function getExpectedDoctor() {
+        return $this->doctor_name;
+    }
+
 }
