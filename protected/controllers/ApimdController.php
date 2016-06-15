@@ -148,7 +148,7 @@ class ApimdController extends Controller {
                 break;
             case 'bookingtodoctor':     //订单关联上级医生
                 $wxMgr = new WeixinManager();
-                $output = $wxMgr->doctorBooking($values['bookingid'], $values['type']);
+                $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
