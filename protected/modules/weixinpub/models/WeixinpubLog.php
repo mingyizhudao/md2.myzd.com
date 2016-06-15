@@ -103,6 +103,13 @@ class WeixinpubLog extends EActiveRecord {
         return parent::model($className);
     }
 
+    /**
+     * 
+     * @param type $message
+     * @param type $level
+     * @param type $category = ('info', 'warning', 'error')
+     * @return type
+     */
     public static function log($message, $level = 'info', $category = 'application') {
         $model = new WeixinpubLog();
         $model->message = $message;
