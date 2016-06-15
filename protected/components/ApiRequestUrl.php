@@ -2,7 +2,8 @@
 
 class ApiRequestUrl {
 
-    private $hostArray = array("http://md.mingyizhudao.com" => "http://crm560.mingyizd.com", "http://md.dev.mingyizd.com" => "http://crm.dev.mingyizd.com");
+    private $hostArray = array("http://md.mingyizhudao.com" => "http://crm560.mingyizd.com", "http://md.dev.mingyizd.com" => "http://crm.dev.mingyizd.com",
+        "http://mdapi.mingyizhudao.com" => "http://crm560.mingyizd.com");
     private $admin_salesbooking_create = '/api/adminbooking';
     private $doctor_task = '/api/taskuserdoctor';
     private $patientMr_task = '/api/taskpatientmr';
@@ -52,7 +53,7 @@ class ApiRequestUrl {
         return $this->getUrl($this->finished);
     }
 
-    //微信接口
+//微信接口
     public function paySuccess() {
         return getHostInfo() . '/weixinpub/Sendtempmessage/Paysuccess';
     }
@@ -73,15 +74,15 @@ class ApiRequestUrl {
         return getHostInfo() . '/weixinpub/Sendtempmessage/Reviewnotice';
     }
 
-    //模拟发送get请求
+//模拟发�?get请求
     public function send_get($url) {
         $result = file_get_contents($url, false);
         return json_decode($result, true);
     }
 
-    //模拟发送post请求
+//模拟发�?post请求
     public static function send_post($url, $post_data = '', $timeout = 600) {
-        //curl
+//curl
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 1);
