@@ -37,7 +37,7 @@ class OrderController extends MobiledoctorController {
      */
     public function actionView() {
         $refNo = Yii::app()->request->getParam('refNo');
-        if(empty($refNo)){
+        if (empty($refNo)) {
             $refNo = Yii::app()->request->getParam('refno');
         }
         $apiSvc = new ApiViewSalesOrder($refNo);
@@ -140,7 +140,7 @@ class OrderController extends MobiledoctorController {
                 if (strIsEmpty($pbooking->getExpectedDoctor())) {
                     $first_Value = '您已成功提交预约！名医助手将尽快与您联系确认信息';
                 } else {
-                    $first_Value = '您已成功预约' . $pbooking->getExpectedDoctor() . ' 医生！名医助手将尽快与您联系确认信息。';
+                    $first_Value = '您已成功预约' . $pbooking->getExpectedDoctor() . '医生！名医助手将尽快与您联系确认信息。';
                 }
             }
             $params = array("touser" => $open->getOpenId(), "url" => $url, "first_Value" => $first_Value, "Keyword1_Value" => $pbooking->getPatientName(),
