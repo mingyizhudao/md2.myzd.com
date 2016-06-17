@@ -17,6 +17,11 @@ class WechatpayController extends WeixinpubController {
         $this->wechatConfig = new WechatConfig();
     }
     
+    public function actionJsapipay1() {
+        echo '11111';
+        Yii::app()->end();
+    }
+    
     /**
      * 微信公众号支付
      */
@@ -32,7 +37,6 @@ class WechatpayController extends WeixinpubController {
         $total_fee = $get['total_fee'];
         $openid = $get['openid'];
         $body = $get['body'];
-        $openid = "otqbXviMGjqNS236ynCNWbEf6nXE";//测试用
         $input = new WxPayUnifiedOrder();
         $input->SetBody($body);//商品或支付单简要描述
         $input->SetOut_trade_no($out_trade_no);//商户系统内部的订单号,32个字符内、可包含字母
@@ -44,9 +48,8 @@ class WechatpayController extends WeixinpubController {
         $order = WxPayApi::unifiedOrder($input);
         $jsApiParameters = $this->GetJsApiParameters($order);
         
-        $data = new stdClass();
-        $data->jsApiParameters = $jsApiParameters;
         $this->render('jsapi', array('jsApiParameters' => $jsApiParameters));
+        
                
     }
     
@@ -96,7 +99,7 @@ class WechatpayController extends WeixinpubController {
     public function GetJsApiParameters($UnifiedOrderResult){
         if(!array_key_exists("appid", $UnifiedOrderResult) || !array_key_exists("prepay_id", $UnifiedOrderResult) || $UnifiedOrderResult['prepay_id'] == ""){
             WeixinpubLog::log('参数错误', 'error', __METHOD__);
-            exit();
+            Yii::app()->end();
         }
         $jsapi = new WxPayJsApiPay();
         $jsapi->SetAppid($UnifiedOrderResult["appid"]);
@@ -106,9 +109,9 @@ class WechatpayController extends WeixinpubController {
         $jsapi->SetPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
         $jsapi->SetSignType("MD5");
         $jsapi->SetPaySign($jsapi->MakeSign());
-        return $this->renderJsonOutput($jsapi->GetValues());
-        //$parameters = json_encode($jsapi->GetValues());
-        //return $parameters;
+        //return $this->renderJsonOutput($jsapi->GetValues());
+        $parameters = json_encode($jsapi->GetValues());
+        return $parameters;
     }
     
    
