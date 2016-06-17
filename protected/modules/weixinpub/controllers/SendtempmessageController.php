@@ -27,6 +27,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
         
     }
     
@@ -49,6 +50,8 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
+        
     }
     
     
@@ -56,6 +59,7 @@ class SendtempmessageController extends WeixinpubController {
      * 订单状态更新
      */
     public function actionUpdatestatus(){
+        
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         $postStr = json_decode($postStr, true);
         
@@ -69,6 +73,8 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
+        
     }
     
     
@@ -76,6 +82,7 @@ class SendtempmessageController extends WeixinpubController {
      * 新订单提醒
      */
     public function actionOrdernotice(){
+        
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         $postStr = json_decode($postStr, true);
         
@@ -92,6 +99,8 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
+        
     }
     
     
@@ -99,6 +108,7 @@ class SendtempmessageController extends WeixinpubController {
      * 审核结果通知
      */
     public function actionReviewnotice(){
+        
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
         $postStr = json_decode($postStr, true);
         
@@ -113,6 +123,8 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
+        
     }
     
 }
