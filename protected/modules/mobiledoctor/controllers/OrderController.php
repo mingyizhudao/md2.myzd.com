@@ -143,8 +143,8 @@ class OrderController extends MobiledoctorController {
                     $first_Value = '您已成功预约' . $pbooking->getExpectedDoctor() . '医生！名医助手将尽快与您联系确认信息。';
                 }
             }
-            $params = array("touser" => $open->getOpenId(), "url" => $url, "first_Value" => $first_Value, "Keyword1_Value" => $pbooking->getPatientName(),
-                "Keyword2_Value" => $order->getFinalAmount(), "Keyword3_Value" => $order->getDateClose('Y年m月d日 H:i'));
+            $params = array("touser" => $open->getOpenId(), "url" => $url, "first_Value" => $first_Value, "keyword1_Value" => $pbooking->getPatientName(),
+                "keyword2_Value" => $order->getFinalAmount(), "keyword3_Value" => $order->getDateClose('Y年m月d日 H:i'));
             $wxMgr = new WeixinManager();
             $wxMgr->paySuccess($params);
         }

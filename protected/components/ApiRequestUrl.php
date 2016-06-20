@@ -6,7 +6,7 @@ class ApiRequestUrl {
         "http://mdapi.mingyizhudao.com" => "http://crm560.mingyizd.com");
     private $admin_salesbooking_create = '/api/adminbooking';
     private $doctor_task = '/api/taskuserdoctor';
-    private $patientMr_task = '/api/taskpatientmr';
+    private $patientMr_task = '/api/taskpatientmr'; 
     private $doctor_accept = '/api/doctoraccept';
     private $pay = '/api/tasksalseorder';
     private $da_task = '/api/taskpatientda';
