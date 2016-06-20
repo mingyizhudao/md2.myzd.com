@@ -113,7 +113,7 @@ class DoctorController extends MobiledoctorController {
             'patientCreatorContext + createBooking',
             'userDoctorProfileContext + contract uploadCert',
             'userDoctorVerified + delectDoctorCert ajaxUploadCert ajaxUploadCert ajaxProfile',
-            'userContext + viewContractDoctors'
+            'userContext + viewContractDoctors viewCommonweal'
         );
     }
 
@@ -125,11 +125,15 @@ class DoctorController extends MobiledoctorController {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha', 'valiCaptcha', 'viewContractDoctors', 'ajaxLogin'),
+                'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha', 'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('logout', 'changePassword', 'createPatientBooking', 'ajaxContractDoctor', 'ajaxStateList', 'ajaxDeptList', 'viewDoctor', 'addPatient', 'view', 'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert', 'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz', 'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms'),
+                'actions' => array('logout', 'changePassword', 'createPatientBooking', 'ajaxContractDoctor', 'ajaxStateList', 'ajaxDeptList', 'viewDoctor',
+                    'addPatient', 'view',
+                    'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
+                    'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -138,9 +142,36 @@ class DoctorController extends MobiledoctorController {
         );
     }
 
-    //进入查看签约医生的界面
-    public function actionViewContractDoctors() {
-        $this->render("viewContractDoctors");
+    //公益视图
+    public function actionViewCommonweal() {
+        $apiService = new ApiViewCommonwealDoctors();
+        $output = $apiService->loadApiViewData();
+        $this->render("viewCommonweal", array(
+            'data' => $output
+        ));
+    }
+
+    //公益列表
+    public function actionCommonwealList() {
+        $apiService = new ApiViewCommonwealDoctors();
+        $output = $apiService->loadApiViewData();
+        $this->render("CommonwealList", array(
+            'data' => $output
+        ));
+    }
+
+    //加入名医公益
+    public function actionAjaxJoinCommonweal() {
+        $output = array('status' => 'no');
+        $user = $this->getCurrentUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $doctorProfile->is_commonweal = date('Y-m-d H:i:s');
+        if ($doctorProfile->update(array('is_commonweal'))) {
+            $output['status'] = 'ok';
+        } else {
+            $output['errors'] = $doctorProfile->getErrors();
+        }
+        $this->renderJsonOutput($output);
     }
 
     //获取签约医生

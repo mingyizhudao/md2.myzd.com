@@ -39,11 +39,13 @@ class ApiViewUserInfo extends EApiViewService {
             //是否是签约医生
             $data->verified = $profile->isVerified();
             $data->teamDoctor = $profile->isTermsDoctor();
+            $data->isCommonweal = $profile->isCommonweal();
         } else {
             $data->isProfile = false;
             $data->name = $this->user->getMobile();
             $data->verified = false;
             $data->teamDoctor = false;
+            $data->isCommonweal = false;
         }
         $this->results->userInfo = $data;
     }

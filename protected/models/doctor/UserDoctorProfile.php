@@ -336,4 +336,8 @@ class UserDoctorProfile extends EActiveRecord {
         return $this->date_terms_doctor !== null;
     }
 
+    public function isCommonweal() {
+        return $this->is_commonweal !== null;
+    }
+
 }
