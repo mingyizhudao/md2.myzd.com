@@ -8,7 +8,6 @@
  */
 ini_set('date.timezone','Asia/Shanghai');
 require_once 'protected/modules/weixinpub/lib/WxPay.Api.php';
-header("Content-type: text/html; charset=utf-8");
 class WechatpayController extends WeixinpubController { 
     
     private $wechatConfig;
@@ -18,6 +17,10 @@ class WechatpayController extends WeixinpubController {
         $this->wechatConfig = new WechatConfig();
     }
     
+    public function actionJsapipay1() {
+        echo '11111';
+        Yii::app()->end();
+    }
     
     /**
      * 微信公众号支付
@@ -46,7 +49,8 @@ class WechatpayController extends WeixinpubController {
         $jsApiParameters = $this->GetJsApiParameters($order);
         
         $this->render('jsapi', array('jsApiParameters' => $jsApiParameters));
-                       
+        
+               
     }
     
     
@@ -67,6 +71,7 @@ class WechatpayController extends WeixinpubController {
         $product_id = $get['product_id'];
 		
         $input = new WxPayUnifiedOrder();
+        //$input->SetBody("微信扫码支付");//商品或支付单简要描述
         $input->SetOut_trade_no("$out_trade_no");//商户系统内部的订单号,32个字符内、可包含字母
         $input->SetTotal_fee("$total_fee");//订单总金额，单位为分
         $input->SetNotify_url("http://".$_SERVER['HTTP_HOST']."/weixinpub/wechatpay/callback");//接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。
@@ -93,8 +98,7 @@ class WechatpayController extends WeixinpubController {
     */
     public function GetJsApiParameters($UnifiedOrderResult){
         if(!array_key_exists("appid", $UnifiedOrderResult) || !array_key_exists("prepay_id", $UnifiedOrderResult) || $UnifiedOrderResult['prepay_id'] == ""){
-            WeixinpubLog::log($UnifiedOrderResult, 'error', __METHOD__);
-            echo '接口返回异常，请联系管理员。';
+            WeixinpubLog::log('参数错误', 'error', __METHOD__);
             Yii::app()->end();
         }
         $jsapi = new WxPayJsApiPay();
@@ -105,6 +109,7 @@ class WechatpayController extends WeixinpubController {
         $jsapi->SetPackage("prepay_id=" . $UnifiedOrderResult['prepay_id']);
         $jsapi->SetSignType("MD5");
         $jsapi->SetPaySign($jsapi->MakeSign());
+        //return $this->renderJsonOutput($jsapi->GetValues());
         $parameters = json_encode($jsapi->GetValues());
         return $parameters;
     }

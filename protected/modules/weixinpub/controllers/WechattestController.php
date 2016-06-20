@@ -13,20 +13,8 @@
  */
 define("MCH_ID", "123");//
 define("API_KEY", "456");
-require_once('protected/modules/weixinpub/components/wxBizMsgCrypt.php');
 class WechattestController extends WeixinpubController{
     
-    
-    public function actionTest6() {
-        header("Content-type: text/html; charset=utf-8");
-        try{
-            $pc = new WXBizMsgCrypt("123", "456", "789");
-            echo "123";
-        }  catch (Exception $e){
-            echo "456";
-        }
-        Yii::app()->end;       
-    }
     
     public function actionTest5() {
         echo MCH_ID;

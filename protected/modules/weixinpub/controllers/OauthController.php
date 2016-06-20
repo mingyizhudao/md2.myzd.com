@@ -19,6 +19,11 @@ class OauthController extends WeixinpubController {
         $this->weixinAppSecret = $wechatAccount->getAppSecret();     
     }   
     
+    public function actionTest() {
+        $redirectUrl = $this->createAbsoluteUrl("oauth/getWxOpenId");
+        echo $redirectUrl;
+    }
+    
 
     public function actionGetWxOpenId() {
         $code = '';

@@ -62,8 +62,8 @@ class WechatapiController extends WeixinpubController {
         $encrypt_type = (isset($_GET['encrypt_type']) && ($_GET['encrypt_type'] == 'aes')) ? "aes" : "raw";
 
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        //$logMsg = "encrypt_type为：$encrypt_type,微信推送的消息内容为：$postStr";
-        //WeixinpubLog::log($logMsg, 'info', __METHOD__);
+        $logMsg = "encrypt_type为：$encrypt_type,微信推送的消息内容为：$postStr";
+        WeixinpubLog::log($logMsg, 'info', __METHOD__);
 
         if (!empty($postStr)) {
             if ($encrypt_type == 'aes') {//加密模式，先解密
