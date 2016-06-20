@@ -144,10 +144,18 @@ class DoctorController extends MobiledoctorController {
 
     //公益视图
     public function actionViewCommonweal() {
+        $user = $this->getCurrentUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $isCommonweal = false;
+        $profile = false;
+        if (isset($doctorProfile)) {
+            $profile = true;
+            $isCommonweal = $doctorProfile->isCommonweal();
+        }
         $apiService = new ApiViewCommonwealDoctors();
         $output = $apiService->loadApiViewData();
         $this->render("viewCommonweal", array(
-            'data' => $output
+            'data' => $output, 'profile' => $profile, 'isCommonweal' => $isCommonweal,
         ));
     }
 
@@ -155,7 +163,7 @@ class DoctorController extends MobiledoctorController {
     public function actionCommonwealList() {
         $apiService = new ApiViewCommonwealDoctors();
         $output = $apiService->loadApiViewData();
-        $this->render("CommonwealList", array(
+        $this->render("commonwealList", array(
             'data' => $output
         ));
     }
@@ -516,7 +524,9 @@ class DoctorController extends MobiledoctorController {
         $this->send_get($remote_url);
     }
 
+    //1 为注册页面跳转 2为名医公益跳转
     public function actionProfile($register = 0) {
+        $returnUrl = $this->getReturnUrl($this->createUrl('doctor/view'));
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         $form = new UserDoctorProfileForm();
@@ -527,6 +537,9 @@ class DoctorController extends MobiledoctorController {
         $certs = $userMgr->loadUserDoctorFilesByUserId($user->id);
         if (arrayNotEmpty($certs) === false) {
             $returnUrl = $this->createUrl('doctor/uploadCert');
+        }
+        if ($register == 2) {
+            $returnUrl = $this->createUrl('doctor/viewCommonweal');
         }
         $this->render('profile', array(
             'model' => $form,
