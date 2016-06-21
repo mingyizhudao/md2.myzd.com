@@ -206,10 +206,11 @@ $profile = $profile;
                 J.closePopup();
             });
             $('#ajaxJoginCommonweal').on('click', function () {
+                J.closePopup();
+                J.showMask();
                 $.ajax({
                     url: '<?php echo $urlAjaxJoinCommonweal; ?>',
                     success: function (data) {
-                        J.closePopup();
                         if (data.status == 'ok') {
                             $('#optionsBtn').html('<div class="col-1 w25"></div>' +
                                     '<div class="col-1 w50 ml10 mr10">' +
@@ -218,12 +219,16 @@ $profile = $profile;
                                     '</a>' +
                                     '</div>' +
                                     '<div class="col-1 w25"></div>');
+                            J.hideMask();
+                            J.showToast('您已加入名医公益', '', '1500');
                         } else {
-                            J.showToast('网络错误');
+                            J.hideMask();
+                            J.showToast('网络错误', '', '1500');
                         }
                     },
                     error: function (data) {
                         console.log(data);
+                        J.hideMask();
                     }
                 });
             });
