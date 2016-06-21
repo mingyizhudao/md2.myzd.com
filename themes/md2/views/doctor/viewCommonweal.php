@@ -84,7 +84,7 @@ $profile = $profile;
                                             <?php
                                         } else {
                                             ?>
-                                            <div class="grid mb10">
+                                            <div id="optionsBtn" class="grid mb10">
                                                 <div class="col-1 w50 ml10 mr5">
                                                     <a href="<?php echo $urlCommonwealList; ?>" class="moreDoctor">
                                                         查看更多专家
@@ -211,7 +211,13 @@ $profile = $profile;
                     success: function (data) {
                         J.closePopup();
                         if (data.status == 'ok') {
-                            window.location.reload();
+                            $('#optionsBtn').html('<div class="col-1 w25"></div>' +
+                                    '<div class="col-1 w50 ml10 mr10">' +
+                                    '<a href="<?php echo $urlCommonwealList; ?>" class="moreDoctor">' +
+                                    '查看更多专家' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<div class="col-1 w25"></div>');
                         } else {
                             J.showToast('网络错误');
                         }
