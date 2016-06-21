@@ -811,3 +811,52 @@ header{
 #payResult_article{
     background-color: #F1F1F1;
 }
+
+/*名医公益*/
+body #viewCommonweal_article{
+    font-size: 14px;
+}
+#viewCommonweal_article .pageBg{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356500101290') no-repeat;
+    background-size: 100% 100%;
+}
+#viewCommonweal_article .imgDiv{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+#viewCommonweal_article .moreDoctor{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146639530454214') no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+    display: block!important;
+    width: 100%;
+    padding: 10px!important;
+    font-size: 16px;
+    color: #823122;
+}
+#viewCommonweal_article .joinMygy{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356505247898') no-repeat;
+    background-size: 100% 100%;
+    text-align: center;
+    display: block!important;
+    width: 100%;
+    padding: 10px!important;
+    font-size: 16px;
+    color: #fff;
+}
+#commonwealList_article .pageBg{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356500101290') no-repeat;
+    background-size: 100% 100%;
+    padding: 10px;
+}
+
+#commonwealList_article .imgDiv{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}

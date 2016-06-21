@@ -332,6 +332,7 @@ a .none{text-decoration:none;}
 .color-blue4{color:#25ceff;}
 .color-blue5{color:#259bff;}
 .color-orange {color: #f39700!important;}
+.color-brown2 {color: #833122!important;}
 
 /*button*/
 .yellow-button{border-radius: 5px;background-color: #fe8c08;line-height: 1em;color: #fff;height:32px;padding-top: 7px;}
@@ -365,6 +366,8 @@ a .none{text-decoration:none;}
 .bt-blue {border-top: 1px solid #c0e0ed;}
 .bt-gray {border-top: 1px solid #e1e1e1;}
 .border-gray{border: 1px solid #d0d0d0;}
+.bl2-brown{border-left: 2px solid #833122;}
+.border-grayD2 {border: 1px dashed #7d7d7d;}
 .br5{border-radius:5px;}
 .br8{border-radius: 8px;}
 .br3{border-radius:3px;}
