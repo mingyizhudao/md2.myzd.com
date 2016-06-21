@@ -175,6 +175,10 @@ class DoctorController extends MobiledoctorController {
         $doctorProfile = $user->getUserDoctorProfile();
         $doctorProfile->is_commonweal = date('Y-m-d H:i:s');
         if ($doctorProfile->update(array('is_commonweal'))) {
+            //调用远程接口
+            $apiUrl = new ApiRequestUrl();
+            $url = $apiUrl->getUrlCommonweal() . "?userid=" . $user->getId();
+            $apiUrl->send_get($url);
             $output['status'] = 'ok';
         } else {
             $output['errors'] = $doctorProfile->getErrors();
