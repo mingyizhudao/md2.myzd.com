@@ -176,7 +176,7 @@ $profile = $profile;
 </div>
 <script>
     $(document).ready(function () {
-        $('#joinCommonweal').tap(function () {
+        $('#joinCommonweal').on('click', function () {
             if (!'<?php echo $profile; ?>') {
                 J.customConfirm('',
                         '<div class="mt10 mb10">请您先补充完个人信息</div>',
@@ -186,10 +186,10 @@ $profile = $profile;
                         },
                         function () {
                         });
-                $('#closeLogout').tap(function () {
+                $('#closeLogout').on('click', function () {
                     J.closePopup();
                 });
-                $('#profile').tap(function () {
+                $('#profile').on('click', function () {
                     location.href = '<?php echo $urlProfile; ?>';
                 });
                 return;
@@ -202,10 +202,10 @@ $profile = $profile;
                     },
                     function () {
                     });
-            $('#closeLogout').tap(function () {
+            $('#closeLogout').on('click', function () {
                 J.closePopup();
             });
-            $('#ajaxJoginCommonweal').tap(function () {
+            $('#ajaxJoginCommonweal').on('click', function () {
                 $.ajax({
                     url: '<?php echo $urlAjaxJoinCommonweal; ?>',
                     success: function (data) {
