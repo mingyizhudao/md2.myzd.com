@@ -211,7 +211,7 @@ $profile = $profile;
                     success: function (data) {
                         J.closePopup();
                         if (data.status == 'ok') {
-                            history.go(0);
+                            window.location.reload();
                         } else {
                             J.showToast('网络错误');
                         }
