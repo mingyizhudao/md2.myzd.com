@@ -186,10 +186,10 @@ $profile = $profile;
                         },
                         function () {
                         });
-                $('#closeLogout').click(function () {
+                $('#closeLogout').tap(function () {
                     J.closePopup();
                 });
-                $('#profile').click(function () {
+                $('#profile').tap(function () {
                     location.href = '<?php echo $urlProfile; ?>';
                 });
                 return;
@@ -202,10 +202,10 @@ $profile = $profile;
                     },
                     function () {
                     });
-            $('#closeLogout').click(function () {
+            $('#closeLogout').tap(function () {
                 J.closePopup();
             });
-            $('#ajaxJoginCommonweal').click(function () {
+            $('#ajaxJoginCommonweal').tap(function () {
                 $.ajax({
                     url: '<?php echo $urlAjaxJoinCommonweal; ?>',
                     success: function (data) {
