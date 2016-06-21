@@ -304,20 +304,4 @@ class User extends EActiveRecord {
         $this->last_login_time = $v;
     }
 
-    public function setUserKeyRaw($v) {
-        $this->user_key_raw = $v;
-    }
-
-    public function setUserKey($v) {
-        $this->user_key = $this->encrypt($v);
-    }
-
-    public function getUserKey() {
-        return $this->user_key;
-    }
-
-    public function encryptUserKey($v) {
-        return $this->encrypt($v);
-    }
-
 }
