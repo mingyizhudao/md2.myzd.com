@@ -20,6 +20,7 @@ class AuthSmsVerify extends EActiveRecord {
     const ACTION_USER_PASSWORD_RESET = 101;
     const ACTION_USER_LOGIN = 102;
     const ACTION_BOOKING = 200;
+    const ACTION_USER_BANK = 300;
     const EXPIRY_DEFAULT = 600;
     const ERROR_NONE = 0;
     const ERROR_NOT_FOUND = 1;

@@ -2,6 +2,56 @@
 
 class UserManager {
 
+    public function createCard($values) {
+        $form = new DoctorBankCardForm();
+        $form->setAttributes($values, true);
+        if ($form->validate() === false) {
+            $output['status'] = 'no';
+            $output['errors'] = $form->getErrors();
+            return $output;
+        }
+        $card = new DoctorBankCard();
+        if (strIsEmpty($values['id']) === false) {
+            $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
+            if (isset($model)) {
+                $card = $model;
+            }
+        }
+        $attributes = $form->getSafeAttributes();
+        $card->setAttributes($attributes, true);
+        $regionState = RegionState::model()->getById($card->state_id);
+        $card->state_name = $regionState->getName();
+        $regionCity = RegionCity::model()->getById($card->city_id);
+        $card->city_name = $regionCity->getName();
+        if ($card->save() === false) {
+            $output['status'] = 'no';
+            $output['errors'] = $card->getErrors();
+        } else {
+            $output['status'] = 'ok';
+            $output['cardId'] = $card->getId();
+            //若该卡为默认 则将其它都都改为不默认
+            if ($card->is_default == 1) {
+                $this->updateUnDefault($card->getId());
+            }
+        }
+        return $output;
+    }
+
+    public function updateUnDefault($id) {
+        $criteria = new CDbCriteria();
+        $criteria->compare("is_default", 1);
+        $criteria->addCondition("id!={$id}");
+        return DoctorBankCard::model()->updateAll(array("is_default" => 0), $criteria);
+    }
+
+    public function loadCardByUserIdAndId($userId, $id) {
+        return DoctorBankCard::model()->getByAttributes(array("user_id" => $userId, "id" => $id));
+    }
+
+    public function loadCardsByUserId($userId) {
+        return DoctorBankCard::model()->getAllByAttributes(array("user_id" => $userId));
+    }
+
     public function createUserDoctor($mobile) {
         return $this->createUser($mobile, StatCode::USER_ROLE_DOCTOR);
     }
@@ -414,8 +464,6 @@ class UserManager {
                 $type = StatCode::TASK_DOCTOR_PROFILE_UPDATE;
                 $apiRequest = new ApiRequestUrl();
                 $remote_url = $apiRequest->getUrlDoctorInfoTask() . "?userid={$userId}&type={$type}";
-                //本地测试请用 
-                //$remote_url = "http://localhost/admin/api/taskuserdoctor?userid={$userId}&type={$type}";
                 $apiRequest->send_get($remote_url);
             }
             $output['status'] = EApiViewService::RESPONSE_OK;
