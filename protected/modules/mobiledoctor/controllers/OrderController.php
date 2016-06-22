@@ -150,7 +150,7 @@ class OrderController extends MobiledoctorController {
         }
         //支付成功 生成task提醒
         $apiurl = new ApiRequestUrl();
-        $url = $apiurl->getUrlPay();
+        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
         $this->send_get($url);
 
         $this->show_header = true;
