@@ -59,8 +59,8 @@ class TemplateOrderNotice extends WechatTemplate{
     public function getTemplateMessage($template) {
        
         //每个模板消息的模板ID都是固定的
-        //$template->template_id = "SKly3kz7E74_7A5udMm_TIYh_jnkKiRXR33NgC8KssY";
-        $template->template_id = "CY-Lbi6GZWWJbNtrqOGoHm9jl32-jczr7C_JZ9_zLKg";//测试环境
+        $template->template_id = "SKly3kz7E74_7A5udMm_TIYh_jnkKiRXR33NgC8KssY";
+        //$template->template_id = "CY-Lbi6GZWWJbNtrqOGoHm9jl32-jczr7C_JZ9_zLKg";//测试环境
         
         $data = array(
                         'first' => array('value' => $template->first_Value, 'color' => $template->first_Color),

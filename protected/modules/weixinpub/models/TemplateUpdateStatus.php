@@ -43,8 +43,8 @@ class TemplateUpdateStatus extends WechatTemplate{
     public function getTemplateMessage($template) {
        
         //每个模板消息的模板ID都是固定的
-        //$template->template_id = "CgduVW1vBv2BUWKd1qEmSCwoEAJf7SRaulxbZ-ciEC0";
-        $template->template_id = "KkXgtb7F_cklCUQWmtrMfs716cYbR1IqixldYrSQ2Pk";//测试环境
+        $template->template_id = "CgduVW1vBv2BUWKd1qEmSCwoEAJf7SRaulxbZ-ciEC0";
+        //$template->template_id = "KkXgtb7F_cklCUQWmtrMfs716cYbR1IqixldYrSQ2Pk";//测试环境
         
         $data = array(
                         'first' => array('value' => $template->first_Value, 'color' => $template->first_Color),

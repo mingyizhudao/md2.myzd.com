@@ -48,8 +48,8 @@ class TemplatePaymentSuccess extends WechatTemplate {
     public function getTemplateMessage($template) {
        
         //每个模板消息的模板ID都是固定的
-        //$template->template_id = "7pCic59HLo4Xg0CS8KHRAD-LghjpKq7WfeSXCa98WB8";
-        $template->template_id = "reimwN8XF_0ro9udZJJrvZ8XID7QunGU6ZT6wuOECm8";//测试环境
+        $template->template_id = "7pCic59HLo4Xg0CS8KHRAD-LghjpKq7WfeSXCa98WB8";
+        //$template->template_id = "reimwN8XF_0ro9udZJJrvZ8XID7QunGU6ZT6wuOECm8";//测试环境
         
         $data = array(
                         'first' => array('value' => $template->first_Value, 'color' => $template->first_Color),

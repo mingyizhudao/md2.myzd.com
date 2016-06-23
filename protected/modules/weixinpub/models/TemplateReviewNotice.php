@@ -47,8 +47,8 @@ class TemplateReviewNotice extends WechatTemplate{
      public function getTemplateMessage($template) {
        
         //每个模板消息的模板ID都是固定的
-        //$template->template_id = "gg4Eqjl4sOSM2jRCCGUGQts-lE-8JKhoMe_lLp0rojE";
-        $template->template_id = "r6qsoHm3GTjn10pyXj1SkiHXovSVq_-ucO2JEX8w6L4";//测试环境
+        $template->template_id = "gg4Eqjl4sOSM2jRCCGUGQts-lE-8JKhoMe_lLp0rojE";
+        //$template->template_id = "r6qsoHm3GTjn10pyXj1SkiHXovSVq_-ucO2JEX8w6L4";//测试环境
         
         $data = array(
                         'first' => array('value' => $template->first_Value, 'color' => $template->first_Color),

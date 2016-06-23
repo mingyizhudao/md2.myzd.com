@@ -44,8 +44,8 @@ class TemplateUnpaid extends WechatTemplate {
     public function getTemplateMessage($template) {
        
         //每个模板消息的模板ID都是固定的
-        //$template->template_id = "BpJFg3yl3pZ2TgtZ5pSf_Nr5yedoj1qutu570VQjzNs";
-        $template->template_id = "kYlJVryIXlB33h-pzud7jd3Ka4nRq9lUvwuSict2tJY";//测试环境
+        $template->template_id = "BpJFg3yl3pZ2TgtZ5pSf_Nr5yedoj1qutu570VQjzNs";
+        //$template->template_id = "kYlJVryIXlB33h-pzud7jd3Ka4nRq9lUvwuSict2tJY";//测试环境
         
         $data = array(
                         'first' => array('value' => $template->first_Value, 'color' => $template->first_Color),
