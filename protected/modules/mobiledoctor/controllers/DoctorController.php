@@ -186,6 +186,11 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    //签约医生列表
+    public function actionViewContractDoctors() {
+        $this->render("viewContractDoctors");
+    }
+
     //获取签约医生
     public function actionAjaxContractDoctor() {
         $values = $_GET;
