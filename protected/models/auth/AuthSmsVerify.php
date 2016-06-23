@@ -224,6 +224,10 @@ class AuthSmsVerify extends EActiveRecord {
         return $this->createRecord($mobile, self::ACTION_USER_LOGIN, false, $userIp);
     }
 
+    public function createSmsVerifyBank($mobile, $userIp = null) {
+        return $this->createRecord($mobile, self::ACTION_USER_BANK, false, $userIp);
+    }
+
     /**
      *
      * @return type 

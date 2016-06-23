@@ -35,42 +35,36 @@ class AuthController extends WebsiteController {
      * @throws CException
      */
     public function actionSendSmsVerifyCode() {
-        if (isset($_REQUEST['captcha_code']) && strcmp($_REQUEST['captcha_code'], Yii::app()->session['code']) != 0) {
-            $output['status'] = 'no';
-            $output['errors'] = array('captcha_code' => '图形验证码错误');
-            $this->renderJsonOutput($output);
-        } else {
-            $errors = array();
-            try {
-                if (isset($_POST['AuthSmsVerify'])) {
+        $errors = array();
+        try {
+            if (isset($_POST['AuthSmsVerify'])) {
 
-                    $values = $_POST['AuthSmsVerify'];
+                $values = $_POST['AuthSmsVerify'];
 
-                    $errors = $this->validateInputs($values);
+                $errors = $this->validateInputs($values);
 
-                    $userIp = Yii::app()->request->getUserHostAddress();
-                    $mobile = $values['mobile'];
-                    $actionType = $values['actionType'];
+                $userIp = Yii::app()->request->getUserHostAddress();
+                $mobile = $values['mobile'];
+                $actionType = $values['actionType'];
 
-                    $authMgr = new AuthManager();
-                    $errors = $authMgr->sendAuthSmsVerifyCode($mobile, $actionType, $userIp);
+                $authMgr = new AuthManager();
+                $errors = $authMgr->sendAuthSmsVerifyCode($mobile, $actionType, $userIp);
 
-                    if (empty($errors)) {
-                        // success.
-                    } else {
-                        throw new CException("Error.");
-                    }
-
-                    $this->renderJsonOutput(array('status' => true));
+                if (empty($errors)) {
+                    // success.
                 } else {
-                    $errors[] = "Invalid request.";
-                    throw new CException("Invalid request.");
+                    throw new CException("Error.");
                 }
-            } catch (CException $ex) {
-                $output['status'] = false;
-                $output['errors'] = $errors;
-                $this->renderJsonOutput($output);
+
+                $this->renderJsonOutput(array('status' => true));
+            } else {
+                $errors[] = "Invalid request.";
+                throw new CException("Invalid request.");
             }
+        } catch (CException $ex) {
+            $output['status'] = false;
+            $output['errors'] = $errors;
+            $this->renderJsonOutput($output);
         }
     }
 
