@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -152,6 +152,21 @@ class UserbankController extends MobiledoctorController {
             $output = $userMgr->createCard($values);
         } else {
             $output['errors'] = 'miss data...';
+        }
+        $this->renderJsonOutput($output);
+    }
+
+    //删除银行卡信息
+    public function actionAjaxDelete($id) {
+        $output = array("status" => "no");
+        $userId = $this->getCurrentUserId();
+        $userMgr = new UserManager();
+        $card = $userMgr->loadCardByUserIdAndId($userId, $id);
+        if (isset($card)) {
+            $card->delete();
+            $output['status'] = 'ok';
+        } else {
+            $output['errors'] = '无权限操作!';
         }
         $this->renderJsonOutput($output);
     }

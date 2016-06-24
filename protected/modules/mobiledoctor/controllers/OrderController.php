@@ -149,9 +149,9 @@ class OrderController extends MobiledoctorController {
             $wxMgr->paySuccess($params);
         }
         //支付成功 生成task提醒
-        $apiurl = new ApiRequestUrl();
-        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
-        $this->send_get($url);
+//        $apiurl = new ApiRequestUrl();
+//        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
+//        $this->send_get($url);
 
         $this->show_header = true;
         $this->show_footer = false;
