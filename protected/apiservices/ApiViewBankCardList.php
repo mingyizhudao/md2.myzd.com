@@ -58,13 +58,13 @@ class ApiViewBankCardList extends EApiViewService {
     }
 
     private function setName($name) {
-        $len = strlen($name);
-        return substr($name, 0, 1) . str_repeat('*', $len - 1);
+        $len = mb_strlen($name, 'utf-8');
+        return mb_substr($name, 0, 1, 'utf-8') . str_repeat('*', ($len - 1));
     }
 
     private function setBankNo($no) {
         $len = strlen($no);
-        return substr($no, 0, 3) . str_repeat('*', $len - 7) . substr($no, -5);
+        return substr($no, 0, 3) . str_repeat('*', ($len - 7)) . substr($no, (-4));
     }
 
 }

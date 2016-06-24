@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'ajaxCardList', 'create', 'update', 'ajaxCreate'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -116,15 +116,10 @@ class UserbankController extends MobiledoctorController {
     }
 
     public function actionCardList() {
-        $this->render('cardList');
-    }
-
-    //银行卡列表
-    public function actionAjaxCardList() {
         $userId = $this->getCurrentUserId();
         $apiService = new ApiViewBankCardList($userId);
         $output = $apiService->loadApiViewData();
-        $this->renderJsonOutput($output);
+        $this->render('cardList', array('data' => $output));
     }
 
     //新增

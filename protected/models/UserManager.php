@@ -11,7 +11,7 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
-        if (strIsEmpty($values['id']) === false) {
+        if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
             if (isset($model)) {
                 $card = $model;

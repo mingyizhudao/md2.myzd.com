@@ -11,14 +11,16 @@ class DoctorBankCardForm extends EFormModel {
     public $bank;
     public $subbranch;
     public $is_default;
+    public $options_state;
+    public $options_city;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, card_no, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
-            array('name, bank, subbranch', 'length', 'max' => 50),
-            array('date_updated, date_deleted, date_created', 'safe'),
+            array('user_id, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
+            array('name, card_no, bank, subbranch', 'length', 'max' => 50),
+            array('id,card_no', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, user_id, name, card_no, state_id, city_id, bank, subbranch, is_default', 'safe', 'on' => 'search'),
@@ -45,6 +47,22 @@ class DoctorBankCardForm extends EFormModel {
             $attributes = $model->getAttributes();
             $this->setAttributes($attributes, true);
         }
+    }
+
+    public function loadOptionsState() {
+        if (is_null($this->options_state)) {
+            $this->options_state = CHtml::listData(RegionState::model()->getAllByCountryId(1), 'id', 'name');
+        }
+        return $this->options_state;
+    }
+
+    public function loadOptionsCity() {
+        if (is_null($this->state_id)) {
+            $this->options_city = array();
+        } else {
+            $this->options_city = CHtml::listData(RegionCity::model()->getAllByStateId($this->state_id), 'id', 'name');
+        }
+        return $this->options_city;
     }
 
 }
