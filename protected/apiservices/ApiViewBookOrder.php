@@ -67,9 +67,9 @@ class ApiViewBookOrder extends EApiViewService {
         $data = new stdClass();
         $data->id = $model->getId();
         $data->refNo = $model->getRefNo();
-        $data->expectedDoctor = $model->getExpectedDoctor();
-        $data->expectedHospital = $model->getExpectedHospital();
-        $data->expectedDept = $model->getExpectedDept();
+        $data->expectedDoctor = strIsEmpty($model->getExpectedDoctor()) ? "暂无" : $model->getExpectedDoctor();
+        $data->expectedHospital = strIsEmpty($model->getExpectedHospital()) ? "暂无" : $model->getExpectedHospital();
+        $data->expectedDept = strIsEmpty($model->getExpectedDept()) ? "暂无" : $model->getExpectedDept();
         $data->operationFinished = $model->operation_finished;
         $data->patientId = $model->getPatientId();
         $data->patientName = $model->getPatientName();

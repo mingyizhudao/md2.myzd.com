@@ -325,4 +325,24 @@ class PatientManager {
         return $output;
     }
 
+    //下级医生确认手术完成
+    public function apiOperation($id, $userId) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND, 'errorMsg' => '网络异常,请稍后尝试!');
+        $booking = $this->loadPatientBookingByIdAndCreatorId($id, $userId);
+        if (isset($booking)) {
+            $booking->operation_finished = StatCode::OPERATION_FINISHED;
+            $booking->update(array('operation_finished'));
+            //远程调用接口
+            $urlMgr = new ApiRequestUrl();
+            $url = $urlMgr->getUrlFinished() . "?id={$id}";
+            $urlMgr->send_get($url);
+            $output['status'] = 'ok';
+            $output['errorCode'] = ErrorList::ERROR_NONE;
+            $output['errorMsg'] = 'success';
+        } else {
+            $output["errorMsg"] = '无权限操作!';
+        }
+        return $output;
+    }
+
 }

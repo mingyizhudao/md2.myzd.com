@@ -216,6 +216,11 @@ class ApimdController extends Controller {
                 $patientMgr = new PatientManager();
                 $output = $patientMgr->apiBookingCancell($id, $user->id);
                 break;
+            case 'bookingoperation'://下级医生确认手术已完成
+                $user = $this->userLoginRequired($values);
+                $patientMgr = new PatientManager();
+                $output = $patientMgr->apiOperation($id, $user->id);
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
