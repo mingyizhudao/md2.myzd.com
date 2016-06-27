@@ -70,13 +70,33 @@ class PatientbookingController extends MobiledoctorController {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('view', 'create', 'ajaxCreate', 'update', 'list', 'doctorPatientBookingList', 'doctorPatientBooking', 'ajaxDoctorOpinion', 'ajaxBookingNum', 'ajaxOperation'),
+                'actions' => array('view', 'create', 'ajaxCreate', 'update', 'list', 'doctorPatientBookingList', 'doctorPatientBooking',
+                    'ajaxDoctorOpinion', 'ajaxBookingNum', 'ajaxOperation', 'ajaxCancell', 'ajaxList', 'searchView', 'ajaxSearch'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
         );
+    }
+
+    //订单取消
+    public function actionAjaxCancell($id) {
+        $output = array('status' => 'no');
+        $userId = $this->getCurrentUserId();
+        $booking = PatientBooking::model()->getByIdAndCreatorId($id, $userId);
+        if (isset($booking)) {
+            $booking->setStatus(PatientBooking::BK_STATUS_CANCELLED);
+            $booking->update(array('status'));
+            //修改状态成功 远程接口调用
+            $urlMgr = new ApiRequestUrl();
+            $url = $urlMgr->getUrlCancell() . "?id={$id}&type=2";
+            $urlMgr->send_get($url);
+            $output['status'] = 'ok';
+        } else {
+            $output['errors'] = 'miss data..';
+        }
+        $this->renderJsonOutput($output);
     }
 
     //异步提交上级医生反馈
@@ -127,9 +147,8 @@ class PatientbookingController extends MobiledoctorController {
     }
 
     //查询创建者的签约信息
-    public function actionList($page = 1, $status = 0) {
+    public function actionList() {
         $user = $this->loadUser();
-        $userId = $user->getId();
         $doctorProfile = $user->getUserDoctorProfile();
         $teamDoctor = 0;
         if (isset($doctorProfile)) {
@@ -139,15 +158,31 @@ class PatientbookingController extends MobiledoctorController {
                 }
             }
         }
-        $pagesize = 200;
-        //service层
-        $apisvc = new ApiViewDoctorPatientBookingList($userId, $status, $pagesize, $page);
-        //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData();
-        $dataCount = $apisvc->loadCount();
         $this->render('bookinglist', array(
-            'data' => $output, 'dataCount' => $dataCount, 'teamDoctor' => $teamDoctor
+            'teamDoctor' => $teamDoctor
         ));
+    }
+
+    public function actionAjaxList($page = 1, $status = 0) {
+        $userId = $this->getCurrentUserId();
+        $apisvc = new ApiViewPatientBookingListV2($userId, $status, null, 200, $page);
+        //调用父类方法将数据返回
+        $output = $apisvc->loadApiViewData(true);
+        $this->renderJsonOutput($output);
+    }
+
+    //订单搜索页面
+    public function actionSearchView() {
+        $this->render('searchView');
+    }
+
+    //查询结果集
+    public function actionAjaxSearch($name) {
+        $userId = $this->getCurrentUserId();
+        $apisvc = new ApiViewPatientBookingListV2($userId, 0, $name);
+        //调用父类方法将数据返回
+        $output = $apisvc->loadApiViewData(true);
+        $this->renderJsonOutput($output);
     }
 
     //查询预约该医生的预约列表

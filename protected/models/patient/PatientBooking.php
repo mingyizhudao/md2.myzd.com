@@ -39,6 +39,7 @@ class PatientBooking extends EActiveRecord {
     //const BK_STATUS_INVALID = 7;        // 失效的
     const BK_STATUS_SURGER_DONE = 8;        // 已完成
     const BK_STATUS_CANCELLED = 9;          // 已取消
+    const BK_STATUS_BEDONE = 11;             //待完成
 
     /**
      * @return string the associated database table name
@@ -259,6 +260,7 @@ class PatientBooking extends EActiveRecord {
             self::BK_STATUS_SERVICE_PAIDED => '传小结',
             self::BK_STATUS_SURGER_DONE => '已完成',
             self::BK_STATUS_CANCELLED => '已取消',
+            self::BK_STATUS_BEDONE => '待完成',
                 //self::BK_STATUS_INVALID => '失效的'
         );
     }
@@ -283,6 +285,7 @@ class PatientBooking extends EActiveRecord {
             self::BK_STATUS_SERVICE_UNPAID => '当前状态:待支付平台咨询费',
             self::BK_STATUS_SERVICE_PAIDED => '当前状态:待上传出院小结',
             self::BK_STATUS_SURGER_DONE => '感谢你协助完成了该例手术!',
+            self::BK_STATUS_BEDONE => '当前状态:待确认手术完成',
         );
     }
 
@@ -356,6 +359,14 @@ class PatientBooking extends EActiveRecord {
 
     public function getExpectedDoctor() {
         return $this->expected_doctor;
+    }
+
+    public function getExpectedHospital() {
+        return $this->expected_hospital;
+    }
+
+    public function getExpectedDept() {
+        return $this->expected_dept;
     }
 
     public function setStatus($v) {

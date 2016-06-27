@@ -95,6 +95,16 @@ class PatientManager {
         return PatientBooking::model()->getAllByCreatorId($creatorId, $status, $attributes, $with, $options);
     }
 
+    public function loadAllPatientBookingByCreatorIdAndName($creatorId, $name, $with) {
+        $criteria = new CDbCriteria();
+        $criteria->select = '*';
+        $criteria->compare('t.creator_id', $creatorId);
+        $criteria->addCondition("(t.patient_name like '%{$name}%' or t.expected_doctor like '{$name}')");
+        $criteria->with = $with;
+        $criteria->order = 't.date_updated desc';
+        return PatientBooking::model()->findAll($criteria);
+    }
+
     //查询创建者的预约详情
     public function loadPatientBookingByIdAndCreatorId($id, $creatorId, $attributes = null, $with = null, $options = null) {
         if (is_null($attributes)) {

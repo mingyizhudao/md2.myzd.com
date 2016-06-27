@@ -58,6 +58,10 @@ class ApiRequestUrl {
         return $this->getUrl($this->commonweal);
     }
 
+    public function getUrlCancell() {
+        return $this->getUrl('/api/cancelbooking');
+    }
+
     //微信接口
     public function paySuccess() {
         return getHostInfo() . '/weixinpub/Sendtempmessage/Paysuccess';
