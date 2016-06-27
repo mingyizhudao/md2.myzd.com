@@ -73,8 +73,8 @@ class ApiViewPatientBookingListV2 extends EApiViewService {
             $data->refNo = $model->getRefNo();
             $data->status = $model->getStatus(false);
             $data->statusText = $model->getStatus();
-            $data->doctorName = $model->getExpectedDoctor();
-            $data->hospital = $model->getExpectedHospital();
+            $data->doctorName = strIsEmpty($model->getExpectedDoctor()) ? "暂无" : $model->getExpectedDoctor();
+            $data->hospital = strIsEmpty($model->getExpectedHospital()) ? "暂无" : $model->getExpectedHospital();
             $patientInfo = $model->getPatient();
             $data->patientName = $patientInfo->getName();
             $files = $patientInfo->patientDAFiles;

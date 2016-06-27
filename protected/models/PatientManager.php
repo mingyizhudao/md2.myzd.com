@@ -99,7 +99,7 @@ class PatientManager {
         $criteria = new CDbCriteria();
         $criteria->select = '*';
         $criteria->compare('t.creator_id', $creatorId);
-        $criteria->addCondition("(t.patient_name like '%{$name}%' or t.expected_doctor like '{$name}')");
+        $criteria->addCondition("(t.patient_name like '%{$name}%' or t.expected_doctor like '%{$name}%')");
         $criteria->with = $with;
         $criteria->order = 't.date_updated desc';
         return PatientBooking::model()->findAll($criteria);
@@ -252,7 +252,6 @@ class PatientManager {
             }
             $apiRequest = new ApiRequestUrl();
             $remote_url = $apiRequest->getUrlAdminSalesBookingCreate() . '?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
-            // $remote_url = 'http://localhost/admin/api/adminbooking?type=' . StatCode::TRANS_TYPE_PB . '&id=' . $patientBooking->id;
             $data = $apiRequest->send_get($remote_url);
             if ($data['status'] == "ok") {
                 $output['status'] = EApiViewService::RESPONSE_OK;
@@ -293,7 +292,6 @@ class PatientManager {
                 //医生评价成功 调用crm接口修改admin_booking的接口
                 $urlMgr = new ApiRequestUrl();
                 $url = $urlMgr->getUrlDoctorAccept() . "?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
-                //$url = "http://192.168.1.216/admin/api/doctoraccept?id={$id}&type={$type}&accept={$accept}&opinion={$opinion}";
                 $urlMgr->send_get($url);
                 $output['status'] = 'ok';
                 $output['errorCode'] = ErrorList::ERROR_NONE;
@@ -303,6 +301,26 @@ class PatientManager {
             }
         } else {
             $output['errorMsg'] = '暂未填写预约信息!';
+        }
+        return $output;
+    }
+
+    //订单取消功能
+    public function apiBookingCancell($id, $userId) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND, 'errorMsg' => '网络异常,请稍后尝试!');
+        $booking = $this->loadPatientBookingByIdAndCreatorId($id, $userId);
+        if (isset($booking)) {
+            $booking->setStatus(PatientBooking::BK_STATUS_CANCELLED);
+            $booking->update(array('status'));
+            //修改状态成功 远程接口调用
+            $urlMgr = new ApiRequestUrl();
+            $url = $urlMgr->getUrlCancell() . "?id={$id}&type=2";
+            $urlMgr->send_get($url);
+            $output['status'] = 'ok';
+            $output['errorCode'] = ErrorList::ERROR_NONE;
+            $output['errorMsg'] = 'success';
+        } else {
+            $output['errorMsg'] = '无权限操作!';
         }
         return $output;
     }

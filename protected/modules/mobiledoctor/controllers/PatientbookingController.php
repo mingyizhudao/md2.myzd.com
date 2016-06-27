@@ -84,7 +84,8 @@ class PatientbookingController extends MobiledoctorController {
     public function actionAjaxCancell($id) {
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
-        $booking = PatientBooking::model()->getByIdAndCreatorId($id, $userId);
+        $patientMgr = new PatientManager();
+        $booking = $patientMgr->loadPatientBookingByIdAndCreatorId($id, $userId);
         if (isset($booking)) {
             $booking->setStatus(PatientBooking::BK_STATUS_CANCELLED);
             $booking->update(array('status'));

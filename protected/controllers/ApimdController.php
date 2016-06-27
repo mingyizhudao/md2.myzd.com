@@ -104,8 +104,13 @@ class ApimdController extends Controller {
                 break;
             case 'bookinglist'://我的订单
                 $user = $this->userLoginRequired($values);
-                $apisvc = new ApiViewDoctorPatientBookingList($user->id, $values['status']);
-                $output = $apisvc->loadApiViewData();
+                if (isset($values['api']) && $values['api'] == 2) {
+                    $apisvc = new ApiViewPatientBookingListV2($user->id, $values['status']);
+                    $output = $apisvc->loadApiViewData(true);
+                } else {
+                    $apisvc = new ApiViewDoctorPatientBookingList($user->id, $values['status']);
+                    $output = $apisvc->loadApiViewData();
+                }
                 break;
             case 'bookingcount'://各类订单数量
                 $user = $this->userLoginRequired($values);
@@ -132,6 +137,13 @@ class ApimdController extends Controller {
             case 'contractdoctorlist'://签约医生列表
                 $apiService = new ApiViewDoctorSearch($values);
                 $output = $apiService->loadApiViewData();
+                break;
+            case 'searchbooking'://病人查询
+                $user = $this->userLoginRequired($values);
+                $apisvc = new ApiViewPatientBookingListV2($user->id, 0, $values['name']);
+                //调用父类方法将数据返回
+                $output = $apisvc->loadApiViewData(true);
+                $this->renderJsonOutput($output);
                 break;
             /*             * *************************crm调用接口**************************** */
             case 'orderunpaid':     //状态改变 新增服务费
@@ -198,6 +210,11 @@ class ApimdController extends Controller {
                 $apiRequest = new ApiRequestUrl();
                 $remote_url = $apiRequest->getUrlDaTask() . "?id={$id}";
                 $this->send_get($remote_url);
+                break;
+            case 'bookingcancell'://订单取消
+                $user = $this->userLoginRequired($values);
+                $patientMgr = new PatientManager();
+                $output = $patientMgr->apiBookingCancell($id, $user->id);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
