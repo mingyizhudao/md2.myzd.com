@@ -82,14 +82,17 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             '<a href="<?php echo $orderView = $this->createUrl('order/orderView'); ?>/bookingid/' + booking.id + '/status/' + booking.status + '/addBackBtn/1" data-target="link">' +
                             '<div class="pad10 bb-gray">';
                     if (booking.status == 9) {
-
                     } else if (booking.hasFile == 0) {
-                        innerHtml += '未传小结 ';
+                        innerHtml += '<span class="color-blue6 mr5">未传小结</span>';
                     } else {
-                        innerHtml += '已传小结 ';
+                        innerHtml += '<span class="color-blue6 mr5">已传小结</span>';
                     }
-                    innerHtml += booking.statusText +
-                            '</div>' +
+                    if ((booking.status == 1) || (booking.status == 2) || (booking.status == 5) || (booking.status == 11)) {
+                        innerHtml += '<span class="color-yellow3">' + booking.statusText + '</span>';
+                    } else {
+                        innerHtml += '<span class="color-green3">' + booking.statusText + '</span>';
+                    }
+                    innerHtml += '</div>' +
                             '<div class="pad10 bb-gray">' +
                             '<div class="grid">' +
                             '<div class="col-0">就诊医生:</div>' +

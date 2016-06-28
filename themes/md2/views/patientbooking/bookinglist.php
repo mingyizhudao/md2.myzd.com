@@ -132,9 +132,9 @@ $checkTeamDoctor = $teamDoctor;
                 var returnData = do_decrypt(structureData, privkey);
                 returnData = analysis_data(returnData);
                 readyPage(returnData, 2);
-                $('#switchSummary').click(function () {
+                $('#switchSummary').on('click', function () {
                     var dataSummary = $(this).attr('data-summary');
-                    var topPopup = '<header class="bg-green">' +
+                    var topPopup = '<header class="list_header bg-green">' +
                             '<div class="grid w100">' +
                             '<div class="col-0 pl5 pr5">' +
                             '<a href="<?php echo $urlDoctorView; ?>" data-target="link">' +
@@ -196,7 +196,6 @@ $checkTeamDoctor = $teamDoctor;
                                 '<a href="<?php echo $orderView = $this->createUrl('order/orderView'); ?>/bookingid/' + booking.id + '/status/' + booking.status + '/addBackBtn/1" data-target="link">' +
                                 '<div class="pad10 bb-gray">';
                         if (booking.status == 9) {
-
                         } else if (booking.hasFile == 0) {
                             innerHtml += '<span class="color-blue6 mr5">未传小结</span>';
                         } else {
