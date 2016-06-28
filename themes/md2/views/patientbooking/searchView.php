@@ -8,7 +8,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
 <header class="list_header bg-green">
     <div class="grid w100">
-        <div class="col-0 pl5 pr5">
+        <div class="col-0 pl5 pr10">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
                     <img src="<?php echo $urlResImage; ?>back.png" class="w11p">

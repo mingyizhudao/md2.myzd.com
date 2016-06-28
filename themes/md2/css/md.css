@@ -641,17 +641,6 @@ header{
 #bookingList_nav .control-group li.active a, .control-group li.active .icon{
     color: #06c1ae;
 }
-#bookingList_article .summary{
-    text-align: left;
-}
-#bookingList_article .summary.activeIcon{
-    text-align: left;
-    color: #FF8656;
-    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146709229641524') no-repeat;
-    background-size: 20px 15px;
-    background-position-x: 95%;
-    background-position-y: 50%;
-}
 
 /*订单列表公用*/
 .list_header input[type=text] {
@@ -674,6 +663,17 @@ header{
     color: #A8A8A8;
     border-radius: 5px;
     margin: 5px 0px;
+}
+.list_article .summary{
+    text-align: left;
+}
+.list_article .summary.activeIcon{
+    text-align: left;
+    color: #FF8656;
+    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146709229641524') no-repeat;
+    background-size: 20px 15px;
+    background-position-x: 95%;
+    background-position-y: 50%;
 }
 
 /*预约详情*/

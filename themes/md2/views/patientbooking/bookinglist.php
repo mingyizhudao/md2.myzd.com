@@ -19,7 +19,7 @@ $checkTeamDoctor = $teamDoctor;
 ?>
 <header class="list_header bg-green">
     <div class="grid w100">
-        <div class="col-0 pl5 pr5">
+        <div class="col-0 pl5 pr10">
             <a href="<?php echo $urlDoctorView; ?>" data-target="link">
                 <div class="pl5">
                     <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
@@ -132,11 +132,11 @@ $checkTeamDoctor = $teamDoctor;
                 var returnData = do_decrypt(structureData, privkey);
                 returnData = analysis_data(returnData);
                 readyPage(returnData, 2);
-                $('#switchSummary').on('click', function () {
+                $('#switchSummary').on('tap', function () {
                     var dataSummary = $(this).attr('data-summary');
                     var topPopup = '<header class="list_header bg-green">' +
                             '<div class="grid w100">' +
-                            '<div class="col-0 pl5 pr5">' +
+                            '<div class="col-0 pl5 pr10">' +
                             '<a href="<?php echo $urlDoctorView; ?>" data-target="link">' +
                             '<div class="pl5">' +
                             '<img src="<?php echo $urlResImage; ?>back.png" class="w11p">' +
@@ -151,7 +151,7 @@ $checkTeamDoctor = $teamDoctor;
                             '</div>' +
                             '</div>' +
                             '</header>' +
-                            '<article class="active" data-scroll="true" style="height:111px;">' +
+                            '<article class="active list_article" data-scroll="true" style="height:111px;">' +
                             '<ul class="list">';
                     if (dataSummary == 1) {
                         topPopup += '<li class="summary activeIcon" data-summary="1">已传小结</li>';
@@ -223,8 +223,7 @@ $checkTeamDoctor = $teamDoctor;
                                 '</div>' +
                                 '</a>';
                         if ((booking.status == 1) || (booking.status == 2)) {
-                            innerHtml +=
-                                    '<div class="grid pl10 pr10">' +
+                            innerHtml +='<div class="grid pl10 pr10 font-s12">' +
                                     '<div class="col-1 pt8">' +
                                     '预约单号:' + booking.refNo +
                                     '</div>' +
@@ -236,7 +235,7 @@ $checkTeamDoctor = $teamDoctor;
                                     '</div>' +
                                     '</div>';
                         } else {
-                            innerHtml += '<div class="pad10">' +
+                            innerHtml += '<div class="pad10 font-s12">' +
                                     '预约单号:' + booking.refNo +
                                     '</div>' +
                                     '</div>';
