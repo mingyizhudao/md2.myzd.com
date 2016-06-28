@@ -175,6 +175,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 .pl50{padding-left:50px;}
 .pr2{padding-right:2px;}
 .pr3{padding-right:3px;}
+.pr5{padding-right:5px;}
 .pr10{padding-right:10px;}
 .pr15{padding-right:15px;}
 .pr20{padding-right:20px;}
@@ -239,6 +240,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 .w22p{width:22px!important;}
 .w24p{width:24px!important;}
 .w25p{width:25px!important;}
+.w26p{width:26px!important;}
 .w30p{width:30px!important;}
 .w35p{width:35px!important;}
 .w40p{width:40px!important;}
@@ -282,6 +284,7 @@ a .none{text-decoration:none;}
 .font-s16{font-size:16px!important;}
 .font-s18{font-size:18px!important;}
 .font-s21{font-size:21px!important;}
+.font-s24{font-size:24px!important;}
 .font-w800{font-weight:800;}
 .line-h{line-height:30px;}
 .line-h1e{line-height:1em;}
@@ -296,6 +299,7 @@ a .none{text-decoration:none;}
 .bg-red{background-color:#d9534f;}
 .bg-gray{background-color:rgba(221, 221, 221, 0.58);}
 .bg-gray2{background-color:#EAEFF1;}
+.bg-gray3{background-color:#F1F1F1;}
 .bg-yellow{background-color:#fe8c08!important;}
 .bg-yellow2{background-color: #efe427!important;}
 .bg-blue2 {background-color: #2796c3;}
@@ -304,6 +308,7 @@ a .none{text-decoration:none;}
 .color-fff{color:#fff!important;}
 .color-green{color:#19aea6!important;}
 .color-green2{color:#18aea5;}
+.color-green3{color:#06C1AE;}
 .color-green4 {color: #4de23e!important;}
 .color-green5{color: #86d855;}
 .color-green6{color:#39c768;}
@@ -316,6 +321,7 @@ a .none{text-decoration:none;}
 .color-yellow{color:#FDA01A;}
 .color-yellow1{color:#ff8c08;}
 .color-yellow2{color:#db893a;}
+.color-yellow3{color:#FD5F1A;}
 .color-black{color: #333333!important;}
 .color-black2{color:#003333!important;}
 .color-black3{color:#333333;}
@@ -326,11 +332,13 @@ a .none{text-decoration:none;}
 .color-gray5 {color: #7E7E7E!important;}
 .color-gray6 {color: #9A9B9B!important;}
 .color-gray7{color:#a7a7a7;}
+.color-gray9{color:#9da3a9!important;}
 .color-blue{color:#36b4d4;}
 .color-blue2{color: #2795c3!important;}
 .color-blue3{color:#0172be;}
 .color-blue4{color:#25ceff;}
 .color-blue5{color:#259bff;}
+.color-blue6{color:#2577BD;}
 .color-orange {color: #f39700!important;}
 .color-brown2 {color: #833122!important;}
 

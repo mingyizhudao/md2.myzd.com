@@ -8,6 +8,7 @@ $urlPatientBookingList = $this->createUrl('booking/patientBookingList');
 $urlPatientBookingView = $this->createUrl('patientBooking/view', array('id' => ''));
 $status = Yii::app()->request->getQuery('status', 0);
 $patientBookingList = $this->createUrl('patientBooking/list', array('status' => $status, 'addBackBtn' => 1));
+$patientBookingListAll = $this->createUrl('patientbooking/list', array('status' => 0, 'addBackBtn' => 1));
 $payUrl = $this->createUrl('/payment/doPingxxPay');
 $refUrl = $this->createAbsoluteUrl('order/view');
 $urlDoctorView = $this->createUrl('doctor/view');
@@ -17,6 +18,7 @@ $BK_STATUS_NEW = StatCode::BK_STATUS_NEW;
 $BK_STATUS_SERVICE_UNPAID = StatCode::BK_STATUS_SERVICE_UNPAID;
 $BK_STATUS_SERVICE_PAIDED = StatCode::BK_STATUS_SERVICE_PAIDED;
 $BK_STATUS_DONE = StatCode::BK_STATUS_DONE;
+$BK_STATUS_PROCESS_DONE = StatCode::BK_STATUS_PROCESS_DONE;
 $orderType = SalesOrder::ORDER_TYPE_SERVICE;
 $user = $this->loadUser();
 $this->show_footer = false;
@@ -25,7 +27,7 @@ $notPays = $data->results->notPays;
 $pays = $data->results->pays;
 $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $booking->patientId . '&reportType=da'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientId));
 ?>
-<header class="bg-green">
+<header id="payOrder_header" class="bg-green">
     <nav class="left">
         <?php
         if (($booking->statusCode == $BK_STATUS_NEW) && (isset($notPays))) {
@@ -57,30 +59,42 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
     </nav>
     <h1 class="title">支付订单</h1>
     <nav class="right">
-        <a class="header-user" data-target="link" data-icon="user" href="<?php echo $urlDoctorView ?>">
-            <i class="icon user"></i>
+        <a class="submitSummary" data-target="link" href="<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>">
+            传小结
         </a>
     </nav>
 </header>
 <div id="section_container" <?php echo $this->createPageAttributes(); ?>>
     <section id="" class="active" data-init="true">
         <?php
-        if (isset($notPays)) {
-            if ($notPays->orderType == $orderType) {
+        if ($booking->statusCode != $BK_STATUS_PROCESS_DONE) {
+            if (isset($notPays)) {
+                if ($notPays->orderType == $orderType) {
+                    ?>
+                    <footer class="bg-white grid">
+                        <div class="col-1 w60 color-green middle grid">还需支付<?php echo $notPays->needPay; ?>元</div>
+                        <div id="pay" class="col-1 w40 bg-green color-white middle grid">
+                            继续支付
+                        </div>
+                    </footer>
+                    <?php
+                } else {
+                    ?>
+                    <footer class="bg-white grid">
+                        <div class="col-1 w60 color-green middle grid"><?php echo $notPays->needPay; ?>元</div>
+                        <div id="payNow" data-refNo="<?php echo $notPays->refNo; ?>" class="col-1 w40 bg-green color-white middle grid">
+                            支付
+                        </div>
+                    </footer>
+                    <?php
+                }
+            }
+        } else {
+            if ($booking->operationFinished == 0) {
                 ?>
-                <footer class="bg-white grid">
-                    <div class="col-1 w60 color-green middle grid">还需支付<?php echo $notPays->needPay; ?>元</div>
-                    <div id="pay" class="col-1 w40 bg-green color-white middle grid">
-                        继续支付
-                    </div>
-                </footer>
-                <?php
-            } else {
-                ?>
-                <footer class="bg-white grid">
-                    <div class="col-1 w60 color-green middle grid"><?php echo $notPays->needPay; ?>元</div>
-                    <div id="payNow" data-refNo="<?php echo $notPays->refNo; ?>" class="col-1 w40 bg-green color-white middle grid">
-                        支付
+                <footer class="bg-white">
+                    <div id="completeOperation" class="w100 bg-green color-white middle grid">
+                        确认完成
                     </div>
                 </footer>
                 <?php
@@ -107,12 +121,15 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
                 <div class="mt20 ml10 mr10 bbb">
                     <ul class="list">
                         <li class="grid">
-                            <div class="col-0">就诊意向</div>
+                            <div class="col-0">就诊方式</div>
                             <div class="col-1 text-right"><?php echo $booking->travelType; ?></div>
                         </li>
                         <li class="grid">
-                            <div class="col-0">意向专家</div>
-                            <div class="col-1 text-right"><?php echo $booking->expectedDoctor; ?></div>
+                            <div class="col-0">主刀专家</div>
+                            <div class="col-1 text-right">
+                                <div><?php echo $booking->expectedDoctor; ?></div>
+                                <div class="font-s12">(<?php echo $booking->expectedHospital . '' . $booking->expectedDept; ?>)</div>
+                            </div>
                         </li>
                         <li>
                             <div>诊疗意见</div>
@@ -122,9 +139,9 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
                             <div class="col-0">患者姓名</div>
                             <div class="col-1 text-right"><?php echo $booking->patientName; ?></div>
                         </li>
-                        <li>
-                            <div class="text-right">
-                                <a  href="<?php echo $urlPatientBookingView; ?>/<?php echo $booking->id; ?>/addBackBtn/1" class="color-green">查看详情></a>
+                        <li class="detailLi">
+                            <div class="text-center">
+                                <a href="<?php echo $urlPatientBookingView; ?>/<?php echo $booking->id; ?>/addBackBtn/1" class="btn btn-gray2">查看详情</a>
                             </div>
                         </li>
                     </ul>
@@ -146,39 +163,11 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
                 </div>
                 <?php
                 if ($booking->statusCode == $BK_STATUS_SERVICE_PAIDED) {
-                    $fileCode = '';
                     $fileBtn = 'hide';
                     if ($booking->operationFinished == 0) {
-                        $fileCode = 'hide';
                         $fileBtn = '';
                     }
                     ?>
-                    <div id="fileCode" class="<?php echo $fileCode; ?>">
-                        <?php
-                        if ($booking->hasFile == 1) {
-                            ?>
-                            <div>
-                                <div class="imglist mt10">
-                                    <ul class="filelist"></ul>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div id="reselection" class="grid hide pl10 pr10 pb20">
-                                    <div class="col-1"></div>
-                                    <div class="col-0">
-                                        <a href="<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>">重新选择</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                        } else {
-                            ?>
-                            <div id="upload" class="pl10 pr10 pt20 pb20">
-                                <a href="<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>" class="btn btn-full bg-green color-white">上传照片</a>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
                     <div id="fileBtn" class="pl10 pr10 pt20 pb20 <?php echo $fileBtn; ?>">
                         <div>
                             <div id="completeOperation" class="btn btn-full bg-green color-white">我确认手术已完成</div>
@@ -196,94 +185,37 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
 </div>
 <script>
     $(document).ready(function () {
-        //加载小结
-        var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
-        if ('<?php echo $booking->hasFile; ?>' == 1) {
-            $.ajax({
-                url: urlPatientMRFiles,
-                success: function (data) {
-                    //console.log(data);
-                    setImgHtml(data.results.files);
-                }
-            });
-        }
-
         $('#completeOperation').tap(function (e) {
             e.preventDefault();
+            J.showMask();
             $.ajax({
                 url: '<?php echo $urlAjaxOperation; ?>/' + '<?php echo $booking->id; ?>',
                 success: function (data) {
                     console.log(data);
                     if (data.status == 'ok') {
-                        if ('<?php echo $booking->hasFile; ?>' == 0) {
-                            J.customConfirm('确定成功',
-                                    '<div class="mt10 mb10">感谢您协助完成该例手术！是否立即上传出院小结</div>',
-                                    '<a id="closeLogout" class="w50">暂不</a>',
-                                    '<a id="uploadFile" class="color-green w50">上传</a>',
-                                    function () {
-                                    },
-                                    function () {
-                                    });
-                            $('#closeLogout').click(function () {
-                                J.hideMask();
-                                $('#fileBtn').addClass('hide');
-                                $('#fileCode').removeClass('hide');
-                            });
-                            $('#uploadFile').click(function () {
-                                J.hideMask();
-                                $('#fileBtn').addClass('hide');
-                                $('#fileCode').removeClass('hide');
-                                location.href = '<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>';
-                            });
-                        } else {
-                            J.customConfirm('确定成功',
-                                    '<div class="mt10 mb10">感谢您协助完成该例手术！</div>',
-                                    '',
-                                    '<a id="closeLogout" class="color-green w50">确定</a>',
-                                    function () {
-                                    },
-                                    function () {
-                                    });
-                            $('#closeLogout').tap(function () {
-                                J.hideMask();
-                                $('#fileBtn').addClass('hide');
-                                $('#fileCode').removeClass('hide');
-                            });
-                        }
+                        J.hideMask();
+                        J.customConfirm('<div class="color-black3">感谢您的辛勤付出和协助！</div>',
+                                '<div class="mt10 mb10">请记得上传出院小结哦~</div>',
+                                '',
+                                '<a id="closeLogout">返回订单列表</a>',
+                                function () {
+                                },
+                                function () {
+                                });
+                        $('#closeLogout').tap(function () {
+                            J.hideMask();
+                            location.href = '<?php echo $patientBookingListAll; ?>';
+                        });
                     }
-                }
+                },
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    J.hideMask();
+                    console.log(XmlHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
             });
         });
-
-        function setImgHtml(imgfiles) {
-            var innerHtml = '';
-            if (imgfiles && imgfiles.length > 0) {
-                $('#reselection').removeClass('hide');
-                for (i = 0; i < imgfiles.length; i++) {
-                    imgfile = imgfiles[i];
-                    innerHtml +=
-                            '<li id="' +
-                            imgfile.id + '"><p class="imgWrap"><img src="' +
-                            imgfile.thumbnailUrl + '" data-src="' +
-                            imgfile.absFileUrl + '"></p></li>';
-                }
-            } else {
-                innerHtml += '';
-            }
-            $(".imglist .filelist").html(innerHtml);
-
-            $('.imgWrap').tap(function () {
-                var imgUrl = $(this).find("img").attr("data-src");
-                J.popup({
-                    html: '<div class="imgpopup"><img src="' + imgUrl + '"></div>',
-                    pos: 'top-second',
-                    showCloseBtn: true
-                });
-                $('.imgpopup').tap(function () {
-                    J.closePopup();
-                });
-            });
-        }
 
         //待处理返回
         $('#noPayNew').tap(function () {

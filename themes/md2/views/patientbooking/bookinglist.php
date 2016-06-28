@@ -11,23 +11,28 @@ $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlPatientBookingList = $this->createUrl('patientBooking/list', array('addBackBtn' => 1, 'status' => ''));
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
+$urlPatientBookingAjaxList = $this->createUrl('patientBooking/ajaxList', array('status' => $status));
+$urlPatientBookingAjaxCancell = $this->createUrl('patientBooking/ajaxCancell', array('id' => ''));
+$urlPatientBookingSearchView = $this->createUrl('patientBooking/searchView', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
 ?>
-<header class="bg-green">
-    <nav class="left">
-        <a href="<?php echo $urlDoctorView; ?>" data-target="link">
-            <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
-            </div>
-        </a>
-    </nav>
-    <h1 class="title">我的订单</h1>
-    <nav class="right">
-        <a class="header-user" data-target="link" data-icon="user" href="<?php echo $urlDoctorView ?>">
-            <i class="icon user"></i>
-        </a>
-    </nav>
+<header class="list_header bg-green">
+    <div class="grid w100">
+        <div class="col-0 pl5 pr5">
+            <a href="<?php echo $urlDoctorView; ?>" data-target="link">
+                <div class="pl5">
+                    <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                </div>
+            </a>
+        </div>
+        <div class="col-1">
+            <input type="text" placeholder="您可以输入患者姓名，医生姓名" readonly="readonly">
+        </div>
+        <div id="switchSummary" class="col-0 pl5 pr5">
+            筛选
+        </div>
+    </div>
 </header>
 <div id="section_container" <?php echo $this->createPageAttributes(); ?>>
     <section id="bookingList_section" class="active" data-init="true">
@@ -95,83 +100,200 @@ $checkTeamDoctor = $teamDoctor;
                 </li>
                 <?php
                 $statusActive = '';
-                if ($status == 6) {
+                if ($status == 11) {
                     $statusActive = 'active';
                 }
                 ?>
                 <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/6" id="story" data-target="link">
+                    <a href="<?php echo $urlPatientBookingList; ?>/11" id="story" data-target="link">
                         <div class="grid">
                             <div class="col-1"></div>
-                            <div class="col-0 statusLine">传小结</div>
+                            <div class="col-0 statusLine">待完成</div>
                             <div class="col-1"></div>
                         </div>
                     </a>
                 </li>
             </ul>
         </nav>
-        <article id="bookingList_article" class="active" data-scroll="true">
-            <div class="">
-                <div class="">
-                    <?php
-                    $bookings = $data->results;
-                    if ($bookings) {
-                        for ($i = 0; $i < count($bookings); $i++) {
-                            $booking = $bookings[$i];
-                            ?>
-                            <a href="<?php echo $this->createUrl('order/orderView', array('bookingid' => $booking->id, 'status' => $status, 'addBackBtn' => 1)); ?>" data-target="link">
-                                <div class="p10 bt5-gray">
-                                    <div class="grid mt10">
-                                        <div class="col-0">患者姓名:</div>
-                                        <div class="col-1 pl5"><?php echo $booking->name; ?></div>
-                                        <?php
-                                        if ($status == 0 || $status == $BK_STATUS_SERVICE_PAIDED) {
-                                            if ($booking->statusText == '待支付') {
-                                                echo '<div class="col-0 color-red4">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '安排中') {
-                                                echo '<div class="col-0 color-green6">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '待确认') {
-                                                echo '<div class="col-0 color-green7">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '待上传') {
-                                                echo '<div class="col-0 color-blue4">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '待审核') {
-                                                echo '<div class="col-0 color-blue5">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '已完成') {
-                                                echo '<div class="col-0 color-green5">' . $booking->statusText . '</div>';
-                                            } else if ($booking->statusText == '已取消') {
-                                                echo '<div class="col-0 color-red3">' . $booking->statusText . '</div>';
-                                            }
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="grid mt10">
-                                        <div class="col-0">疾病名称:</div>
-                                        <div class="col-1 pl5"><?php echo $booking->diseaseName; ?></div>
-                                    </div>
-                                    <div class="grid mt10 mb10">
-                                        <div class="col-0">就诊意向:</div>
-                                        <div class="col-1 pl5">邀请专家过来</div>
-                                    </div>
-                                </div>
-                            </a>
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <div class="mt50 text-center">
-                            暂无预约信息
-                        </div>
-                        <?php
-                    }
-                    ?>
+        <article id="bookingList_article" class="active list_article bg-gray3" data-scroll="true">
+            <div>
 
-                </div>
             </div>
         </article>
     </section>
 </div>
 <script>
     $(document).ready(function () {
+        J.showMask();
+        $.ajax({
+            url: '<?php echo $urlPatientBookingAjaxList; ?>',
+            success: function (data) {
+                var structureData = structure_data(data);
+                var returnData = do_decrypt(structureData, privkey);
+                returnData = analysis_data(returnData);
+                readyPage(returnData, 2);
+                $('#switchSummary').click(function () {
+                    var dataSummary = $(this).attr('data-summary');
+                    var topPopup = '<header class="bg-green">' +
+                            '<div class="grid w100">' +
+                            '<div class="col-0 pl5 pr5">' +
+                            '<a href="<?php echo $urlDoctorView; ?>" data-target="link">' +
+                            '<div class="pl5">' +
+                            '<img src="<?php echo $urlResImage; ?>back.png" class="w11p">' +
+                            '</div>' +
+                            '</a>' +
+                            '</div>' +
+                            '<div class="col-1">' +
+                            '<input type="text" placeholder="您可以输入患者姓名，医生姓名" readonly="readonly">' +
+                            '</div>' +
+                            '<div class="col-0 pl5 pr5" data-target="closePopup">' +
+                            '筛选' +
+                            '</div>' +
+                            '</div>' +
+                            '</header>' +
+                            '<article class="active" data-scroll="true" style="height:111px;">' +
+                            '<ul class="list">';
+                    if (dataSummary == 1) {
+                        topPopup += '<li class="summary activeIcon" data-summary="1">已传小结</li>';
+                    } else {
+                        topPopup += '<li class="summary" data-summary="1">已传小结</li>';
+                    }
+                    if (dataSummary == 0) {
+                        topPopup += '<li class="summary activeIcon" data-summary="0">未传小结</li>';
+                    } else {
+                        topPopup += '<li class="summary" data-summary="0">未传小结</li>';
+                    }
+                    topPopup += '</ul>' +
+                            '</article>';
+                    J.popup({
+                        html: topPopup,
+                        pos: 'top',
+                        showCloseBtn: false
+                    });
+                    $('.summary').click(function () {
+                        var summary = $(this).attr('data-summary');
+                        readyPage(returnData, summary);
+                        $('#switchSummary').attr('data-summary', summary);
+                        J.closePopup();
+                    });
+                });
+            }
+        });
+
+        $('input[type="text"]').click(function () {
+            location.href = '<?php echo $urlPatientBookingSearchView; ?>';
+        });
+
+        function readyPage(returnData, switchSummary) {
+            var innerHtml = '<div class="mb10">';
+            var bookingList = returnData.results.bookingList;
+            if (bookingList.length > 0) {
+                for (var i = 0; i < bookingList.length; i++) {
+                    var booking = bookingList[i];
+                    console.log(booking);
+                    if (((switchSummary == 0) && (booking.hasFile == 0)) || ((switchSummary == 1) && (booking.hasFile == 1)) || (switchSummary == 2)) {
+                        innerHtml += '<div class="mt10 ml5 mr5 bg-white br5">' +
+                                '<a href="<?php echo $orderView = $this->createUrl('order/orderView'); ?>/bookingid/' + booking.id + '/status/' + booking.status + '/addBackBtn/1" data-target="link">' +
+                                '<div class="pad10 bb-gray">';
+                        if (booking.status == 9) {
+
+                        } else if (booking.hasFile == 0) {
+                            innerHtml += '<span class="color-blue6 mr5">未传小结</span>';
+                        } else {
+                            innerHtml += '<span class="color-blue6 mr5">已传小结</span>';
+                        }
+                        if ((booking.status == 1) || (booking.status == 2) || (booking.status == 5) || (booking.status == 11)) {
+                            innerHtml += '<span class="color-yellow3">' + booking.statusText + '</span>';
+                        } else {
+                            innerHtml += '<span class="color-green3">' + booking.statusText + '</span>';
+                        }
+                        innerHtml += '</div>' +
+                                '<div class="pad10 bb-gray">' +
+                                '<div class="grid">' +
+                                '<div class="col-0">就诊医生:</div>' +
+                                '<div class="col-1 pl5">' + booking.doctorName + '</div>' +
+                                '</div>' +
+                                '<div class="grid mt10">' +
+                                '<div class="col-0">就诊医院:</div>' +
+                                '<div class="col-1 pl5">' + booking.hospital + '</div>' +
+                                '</div>' +
+                                '<div class="grid mt10">' +
+                                '<div class="col-0">患者姓名:</div>' +
+                                '<div class="col-1 pl5">' + booking.patientName + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</a>';
+                        if ((booking.status == 1) || (booking.status == 2)) {
+                            innerHtml +=
+                                    '<div class="grid pl10 pr10">' +
+                                    '<div class="col-1 pt8">' +
+                                    '预约单号:' + booking.refNo +
+                                    '</div>' +
+                                    '<div class="col-0">' +
+                                    '<div class="cancelIcon" data-id="' + booking.id + '">' +
+                                    '取消订单' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                        } else {
+                            innerHtml += '<div class="pad10">' +
+                                    '预约单号:' + booking.refNo +
+                                    '</div>' +
+                                    '</div>';
+                        }
+                    }
+                }
+            } else {
+                innerHtml += '<div class="mt50 text-center">' +
+                        '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">' +
+                        '</div>' +
+                        '<div class="text-center font-s24 color-gray9">' +
+                        '暂无预约信息' +
+                        '</div>';
+            }
+            innerHtml += '</div>';
+            $('#bookingList_article').html(innerHtml);
+            J.hideMask();
+            $('.cancelIcon').click(function () {
+                var id = $(this).attr('data-id');
+                J.customConfirm('',
+                        '<div class="mt10 mb10">取消订单</div>',
+                        '<a id="closePopup" class="w50">取消</a>',
+                        '<a id="cancelOrder" class="color-green w50">确认</a>',
+                        function () {
+                        },
+                        function () {
+                        });
+                $('#closePopup').click(function () {
+                    J.hideMask();
+                });
+                $('#cancelOrder').click(function () {
+                    J.hideMask();
+                    J.showMask();
+                    $.ajax({
+                        url: '<?php echo $urlPatientBookingAjaxCancell; ?>/' + id,
+                        success: function (data) {
+                            J.hideMask();
+                            if (data.status == 'ok') {
+                                J.showToast('操作成功', '', '1500');
+                                location.reload();
+                            } else {
+                                J.showToast(data.errors, '', '1500');
+                            }
+                        },
+                        error: function (XmlHttpRequest, textStatus, errorThrown) {
+                            J.hideMask();
+                            J.showToast('网络错误，请稍后再试', '', '1500');
+                            console.log(XmlHttpRequest);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                        },
+                    });
+                });
+            });
+        }
+
         $('#bookingList_article').scroll(function () {
             if ($(this).scrollTop() > 0) {
                 $('#bookingList_nav').addClass('bb-gray');

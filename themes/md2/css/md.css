@@ -499,14 +499,30 @@ header{
 }
 
 /*支付详情*/
-#payOrder_article .imglist li{
-    height: inherit;
+#payOrder_header nav.right {
+    width: auto;
+    margin-top: 12px;
+    padding: 0 5px;
+    background-color: inherit;
 }
-#payOrder_article .popup-title{
-    color: #333333;
+#payOrder_header nav a:not(.button) {
+    height: 24px;
 }
-#payOrder_article{
-    background-color: #EAEFF1;
+#payOrder_header .submitSummary{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146708105678029') no-repeat;
+    background-size: 17px 17px;
+    background-position: 1px 2px;
+    padding-left: 22px;
+}
+#payOrder_article .detailLi{
+    padding: 5px 10px!important;
+}
+#payOrder_article .btn-gray2{
+    border: 1px solid #AFAFAF;
+    border-radius: 5px;
+    display: block!important;
+    width: 100%;
+    padding: 10px 0px!important;
 }
 
 /*协议*/
@@ -624,6 +640,40 @@ header{
 }
 #bookingList_nav .control-group li.active a, .control-group li.active .icon{
     color: #06c1ae;
+}
+#bookingList_article .summary{
+    text-align: left;
+}
+#bookingList_article .summary.activeIcon{
+    text-align: left;
+    color: #FF8656;
+    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146709229641524') no-repeat;
+    background-size: 20px 15px;
+    background-position-x: 95%;
+    background-position-y: 50%;
+}
+
+/*订单列表公用*/
+.list_header input[type=text] {
+    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 5px 7px;
+    color: #000;
+    margin-bottom: 0;
+    border-radius: 5px!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    padding: 0 10px 0 30px!important;
+    height: 30px!important;
+    border: none!important;
+    margin-top: 7px;
+}
+.list_article .cancelIcon {
+    padding: 2px 4px;
+    border: 1px solid #A8A8A8;
+    color: #A8A8A8;
+    border-radius: 5px;
+    margin: 5px 0px;
 }
 
 /*预约详情*/
