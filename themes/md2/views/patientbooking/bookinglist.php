@@ -134,7 +134,7 @@ $checkTeamDoctor = $teamDoctor;
                 readyPage(returnData, 2);
                 $('#switchSummary').on('tap', function () {
                     var dataSummary = $(this).attr('data-summary');
-                    var topPopup = '<header class="list_header bg-green">' +
+                    var topPopup = '<header id="bookingList_header" class="list_header bg-green">' +
                             '<div class="grid w100">' +
                             '<div class="col-0 pl5 pr10">' +
                             '<a href="<?php echo $urlDoctorView; ?>" data-target="link">' +
@@ -144,7 +144,7 @@ $checkTeamDoctor = $teamDoctor;
                             '</a>' +
                             '</div>' +
                             '<div class="col-1">' +
-                            '<input type="text" placeholder="您可以输入患者姓名，医生姓名" readonly="readonly">' +
+                            '<div class="searchInput">您可以输入患者姓名，医生姓名</div>' +
                             '</div>' +
                             '<div class="col-0 pl5 pr5" data-target="closePopup">' +
                             '筛选' +

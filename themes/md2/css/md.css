@@ -617,6 +617,8 @@ header{
     color: #A9A9A9;
     line-height: 32px;
     letter-spacing: 0px;
+    overflow: hidden;
+    text-align: left;
 }
 #bookingList_nav.header-secondary{
     top: 0px;
