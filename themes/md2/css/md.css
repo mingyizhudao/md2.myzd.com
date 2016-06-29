@@ -910,3 +910,116 @@ body #viewCommonweal_article{
     border: 1px solid #ccc;
     overflow: hidden;
 }
+
+/*cardList*/
+#cardList_article .cardBg{
+    background-color: #32c9c0;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/*userbank*/
+.userbank_article{
+    background-color: #F1F1F1;
+}
+.userbank_article input{
+    padding: 10px 0 10px 10px;
+    margin-bottom: 0;
+    border: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    height: 40px;
+}
+.userbank_article select{
+    padding: 10px 0 10px 10px;
+    margin-bottom: 0;
+    border: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    height: 40px;
+    background-color: #fff;
+}
+.userbank_article select.error{
+    color: #e21e1a;
+}
+.userbank_article input.error::-webkit-input-placeholder { /* WebKit browsers */
+    color: #e21e1a;
+}
+.userbank_article input.error:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #e21e1a;
+}
+.userbank_article input.error::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #e21e1a;
+}
+.userbank_article input.error:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #e21e1a;
+}
+
+/*smsCode*/
+#smsCode_article{
+    background-color: #F1F1F1;
+}
+#smsCode_article .btn-sendSmsCode {
+    background-color: #fff!important;
+    color: #19aea6!important;
+    height: 40px;
+    border-radius: 5px;
+}
+#smsCode_article .btn-sendSmsCode:disabled{
+    color: #ccc!important;
+    opacity: 0.5;
+}
+#smsCode_article input{
+    padding: 10px 0 10px 10px;
+    margin-bottom: 0;
+    border: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    height: 40px;
+}
+
+/*pwd*/
+.pwd_article .pwd-box{
+    padding-left: 1px;
+    position: relative;
+    border: 1px solid #9f9fa0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.pwd_article .pwd-box input[type="tel"]{
+    height: 45px;
+    color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    font-size: 18px;
+    opacity: 0;
+    z-index: 1;
+    letter-spacing: 35px;
+    text-indent:-100em;
+    margin-left: -100%;
+    width: 200%;
+}
+.pwd_article .fake-box input{
+    height: 48px;
+    border: none;
+    border-radius: 0px;
+    border-right: 1px solid #dfdfdf!important;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 0px;
+}
+.pwd_article .fake-box .col-1:nth-last-child(1) input{
+    border-right:none!important;
+}
+
+/*update*/
+#userBankUpdate_header nav.right {
+    width: auto;
+    margin-top: 12px;
+    padding: 0 5px;
+    background-color: inherit;
+}
