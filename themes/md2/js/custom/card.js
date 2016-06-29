@@ -86,6 +86,7 @@ $(function () {
             success: function (data) {
                 if (data.status == 'ok') {
                     location.href = returnUrl;
+                } else {
                     enable(btnSubmit);
                 }
             },
@@ -96,15 +97,5 @@ $(function () {
                 console.log(errorThrown);
             },
         });
-    }
-    //disabledBtn
-    function disabled(btnSubmit) {
-        J.showMask('加载中...');
-        btnSubmit.attr("disabled", true);
-    }
-    //enableBtn
-    function enable(btnSubmit) {
-        J.hideMask();
-        btnSubmit.removeAttr("disabled");
     }
 });

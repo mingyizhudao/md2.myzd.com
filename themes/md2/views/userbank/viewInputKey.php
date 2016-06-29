@@ -10,7 +10,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
 <div id="section_container" <?php echo $this->createPageAttributes(); ?> >
     <section id="main_section" class="active">
-        <article class="active pwd_article" data-scroll="true">
+        <article id="viewInputKey_article" class="active pwd_article" data-scroll="true">
             <div class="pad10">
                 <div class="pwd-box mt30">
                     <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
@@ -55,10 +55,8 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 $input.eq("" + i + "").val(pwd[i]);
             }
             var len = pwd.length;
-            console.log(len);
             $input.each(function () {
                 var index = $(this).parents('.col-1').index();
-                console.log(index);
                 if (index >= len) {
                     $(this).val("");
                 }
@@ -82,7 +80,11 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 });
                 $('#emptyKey').click(function () {
                     $('input').each(function () {
-                        $(this).val('');
+                        pwd = '';
+                        $("#pwd-input").val('');
+                        $('input').each(function () {
+                            $(this).val('');
+                        });
                     });
                     J.closePopup();
                 });
@@ -100,12 +102,15 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     if (data.status == 'ok') {
                         if ('<?php echo $returnType; ?>' == 0) {
                             location.href = '<?php echo $urlCardList; ?>';
-                            enable(btnSubmit);
                         } else {
                             location.href = '<?php echo $urlUpdate; ?>';
-                            enable(btnSubmit);
                         }
                     } else {
+                        pwd = '';
+                        $("#pwd-input").val('');
+                        $('input').each(function () {
+                            $(this).val('');
+                        });
                         enable(btnSubmit);
                         J.showToast(data.errors, '', '1500');
                     }
@@ -118,15 +123,5 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 }
             });
         });
-        //disabledBtn
-        function disabled(btnSubmit) {
-            J.showMask('加载中...');
-            btnSubmit.attr("disabled", true);
-        }
-        //enableBtn
-        function enable(btnSubmit) {
-            J.hideMask();
-            btnSubmit.removeAttr("disabled");
-        }
     });
 </script>

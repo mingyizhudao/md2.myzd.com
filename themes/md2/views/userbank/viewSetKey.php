@@ -155,6 +155,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 success: function (data) {
                     if (data.status = 'ok') {
                         location.href = '<?php echo $urlCardList; ?>';
+                    } else {
                         enable(btnSubmit);
                     }
                 },
@@ -166,15 +167,5 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 }
             });
         });
-        //disabledBtn
-        function disabled(btnSubmit) {
-            J.showMask('加载中...');
-            btnSubmit.attr("disabled", true);
-        }
-        //enableBtn
-        function enable(btnSubmit) {
-            J.hideMask();
-            btnSubmit.removeAttr("disabled");
-        }
     });
 </script>

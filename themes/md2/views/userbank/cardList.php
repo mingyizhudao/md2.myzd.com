@@ -4,7 +4,23 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlAjaxCardList = $this->createUrl('userbank/ajaxCardList');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
 $urlViewInputKey = $this->createUrl('userbank/viewInputKey', array('addBackBtn' => 1, 'type' => 1, 'id' => ''));
+$urlDoctorView = $this->createUrl('doctor/view');
 ?>
+<header class="bg-green">
+    <nav class="left">
+        <a href="<?php echo $urlDoctorView; ?>" data-target="link">
+            <div class="pl5">
+                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+            </div>
+        </a>
+    </nav>
+    <h1 class="title">我的银行卡</h1>
+    <nav class="right">
+        <a class="header-user" data-target="link" data-icon="user" href="<?php echo $urlDoctorView ?>">
+            <i class="icon user"></i>
+        </a>
+    </nav>
+</header>
 <div id="section_container" <?php echo $this->createPageAttributes(); ?> >
     <section id="main_section" class="active">
         <?php

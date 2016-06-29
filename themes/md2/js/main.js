@@ -3,6 +3,28 @@ $(document).ready(function () {
     initShowLoading();
     //J.hideMask();
 });
+var pubkey = '-----BEGIN PUBLIC KEY-----' +
+        'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCfRTdcPIH10gT9f31rQuIInLwe' +
+        '7fl2dtEJ93gTmjE9c2H+kLVENWgECiJVQ5sonQNfwToMKdO0b3Olf4pgBKeLThra' +
+        'z/L3nYJYlbqjHC3jTjUnZc0luumpXGsox62+PuSGBlfb8zJO6hix4GV/vhyQVCpG' +
+        '9aYqgE7zyTRZYX9byQIDAQABdfad' +
+        '-----END PUBLIC KEY-----';
+var privkey = '-----BEGIN PRIVATE KEY-----' +
+        'MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ9FN1w8gfXSBP1/' +
+        'fWtC4gicvB7t+XZ20Qn3eBOaMT1zYf6QtUQ1aAQKIlVDmyidA1/BOgwp07Rvc6V/' +
+        'imAEp4tOGtrP8vedgliVuqMcLeNONSdlzSW66alcayjHrb4+5IYGV9vzMk7qGLHg' +
+        'ZX++HJBUKkb1piqATvPJNFlhf1vJAgMBAAECgYA736xhG0oL3EkN9yhx8zG/5RP/' +
+        'WJzoQOByq7pTPCr4m/Ch30qVerJAmoKvpPumN+h1zdEBk5PHiAJkm96sG/PTndEf' +
+        'kZrAJ2hwSBqptcABYk6ED70gRTQ1S53tyQXIOSjRBcugY/21qeswS3nMyq3xDEPK' +
+        'XpdyKPeaTyuK86AEkQJBAM1M7p1lfzEKjNw17SDMLnca/8pBcA0EEcyvtaQpRvaL' +
+        'n61eQQnnPdpvHamkRBcOvgCAkfwa1uboru0QdXii/gUCQQDGmkP+KJPX9JVCrbRt' +
+        '7wKyIemyNM+J6y1ZBZ2bVCf9jacCQaSkIWnIR1S9UM+1CFE30So2CA0CfCDmQy+y' +
+        '7A31AkB8cGFB7j+GTkrLP7SX6KtRboAU7E0q1oijdO24r3xf/Imw4Cy0AAIx4KAu' +
+        'L29GOp1YWJYkJXCVTfyZnRxXHxSxAkEAvO0zkSv4uI8rDmtAIPQllF8+eRBT/deD' +
+        'JBR7ga/k+wctwK/Bd4Fxp9xzeETP0l8/I+IOTagK+Dos8d8oGQUFoQJBAI4Nwpfo' +
+        'MFaLJXGY9ok45wXrcqkJgM+SN6i8hQeujXESVHYatAIL/1DgLi+u46EFD69fw0w+' +
+        'c7o0HLlMsYPAzJw=' +
+        '-----END PRIVATE KEY-----';
 function initHeaderBack() {
     if ($("#section_container").attr("data-add-back-btn") == 'true') {
         $("header .left").show();
@@ -26,6 +48,16 @@ function disabledBtn(btnSubmit) {
 function enableBtn(btnSubmit) {
     J.hideMask();
     btnSubmit.attr("disabled", false);
+}
+//disabled
+function disabled(btnSubmit) {
+    J.showMask('加载中...');
+    btnSubmit.attr("disabled", true);
+}
+//enable
+function enable(btnSubmit) {
+    J.hideMask();
+    btnSubmit.removeAttr("disabled");
 }
 
 /*构造formdata*/
@@ -60,13 +92,7 @@ function analysis_data(data) {
 }
 
 //加密
-function do_encrypt(context) {
-    var pubkey = '-----BEGIN PUBLIC KEY-----' +
-            'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCfRTdcPIH10gT9f31rQuIInLwe' +
-            '7fl2dtEJ93gTmjE9c2H+kLVENWgECiJVQ5sonQNfwToMKdO0b3Olf4pgBKeLThra' +
-            'z/L3nYJYlbqjHC3jTjUnZc0luumpXGsox62+PuSGBlfb8zJO6hix4GV/vhyQVCpG' +
-            '9aYqgE7zyTRZYX9byQIDAQABdfad' +
-            '-----END PUBLIC KEY-----';
+function do_encrypt(context, pubkey) {
     var encrypt = new JSEncrypt();
     encrypt.setPublicKey(pubkey);//获得公钥
     if (JSON.parse(context)) {
@@ -94,23 +120,7 @@ function do_encrypt(context) {
 }
 
 //解密
-function do_decrypt(context) {
-    var privkey = '-----BEGIN PRIVATE KEY-----' +
-            'MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ9FN1w8gfXSBP1/' +
-            'fWtC4gicvB7t+XZ20Qn3eBOaMT1zYf6QtUQ1aAQKIlVDmyidA1/BOgwp07Rvc6V/' +
-            'imAEp4tOGtrP8vedgliVuqMcLeNONSdlzSW66alcayjHrb4+5IYGV9vzMk7qGLHg' +
-            'ZX++HJBUKkb1piqATvPJNFlhf1vJAgMBAAECgYA736xhG0oL3EkN9yhx8zG/5RP/' +
-            'WJzoQOByq7pTPCr4m/Ch30qVerJAmoKvpPumN+h1zdEBk5PHiAJkm96sG/PTndEf' +
-            'kZrAJ2hwSBqptcABYk6ED70gRTQ1S53tyQXIOSjRBcugY/21qeswS3nMyq3xDEPK' +
-            'XpdyKPeaTyuK86AEkQJBAM1M7p1lfzEKjNw17SDMLnca/8pBcA0EEcyvtaQpRvaL' +
-            'n61eQQnnPdpvHamkRBcOvgCAkfwa1uboru0QdXii/gUCQQDGmkP+KJPX9JVCrbRt' +
-            '7wKyIemyNM+J6y1ZBZ2bVCf9jacCQaSkIWnIR1S9UM+1CFE30So2CA0CfCDmQy+y' +
-            '7A31AkB8cGFB7j+GTkrLP7SX6KtRboAU7E0q1oijdO24r3xf/Imw4Cy0AAIx4KAu' +
-            'L29GOp1YWJYkJXCVTfyZnRxXHxSxAkEAvO0zkSv4uI8rDmtAIPQllF8+eRBT/deD' +
-            'JBR7ga/k+wctwK/Bd4Fxp9xzeETP0l8/I+IOTagK+Dos8d8oGQUFoQJBAI4Nwpfo' +
-            'MFaLJXGY9ok45wXrcqkJgM+SN6i8hQeujXESVHYatAIL/1DgLi+u46EFD69fw0w+' +
-            'c7o0HLlMsYPAzJw=' +
-            '-----END PRIVATE KEY-----';
+function do_decrypt(context, privkey) {
     var obj = JSON.parse(context);
     var decrypt = new JSEncrypt();
     decrypt.setPrivateKey(privkey);//获取私钥

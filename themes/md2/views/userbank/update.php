@@ -1,6 +1,6 @@
 <?php
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.formvalidate.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/card.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/card.min.js?ts=' . time(), CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('添加银行卡信息');
@@ -152,7 +152,9 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
                     if (data.status == 'ok') {
                         J.hideMask();
                         J.showToast('删除成功', '', '1500');
-                        location.href = '<?php echo $urlCardList; ?>';
+                        setTimeout(function () {
+                            location.href = '<?php echo $urlCardList; ?>';
+                        }, 1500);
                     } else {
                         J.hideMask();
                         J.showToast(data.errors, '', '1500');
