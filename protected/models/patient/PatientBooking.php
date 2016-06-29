@@ -284,6 +284,7 @@ class PatientBooking extends EActiveRecord {
             self::BK_STATUS_PROCESSING => '当前状态:安排专家中',
             self::BK_STATUS_SERVICE_UNPAID => '当前状态:待支付平台咨询费',
             self::BK_STATUS_SERVICE_PAIDED => '当前状态:待上传出院小结',
+            self::BK_STATUS_CANCELLED => '当前状态:已取消预约单',
             self::BK_STATUS_SURGER_DONE => '感谢你协助完成了该例手术!',
             self::BK_STATUS_BEDONE => '当前状态:待确认手术完成',
         );
