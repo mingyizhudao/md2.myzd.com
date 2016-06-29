@@ -15,6 +15,7 @@ $urlDoctorDrView = $this->createUrl('doctor/drView', array('addBackBtn' => 1));
 $urlDoctorProfile = $this->createUrl('doctor/profile', array('addBackBtn' => 1));
 $urlDoctorTerms = $this->createUrl('doctor/doctorTerms', array('addBackBtn' => 1));
 $urlDoctorUploadCert = $this->createUrl('doctor/uploadCert', array('addBackBtn' => 1));
+$urlUserbankViewInputKey = $this->createUrl('userbank/viewInputKey', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $verified = $user->results->userInfo->verified;
 $teamDoctor = $user->results->userInfo->teamDoctor;
@@ -101,6 +102,14 @@ $teamDoctor = $user->results->userInfo->teamDoctor;
                     </li>
                 </ul>
                 <ul class="list mt10">
+                    <li class="nextImg">
+                        <div id="userbankViewInputKey" class="grid font-type">
+                            <div class="col-0 w20 consultingAgreement"></div>
+                            <div class="col-0 w80">
+                                我的账户
+                            </div>
+                        </div>
+                    </li>
                     <li class="nextImg">
                         <div id="checkInf" class="grid font-type">
                             <div class="col-0 w20 consultingAgreement"></div>
@@ -230,9 +239,13 @@ $teamDoctor = $user->results->userInfo->teamDoctor;
         $('#getBooking').tap(function () {
             location.href = '<?php echo $urlDoctorPatientBookingList; ?>';
         });
-        
+
         $('#term').tap(function () {
             location.href = '<?php echo $urlDoctorContract; ?>';
+        });
+
+        $('#userbankViewInputKey').tap(function () {
+            location.href = '<?php echo $urlUserbankViewInputKey; ?>';
         });
 
         //医生顾问协议
@@ -289,10 +302,7 @@ $teamDoctor = $user->results->userInfo->teamDoctor;
         });
 
         $('#phoneService').tap(function () {
-            J.customAlert('<div><a href="tel://4006277120" class="color-green"><div class="pad10 bb-gray">立即拨打免费客服电话</div></a></div><div id="closeContract" class="color-red2 pad10">取消</div>');
-            $('#closeContract').tap(function () {
-                J.closePopup();
-            });
+            location.href = 'tel://4006277120';
         });
     });
 </script>

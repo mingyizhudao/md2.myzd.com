@@ -101,7 +101,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
             }
         }
         ?>
-        <article id='payOrder_article' class="active" data-scroll="true">
+        <article id='payOrder_article' class="active bg-gray3" data-scroll="true">
             <div>
                 <?php
                 if ($booking->statusCode == $BK_STATUS_DONE) {

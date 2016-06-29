@@ -1210,7 +1210,7 @@ J.Popup = (function ($) {
             tplData: null, //模板数据，配合tplId使用
             html: '', //popup内容
             pos: 'center', //位置 {@String top|top-second|center|bottom|bottom-second}   {@object  css样式}
-            clickMask2Close: true, // 是否点击外层遮罩关闭popup
+            clickMask2Close: false, // 是否点击外层遮罩关闭popup
             showCloseBtn: true, // 是否显示关闭按钮
             arrowDirection: undefined, //popover的箭头指向
             animation: false, //是否显示动画
