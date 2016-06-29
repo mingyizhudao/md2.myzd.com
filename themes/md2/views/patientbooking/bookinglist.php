@@ -17,7 +17,7 @@ $urlPatientBookingSearchView = $this->createUrl('patientBooking/searchView', arr
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
 ?>
-<header class="list_header bg-green">
+<header id="bookingList_header" class="list_header bg-green">
     <div class="grid w100">
         <div class="col-0 pl5 pr10">
             <a href="<?php echo $urlDoctorView; ?>" data-target="link">
@@ -27,7 +27,7 @@ $checkTeamDoctor = $teamDoctor;
             </a>
         </div>
         <div class="col-1">
-            <input type="text" placeholder="您可以输入患者姓名，医生姓名" readonly="readonly">
+            <div class="searchInput">您可以输入患者姓名，医生姓名</div>
         </div>
         <div id="switchSummary" class="col-0 pl5 pr5">
             筛选
@@ -180,7 +180,7 @@ $checkTeamDoctor = $teamDoctor;
             }
         });
 
-        $('input[type="text"]').click(function () {
+        $('.searchInput').click(function () {
             location.href = '<?php echo $urlPatientBookingSearchView; ?>';
         });
 
@@ -188,10 +188,12 @@ $checkTeamDoctor = $teamDoctor;
             var innerHtml = '<div class="mb10">';
             var bookingList = returnData.results.bookingList;
             if (bookingList.length > 0) {
+                //用于控制筛选无订单
+                var switchJudge = false;
                 for (var i = 0; i < bookingList.length; i++) {
                     var booking = bookingList[i];
-                    console.log(booking);
                     if (((switchSummary == 0) && (booking.hasFile == 0)) || ((switchSummary == 1) && (booking.hasFile == 1)) || (switchSummary == 2)) {
+                        switchJudge = true;
                         innerHtml += '<div class="mt10 ml5 mr5 bg-white br5">' +
                                 '<a href="<?php echo $orderView = $this->createUrl('order/orderView'); ?>/bookingid/' + booking.id + '/status/' + booking.status + '/addBackBtn/1" data-target="link">' +
                                 '<div class="pad10 bb-gray">';
@@ -223,7 +225,7 @@ $checkTeamDoctor = $teamDoctor;
                                 '</div>' +
                                 '</a>';
                         if ((booking.status == 1) || (booking.status == 2)) {
-                            innerHtml +='<div class="grid pl10 pr10 font-s12">' +
+                            innerHtml += '<div class="grid pl10 pr10 font-s12">' +
                                     '<div class="col-1 pt8">' +
                                     '预约单号:' + booking.refNo +
                                     '</div>' +
@@ -241,6 +243,14 @@ $checkTeamDoctor = $teamDoctor;
                                     '</div>';
                         }
                     }
+                }
+                if (!switchJudge) {
+                    innerHtml += '<div class="mt50 text-center">' +
+                            '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">' +
+                            '</div>' +
+                            '<div class="text-center font-s24 color-gray9">' +
+                            '暂无预约信息' +
+                            '</div>';
                 }
             } else {
                 innerHtml += '<div class="mt50 text-center">' +

@@ -606,6 +606,18 @@ header{
 }
 
 /*我的订单*/
+#bookingList_header .searchInput{
+    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 7px 7px;
+    margin: 7px 0px;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0px 10px 0px 30px;
+    color: #A9A9A9;
+    line-height: 32px;
+    letter-spacing: 0px;
+}
 #bookingList_nav.header-secondary{
     top: 0px;
     height: 40px;
@@ -643,20 +655,6 @@ header{
 }
 
 /*订单列表公用*/
-.list_header input[type=text] {
-    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
-    background-size: 15px 15px;
-    background-position: 5px 7px;
-    color: #000;
-    margin-bottom: 0;
-    border-radius: 5px!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-    padding: 0 10px 0 30px!important;
-    height: 30px!important;
-    border: none!important;
-    margin-top: 7px;
-}
 .list_article .cancelIcon {
     padding: 2px 4px;
     border: 1px solid #A8A8A8;
@@ -1022,4 +1020,38 @@ body #viewCommonweal_article{
     margin-top: 12px;
     padding: 0 5px;
     background-color: inherit;
+}
+
+/*搜索公用*/
+.search .icon_search{
+    position: absolute;
+    left: 38px;
+    top: 9px;
+    width: 15px;
+    height: 25px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 0px 5px;
+}
+.search .icon_input{
+    color: #000;
+    margin-bottom: 0;
+    border-radius: 5px!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    padding: 0 10px 0 30px!important;
+    height: 30px!important;
+    border: none!important;
+    margin-top: 7px;
+}
+.search .icon_clear{
+    position: absolute;
+    top: 9px;
+    right: 45px;
+    padding: 0 10px;
+    width: 35px;
+    height: 25px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146717942005220') no-repeat;
+    background-size: 15px 15px;
+    background-position: 10px 5px;
 }

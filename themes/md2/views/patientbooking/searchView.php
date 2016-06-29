@@ -6,17 +6,19 @@ $searchValue = Yii::app()->request->getQuery('searchValue', '');
 $urlSearchView = $this->createUrl('patientBooking/searchView');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<header class="list_header bg-green">
+<header id="searchListView_header" class="bg-green search">
     <div class="grid w100">
         <div class="col-0 pl5 pr10">
-            <a href="javascript:;" data-target="back">
+            <a href="" data-target="back">
                 <div class="pl5">
                     <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
                 </div>
             </a>
         </div>
         <div class="col-1">
-            <input type="text" placeholder="您可以输入患者姓名，医生姓名">
+            <i class="icon_search"></i>
+            <input class="icon_input" type="text" placeholder="您可以输入患者姓名，医生姓名">
+            <a class="icon_clear hide"></a>
         </div>
         <div id="searchBtn" class="col-0 pl5 pr5">
             搜索
@@ -34,14 +36,22 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 </div>
 <script>
     $(document).ready(function () {
-        $condition = new Array();
-        $condition["searchValue"] = '<?php echo $searchValue; ?>';
-        $condition["addBackBtn"] = 1;
-        if ('<?php echo $searchValue; ?>' != '') {
-            $('input[type="text"]').val('<?php echo $searchValue; ?>');
-            J.showMask();
-            ajaxSearch('<?php echo $searchValue; ?>');
-        }
+        $("#searchListView_header").on("input", function () {
+            var searchValue = $(this).val();
+            console.log(searchValue);
+            if (searchValue != '') {
+                $('.icon_clear').removeClass('hide');
+            } else {
+                $('.icon_clear').addClass('hide');
+            }
+        });
+
+        //清空input
+        $('.icon_clear').click(function () {
+            $('.icon_input').val('');
+            $(this).addClass('hide');
+        });
+
         $('#searchBtn').click(function () {
             J.showMask();
             var searchValue = $('input[type="text"]').val();
@@ -77,7 +87,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             if (bookingList.length > 0) {
                 for (var i = 0; i < bookingList.length; i++) {
                     var booking = bookingList[i];
-                    console.log(booking);
                     innerHtml += '<div class="mt10 ml5 mr5 bg-white br5">' +
                             '<a href="<?php echo $orderView = $this->createUrl('order/orderView'); ?>/bookingid/' + booking.id + '/status/' + booking.status + '/addBackBtn/1" data-target="link">' +
                             '<div class="pad10 bb-gray">';
@@ -110,7 +119,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             '</a>';
                     if ((booking.status == 1) || (booking.status == 2)) {
                         innerHtml +=
-                                '<div class="grid pl10 pr10">' +
+                                '<div class="grid pl10 pr10 font-s12">' +
                                 '<div class="col-1 pt8">' +
                                 '预约单号:' + booking.refNo +
                                 '</div>' +
@@ -122,7 +131,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                                 '</div>' +
                                 '</div>';
                     } else {
-                        innerHtml += '<div class="pad10">' +
+                        innerHtml += '<div class="pad10 font-s12">' +
                                 '预约单号:' + booking.refNo +
                                 '</div>' +
                                 '</div>';
@@ -139,9 +148,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             innerHtml += '</div>';
             $('article').html(innerHtml);
             J.hideMask();
-            //修改url
-            $condition["searchValue"] = searchValue;
-            setLocationUrl();
             $('.cancelIcon').click(function () {
                 var id = $(this).attr('data-id');
                 J.customConfirm('',
@@ -177,22 +183,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     });
                 });
             });
-        }
-
-        //更改url
-        function setLocationUrl() {
-            var stateObject = {};
-            var title = "";
-            var urlCondition = '';
-            for ($key in $condition) {
-                if ($condition[$key] && $condition[$key] !== "") {
-                    urlCondition += "&" + $key + "=" + $condition[$key];
-                }
-            }
-            urlCondition = urlCondition.substring(1);
-            urlCondition = "?" + urlCondition;
-            var newUrl = '<?php echo $urlSearchView; ?>' + urlCondition;
-            history.pushState(stateObject, title, newUrl);
         }
     });
 </script>

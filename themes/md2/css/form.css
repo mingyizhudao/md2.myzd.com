@@ -275,7 +275,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 
 .solid-type{border:1px solid #ededed;}
 a .none{text-decoration:none;}
-.hide{display:none;}
+.hide{display:none!important;}
 
 /*font*/
 .font-w{font-weight:bold;}
