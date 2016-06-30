@@ -182,6 +182,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     <!-- /panel -->
     <script>
         $(document).ready(function () {
+            is_weixin();
             vailcode();
             $('.pageSwitch').click(function () {
                 var page = $(this).attr('data-page');
@@ -198,6 +199,17 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 checkForm($(this));
             });
         });
+        
+        //判断是否为微信浏览器
+        function is_weixin(){ 
+            var ua = navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i) === "micromessenger") {
+                alert('微信浏览器');
+            } else {
+                alert('非微信浏览器');
+            } 
+        }
+
         function vailcode() {
             $("#vailcode").attr("src", "<?php echo $this->createUrl('user/getCaptcha'); ?>/" + Math.random());
         }
