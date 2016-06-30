@@ -104,7 +104,7 @@ $teamDoctor = $user->results->userInfo->teamDoctor;
                 <ul class="list mt10">
                     <li class="nextImg">
                         <div id="userbankViewInputKey" class="grid font-type">
-                            <div class="col-0 w20 consultingAgreement"></div>
+                            <div class="col-0 w20 userbankIcon"></div>
                             <div class="col-0 w80">
                                 我的账户
                             </div>
@@ -285,17 +285,7 @@ $teamDoctor = $user->results->userInfo->teamDoctor;
                 });
             } else if ('<?php echo $verified; ?>' == '') {
                 J.hideMask();
-                J.customConfirm('',
-                        '<div class="mt10 mb10">请等待信息审核</div>',
-                        '<a id="closeLogout" class="">确定</a>',
-                        '',
-                        function () {
-                        },
-                        function () {
-                        });
-                $('#closeLogout').tap(function () {
-                    J.closePopup();
-                });
+                J.showToast('请您等待实名认证通过', '', '1500');
             } else {
                 location.href = '<?php echo $urlDoctorTerms; ?>';
             }

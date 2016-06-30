@@ -12,7 +12,7 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
 ?>
 <header id='userBankUpdate_header' class="bg-green">
     <nav class="left">
-        <a href="" data-target="back">
+        <a href="<?php echo $urlCardList; ?>">
             <div class="pl5">
                 <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
             </div>

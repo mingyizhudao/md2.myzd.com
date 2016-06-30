@@ -323,6 +323,12 @@ header{
     background-position-y: 1px;
     background-position-x: 20px;
 }
+#doctorView_article .userbankIcon {
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146726899855634') no-repeat;
+    background-size: 18px 18px;
+    background-position-y: 1px;
+    background-position-x: 20px;
+}
 #doctorView_article .consultingAgreement{
     background: url('../images/center/consultingAgreement.png') no-repeat;
     background-size: 18px 18px;
@@ -610,7 +616,6 @@ header{
     background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
     background-size: 15px 15px;
     background-position: 7px 7px;
-    margin: 7px 0px;
     height: 30px;
     border-radius: 5px;
     padding: 0px 10px 0px 30px;

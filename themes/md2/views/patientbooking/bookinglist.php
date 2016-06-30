@@ -26,7 +26,7 @@ $checkTeamDoctor = $teamDoctor;
                 </div>
             </a>
         </div>
-        <div class="col-1">
+        <div class="col-1 pt7 pb7">
             <div class="searchInput">您可以输入患者姓名，医生姓名</div>
         </div>
         <div id="switchSummary" class="col-0 pl5 pr5">
@@ -143,7 +143,7 @@ $checkTeamDoctor = $teamDoctor;
                             '</div>' +
                             '</a>' +
                             '</div>' +
-                            '<div class="col-1">' +
+                            '<div class="col-1 pt7 pb7">' +
                             '<div class="searchInput">您可以输入患者姓名，医生姓名</div>' +
                             '</div>' +
                             '<div class="col-0 pl5 pr5" data-target="closePopup">' +

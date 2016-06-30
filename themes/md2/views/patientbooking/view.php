@@ -3,7 +3,7 @@
  * $data
  */
 $this->setPageID('pBookingInfo');
-$this->setPageTitle('预约详情');
+$this->setPageTitle('查看详情');
 $user = $this->loadUser();
 $booking = $data->results->booking;
 $urlUploadMRFile = $this->createUrl('patient/uploadMRFile', array('id' => $booking->patientId, 'type' => 'update', 'addBackBtn' => 1));

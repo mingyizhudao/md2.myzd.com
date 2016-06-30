@@ -2,7 +2,7 @@
 /*
  * $model DoctorForm.
  */
-$this->setPageTitle('支付订单');
+$this->setPageTitle('订单详情');
 $urlPatientBooking = $this->createUrl('booking/patientBooking', array('id' => ''));
 $urlPatientBookingList = $this->createUrl('booking/patientBookingList');
 $urlPatientBookingView = $this->createUrl('patientBooking/view', array('id' => ''));
@@ -57,7 +57,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
         }
         ?>
     </nav>
-    <h1 class="title">支付订单</h1>
+    <h1 class="title">订单详情</h1>
     <nav class="right">
         <a class="submitSummary" data-target="link" href="<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>">
             传小结
