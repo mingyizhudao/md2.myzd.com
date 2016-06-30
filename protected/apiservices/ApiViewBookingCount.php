@@ -23,7 +23,7 @@ class ApiViewBookingCount extends EApiViewService {
         parent::__construct();
         $this->creatorId = $creatorId;
         $this->patientMgr = new PatientManager();
-        $this->info = array('0' => 0, '1' => 0, '2' => 0, '5' => 0, '11' => 0);
+        $this->info = array('0' => 0, '1' => 0, '2' => 0, '5' => 0, '6' => 0);
     }
 
     protected function loadData() {

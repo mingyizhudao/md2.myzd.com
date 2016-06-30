@@ -35,16 +35,16 @@ class PatientBooking extends EActiveRecord {
     //const BK_STATUS_CONFIRMED_DOCTOR = 3;   // 已确认专家
     //const BK_STATUS_PATIENT_ACCEPTED = 4;   // 患者已接受
     const BK_STATUS_SERVICE_UNPAID = 5;   //待确认
-    const BK_STATUS_SERVICE_PAIDED = 6;   // 上传出院小结
+    const BK_STATUS_SERVICE_PAIDED = 6;   // 待完成
     //const BK_STATUS_INVALID = 7;        // 失效的
     const BK_STATUS_SURGER_DONE = 8;        // 已完成
     const BK_STATUS_CANCELLED = 9;          // 已取消
-    const BK_STATUS_BEDONE = 11;             //待完成
+
+    //const BK_STATUS_BEDONE = 11;             //待完成
 
     /**
      * @return string the associated database table name
      */
-
     public function tableName() {
         return 'patient_booking';
     }
@@ -257,10 +257,10 @@ class PatientBooking extends EActiveRecord {
             //self::BK_STATUS_CONFIRMED_DOCTOR => '已确认专家',
             //    self::BK_STATUS_PATIENT_ACCEPTED => '患者已接受',
             self::BK_STATUS_SERVICE_UNPAID => '待确认',
-            self::BK_STATUS_SERVICE_PAIDED => '传小结',
+            self::BK_STATUS_SERVICE_PAIDED => '待完成',
             self::BK_STATUS_SURGER_DONE => '已完成',
             self::BK_STATUS_CANCELLED => '已取消',
-            self::BK_STATUS_BEDONE => '待完成',
+                //self::BK_STATUS_BEDONE => '待完成',
                 //self::BK_STATUS_INVALID => '失效的'
         );
     }
@@ -283,10 +283,10 @@ class PatientBooking extends EActiveRecord {
             self::BK_STATUS_NEW => '请您支付手术预约金',
             self::BK_STATUS_PROCESSING => '当前状态:安排专家中',
             self::BK_STATUS_SERVICE_UNPAID => '当前状态:待支付平台咨询费',
-            self::BK_STATUS_SERVICE_PAIDED => '当前状态:待上传出院小结',
+            //self::BK_STATUS_SERVICE_PAIDED => '当前状态:待上传出院小结',
             self::BK_STATUS_CANCELLED => '当前状态:已取消预约单',
             self::BK_STATUS_SURGER_DONE => '感谢你协助完成了该例手术!',
-            self::BK_STATUS_BEDONE => '当前状态:待确认手术完成',
+            self::BK_STATUS_SERVICE_PAIDED => '当前状态:待确认手术完成',
         );
     }
 
