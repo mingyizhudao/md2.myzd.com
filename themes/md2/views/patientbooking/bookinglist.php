@@ -100,12 +100,12 @@ $checkTeamDoctor = $teamDoctor;
                 </li>
                 <?php
                 $statusActive = '';
-                if ($status == 11) {
+                if ($status == 6) {
                     $statusActive = 'active';
                 }
                 ?>
                 <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/11" id="story" data-target="link">
+                    <a href="<?php echo $urlPatientBookingList; ?>/6" id="story" data-target="link">
                         <div class="grid">
                             <div class="col-1"></div>
                             <div class="col-0 statusLine">待完成</div>
@@ -203,7 +203,7 @@ $checkTeamDoctor = $teamDoctor;
                         } else {
                             innerHtml += '<span class="color-blue6 mr5">已传小结</span>';
                         }
-                        if ((booking.status == 1) || (booking.status == 2) || (booking.status == 5) || (booking.status == 11)) {
+                        if ((booking.status == 1) || (booking.status == 2) || (booking.status == 5) || (booking.status == 6)) {
                             innerHtml += '<span class="color-yellow3">' + booking.statusText + '</span>';
                         } else {
                             innerHtml += '<span class="color-green3">' + booking.statusText + '</span>';
