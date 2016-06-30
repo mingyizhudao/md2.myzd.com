@@ -62,7 +62,7 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
                                 卡号
                             </div>
                             <div class="col-1">
-                                <?php echo $form->textField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
+                                <?php echo $form->numberField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
                             </div>
                         </div>
                     </div>

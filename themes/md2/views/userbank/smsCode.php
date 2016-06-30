@@ -18,7 +18,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
                 ?>
                 <div class="pt20 pl10">
-                    <?php echo '请输入' . $mobile . '收到的短信验证码' ?>
+                    <?php echo '请输入' . mb_substr($mobile, 0, 3, 'utf-8') . '****' . mb_substr($mobile, 7, 10, 'utf-8') . '收到的短信验证码' ?>
                 </div>
                 <div class="grid mt20 pt5 pb5 bg-white">
                     <div class="col-1">
