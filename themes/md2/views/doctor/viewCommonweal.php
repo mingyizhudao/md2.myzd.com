@@ -6,7 +6,7 @@ $urlCommonwealList = $this->createUrl('doctor/commonwealList', array('addBackBtn
 $urlAjaxJoinCommonweal = $this->createUrl('doctor/ajaxJoinCommonweal');
 $urlProfile = $this->createUrl('doctor/profile', array('register' => 2));
 $showHeader = Yii::app()->request->getQuery('app', '1');
-$this->setPageTitle('名医公益');
+$this->setPageTitle('名医公益行');
 $this->show_footer = false;
 $sectionTop = '';
 if ($showHeader == 0) {
