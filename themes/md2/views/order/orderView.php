@@ -67,7 +67,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
 <div id="section_container" <?php echo $this->createPageAttributes(); ?>>
     <section id="" class="active" data-init="true">
         <?php
-        if ($booking->statusCode != $BK_STATUS_PROCESS_DONE) {
+        if ($booking->statusCode != $BK_STATUS_SERVICE_PAIDED) {
             if (isset($notPays)) {
                 if ($notPays->orderType == $orderType) {
                     ?>
@@ -161,24 +161,6 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
                     }
                     ?>
                 </div>
-                <?php
-                if ($booking->statusCode == $BK_STATUS_SERVICE_PAIDED) {
-                    $fileBtn = 'hide';
-                    if ($booking->operationFinished == 0) {
-                        $fileBtn = '';
-                    }
-                    ?>
-                    <div id="fileBtn" class="pl10 pr10 pt20 pb20 <?php echo $fileBtn; ?>">
-                        <div>
-                            <div id="completeOperation" class="btn btn-full bg-green color-white">我确认手术已完成</div>
-                        </div>
-                        <div class="text-center font-s12 pt5">
-                            （点击即为确认）
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
             </div>
         </article>
     </section>
