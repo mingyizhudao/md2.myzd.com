@@ -79,7 +79,6 @@ class ApiViewBookOrder extends EApiViewService {
         if ($model->status == PatientBooking::BK_STATUS_SERVICE_PAIDED) {
             $files = $patientInfo->patientDAFiles;
             if (arrayNotEmpty($files)) {
-                $data->statusTitle = "当前状态:出院小结审核中";
                 $data->hasFile = 1;
             }
         }
