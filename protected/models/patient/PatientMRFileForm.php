@@ -14,6 +14,7 @@ class PatientMRFileForm extends EFormModel {
     public $remote_file_key;
     public $file_name;
     public $file_url;
+    public $file_agent;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
@@ -26,7 +27,7 @@ class PatientMRFileForm extends EFormModel {
             array('mime_type', 'length', 'max' => 20),
             array('remote_file_key', 'length', 'max' => 40),
             array('remote_domain', 'length', 'max' => 255),
-            array('patient_id, creator_id, mime_type, file_size', 'safe'),
+            array('patient_id, creator_id, mime_type, file_size, file_agent', 'safe'),
         );
     }
 

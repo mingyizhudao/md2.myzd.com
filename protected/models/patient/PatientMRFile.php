@@ -27,10 +27,14 @@ class PatientMRFile extends EFileModel {
 
     public $file_upload_field = 'file'; // $_FILE['file'].   
 
+    const WX_ANDROID = "wx_android";
+    const WX_IOS = "wx_ios";
+    const APP_ANDROID = "app_android";
+    const APP_IOS = "app_ios";
+
     /**
      * @return string the associated database table name
      */
-
     public function tableName() {
         return 'patient_mr_file';
     }
@@ -49,7 +53,7 @@ class PatientMRFile extends EFileModel {
             array('mime_type', 'length', 'max' => 20),
             array('file_name, thumbnail_name, remote_file_key', 'length', 'max' => 40),
             array('file_url, thumbnail_url, base_url, remote_domain', 'length', 'max' => 255),
-            array('has_remote, remote_file_key, remote_domain, date_created, date_updated, date_deleted', 'safe'),
+            array('file_agent, has_remote, remote_file_key, remote_domain, date_created, date_updated, date_deleted', 'safe'),
         );
     }
 

@@ -49,14 +49,20 @@ class QiniuController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //保存医生证明信息
+    //保存病人的信息
     public function actionAjaxPatienMr() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
         if (isset($post['patient'])) {
             $values = $post['patient'];
             $form = new PatientMRFileForm();
+            if ($this->isUserAgentIOS()) {
+                $agent = PatientMRFile::WX_IOS;
+            } else {
+                $agent = PatientMRFile::WX_ANDROID;
+            }
             $form->setAttributes($values, true);
+            $form->file_agent = $agent;
             $form->creator_id = $this->getCurrentUserId();
             $form->initModel();
             if ($form->validate()) {
