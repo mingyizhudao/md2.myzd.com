@@ -229,7 +229,7 @@ $checkTeamDoctor = $teamDoctor;
                                     '<div class="col-1 pt8">' +
                                     '预约单号:' + booking.refNo +
                                     '</div>' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 pt5 pb5">' +
                                     '<div class="cancelIcon" data-id="' + booking.id + '">' +
                                     '取消订单' +
                                     '</div>' +
