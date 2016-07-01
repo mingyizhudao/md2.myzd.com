@@ -11,7 +11,7 @@
  *
  * @author Administrator
  */
-define("MCH_ID", "123");
+define("MCH_ID", "123");//
 define("API_KEY", "456");
 class WechattestController extends WeixinpubController{
     
@@ -21,6 +21,38 @@ class WechattestController extends WeixinpubController{
         echo "</br>";
         echo API_KEY;
     }
+    
+    //增加数据
+    public function actionTest2(){
+        
+        $tongweiTest = new TongweiTest();
+        $tongweiTest->username = "username1";
+        $tongweiTest->password = "password2";
+        $tongweiTest->backtime = date("Y-m-d H:i:s", time()); 
+        if($tongweiTest->save()){
+            var_dump($tongweiTest);            
+            exit();
+        }else{
+           var_dump($tongweiTest->getErrors());  
+           exit();
+        };
+
+    } 
+    
+    
+    //查询数据操作
+    public function actionTest3(){
+        $tongweiTest = new TongweiTest();
+        $criteria = new CDbCriteria;
+        $criteria->select = 'username';
+        $criteria->addCondition("username = 'username1'");
+        $criteria->addCondition("id = 1");
+        $resurt = $tongweiTest->findAll($criteria);
+        echo $resurt['id'];
+        //echo $resurt['username'];      
+    }
+    
+    
     
     public function actionTest() {
         $this->render('test001');
