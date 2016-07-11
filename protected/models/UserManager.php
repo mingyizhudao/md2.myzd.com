@@ -537,16 +537,20 @@ class UserManager {
     public function wxlogin($id) {
         $output = array('status' => 'no');
         $user = User::model()->getById($id);
-        $pawform = new UserLoginForm();
-        $pawform->username = $user->getUsername();
-        $pawform->password = $user->password_raw;
-        $pawform->role = $user->getRole();
-        $pawform->rememberMe = true;
-        if ($this->doLogin($pawform)) {
-            $output['status'] = 'ok';
-            $output['errorMsg'] = 'success';
+        if (isset($user)) {
+            $pawform = new UserLoginForm();
+            $pawform->username = $user->getUsername();
+            $pawform->password = $user->password_raw;
+            $pawform->role = $user->getRole();
+            $pawform->rememberMe = true;
+            if ($this->doLogin($pawform)) {
+                $output['status'] = 'ok';
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = $pawform->getFirstErrors();
+            }
         } else {
-            $output['errorMsg'] = $pawform->getFirstErrors();
+            $output['errorMsg'] = '该用户不存在!';
         }
         return $output;
     }
