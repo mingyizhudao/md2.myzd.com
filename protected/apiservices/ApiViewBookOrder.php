@@ -47,7 +47,7 @@ class ApiViewBookOrder extends EApiViewService {
 
     private function loadBooking() {
         $with = array('pbPatient' => array('patientDAFiles'));
-        $booking = $this->patientMgr->loadPatientBookingById($this->bookingId, $with);
+        $booking = $this->patientMgr->loadPatientBookingById($this->bookingId, null, $with);
         if (isset($booking)) {
             $this->setBooking($booking);
         }

@@ -63,8 +63,8 @@ class PatientInfo extends EActiveRecord {
         // class name for the relations automatically generated below.
         return array(
             //'patientMR' => array(self::HAS_ONE, 'PatientMR', 'patient_id'), // @DELETE
-            'patientMRFiles' => array(self::HAS_MANY, 'PatientMRFile', 'patient_id'),
-            'patientDAFiles' => array(self::HAS_MANY, 'PatientMRFile', 'patient_id', 'on' => "patientDAFiles.report_type =  'da'"),
+            'patientMRFiles' => array(self::HAS_MANY, 'PatientMRFile', 'patient_id', 'on' => "patientDAFiles.report_type =  'mr' and patientDAFiles.date_deleted is null"),
+            'patientDAFiles' => array(self::HAS_MANY, 'PatientMRFile', 'patient_id', 'on' => "patientDAFiles.report_type =  'da' and patientDAFiles.date_deleted is null"),
             'patientBookings' => array(self::HAS_MANY, 'PatientBooking', 'patient_id'),
             'patientCreator' => array(self::BELONGS_TO, 'User', 'creator_id'),
             'patientCountry' => array(self::BELONGS_TO, 'RegionCountry', 'country_id'),
