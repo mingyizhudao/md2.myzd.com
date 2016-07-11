@@ -76,11 +76,9 @@ class ApiViewBookOrder extends EApiViewService {
         $data->statusTitle = $model->getStatusTitle();
         $data->hasFile = 0;
         $patientInfo = $model->getPatient();
-        if ($model->status == PatientBooking::BK_STATUS_SERVICE_PAIDED) {
-            $files = $patientInfo->patientDAFiles;
-            if (arrayNotEmpty($files)) {
-                $data->hasFile = 1;
-            }
+        $files = $patientInfo->patientDAFiles;
+        if (arrayNotEmpty($files)) {
+            $data->hasFile = 1;
         }
         $data->statusCode = $model->getStatus(false);
         $data->travelType = $model->getTravelType();
