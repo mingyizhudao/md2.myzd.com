@@ -481,4 +481,55 @@ class UserManager {
         return $output;
     }
 
+    //删除银行卡
+    public function apiBankDelete($id, $userId) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
+        $card = $this->loadCardByUserIdAndId($userId, $id);
+        if (isset($card)) {
+            $card->delete();
+            $output['status'] = EApiViewService::RESPONSE_OK;
+            $output['errorCode'] = ErrorList::ERROR_NONE;
+            $output['errorMsg'] = 'success';
+        } else {
+            $output['errorMsg'] = '无权限操作!';
+        }
+        return $output;
+    }
+
+    //创建或修改银行卡信息
+    public function ApiCreateCard($values) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
+        $form = new DoctorBankCardForm();
+        $form->setAttributes($values, true);
+        if ($form->validate() === false) {
+            $output['errorMsg'] = $form->getFirstErrors();
+            return $output;
+        }
+        $card = new DoctorBankCard();
+        if (isset($values['id'])) {
+            $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
+            if (isset($model)) {
+                $card = $model;
+            }
+        }
+        $attributes = $form->getSafeAttributes();
+        $card->setAttributes($attributes, true);
+        $regionState = RegionState::model()->getById($card->state_id);
+        $card->state_name = $regionState->getName();
+        $regionCity = RegionCity::model()->getById($card->city_id);
+        $card->city_name = $regionCity->getName();
+        if ($card->save() === false) {
+            $output['errorMsg'] = $card->getFirstErrors();
+        } else {
+            $output['status'] = EApiViewService::RESPONSE_OK;
+            $output['errorCode'] = ErrorList::ERROR_NONE;
+            $output['errorMsg'] = 'success';
+            //若该卡为默认 则将其它都都改为不默认
+            if ($card->is_default == 1) {
+                $this->updateUnDefault($card->getId());
+            }
+        }
+        return $output;
+    }
+
 }

@@ -145,6 +145,11 @@ class ApimdController extends Controller {
                 $output = $apisvc->loadApiViewData(true);
                 $this->renderJsonOutput($output);
                 break;
+            case 'bankcardlist'://我的银行卡列表
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewBankCardList($user->id);
+                $output = $apiService->loadApiViewData();
+                break;
             /*             * *************************crm调用接口**************************** */
             case 'orderunpaid':     //状态改变 新增服务费
                 $wxMgr = new WeixinManager();
@@ -221,6 +226,16 @@ class ApimdController extends Controller {
                 $patientMgr = new PatientManager();
                 $output = $patientMgr->apiOperation($id, $user->id);
                 break;
+            case 'bankcardinfo'://银行卡具体信息
+                $user = $this->userLoginRequired($values);
+                $apiSvc = new ApiViewBankCardInfo($id, $user->id);
+                $output = $apiSvc->loadApiViewData();
+                break;
+            case 'bankdelete'://删除银行卡
+                $user = $this->userLoginRequired($values);
+                $userMgr = new UserManager();
+                $output = $userMgr->apiBankDelete($id, $user->id);
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
@@ -237,14 +252,8 @@ class ApimdController extends Controller {
     public function actionCreate($model) {
         $post = $_POST;
         if (empty($_POST)) {
-            //$post = CJSON::decode();
             $post = $this->decryptPost($this->getPostData());
-            // var_dump($this->getPostData());
-            // exit;
-        } else {
-            $post = $_POST;
         }
-
         $output['status'] = EApiViewService::RESPONSE_NO;
         $output['errorCode'] = ErrorList::BAD_REQUEST;
         $output['errorMsg'] = 'Wrong parameters.';
@@ -382,6 +391,57 @@ class ApimdController extends Controller {
                     $user = $this->userLoginRequired($values);
                     $doctorMgr = new MDDoctorManager();
                     $output = $doctorMgr->apiDisJoinHuizhen($user->id);
+                }
+                break;
+            case 'banksetkey'://账户密码设置
+                if (isset($post['bank'])) {
+                    $values = $post['bank'];
+                    $user = $this->userLoginRequired($values);
+                    $user->setUserKey($values['userkey']);
+                    $user->setUserKeyRaw($values['userkey']);
+                    if ($user->update(array('user_key', 'user_key_raw'))) {
+                        $output['status'] = EApiViewService::RESPONSE_OK;
+                        $output['errorCode'] = ErrorList::ERROR_NONE;
+                        $output['errorMsg'] = 'success';
+                    }
+                }
+                break;
+            case 'bankverifycode'; //账户验证码验证
+                if (isset($post['bank'])) {
+                    $values = $post['bank'];
+                    $user = $this->userLoginRequired($values);
+                    $authMgr = new AuthManager();
+                    $authSmsVerify = $authMgr->verifyCodeForBank($user->getMobile(), $values['code'], null);
+                    if ($authSmsVerify->isValid()) {
+                        $output['status'] = EApiViewService::RESPONSE_OK;
+                        $output['errorCode'] = ErrorList::ERROR_NONE;
+                        $output['errorMsg'] = 'success';
+                    } else {
+                        $output['errorMsg'] = $authSmsVerify->getError('code');
+                    }
+                }
+                break;
+            case 'bankverifykey'://账户验证密码
+                if (isset($post['bank'])) {
+                    $values = $post['bank'];
+                    $user = $this->userLoginRequired($values);
+                    $userKey = $user->encryptUserKey($values['userkey']);
+                    if ($userKey === $user->getUserKey()) {
+                        $output['status'] = EApiViewService::RESPONSE_OK;
+                        $output['errorCode'] = ErrorList::ERROR_NONE;
+                        $output['errorMsg'] = 'success';
+                    } else {
+                        $output['errorMsg'] = '密码输入错误!';
+                    }
+                }
+                break;
+            case 'savebankcard'://保存或修改银行卡信息
+                if (isset($post['card'])) {
+                    $values = $post['card'];
+                    $user = $this->userLoginRequired($values);
+                    $values['user_id'] = $user->getId();
+                    $userMgr = new UserManager();
+                    $output = $userMgr->ApiCreateCard($values);
                 }
                 break;
             default:

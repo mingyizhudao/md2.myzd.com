@@ -32,6 +32,7 @@ class ApiViewUserInfo extends EApiViewService {
             $doctorCerts = true;
         }
         $data = new stdClass();
+        $data->hasKey = strIsEmpty($this->user->getUserKey()) ? false : true;
         $data->doctorCerts = $doctorCerts;
         if (isset($profile)) {
             $data->isProfile = true;
