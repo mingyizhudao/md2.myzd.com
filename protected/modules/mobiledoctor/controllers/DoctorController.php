@@ -125,7 +125,8 @@ class DoctorController extends MobiledoctorController {
     public function accessRules() {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
-                'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha', 'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal'),
+                'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha',
+                    'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal', 'wxlogin'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -572,9 +573,7 @@ class DoctorController extends MobiledoctorController {
     /**
      * 手机用户登录
      */
-    public function actionMobileLogin($loginType = 'sms') {
-//         $res = Encryption::model()->findAll();
-//         print_r(CJSON::decode(CJSON::encode($res)));exit;
+    public function actionMobileLogin($loginType = 'sms', $registerFlag = 0) {
         $user = $this->getCurrentUser();
         //已登陆 跳转至主页
         if (isset($user)) {
@@ -590,7 +589,8 @@ class DoctorController extends MobiledoctorController {
             'model' => $smsform,
             'pawModel' => $pawform,
             'returnUrl' => $returnUrl,
-            'loginType' => $loginType
+            'loginType' => $loginType,
+            'registerFlag' => $registerFlag
         ));
     }
 
@@ -735,6 +735,14 @@ class DoctorController extends MobiledoctorController {
             }
         }
 
+        $this->renderJsonOutput($output);
+    }
+
+    /*     * *************************微信调用接口**************************** */
+
+    public function actionWxlogin($userid) {
+        $userMgr = new UserManager();
+        $output = $userMgr->wxlogin($userid);
         $this->renderJsonOutput($output);
     }
 
