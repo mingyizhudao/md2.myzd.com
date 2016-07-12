@@ -92,7 +92,7 @@ class OauthController extends WeixinpubController {
      */
     public function GetOpenidFromMp($code){
         $url = $this->__CreateOauthUrlForOpenid($code);
-        WeixinpubLog::log("通过code换取openid的url为：$url", 'info', __METHOD__);
+        //WeixinpubLog::log("通过code换取openid的url为：$url", 'info', __METHOD__);
         //初始化curl
         $ch = curl_init();
         //设置超时

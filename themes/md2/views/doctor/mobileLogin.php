@@ -203,9 +203,9 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         function is_weixin(){
             var ua = navigator.userAgent.toLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                alert ('微信浏览器');
+                //alert ('微信浏览器');
                 var registerFlag = '<?php echo $registerFlag; ?>';
-                alert (registerFlag);
+                //alert (registerFlag);
                 if(registerFlag != 1){
                     //window.location.href = "http://md.mingyizd.com/weixinpub/oauth/autoLogin"; 
                     window.location.href = "<?php echo Yii::app()->request->hostInfo . "/weixinpub/oauth/autoLogin?returnUrl=" . $returnUrl; ?>";
@@ -213,7 +213,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     return true;
                 }               
             }else {
-                alert ('不是微信浏览器');
+                //lert ('不是微信浏览器');
                 return true;
             }
         }

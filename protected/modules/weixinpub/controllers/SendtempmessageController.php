@@ -27,7 +27,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
-        
+        Yii::app()->end();
     }
     
     
@@ -49,6 +49,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
     }
     
     
@@ -69,6 +70,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
     }
     
     
@@ -92,6 +94,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
     }
     
     
@@ -113,6 +116,7 @@ class SendtempmessageController extends WeixinpubController {
         
         $result = $template->getTemplateMessage($template);
         echo $result;
+        Yii::app()->end();
     }
     
 }
