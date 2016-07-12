@@ -567,7 +567,8 @@ class DoctorController extends MobiledoctorController {
 
     public function actionLogout() {
         Yii::app()->user->logout();
-        $this->redirect(Yii::app()->user->loginUrl);
+        //$this->redirect(Yii::app()->user->loginUrl);
+        $this->redirect(Yii::app()->request->hostInfo . '/mobiledoctor/doctor/mobileLogin?loginType=sms&registerFlag=1');
     }
 
     /**
@@ -740,10 +741,12 @@ class DoctorController extends MobiledoctorController {
 
     /*     * *************************微信调用接口**************************** */
 
-    public function actionWxlogin($userid) {
+    public function actionWxlogin($userid, $returnUrl) {
         $userMgr = new UserManager();
         $output = $userMgr->wxlogin($userid);
-        $this->renderJsonOutput($output);
+        header('Location:' . $returnUrl);
+        Yii::app()->end();
+        //$this->renderJsonOutput($output);
     }
 
     public function actionChangePassword() {

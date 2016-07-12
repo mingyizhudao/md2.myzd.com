@@ -3,7 +3,7 @@
 class WeixinpubModule extends CWebModule {
     
     //公众号ID
-    public $weixinpubId = 'myzdztc';
+    public $weixinpubId = 'myzdtest';
     
     //微信二维码存取路径
     public $qrcodePath = 'qrcode';
@@ -13,7 +13,6 @@ class WeixinpubModule extends CWebModule {
         $this->setImport(array(
             'weixinpub.models.*',
             'weixinpub.components.*',
-            'weixinpub.lib.*',
         ));
     }
 

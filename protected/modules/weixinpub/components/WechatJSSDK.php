@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Description of WechatJSSDK
+ * 微信JSSDK
  *
- * @author Administrator
+ * @author zhongtw
  */
 class WechatJSSDK {
     
@@ -21,8 +21,7 @@ class WechatJSSDK {
         $app_id = $result['app_id'];
         
         //根据weixinpub_id从数据库获取access_token和jsapi_ticket
-	$result = $wechatBaseInfo->getByPubId($weixinpub_id);
-        //$access_token = $result['access_token'];
+	$result = $wechatBaseInfo->getByPubId(Yii::app()->getModule('weixinpub')->weixinpubId);
         $jsapi_ticket = $result['jsapi_ticket'];
         
         $nonceStr = $wechatConfig->createNonceStr(16);

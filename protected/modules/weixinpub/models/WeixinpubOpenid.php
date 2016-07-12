@@ -115,6 +115,10 @@ class WeixinpubOpenid extends EActiveRecord {
     public function getByWeixinPubIdAndUserId($wxPubId, $userId) {
         return $this->getByAttributes(array('weixinpub_id' => $wxPubId, 'user_id' => $userId));
     }
+    
+    public function getByopenId($openId) {
+        return $this->getByAttributes(array('open_id' => $openId));
+    }
 
     /*     * ****** Accessors ******* */
 

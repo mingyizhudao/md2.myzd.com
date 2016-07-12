@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 生成带参数二维码
+ * 生成带参数二维码（暂未正式使用）
  *
  * @author Administrator
  */
@@ -79,7 +79,7 @@ class QrcodeController extends WeixinpubController {
      * @param type $param
      */
     function actionTemporary($url) {
-        require_once '/protected/modules/weixinpub/phpqrcode/phpqrcode.php';
+        require_once 'protected/modules/weixinpub/phpqrcode/phpqrcode.php';
         QRcode::png($url);
     }
     

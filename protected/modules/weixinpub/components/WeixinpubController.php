@@ -18,7 +18,8 @@ class WeixinpubController extends Controller {
      */
     public function loadWechatAccount(){
         if (is_null($this->wechatAccount)){
-            $this->wechatAccount = WechatAccount::model()->getByPubId($this->weixinpubId);
+            $wechatAccount = new WechatAccount();
+            $this->wechatAccount = $wechatAccount->getByPubId($this->weixinpubId);
         }
     }
    

@@ -62,8 +62,8 @@ class WechatapiController extends WeixinpubController {
         $encrypt_type = (isset($_GET['encrypt_type']) && ($_GET['encrypt_type'] == 'aes')) ? "aes" : "raw";
 
         $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
-        $logMsg = "encrypt_type为：$encrypt_type,微信推送的消息内容为：$postStr";
-        WeixinpubLog::log($logMsg, 'info', __METHOD__);
+        //$logMsg = "encrypt_type为：$encrypt_type,微信推送的消息内容为：$postStr";
+        //WeixinpubLog::log($logMsg, 'info', __METHOD__);
 
         if (!empty($postStr)) {
             if ($encrypt_type == 'aes') {//加密模式，先解密
@@ -72,8 +72,8 @@ class WechatapiController extends WeixinpubController {
                 $errCode = $pc->DecryptMsg($msg_signature, $timestamp, $nonce, $postStr, $decryptMsg);
                 $postStr = $decryptMsg;
             }
-            $logMsg = "解密后消息内容为：$postStr";
-            WeixinpubLog::log($logMsg, 'info', __METHOD__);
+            //$logMsg = "解密后消息内容为：$postStr";
+            //WeixinpubLog::log($logMsg, 'info', __METHOD__);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);
         
@@ -93,8 +93,8 @@ class WechatapiController extends WeixinpubController {
                 $errCode = $pc->encryptMsg($result, $timestamp, $nonce, $encryptMsg);
                 $result = $encryptMsg;
             }
-            $logMsg = "回复的消息内容为：$result";
-            WeixinpubLog::log($logMsg, 'info', __METHOD__);
+            //$logMsg = "回复的消息内容为：$result";
+            //WeixinpubLog::log($logMsg, 'info', __METHOD__);
             echo $result;
         } else {
             echo "null";

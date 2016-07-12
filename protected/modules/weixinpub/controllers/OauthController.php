@@ -24,15 +24,42 @@ class OauthController extends WeixinpubController {
         echo $redirectUrl;
     }
     
+    /**
+     * 在微信浏览器内对已注册过的用户实现自动登录
+     * 没有注册的用户返回注册/登录页面
+     * @param type $returnUrl
+     */
+    public function actionAutoLogin($returnUrl,$code = null) {
+        if ($code == null) {
+            $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+            $redirect_uri = urlencode($this->createAbsoluteUrl("oauth/autoLogin?returnUrl=" . $returnUrl));
+            $url = sprintf($url, $this->weixinAppId, $redirect_uri);  
+            header('Location: ' . $url);
+            Yii::app()->end();
+        }        
+        $openid = $this->getOpenidFromMp($code);
+        if (isset($openid)) {           
+            $model = WeixinpubOpenid::model()->getByopenId($openid);
+            if(isset($model)){//用户之前已经注册过
+                $userid = $model->getUserId();
+                $url = Yii::app()->request->hostInfo . "/mobiledoctor/doctor/Wxlogin?userid=" . $userid . "&returnUrl=" . $returnUrl;
+                header('Location: ' . $url);
+                Yii::app()->end();
+            }
+        }
+        $url = Yii::app()->request->hostInfo . "/mobiledoctor/doctor/mobileLogin?loginType=sms&registerFlag=1";
+        header('Location: ' . $url);
+        Yii::app()->end();
+    }
 
     public function actionGetWxOpenId() {
         $code = '';
         if (isset($_GET['code'])) {//请求中有code，通过code获取openid
-            $logMsg = '请求中的code为：' . $code . '，开始通过code换取openid';
-            WeixinpubLog::log("$logMsg", 'info', __METHOD__);
+            //$logMsg = '请求中的code为：' . $code . '，开始通过code换取openid';
+            //WeixinpubLog::log("$logMsg", 'info', __METHOD__);
             $code = $_GET['code'];
         }else{
-            WeixinpubLog::log('请求中不含code，通过页面跳转获取code', 'info', __METHOD__);
+           // WeixinpubLog::log('请求中不含code，通过页面跳转获取code', 'info', __METHOD__);
             $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
             $redirect_uri = urlencode($this->createAbsoluteUrl("oauth/getWxOpenId"));
             $url = sprintf($url, $this->weixinAppId, $redirect_uri);  
