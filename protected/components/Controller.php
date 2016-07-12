@@ -184,8 +184,13 @@ abstract class Controller extends CController {
      * @param string $url
      */
     function send_get($url) {
-        $result = file_get_contents($url, false);
-        return json_decode($result, true);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
     }
 
     /**
