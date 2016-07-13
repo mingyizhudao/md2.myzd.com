@@ -199,20 +199,21 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 checkForm($(this));
             });
         });
-        
-        function is_weixin(){
+
+        function is_weixin() {
             var ua = navigator.userAgent.toLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
                 //alert ('微信浏览器');
                 var registerFlag = '<?php echo $registerFlag; ?>';
                 //alert (registerFlag);
-                if(registerFlag != 1){
+                if (registerFlag != 1) {
+                    J.showMask('获取用户信息中...');
                     //window.location.href = "http://md.mingyizd.com/weixinpub/oauth/autoLogin"; 
                     window.location.href = "<?php echo Yii::app()->request->hostInfo . "/weixinpub/oauth/autoLogin?returnUrl=" . $returnUrl; ?>";
-                }else{
+                } else {
                     return true;
-                }               
-            }else {
+                }
+            } else {
                 //lert ('不是微信浏览器');
                 return true;
             }
