@@ -3,7 +3,7 @@
 class WeixinpubModule extends CWebModule {
     
     //公众号ID
-    public $weixinpubId = 'myzd';
+    public $weixinpubId = 'myzdztc';
     
     //微信二维码存取路径
     public $qrcodePath = 'qrcode';
