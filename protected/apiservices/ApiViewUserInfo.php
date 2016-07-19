@@ -41,12 +41,14 @@ class ApiViewUserInfo extends EApiViewService {
             $data->verified = $profile->isVerified();
             $data->teamDoctor = $profile->isTermsDoctor();
             $data->isCommonweal = $profile->isCommonweal();
+            $data->isContractDoctor = $profile->isContractDoctor();
         } else {
             $data->isProfile = false;
             $data->name = $this->user->getMobile();
             $data->verified = false;
             $data->teamDoctor = false;
             $data->isCommonweal = false;
+            $data->isContractDoctor = false;
         }
         $this->results->userInfo = $data;
     }
