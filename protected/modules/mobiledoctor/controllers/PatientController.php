@@ -74,7 +74,9 @@ class PatientController extends MobiledoctorController {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('ajaxTask', 'ajaxDrTask', 'view', 'createPatientMR', 'updatePatientMR', 'createBooking', 'ajaxCreate', 'ajaxCreatePatientMR', 'ajaxUploadMRFile', 'delectPatientMRFile', 'patientMRFiles', 'uploadMRFile', 'searchView', 'ajaxSearch', 'uploadDAFile'),
+                'actions' => array('ajaxTask', 'ajaxDrTask', 'view', 'createPatientMR', 'updatePatientMR', 'createBooking', 'ajaxCreate',
+                    'ajaxCreatePatientMR', 'ajaxUploadMRFile', 'delectPatientMRFile', 'patientMRFiles', 'uploadMRFile', 'searchView',
+                    'ajaxSearch', 'uploadDAFile', 'viewDaFile'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -181,6 +183,11 @@ class PatientController extends MobiledoctorController {
         $this->render($url, array(
             'output' => array('id' => $id, 'returnUrl' => $returnUrl)
         ));
+    }
+
+    //展示上传小结页面
+    public function actionViewDaFile() {
+        $this->render('viewDaFile');
     }
 
     private function loadPatientInfoById($id) {
