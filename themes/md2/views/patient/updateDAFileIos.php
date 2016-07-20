@@ -25,57 +25,53 @@ if (isset($output['id'])) {
 }
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="uploadMRFile_section" class="active">
-        <article id="a1" class="active" data-scroll="true">
-            <div class="form-wrapper mt10">
-                <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php echo $bookingId; ?>">
-                    <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $patientId; ?>" />
-                    <input id="reportType" type="hidden" name="patient[report_type]" value="da" />
-                </form>
-                <div class="pl10 pr10">
-                    <div>
-                        上传影像资料：
-                    </div>
-                    <div class="mt20">    
-                        <!--图片上传区域 -->
-                        <div id="uploader" class="wu-example">
-                            <div class="imglist">
-                                <ul class="filelist"></ul>
-                            </div>
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder">
-                                    <div id="filePicker"></div>
-                                    <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
-                                </div>
-                            </div>
-                            <div class="statusBar" style="display:none; padding-bottom: 40px;">
-                                <div class="progress">
-                                    <span class="text">0%</span>
-                                    <span class="percentage"></span>
-                                </div>
-                                <div class="info"></div>
-                                <div class="">
-                                    <!-- btn 继续添加 -->
-                                    <div id="filePicker2" class="pull-right"></div>                                
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="mt20">
-<!--                                    <input id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                                    <a id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block">提交</a>
-                                </div>
-                            </div>
-                            <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
-                            <!--                         <div class="statusBar uploadBtn">提交</div>-->
-                        </div>
-
-                    </div>
-                </div>
+<article id="a1" class="active" data-scroll="true">
+    <div class="form-wrapper mt10">
+        <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php echo $bookingId; ?>">
+            <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $patientId; ?>" />
+            <input id="reportType" type="hidden" name="patient[report_type]" value="da" />
+        </form>
+        <div class="pl10 pr10">
+            <div>
+                上传影像资料：
             </div>
-            <div class="mt30"></div>
-        </article>
-    </section>
-</div>
+            <div class="mt20">    
+                <!--图片上传区域 -->
+                <div id="uploader" class="wu-example">
+                    <div class="imglist">
+                        <ul class="filelist"></ul>
+                    </div>
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
+                        </div>
+                    </div>
+                    <div class="statusBar" style="display:none; padding-bottom: 40px;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="">
+                            <!-- btn 继续添加 -->
+                            <div id="filePicker2" class="pull-right"></div>                                
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="mt20">
+<!--                                    <input id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
+                            <a id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block">提交</a>
+                        </div>
+                    </div>
+                    <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
+                    <!--                         <div class="statusBar uploadBtn">提交</div>-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="mt30"></div>
+</article>
 <script type="text/javascript">
     $(document).ready(function () {
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";

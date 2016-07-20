@@ -25,110 +25,110 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         </a>
     </nav>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="" class="active" data-init="true">
-        <article id="doctorPatientBookingList_article" class="active" data-scroll="true">
-            <div class="pb20">
-                <div class="processingList">
-                    <?php
-                    $processingList = $data->results->processingList;
-                    if ($processingList) {
-                        for ($i = 0; $i < count($processingList); $i++) {
-                            $processingBooking = $processingList[$i];
-                            ?>
-                            <a href="<?php echo $this->createUrl('patientbooking/doctorPatientBooking', array('id' => $processingBooking->id, 'type' => $processingBooking->bkType, 'addBackBtn' => 1)); ?>" data-target="link">
-                                <div class="p10 bt5-gray">
-                                    <div class="text-right font-s12 color-green">发送时间：
-                                        <?php
-                                        echo $processingBooking->dateUpdated;
-                                        ?>
-                                    </div>
-                                    <div class="grid">
-                                        <div class="col-0">患者姓名:</div>
-                                        <div class="col-1 pl5"><?php echo $processingBooking->name; ?></div>
-                                    </div>
-                                    <div class="grid mt10">
-                                        <div class="col-0">疾病名称:</div>
-                                        <div class="col-1 pl5"><?php echo $processingBooking->diseaseName; ?></div>
-                                    </div>
-                                    <div class="grid mt10 mb10">
-                                        <div class="col-0">就诊意向:</div>
-                                        <div class="col-1 pl5"><?php echo $processingBooking->travelType; ?></div>
-                                    </div>
-                                </div>
-                            </a>
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <h4 class="text-center">暂无预约信息</h4>
-                        <div class="mt30">
-                            <a href="<?php echo $urlDoctorView; ?>" data-target="link" class="btn btn-yes btn-block">返回个人中心</a>
-                        </div>
-                        <?php
-                    }
+<article id="doctorPatientBookingList_article" class="active" data-scroll="true">
+    <div class="pb20">
+        <div class="processingList">
+            <?php
+            $processingList = $data->results->processingList;
+            if ($processingList) {
+                for ($i = 0; $i < count($processingList); $i++) {
+                    $processingBooking = $processingList[$i];
                     ?>
-                </div>
-                <div class="doneList hide">
-                    <?php
-                    $doneList = $data->results->doneList;
-                    if ($doneList) {
-                        for ($i = 0; $i < count($doneList); $i++) {
-                            $doneBooking = $doneList[$i];
-                            ?>
-                            <a href="<?php echo $this->createUrl('patientbooking/doctorPatientBooking', array('id' => $doneBooking->id, 'type' => $doneBooking->bkType, 'addBackBtn' => 1)); ?>" data-target="link">
-                                <div class="p10 bt5-gray grid">
-                                    <div class="col-0 grid middle mr10">
-                                        <?php
-                                        if ($doneBooking->doctorAccept == 1) {
-                                            $imgName = 'agree';
-                                        } else {
-                                            $imgName = 'disAgree';
-                                        }
-                                        ?>
-                                        <img src="<?php echo $urlResImage; ?><?php echo $imgName; ?>.png" class="w35p">
-                                    </div>
-                                    <div class="col-1">
-                                        <div class="text-right font-s12 color-green">发送时间：
-                                            <?php
-                                            if (isset($doneBooking->dateUpdated)) {
-                                                echo $doneBooking->dateUpdated;
-                                            } else {
-                                                echo $doneBooking->dateCreated;
-                                            }
-                                            ?>
-                                        </div>
-                                        <div class="grid">
-                                            <div class="col-0">患者姓名:</div>
-                                            <div class="col-1 pl5"><?php echo $doneBooking->name; ?></div>
-                                        </div>
-                                        <div class="grid mt10">
-                                            <div class="col-0">疾病名称:</div>
-                                            <div class="col-1 pl5"><?php echo $doneBooking->diseaseName; ?></div>
-                                        </div>
-                                        <div class="grid mt10 mb10">
-                                            <div class="col-0">就诊意向:</div>
-                                            <div class="col-1 pl5"><?php echo $doneBooking->travelType; ?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <h4 class="text-center">暂无预约信息</h4>
-                        <div class="mt30">
-                            <a href="<?php echo $urlDoctorView; ?>" data-target="link" class="btn btn-yes btn-block">返回个人中心</a>
+                    <a href="<?php echo $this->createUrl('patientbooking/doctorPatientBooking', array('id' => $processingBooking->id, 'type' => $processingBooking->bkType, 'addBackBtn' => 1)); ?>" data-target="link">
+                        <div class="p10 bt5-gray">
+                            <div class="text-right font-s12 color-green">发送时间：
+                                <?php
+                                echo $processingBooking->dateUpdated;
+                                ?>
+                            </div>
+                            <div class="grid">
+                                <div class="col-0">患者姓名:</div>
+                                <div class="col-1 pl5"><?php echo $processingBooking->name; ?></div>
+                            </div>
+                            <div class="grid mt10">
+                                <div class="col-0">疾病名称:</div>
+                                <div class="col-1 pl5"><?php echo $processingBooking->diseaseName; ?></div>
+                            </div>
+                            <div class="grid mt10 mb10">
+                                <div class="col-0">就诊意向:</div>
+                                <div class="col-1 pl5"><?php echo $processingBooking->travelType; ?></div>
+                            </div>
                         </div>
-                        <?php
-                    }
-                    ?>
+                    </a>
+                    <?php
+                }
+            } else {
+                ?>
+                <div class="mb10">
+                    <div class="mt50 text-center">
+                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">
+                    </div>
+                    <div class="text-center font-s24 color-gray9">暂无预约信息</div>
                 </div>
-            </div>
-        </article>
-    </section>
-</div>
+                <?php
+            }
+            ?>
+        </div>
+        <div class="doneList hide">
+            <?php
+            $doneList = $data->results->doneList;
+            if ($doneList) {
+                for ($i = 0; $i < count($doneList); $i++) {
+                    $doneBooking = $doneList[$i];
+                    ?>
+                    <a href="<?php echo $this->createUrl('patientbooking/doctorPatientBooking', array('id' => $doneBooking->id, 'type' => $doneBooking->bkType, 'addBackBtn' => 1)); ?>" data-target="link">
+                        <div class="p10 bt5-gray grid">
+                            <div class="col-0 grid middle mr10">
+                                <?php
+                                if ($doneBooking->doctorAccept == 1) {
+                                    $imgName = 'agree';
+                                } else {
+                                    $imgName = 'disAgree';
+                                }
+                                ?>
+                                <img src="<?php echo $urlResImage; ?><?php echo $imgName; ?>.png" class="w35p">
+                            </div>
+                            <div class="col-1">
+                                <div class="text-right font-s12 color-green">发送时间：
+                                    <?php
+                                    if (isset($doneBooking->dateUpdated)) {
+                                        echo $doneBooking->dateUpdated;
+                                    } else {
+                                        echo $doneBooking->dateCreated;
+                                    }
+                                    ?>
+                                </div>
+                                <div class="grid">
+                                    <div class="col-0">患者姓名:</div>
+                                    <div class="col-1 pl5"><?php echo $doneBooking->name; ?></div>
+                                </div>
+                                <div class="grid mt10">
+                                    <div class="col-0">疾病名称:</div>
+                                    <div class="col-1 pl5"><?php echo $doneBooking->diseaseName; ?></div>
+                                </div>
+                                <div class="grid mt10 mb10">
+                                    <div class="col-0">就诊意向:</div>
+                                    <div class="col-1 pl5"><?php echo $doneBooking->travelType; ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <?php
+                }
+            } else {
+                ?>
+                <div class="mb10">
+                    <div class="mt50 text-center">
+                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">
+                    </div>
+                    <div class="text-center font-s24 color-gray9">暂无预约信息</div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         $(".bookingMenu").tap(function () {

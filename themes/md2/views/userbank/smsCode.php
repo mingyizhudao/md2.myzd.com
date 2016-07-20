@@ -9,32 +9,28 @@ $urlViewSetKey = $this->createUrl('userbank/ViewSetKey');
 $authActionType = AuthSmsVerify::ACTION_USER_BANK;
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="main_section" class="active">
-        <article id="smsCode_article" class="active" data-scroll="true">
-            <div>
-                <?php
-                echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
-                echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
-                ?>
-                <div class="pt20 pl10">
-                    <?php echo '请输入' . mb_substr($mobile, 0, 3, 'utf-8') . '****' . mb_substr($mobile, 7, 10, 'utf-8') . '收到的短信验证码' ?>
-                </div>
-                <div class="grid mt20 pt5 pb5 bg-white">
-                    <div class="col-1">
-                        <input name="smsCode" type="number" placeholder="请输入短信验证码">
-                    </div>
-                    <div class="col-0 w95p text-center bl-gray">
-                        <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
-                    </div>
-                </div>
-                <div class="pt30 pl10 pr10">
-                    <a id="submitBtn" href="javascript:;" class="btn btn-full btn-yellow2">下一步</a>
-                </div>
+<article id="smsCode_article" class="active" data-scroll="true">
+    <div>
+        <?php
+        echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
+        echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
+        ?>
+        <div class="pt20 pl10">
+            <?php echo '请输入' . mb_substr($mobile, 0, 3, 'utf-8') . '****' . mb_substr($mobile, 7, 10, 'utf-8') . '收到的短信验证码' ?>
+        </div>
+        <div class="grid mt20 pt5 pb5 bg-white">
+            <div class="col-1">
+                <input name="smsCode" type="number" placeholder="请输入短信验证码">
             </div>
-        </article>
-    </section>
-</div>
+            <div class="col-0 w95p text-center bl-gray">
+                <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
+            </div>
+        </div>
+        <div class="pt30 pl10 pr10">
+            <a id="submitBtn" href="javascript:;" class="btn btn-full btn-yellow2">下一步</a>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         timerId = null;

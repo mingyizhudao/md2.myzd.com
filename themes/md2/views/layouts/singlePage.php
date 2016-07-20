@@ -33,22 +33,27 @@
         ?>
     </head>
     <body>
-        <?php
-        if ($this->showHeader()) {
-            $this->renderPartial('//layouts/header');
-        }
-        ?>
-        <!-- /header -->
+        <div id="section_container" <?php echo $this->createPageAttributes(); ?> >
+            <section id="main_section" class="active" data-init="true">
+                <?php
+                if ($this->showHeader()) {
+                    //$this->renderPartial('//layouts/header');
+                }
+                ?>
+                <!-- /header -->
 
-        <?php
-        echo $content;
-        ?>  
-        <!-- /content -->
-        <?php
-        if ($this->showFooter()) {
-            //       $this->renderPartial('//layouts/footer');
-        }
-        ?>
-        <!-- /footer -->
+                <?php
+                if ($this->showFooter()) {
+                    $this->renderPartial('//layouts/footer');
+                }
+                ?>
+                <!-- /footer -->
+
+                <?php
+                echo $content;
+                ?>  
+                <!-- /content -->
+            </section>
+        </div>
     </body>
 </html>

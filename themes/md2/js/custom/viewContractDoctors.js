@@ -4,10 +4,7 @@ $('#stateSelect').tap(function () {
     var stateName = $('#stateTitle').html();
     var stateId = $('#stateTitle').attr('data-state');
     var innerPage = '<div id="findDoc_section">' +
-            '<header class="bg-green">' +
-            '<h1 class="title">签约专家</h1>' +
-            '</header>' +
-            '<nav id="contractDoctors_nav" class="header-secondary bg-white">' +
+            '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
             '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
             '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="../../themes/md2/images/gray.png">' +
@@ -64,10 +61,7 @@ function deptSelect() {
     var stateName = $('#stateTitle').html();
     var stateId = $('#stateTitle').attr('data-state');
     var innerPage = '<div id="findDoc_section">' +
-            '<header class="bg-green">' +
-            '<h1 class="title">签约专家</h1>' +
-            '</header>' +
-            '<nav id="contractDoctors_nav" class="header-secondary bg-white">' +
+            '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
             '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
             '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="../../themes/md2/images/gray.png">' +
@@ -133,7 +127,7 @@ function deptSelect() {
 //医生页面
 function readyDoc(data) {
     var results = data.results;
-    var innerHtml = '<div class="pt50"></div>';
+    var innerHtml = '';
     if (results) {
         if (results.length > 0) {
             for (var i = 0; i < results.length; i++) {

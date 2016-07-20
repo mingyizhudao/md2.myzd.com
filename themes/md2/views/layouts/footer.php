@@ -1,17 +1,79 @@
 <?php
-$urlHome = $this->createUrl('home/index');
-$urlExpertteam = $this->createUrl('expertteam/index');
-$urlHospital = $this->createUrl('hospital/index');
-$urlEnquiry = $this->createUrl('home/enquiry');
+$urlCreatePatient = $this->createUrl('patient/create', array('addBackBtn' => 1, 'status' => 0));
+$urlDoctorView = $this->createUrl('doctor/view');
+$urlHome = $this->createUrl('home/page', array('view' => 'home'));
+$urlFindView = $this->createUrl('home/page', array('view' => 'findView', 'app' => 0));
+$urlPatientBookingList = $this->createUrl('patientbooking/list', array('status' => 0, 'addBackBtn' => 1));
+$urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div data-role="footer" data-tap-toggle="false" data-position="fixed" class="ui-footer ui-footer-fixed slideup">   
-    <div data-role="navbar" class="ui-navbar" role="navigation">
-        <ul class="ui-grid-c">
-       <!--     <li class="ui-block-a"><a href="<?php echo $urlHome; ?>" data-prefetch="true" data-transition="slidefade" data-icon="home" data-title="首页">首页</a></li>-->
-            <li class="ui-block-a"><a id="f-nav-home" href="<?php echo $urlHome; ?>" xrel="external" data-ajax="false" data-prefetch="true" data-transition="slidefade" class="ui-link ui-btn ui-btn-icon-top m-icon-home nobg">名医主刀</a></li>
-            <li class="ui-block-b"><a id="f-nav-expertteam" href="<?php echo $urlExpertteam; ?>" xrel="external" data-prefetch="true" data-transition="slidefade" class="ui-link ui-btn ui-btn-icon-top  m-icon-cloud nobg">明星团队</a></li>
-            <li class="ui-block-c"><a id="f-nav-hospital" href="<?php echo $urlHospital; ?>" data-ajax="false"  data-prefetch="true" data-transition="slidefade" class="ui-link ui-btn ui-btn-icon-top m-icon-globe nobg">合作医院</a></li>
-            <li class="ui-block-d"><a id="f-nav-enquiry" href="<?php echo $urlEnquiry; ?>" data-prefetch="true" data-transition="slidefade" class="ui-link ui-btn ui-btn-icon-top m-icon-call nobg">快速预约</a></li>
-        </ul>
+<footer id="public_footer" class="bg-white hide">
+    <div class="">
+        <a href="<?php echo $urlCreatePatient; ?>" class="createIcon"></a>
     </div>
-</div>
+    <ul class="control-group w100">
+        <li class="w25" data-active="home_footer">
+            <a href="<?php echo $urlHome; ?>">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 homeIcon"></div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="font-s12">首页</div>
+            </a>
+        </li>
+        <li class="w25" data-active="find_footer">
+            <a href="<?php echo $urlFindView; ?>">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 findIcon"></div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="font-s12">发现</div>
+            </a>
+        </li>
+        <li class="w25" data-active="create_footer">
+            <a href="">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0">
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="font-s12 pt24">创建</div>
+            </a>
+        </li>
+        <li class="w25" data-active="order_footer">
+            <a href="<?php echo $urlPatientBookingList; ?>">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 orderIcon"></div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="font-s12">订单</div>
+            </a>
+        </li>
+        <li class="w25" data-active="center_footer">
+            <a href="<?php echo $urlDoctorView; ?>">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 centerIcon"></div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="font-s12">我的</div>
+            </a>
+        </li>
+    </ul>
+</footer>
+<script>
+    /*新页面，自动给footer中添加active*/
+    $(document).ready(function () {
+        var active = $('article').attr('data-active');
+
+        $('footer li').each(function () {
+            if ($(this).attr('data-active') == active) {
+                $(this).addClass('active');
+            }
+        });
+        $('footer').removeClass('hide');
+    });
+</script>

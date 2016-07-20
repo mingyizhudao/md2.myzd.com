@@ -40,62 +40,58 @@ if (isset($output['id'])) {
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="uploadMRFile_section" class="active">
-        <article id="" class="active android_article" data-scroll="true">
-            <div class="mt20 pl10 pr10">
-                <div>
-                    上传影像资料
-                </div>
-                <div class="imglist mt10">
-                    <ul class="filelist"></ul>
-                </div>
-                <div class="clearfix"></div>
-                <div class="form-wrapper mt20">
-                    <div class="">
-                        <div class="container">
-                            <div class="text-left wrapper">
-                                <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php echo $bookingId; ?>">
-                                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php echo $patientId; ?>" />
-                                    <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
-                                    <input type="hidden" id="domain" value="http://mr.file.mingyizhudao.com">
-                                    <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
-                                </form>
-                            </div>
-                            <div class="body mt10">
-                                <div class="text-center">
-                                    <div id="container">
-                                        <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
-                                            <span>选择影像资料</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 mt10">
-                                    <table class="table table-striped table-hover text-left" style="display:none">
-                                        <tbody id="fsUploadProgress">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="submitBtn" class="hide">
-                                <button class="btn btn-full bg-green color-white">上传</button>
+<article id="" class="active android_article" data-scroll="true">
+    <div class="mt20 pl10 pr10">
+        <div>
+            上传影像资料
+        </div>
+        <div class="imglist mt10">
+            <ul class="filelist"></ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-wrapper mt20">
+            <div class="">
+                <div class="container">
+                    <div class="text-left wrapper">
+                        <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php echo $bookingId; ?>">
+                            <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php echo $patientId; ?>" />
+                            <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
+                            <input type="hidden" id="domain" value="http://mr.file.mingyizhudao.com">
+                            <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
+                        </form>
+                    </div>
+                    <div class="body mt10">
+                        <div class="text-center">
+                            <div id="container">
+                                <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
+                                    <span>选择影像资料</span>
+                                </a>
                             </div>
                         </div>
+                        <div class="col-md-12 mt10">
+                            <table class="table table-striped table-hover text-left" style="display:none">
+                                <tbody id="fsUploadProgress">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="submitBtn" class="hide">
+                        <button class="btn btn-full bg-green color-white">上传</button>
                     </div>
                 </div>
-                <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
-                    <div class="popup-title">提示</div>
-                    <div class="popup-content text-center">确定删除这张图片?</div>
-                    <div id="popup_btn_container">
-                        <a class="cancel">取消</a>
-                        <a class="delete">确定</a>
-                    </div>
-                </div>
-                <div id="jingle_toast" class="toast"><a href="#">取消!</a></div>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+        <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
+            <div class="popup-title">提示</div>
+            <div class="popup-content text-center">确定删除这张图片?</div>
+            <div id="popup_btn_container">
+                <a class="cancel">取消</a>
+                <a class="delete">确定</a>
+            </div>
+        </div>
+        <div id="jingle_toast" class="toast"><a href="#">取消!</a></div>
+    </div>
+</article>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#deleteConfirm .cancel").click(function () {

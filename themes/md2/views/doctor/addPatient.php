@@ -4,7 +4,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlBookingDoctor = $this->createAbsoluteUrl('booking/create', array('did' => ''));
 $url = $this->createUrl('home/page', array('view' => 'bookingDoctor', 'addBackBtn' => '1'));
 $urlPatientCreate = $this->createUrl('patient/create', array('addBackBtn' => 1));
-$this->show_footer = false;
 $doctor = $doctorInfo->results->doctor;
 $noBookingList = $patientList->results->noBookingList;
 $id = Yii::app()->request->getQuery('id', '');
@@ -23,63 +22,59 @@ $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBt
         确定
     </nav>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="addPatient_section" class="active" data-init="true">
-        <article id="addPatient_article" class="active" data-scroll="true">
-            <div class="pl10 pr10">
-                <div class="mt10 pt15 pb30 pl10 doctorInf">
-                    <div>
-                        您已选择:<?php echo $doctor->name; ?> <?php echo $doctor->mTitle; ?> <?php echo $doctor->aTitle; ?>
+<article id="addPatient_article" class="active" data-scroll="true">
+    <div class="pl10 pr10">
+        <div class="mt10 pt15 pb30 pl10 doctorInf">
+            <div>
+                您已选择:<?php echo $doctor->name; ?> <?php echo $doctor->mTitle; ?> <?php echo $doctor->aTitle; ?>
+            </div>
+            <div class="pt10">
+                <?php echo $doctor->hospitalName; ?>-<?php echo $doctor->hpDeptName; ?>
+            </div>
+        </div>
+        <div class="mt20 grid">
+            <div class="col-1 pl10">
+                请您选择患者:
+            </div>
+            <div class="col-0">
+                还没患者?
+                <a href="<?php echo $urlPatientCreate; ?>?returnUrl=<?php echo $returnUrl; ?>" class="color-green mr10">立即创建</a>
+            </div>
+        </div>
+        <?php
+        if (count($noBookingList) > 0) {
+            for ($i = 0; $i < count($noBookingList); $i++) {
+                $patientInfo = $noBookingList[$i];
+                if ($patientInfo->age > 5) {
+                    $age = $patientInfo->age . '岁';
+                } else {
+                    $age = $patientInfo->age . '岁' . $patientInfo->ageMonth . '月';
+                }
+                ?>
+                <div class="grid patientList mt10">
+                    <div class="col-0 w50p grid middle">
+                        <img src="<?php echo $urlResImage; ?>unSelect.png" class="selectPatient w20p" data-id="<?php echo $patientInfo->id; ?>">
                     </div>
-                    <div class="pt10">
-                        <?php echo $doctor->hospitalName; ?>-<?php echo $doctor->hpDeptName; ?>
-                    </div>
-                </div>
-                <div class="mt20 grid">
-                    <div class="col-1 pl10">
-                        请您选择患者:
-                    </div>
-                    <div class="col-0">
-                        还没患者?
-                        <a href="<?php echo $urlPatientCreate; ?>?returnUrl=<?php echo $returnUrl; ?>" class="color-green mr10">立即创建</a>
+                    <div class="col-1">
+                        <div class="mt10"><?php echo $patientInfo->name; ?></div>
+                        <div class="grid">
+                            <div class="col-1"><?php echo $patientInfo->gender; ?> <?php echo $age; ?> <?php echo $patientInfo->cityName; ?></div>
+                            <div class="col-0">
+                                <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBooking' => '0', 'addBackBtn' => 1)); ?>" class="color-green mr10 a-underline">
+                                    查看详情
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mb10"><?php echo $patientInfo->diseaseName; ?></div>
                     </div>
                 </div>
                 <?php
-                if (count($noBookingList) > 0) {
-                    for ($i = 0; $i < count($noBookingList); $i++) {
-                        $patientInfo = $noBookingList[$i];
-                        if ($patientInfo->age > 5) {
-                            $age = $patientInfo->age . '岁';
-                        } else {
-                            $age = $patientInfo->age . '岁' . $patientInfo->ageMonth . '月';
-                        }
-                        ?>
-                        <div class="grid patientList mt10">
-                            <div class="col-0 w50p grid middle">
-                                <img src="<?php echo $urlResImage; ?>unSelect.png" class="selectPatient w20p" data-id="<?php echo $patientInfo->id; ?>">
-                            </div>
-                            <div class="col-1">
-                                <div class="mt10"><?php echo $patientInfo->name; ?></div>
-                                <div class="grid">
-                                    <div class="col-1"><?php echo $patientInfo->gender; ?> <?php echo $age; ?> <?php echo $patientInfo->cityName; ?></div>
-                                    <div class="col-0">
-                                        <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBooking' => '0', 'addBackBtn' => 1)); ?>" class="color-green mr10 a-underline">
-                                            查看详情
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="mb10"><?php echo $patientInfo->diseaseName; ?></div>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                }
-                ?>
-                <div class="pt20"></div>
-            </div>
-        </article>
-    </section>
-</div>
+            }
+        }
+        ?>
+        <div class="pt20"></div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         $('.selectPatient').click(function () {

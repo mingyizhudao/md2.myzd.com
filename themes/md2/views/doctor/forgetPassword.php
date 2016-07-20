@@ -25,81 +25,77 @@ $this->show_footer = false;
     </nav>
     <h1 class="title">忘记密码</h1>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="" class="active" data-init="true">
-        <article id="forgetPassword_article" class="active" data-scroll="true">
-            <div class="ml10 mr10">
-                <?php
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'forgetPassword-form',
-                    'htmlOptions' => array('data-url-action' => $urlAjaxForgetPassword, 'data-url-return' => $urlreturn, 'data-url-checkCode' => $urlDoctorValiCaptcha),
-                    'enableClientValidation' => false,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                        'validateOnType' => true,
-                        'validateOnDelay' => 500,
-                        'errorCssClass' => 'error',
-                    ),
-                    'enableAjaxValidation' => false,
-                ));
-                echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
-                echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
-                ?>
-                <div class="input mt30">
-                    <div class="">
-                        <div class="inputBorder mb10">
-                            <?php echo $form->textField($model, 'username', array('placeholder' => '请输入您的手机号', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <?php echo $form->error($model, 'username'); ?>
-                    </div>
+<article id="forgetPassword_article" class="active" data-scroll="true">
+    <div class="ml10 mr10">
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'forgetPassword-form',
+            'htmlOptions' => array('data-url-action' => $urlAjaxForgetPassword, 'data-url-return' => $urlreturn, 'data-url-checkCode' => $urlDoctorValiCaptcha),
+            'enableClientValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => true,
+                'validateOnType' => true,
+                'validateOnDelay' => 500,
+                'errorCssClass' => 'error',
+            ),
+            'enableAjaxValidation' => false,
+        ));
+        echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
+        echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
+        ?>
+        <div class="input mt30">
+            <div class="">
+                <div class="inputBorder mb10">
+                    <?php echo $form->textField($model, 'username', array('placeholder' => '请输入您的手机号', 'class' => 'noPaddingInput')); ?>
                 </div>
-                <div class="input mt30">
-                    <div class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <?php echo $form->passwordField($model, 'password_new', array('placeholder' => '请输入新密码', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p smsHide smsSwitch">
-                        </div>
-                    </div>
-                    <?php echo $form->error($model, 'password_new'); ?>
-                </div>
-                <div class="input mt30">
-                    <div id="captchaCode" class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <input type="text" id="ForgetPasswordForm_captcha_code" class="noPaddingInput" name="ForgetPasswordForm[captcha_code]" placeholder="请输入图形验证码">
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p text-center">
-                            <div class="input-group-addon">
-                                <a href="javascript:void(0);"><img src="<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha" class="h40" onclick="this.src = '<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha/' + Math.random()"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="input mt30">
-                    <div class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <?php echo $form->textField($model, 'verify_code', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p text-center">
-                            <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
-                        </div>
-                    </div>
-                    <?php echo $form->error($model, 'verify_code'); ?>
-                </div>
-                <div class="mt40">
-                    <a id="btnSubmit" class="btn btn-yes btn-full">确认重置密码</a>
-                </div>
-                <?php $this->endWidget(); ?>
+                <?php echo $form->error($model, 'username'); ?>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+        <div class="input mt30">
+            <div class="grid inputBorder mb10">
+                <div class="col-1">
+                    <?php echo $form->passwordField($model, 'password_new', array('placeholder' => '请输入新密码', 'class' => 'noPaddingInput')); ?>
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p smsHide smsSwitch">
+                </div>
+            </div>
+            <?php echo $form->error($model, 'password_new'); ?>
+        </div>
+        <div class="input mt30">
+            <div id="captchaCode" class="grid inputBorder mb10">
+                <div class="col-1">
+                    <input type="text" id="ForgetPasswordForm_captcha_code" class="noPaddingInput" name="ForgetPasswordForm[captcha_code]" placeholder="请输入图形验证码">
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p text-center">
+                    <div class="input-group-addon">
+                        <a href="javascript:void(0);"><img src="<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha" class="h40" onclick="this.src = '<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha/' + Math.random()"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input mt30">
+            <div class="grid inputBorder mb10">
+                <div class="col-1">
+                    <?php echo $form->textField($model, 'verify_code', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p text-center">
+                    <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
+                </div>
+            </div>
+            <?php echo $form->error($model, 'verify_code'); ?>
+        </div>
+        <div class="mt40">
+            <a id="btnSubmit" class="btn btn-yes btn-full">确认重置密码</a>
+        </div>
+        <?php $this->endWidget(); ?>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         //密码可见切换

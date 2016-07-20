@@ -25,122 +25,118 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
         </a>
     </nav>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="main_section" class="active">
-        <article class="active userbank_article" data-scroll="true">
-            <div class="pt10">
-                <?php
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'card-form',
-                    'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxCreate),
-                    'enableClientValidation' => false,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                        'validateOnType' => true,
-                        'validateOnDelay' => 500,
-                        'errorCssClass' => 'error',
-                    ),
-                    'enableAjaxValidation' => false,
-                ));
-                echo $form->hiddenField($model, 'id', array('name' => 'card[id]', 'value' => $model->id));
-                echo $form->hiddenField($model, 'id', array('name' => 'card[is_default]', 'value' => $model->is_default));
-                ?>
-                <div class="pl10 pr10 bg-white">
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                持卡人
-                            </div>
-                            <div class="col-1">
-                                <?php echo $form->textField($model, 'name', array('name' => 'card[name]', 'placeholder' => '请输入姓名', 'class' => 'noPaddingInput')); ?>
-                            </div>
-                        </div>
+<article class="active userbank_article" data-scroll="true">
+    <div class="pt10">
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'card-form',
+            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxCreate),
+            'enableClientValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => true,
+                'validateOnType' => true,
+                'validateOnDelay' => 500,
+                'errorCssClass' => 'error',
+            ),
+            'enableAjaxValidation' => false,
+        ));
+        echo $form->hiddenField($model, 'id', array('name' => 'card[id]', 'value' => $model->id));
+        echo $form->hiddenField($model, 'id', array('name' => 'card[is_default]', 'value' => $model->is_default));
+        ?>
+        <div class="pl10 pr10 bg-white">
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        持卡人
                     </div>
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                卡号
-                            </div>
-                            <div class="col-1">
-                                <?php echo $form->numberField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                省份
-                            </div>
-                            <div class="col-1">
-                                <?php
-                                echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
-                                    'name' => 'card[state_id]',
-                                    'prompt' => '选择省份',
-                                    'class' => '',
-                                ));
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                城市
-                            </div>
-                            <div class="col-1">                        
-                                <?php
-                                echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
-                                    'name' => 'card[city_id]',
-                                    'prompt' => '选择城市',
-                                    'class' => '',
-                                ));
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                开户银行
-                            </div>
-                            <div class="col-1">
-                                <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '选择开户银行', 'class' => 'noPaddingInput')); ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="inputRow">
-                        <div class="grid bb-gray">
-                            <div class="col-0 w90p vertical-center">
-                                支行名称
-                            </div>
-                            <div class="col-1">
-                                <?php echo $form->textField($model, 'subbranch', array('name' => 'card[subbranch]', 'placeholder' => '选择银行支行', 'class' => 'noPaddingInput')); ?>
-                            </div>
-                        </div>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'name', array('name' => 'card[name]', 'placeholder' => '请输入姓名', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
-                <div class="grid pt10 pl10 pr10">
-                    <div class="col-1"></div>
-                    <div id="setDefault" class="col-0" data-select="<?php echo $model->is_default; ?>">
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        卡号
+                    </div>
+                    <div class="col-1">
+                        <?php echo $form->numberField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        省份
+                    </div>
+                    <div class="col-1">
                         <?php
-                        if ($model->is_default == 0) {
-                            echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认';
-                        } else {
-                            echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146665213709967" class="w17p mr6">设为默认';
-                        }
+                        echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
+                            'name' => 'card[state_id]',
+                            'prompt' => '选择省份',
+                            'class' => '',
+                        ));
                         ?>
                     </div>
                 </div>
-                <?php
-                $this->endWidget();
-                ?>
-                <div class="pad10">
-                    <button id="submitBtn" class="btn btn-full btn-yellow3">保存</button>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        城市
+                    </div>
+                    <div class="col-1">                        
+                        <?php
+                        echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
+                            'name' => 'card[city_id]',
+                            'prompt' => '选择城市',
+                            'class' => '',
+                        ));
+                        ?>
+                    </div>
                 </div>
             </div>
-        </article>
-    </section>
-</div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        开户银行
+                    </div>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '选择开户银行', 'class' => 'noPaddingInput')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        支行名称
+                    </div>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'subbranch', array('name' => 'card[subbranch]', 'placeholder' => '选择银行支行', 'class' => 'noPaddingInput')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid pt10 pl10 pr10">
+            <div class="col-1"></div>
+            <div id="setDefault" class="col-0" data-select="<?php echo $model->is_default; ?>">
+                <?php
+                if ($model->is_default == 0) {
+                    echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认';
+                } else {
+                    echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146665213709967" class="w17p mr6">设为默认';
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+        $this->endWidget();
+        ?>
+        <div class="pad10">
+            <button id="submitBtn" class="btn btn-full btn-yellow3">保存</button>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         $('#delete').click(function () {

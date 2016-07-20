@@ -44,118 +44,114 @@ if (isset($output['id'])) {
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section class="active">
-        <article id="" class="active pad1 android_article" data-scroll="true">
-            <div class="form-wrapper">
-                <!-- file uploader -->
+<article id="" class="active pad1 android_article" data-scroll="true">
+    <div class="form-wrapper">
+        <!-- file uploader -->
+        <div class="">
+            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
+            <div class="">
+                <label>上传医生职业证书或者手持工牌照</label>
+            </div>
+            <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
+            <?php
+            if ($output['isVerified']) {
+                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
+            }
+            ?>
+            <div class="imglist mt10">
+                <ul class="filelist"></ul>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-wrapper mt20">
+                <div class="uploadFileAndroid hide">
+                    <div class="container">
+                        <div class="text-left wrapper">
+                            <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
+                                <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
+                                <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
+                                <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
+                            </form>
+                        </div>
+                        <div class="body mt10">
+                            <div class="text-center">
+                                <div id="container">
+                                    <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
+                                        <span>选择图片</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt10">
+                                <table class="table table-striped table-hover text-left" style="display:none">
+                                    <tbody id="fsUploadProgress">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="submitBtn" class="hide">
+                            <a class="btn btn-full bg-green color-white">上传</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="">
-                    <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
-                    <div class="">
-                        <label>上传医生职业证书或者手持工牌照</label>
-                    </div>
-                    <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
-                    <?php
-                    if ($output['isVerified']) {
-                        echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-                    }
-                    ?>
-                    <div class="imglist mt10">
-                        <ul class="filelist"></ul>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="form-wrapper mt20">
-                        <div class="uploadFileAndroid hide">
-                            <div class="container">
-                                <div class="text-left wrapper">
-                                    <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
-                                        <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
-                                        <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
-                                        <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
-                                    </form>
-                                </div>
-                                <div class="body mt10">
-                                    <div class="text-center">
-                                        <div id="container">
-                                            <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
-                                                <span>选择图片</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mt10">
-                                        <table class="table table-striped table-hover text-left" style="display:none">
-                                            <tbody id="fsUploadProgress">
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div id="submitBtn" class="hide">
-                                    <a class="btn btn-full bg-green color-white">上传</a>
-                                </div>
+                    <div class="example">
+                        <label class="color-red">示例:</label>
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a">
+                                <img src="<?php echo $urlResImage; ?>docexample1.png"/>
+                            </div>
+                            <div class="ui-block-b">
+                                <span>或</span>
+                            </div>
+                            <div class="ui-block-c">
+                                <img src="<?php echo $urlResImage; ?>docexample2.jpg"/>
                             </div>
                         </div>
-                        <div class="">
-                            <div class="example">
-                                <label class="color-red">示例:</label>
-                                <div class="ui-grid-b">
-                                    <div class="ui-block-a">
-                                        <img src="<?php echo $urlResImage; ?>docexample1.png"/>
-                                    </div>
-                                    <div class="ui-block-b">
-                                        <span>或</span>
-                                    </div>
-                                    <div class="ui-block-c">
-                                        <img src="<?php echo $urlResImage; ?>docexample2.jpg"/>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
-            <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
-                <div class="popup-title">提示</div>
-                <div class="popup-content text-center">确定删除这张图片?</div>
-                <div id="popup_btn_container">
-                    <a class="cancel">取消</a>
-                    <a class="delete">确定</a>
-                </div>
-            </div>
-            <div id="successConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -77.5px;">
-                <div><div class="popup-title">提示</div>
-                    <div class="popup-content">
-                        <h4 class="text-center">提交成功，请耐心等待审核</h4>
-                        <div class="mt20">
-                            <a data-target="link" href="<?php echo $urlReturn; ?>" class="btn btn-yes btn-block">确定</a>
-                        </div>
-                    </div>
-                </div>
-                <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
-            </div>
-            <div id="errorConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -77.5px;">
-                <div><div class="popup-title">提示</div>
-                    <div class="popup-content">
-                        <h4 class="text-center">提交失败！</h4>
-                        <div class="confirmcontent"></div>
-                        <div class="mt20">
-                            <a data-target="link" href="" class="btn btn-yes btn-block">确定</a>
-                        </div>
-                    </div>
-                </div>
-                <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
-            </div>
-
-            <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
-            <div id="jingle_popup_mask" style="opacity: 0.3;"></div>
-        </article>
-        <div id="imgConfirm" class="confirm" style="left: 0px; right: 0px;">
-            <div class="imgpopup">
-                <img src="">
-            </div>
-            <div id="tag_close_popup" class="icon cancel-circle"></div>
         </div>
-    </section>
+    </div>
+    <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
+        <div class="popup-title">提示</div>
+        <div class="popup-content text-center">确定删除这张图片?</div>
+        <div id="popup_btn_container">
+            <a class="cancel">取消</a>
+            <a class="delete">确定</a>
+        </div>
+    </div>
+    <div id="successConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -77.5px;">
+        <div><div class="popup-title">提示</div>
+            <div class="popup-content">
+                <h4 class="text-center">提交成功，请耐心等待审核</h4>
+                <div class="mt20">
+                    <a data-target="link" href="<?php echo $urlReturn; ?>" class="btn btn-yes btn-block">确定</a>
+                </div>
+            </div>
+        </div>
+        <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
+    </div>
+    <div id="errorConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -77.5px;">
+        <div><div class="popup-title">提示</div>
+            <div class="popup-content">
+                <h4 class="text-center">提交失败！</h4>
+                <div class="confirmcontent"></div>
+                <div class="mt20">
+                    <a data-target="link" href="" class="btn btn-yes btn-block">确定</a>
+                </div>
+            </div>
+        </div>
+        <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
+    </div>
+
+    <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
+    <div id="jingle_popup_mask" style="opacity: 0.3;"></div>
+</article>
+<div id="imgConfirm" class="confirm" style="left: 0px; right: 0px;">
+    <div class="imgpopup">
+        <img src="">
+    </div>
+    <div id="tag_close_popup" class="icon cancel-circle"></div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

@@ -15,41 +15,37 @@ $userProfile = $userDoctorProfile;
 $userVerified = $verified;
 $userDoctorCerts = $doctorCerts;
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="account_section" class="active">
-        <article class="active" data-scroll="true">
-            <div class="">
-                <ul class="list">
-                    <li>
-                        <a href="<?php echo $urlDoctorInfo; ?>" class="color-000 text-center" data-target="link">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 color-000 text-center" data-icon="user"></div>
-                                <div class="col-0 w40 text-left">
-                                    个人信息
-                                </div>
-                                <div class="col-0 ml20"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo $urlUploadCert; ?>" class="color-000 text-center" data-target="link">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 color-000 text-center" data-icon="images"></div>
-                                <div class="col-0 w40 text-left">
-                                    实名认证
-                                </div>
-                                <div class="col-0 ml20"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <div class="mt50 pl10 pr10">
-                    <div id="btn_out" class="br5 bg-red pad10 text-center color-white">退出登录</div>
-                </div>
-            </div>
-        </article>
-    </section>
-</div>
+<article class="active" data-scroll="true">
+    <div class="">
+        <ul class="list">
+            <li>
+                <a href="<?php echo $urlDoctorInfo; ?>" class="color-000 text-center" data-target="link">
+                    <div class="grid font-type">
+                        <div class="col-0 w20 color-000 text-center" data-icon="user"></div>
+                        <div class="col-0 w40 text-left">
+                            个人信息
+                        </div>
+                        <div class="col-0 ml20"></div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $urlUploadCert; ?>" class="color-000 text-center" data-target="link">
+                    <div class="grid font-type">
+                        <div class="col-0 w20 color-000 text-center" data-icon="images"></div>
+                        <div class="col-0 w40 text-left">
+                            实名认证
+                        </div>
+                        <div class="col-0 ml20"></div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="mt50 pl10 pr10">
+            <div id="btn_out" class="br5 bg-red pad10 text-center color-white">退出登录</div>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         //退出登录

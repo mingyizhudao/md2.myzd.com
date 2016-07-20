@@ -8,43 +8,39 @@ $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlSmsCode = $this->createUrl('userbank/smsCode', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="main_section" class="active">
-        <article id="viewInputKey_article" class="active pwd_article" data-scroll="true">
-            <div class="pad10">
-                <div class="pwd-box mt30">
-                    <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
-                    <div class="fake-box grid">
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                        <div class="col-1">
-                            <input type="password" readonly="">
-                        </div>
-                    </div>
+<article id="viewInputKey_article" class="active pwd_article" data-scroll="true">
+    <div class="pad10">
+        <div class="pwd-box mt30">
+            <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+            <div class="fake-box grid">
+                <div class="col-1">
+                    <input type="password" readonly="">
                 </div>
-                <div class="pt20">
-                    <a href="<?php echo $urlSmsCode; ?>" data-target="link">忘记密码</a>
+                <div class="col-1">
+                    <input type="password" readonly="">
                 </div>
-                <div class="pt40">
-                    <button id="submitBtn" class="btn btn-full btn-yellow2">下一步</button>
+                <div class="col-1">
+                    <input type="password" readonly="">
+                </div>
+                <div class="col-1">
+                    <input type="password" readonly="">
+                </div>
+                <div class="col-1">
+                    <input type="password" readonly="">
+                </div>
+                <div class="col-1">
+                    <input type="password" readonly="">
                 </div>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+        <div class="pt20">
+            <a href="<?php echo $urlSmsCode; ?>" data-target="link">忘记密码</a>
+        </div>
+        <div class="pt40">
+            <button id="submitBtn" class="btn btn-full btn-yellow2">下一步</button>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         var pwd = '';

@@ -19,122 +19,118 @@ $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
 $checkTeamDoctor = $teamDoctor;
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="createPatinal_section" class="active" data-init="true">
-        <article class="active" data-scroll="true">
-            <div class="ml10 mr10 mb20">
-                <div calss="form-wrapper">
+<article class="active" data-scroll="true">
+    <div class="ml10 mr10 mb20">
+        <div calss="form-wrapper">
+            <?php
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'patient-form',
+                'htmlOptions' => array('data-url-action' => $urlSubmit, 'data-url-return' => $urlReturn, 'data-type' => 'create'),
+                'enableClientValidation' => false,
+                'clientOptions' => array(
+                    'validateOnSubmit' => true,
+                    'validateOnType' => true,
+                    'validateOnDelay' => 500,
+                    'errorCssClass' => 'error',
+                ),
+                'enableAjaxValidation' => false,
+            ));
+            ?>
+            <?php echo $form->hiddenField($model, 'country_id', array('name' => 'patient[country_id]')); ?>
+            <ul class="list">
+                <li>
+                    <?php //echo CHtml::activeLabel($model, 'name'); ?>                                            
+                    <label for="PatientInfoForm_name">患者姓名</label>
+                    <?php echo $form->textField($model, 'name', array('name' => 'patient[name]', 'placeholder' => '请填写真实姓名', 'maxlength' => 45)); ?>
+                    <?php echo $form->error($model, 'name'); ?>  
+                </li>
+                <li>
+                    <?php //echo CHtml::activeLabel($model, 'mobile'); ?>    
+                    <label for="PatientInfoForm_mobile">患者手机号码</label>
+                    <?php echo $form->textField($model, 'mobile', array('name' => 'patient[mobile]', 'placeholder' => '请填写手机号码', 'maxlength' => 50)); ?>
+                    <?php echo $form->error($model, 'mobile'); ?>
+                    <div></div>
+                </li>
+                <li>
+                    <label for="PatientInfoForm_birth_year">出生年月</label>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <select name="patient[birth_year]" id="patient_birth_year">
+                                <option value>选择出生年份</option>
+                            </select>
+                        </div>
+                        <div class="ui-block-b pl10">
+                            <select name="patient[birth_month]" id="patient_birth_month">
+                                <option value>选择出生月份</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <?php echo $form->error($model, 'birth_year'); ?>
+                    <?php echo $form->error($model, 'birth_year'); ?>
+                </li>
+                <li>
+                    <?php echo CHtml::activeLabel($model, 'gender'); ?> 
+                    <div class="grid">
+                        <div class="col-0 w50">
+                            <input type='radio' name='patient[gender]' id='patient_gender_male' value='1'/><label for='patient_gender_male'>&nbsp;男</label>
+                            <div></div>
+                        </div>
+                        <div class="col-0 w50">
+                            <input type='radio' name='patient[gender]' id='patient_gender_female' value='2'/><label for='patient_gender_female'>&nbsp;女</label>
+                            <div></div>
+                        </div>
+                    </div>
+                    <?php echo $form->error($model, 'gender'); ?>
+                </li>
+                <li>
+                    <?php echo CHtml::activeLabel($model, 'state_id'); ?>
                     <?php
-                    $form = $this->beginWidget('CActiveForm', array(
-                        'id' => 'patient-form',
-                        'htmlOptions' => array('data-url-action' => $urlSubmit, 'data-url-return' => $urlReturn, 'data-type' => 'create'),
-                        'enableClientValidation' => false,
-                        'clientOptions' => array(
-                            'validateOnSubmit' => true,
-                            'validateOnType' => true,
-                            'validateOnDelay' => 500,
-                            'errorCssClass' => 'error',
-                        ),
-                        'enableAjaxValidation' => false,
+                    $model->state_id = null;
+                    echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
+                        'name' => 'patient[state_id]',
+                        'prompt' => '选择省份',
+                        'class' => '',
                     ));
                     ?>
-                    <?php echo $form->hiddenField($model, 'country_id', array('name' => 'patient[country_id]')); ?>
-                    <ul class="list">
-                        <li>
-                            <?php //echo CHtml::activeLabel($model, 'name'); ?>                                            
-                            <label for="PatientInfoForm_name">患者姓名</label>
-                            <?php echo $form->textField($model, 'name', array('name' => 'patient[name]', 'placeholder' => '请填写真实姓名', 'maxlength' => 45)); ?>
-                            <?php echo $form->error($model, 'name'); ?>  
-                        </li>
-                        <li>
-                            <?php //echo CHtml::activeLabel($model, 'mobile'); ?>    
-                            <label for="PatientInfoForm_mobile">患者手机号码</label>
-                            <?php echo $form->textField($model, 'mobile', array('name' => 'patient[mobile]', 'placeholder' => '请填写手机号码', 'maxlength' => 50)); ?>
-                            <?php echo $form->error($model, 'mobile'); ?>
-                            <div></div>
-                        </li>
-                        <li>
-                            <label for="PatientInfoForm_birth_year">出生年月</label>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <select name="patient[birth_year]" id="patient_birth_year">
-                                        <option value>选择出生年份</option>
-                                    </select>
-                                </div>
-                                <div class="ui-block-b pl10">
-                                    <select name="patient[birth_month]" id="patient_birth_month">
-                                        <option value>选择出生月份</option>
-                                    </select>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <?php echo $form->error($model, 'birth_year'); ?>
-                            <?php echo $form->error($model, 'birth_year'); ?>
-                        </li>
-                        <li>
-                            <?php echo CHtml::activeLabel($model, 'gender'); ?> 
-                            <div class="grid">
-                                <div class="col-0 w50">
-                                    <input type='radio' name='patient[gender]' id='patient_gender_male' value='1'/><label for='patient_gender_male'>&nbsp;男</label>
-                                    <div></div>
-                                </div>
-                                <div class="col-0 w50">
-                                    <input type='radio' name='patient[gender]' id='patient_gender_female' value='2'/><label for='patient_gender_female'>&nbsp;女</label>
-                                    <div></div>
-                                </div>
-                            </div>
-                            <?php echo $form->error($model, 'gender'); ?>
-                        </li>
-                        <li>
-                            <?php echo CHtml::activeLabel($model, 'state_id'); ?>
-                            <?php
-                            $model->state_id = null;
-                            echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
-                                'name' => 'patient[state_id]',
-                                'prompt' => '选择省份',
-                                'class' => '',
-                            ));
-                            ?>
 
-                            <?php echo $form->error($model, 'state_id'); ?> 
-                        </li>
-                        <li>
-                            <?php echo CHtml::activeLabel($model, 'city_id'); ?>                                
-                            <?php
-                            echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
-                                'name' => 'patient[city_id]',
-                                'prompt' => '选择城市',
-                                'class' => '',
-                            ));
-                            ?>
-                            <?php echo $form->error($model, 'city_id'); ?>    
-                        </li>
-                        <li>
-                            <?php echo CHtml::activeLabel($model, 'disease_name'); ?>                                            
-                            <?php echo $form->textField($model, 'disease_name', array('name' => 'patient[disease_name]', 'placeholder' => '请输入疾病诊断', 'maxlength' => 50)); ?>
-                            <?php echo $form->error($model, 'disease_name'); ?>   
-                        </li>
-                        <li>
-                            <?php echo CHtml::activeLabel($model, 'disease_detail'); ?>                                            
-                            <?php echo $form->textArea($model, 'disease_detail', array('name' => 'patient[disease_detail]', 'placeholder' => '请输入病史描述', 'maxlength' => 1000)); ?>
-                            <?php echo $form->error($model, 'disease_detail'); ?>           
-                        </li>
-                        <li>
-                            <div class="text-center btn-none">
-<!--                                <input type="button" id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center" value="下一步" />-->
-                                <a id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center">下一步</a>
-                            </div>
-                            <!--<input id="btnSubmit" class="" type="submit" name="yt0" value="提交">-->
-                        </li>
-                    </ul>
+                    <?php echo $form->error($model, 'state_id'); ?> 
+                </li>
+                <li>
+                    <?php echo CHtml::activeLabel($model, 'city_id'); ?>                                
                     <?php
-                    $this->endWidget();
-                    ?>           
-                </div>
-            </div>
-        </article>
-    </section>
-</div>
+                    echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
+                        'name' => 'patient[city_id]',
+                        'prompt' => '选择城市',
+                        'class' => '',
+                    ));
+                    ?>
+                    <?php echo $form->error($model, 'city_id'); ?>    
+                </li>
+                <li>
+                    <?php echo CHtml::activeLabel($model, 'disease_name'); ?>                                            
+                    <?php echo $form->textField($model, 'disease_name', array('name' => 'patient[disease_name]', 'placeholder' => '请输入疾病诊断', 'maxlength' => 50)); ?>
+                    <?php echo $form->error($model, 'disease_name'); ?>   
+                </li>
+                <li>
+                    <?php echo CHtml::activeLabel($model, 'disease_detail'); ?>                                            
+                    <?php echo $form->textArea($model, 'disease_detail', array('name' => 'patient[disease_detail]', 'placeholder' => '请输入病史描述', 'maxlength' => 1000)); ?>
+                    <?php echo $form->error($model, 'disease_detail'); ?>           
+                </li>
+                <li>
+                    <div class="text-center btn-none">
+<!--                                <input type="button" id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center" value="下一步" />-->
+                        <a id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center">下一步</a>
+                    </div>
+                    <!--<input id="btnSubmit" class="" type="submit" name="yt0" value="提交">-->
+                </li>
+            </ul>
+            <?php
+            $this->endWidget();
+            ?>           
+        </div>
+    </div>
+</article>
 <script type="text/javascript">
     $(document).ready(function () {
         //签约专家跳转过来的returnUrl

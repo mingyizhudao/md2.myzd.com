@@ -11,93 +11,83 @@ $payUrl = $this->createUrl('payment/doPingxxPay');
 $refUrl = $this->createAbsoluteUrl('order/view', array('refNo' => $order->refNo));
 $bookingId = Yii::app()->request->getQuery('bookingId', 0);
 $isApp = Yii::app()->request->getQuery('app', 0);
-$showHeader = Yii::app()->request->getQuery('header', 1);
 $urlBookingView = $this->createUrl('patientbooking/view', array('id' => $bookingId, 'addBackBtn' => 1));
 $urlGetWxOpenId = $this->createUrl('/weixinpub/oauth/getWxOpenId');
 $openId = Yii::app()->session['wx.openid'];
+$this->show_footer = false;
 ?>
-<?php
-$sectinTop = '';
-if ($showHeader == 0) {
-    $sectinTop = 'top0p';
-}
-?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="createPatinal_section" class="active <?php echo $sectinTop; ?>" data-init="true">
-        <article id="order" class="active" data-scroll="true">
-            <div class="order-content"><span class="title color-green">请支付</span><span class="color-green pull-right"><?php echo $order->finalAmount ?>元</span></div>
-            <div class="divider"></div>
-            <div class="order-content"><span class="title color-green">订单号:</span><?php echo $order->refNo ?></div>
-            <div class="order-content"><span class="title color-green">订单标题:</span><?php echo $order->subject ?></div>
-            <div class="order-content">
-                <div class="title color-green mb5">订单详情:</div>
-                <?php echo $order->description ?>
+<article id="order" class="active" data-scroll="true">
+    <div class="order-content"><span class="title color-green">请支付</span><span class="color-green pull-right"><?php echo $order->finalAmount ?>元</span></div>
+    <div class="divider"></div>
+    <div class="order-content"><span class="title color-green">订单号:</span><?php echo $order->refNo ?></div>
+    <div class="order-content"><span class="title color-green">订单标题:</span><?php echo $order->subject ?></div>
+    <div class="order-content">
+        <div class="title color-green mb5">订单详情:</div>
+        <?php echo $order->description ?>
+    </div>
+    <div class="order-content"><span class="title color-green">订单状态:</span><?php echo ($order->isPaid) == 1 ? '已支付' : '待支付'; ?></div>
+    <div class="">
+        <form class="form-horizontal">
+            <div class="checkbox hide">
+                <label>
+                    <input type="checkbox" checked> 同意名医主刀《<a href="<?php echo $this->createUrl('site/page', array('view' => 'terms')); ?>">患者服务条款</a>》
+                </label>
             </div>
-            <div class="order-content"><span class="title color-green">订单状态:</span><?php echo ($order->isPaid) == 1 ? '已支付' : '待支付'; ?></div>
-            <div class="">
-                <form class="form-horizontal">
-                    <div class="checkbox hide">
-                        <label>
-                            <input type="checkbox" checked> 同意名医主刀《<a href="<?php echo $this->createUrl('site/page', array('view' => 'terms')); ?>">患者服务条款</a>》
-                        </label>
-                    </div>
-                    <!--
-                    <div class="form-group text-center mt15">
-                        <button class="btn btn-yes btn-lg">确认并支付</button>
-                    </div>
-                    -->
-                    <input id="ref_no" type="hidden" name="order[ref_no]" value="<?php echo $order->refNo; ?>" />
-                </form>
+            <!--
+            <div class="form-group text-center mt15">
+                <button class="btn btn-yes btn-lg">确认并支付</button>
             </div>
-            <div class="divider"></div>
-            <br/>
+            -->
+            <input id="ref_no" type="hidden" name="order[ref_no]" value="<?php echo $order->refNo; ?>" />
+        </form>
+    </div>
+    <div class="divider"></div>
+    <br/>
+    <?php
+    if ($order->isPaid == 0) {
+        ?>
+        <div class="ui-grid-a">
             <?php
-            if ($order->isPaid == 0) {
+            if ($this->isUserAgentApp()) {
+                echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
+            } else {
                 ?>
-                <div class="ui-grid-a">
+                <div class="ui-block-a">
                     <?php
-                    if ($this->isUserAgentApp()) {
-                        echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
-                    } else {
-                        ?>
-                        <div class="ui-block-a">
-                            <?php
-                            if ($bookingId != 0) {
-                                echo '<a href="' . $urlBookingView . '" class="btn btn-default btn-block" data-target="link">暂不支付</a>';
-                            }
-                            ?>
-                        </div>
-                        <div class="ui-block-b">
-                            <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
-                        </div>
-                    <?php } ?>
-                    <div class="clearfix"></div>
+                    if ($bookingId != 0) {
+                        echo '<a href="' . $urlBookingView . '" class="btn btn-default btn-block" data-target="link">暂不支付</a>';
+                    }
+                    ?>
                 </div>
+                <div class="ui-block-b">
+                    <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
+                </div>
+            <?php } ?>
+            <div class="clearfix"></div>
+        </div>
 
 
-                                <!--            <section class="block">
-                                <div class="content2">
-                                <div class="app">
-                                <div class="ch">
-                                    <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
-                                    <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
-                                    <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
-                                    <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
-                                    <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
-                                    <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
-                                    <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
-                                        <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
-                                    <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
-                                </div>
-                                </div>
-                                </div>
-                                </section>-->
-                <?php
-            }
-            ?>
-        </article>
-    </section>
-</div>
+                                        <!--            <section class="block">
+                                        <div class="content2">
+                                        <div class="app">
+                                        <div class="ch">
+                                            <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
+                                            <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
+                                            <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
+                                            <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
+                                            <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
+                                            <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
+                                            <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                                <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                            <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </section>-->
+        <?php
+    }
+    ?>
+</article>
 <!--<script type="text/javascript" src="https://one.pingxx.com/lib/pingpp_one.js"></script>-->
 <script type="text/javascript" src="http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/pingpp-one/pingpp-one.js"></script>
 <script type="text/javascript">

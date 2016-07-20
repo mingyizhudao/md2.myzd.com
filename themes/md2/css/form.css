@@ -71,6 +71,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 
 /*边距*/
 .top0p{top:0px!important;}
+.top50p{top:50px!important;}
 .mt-12 {margin-top: -12px;}
 .mt1{margin-top:1px;}
 .mt3{margin-top:3px;}
@@ -145,6 +146,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 .pt15{padding-top:15px;}
 .pt18{padding-top:18px;}
 .pt20{padding-top:20px;}
+.pt24{padding-top: 24px;}
 .pt25{padding-top:25px;}
 .pt30{padding-top:30px;}
 .pt35{padding-top:35px;}

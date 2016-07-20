@@ -26,88 +26,84 @@ $this->show_footer = false;
     </nav>
     <h1 class="title">用户注册</h1>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="" class="active" data-init="true">
-        <article id="register_article" class="active" data-scroll="true">
-            <div class="ml10 mr10">
-                <?php
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'register-form',
-                    'action' => $this->createUrl('doctor/register'),
-                    // Please note: When you enable ajax validation, make sure the corresponding
-                    // controller action is handling ajax validation correctly.
-                    // There is a call to performAjaxValidation() commented in generated controller code.
-                    // See class documentation of CActiveForm for details on this.
-                    'htmlOptions' => array('role' => 'form', 'autocomplete' => 'off', 'data-ajax' => 'false', 'data-url-checkCode' => $urlDoctorValiCaptcha, 'data-url-action' => $urlDoctorAjaxRegister, 'data-url-return' => $urlDoctorProfile),
-                    'enableClientValidation' => false,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                        'validateOnType' => true,
-                        'validateOnDelay' => 500,
-                        'errorCssClass' => 'error',
-                    ),
-                    'enableAjaxValidation' => false,
-                ));
-                echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
-                echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
-                ?>
-                <input type="hidden" name="UserRegisterForm[role]" value="<?php echo $model->role; ?>">
-                <input type="hidden" name="UserRegisterForm[terms]" value="<?php echo $model->terms; ?>">
-                <div class="input mt30">
-                    <div class="">
-                        <div class="inputBorder mb10">
-                            <?php echo $form->textField($model, 'username', array('placeholder' => '请输入您的手机号', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <?php echo $form->error($model, 'username'); ?>
-                    </div>
+<article id="register_article" class="active" data-scroll="true">
+    <div class="ml10 mr10">
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'register-form',
+            'action' => $this->createUrl('doctor/register'),
+            // Please note: When you enable ajax validation, make sure the corresponding
+            // controller action is handling ajax validation correctly.
+            // There is a call to performAjaxValidation() commented in generated controller code.
+            // See class documentation of CActiveForm for details on this.
+            'htmlOptions' => array('role' => 'form', 'autocomplete' => 'off', 'data-ajax' => 'false', 'data-url-checkCode' => $urlDoctorValiCaptcha, 'data-url-action' => $urlDoctorAjaxRegister, 'data-url-return' => $urlDoctorProfile),
+            'enableClientValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => true,
+                'validateOnType' => true,
+                'validateOnDelay' => 500,
+                'errorCssClass' => 'error',
+            ),
+            'enableAjaxValidation' => false,
+        ));
+        echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
+        echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
+        ?>
+        <input type="hidden" name="UserRegisterForm[role]" value="<?php echo $model->role; ?>">
+        <input type="hidden" name="UserRegisterForm[terms]" value="<?php echo $model->terms; ?>">
+        <div class="input mt30">
+            <div class="">
+                <div class="inputBorder mb10">
+                    <?php echo $form->textField($model, 'username', array('placeholder' => '请输入您的手机号', 'class' => 'noPaddingInput')); ?>
                 </div>
-                <div class="input mt30">
-                    <div id="captchaCode" class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <input type="text" id="UserRegisterForm_captcha_code" class="noPaddingInput" name="UserRegisterForm[captcha_code]" placeholder="请输入图形验证码">
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p text-center">
-                            <div class="input-group-addon">
-                                <a href="javascript:void(0);"><img src="<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha" class="h40" onclick="this.src = '<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha/' + Math.random()"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="input mt30">
-                    <div class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <?php echo $form->textField($model, 'verify_code', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p text-center">
-                            <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
-                        </div>
-                    </div>
-                    <?php echo $form->error($model, 'verify_code'); ?>
-                </div>
-                <div class="input mt30">
-                    <div class="grid inputBorder mb10">
-                        <div class="col-1">
-                            <?php echo $form->passwordField($model, 'password', array('placeholder' => '请输入您的密码', 'class' => 'noPaddingInput')); ?>
-                        </div>
-                        <div class="col-0 w2p mt5 mb5 br-gray">
-                        </div>
-                        <div class="col-0 w95p smsHide smsSwitch">
-                        </div>
-                    </div>
-                    <?php echo $form->error($model, 'password'); ?>
-                </div>
-                <div class="mt40">
-                    <a id="btnSubmit" class="btn btn-yes btn-full">注册</a>
-                </div>
-                <?php $this->endWidget(); ?>
+                <?php echo $form->error($model, 'username'); ?>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+        <div class="input mt30">
+            <div id="captchaCode" class="grid inputBorder mb10">
+                <div class="col-1">
+                    <input type="text" id="UserRegisterForm_captcha_code" class="noPaddingInput" name="UserRegisterForm[captcha_code]" placeholder="请输入图形验证码">
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p text-center">
+                    <div class="input-group-addon">
+                        <a href="javascript:void(0);"><img src="<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha" class="h40" onclick="this.src = '<?php echo Yii::app()->request->baseUrl; ?>/mobiledoctor/doctor/getCaptcha/' + Math.random()"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input mt30">
+            <div class="grid inputBorder mb10">
+                <div class="col-1">
+                    <?php echo $form->textField($model, 'verify_code', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p text-center">
+                    <button id="btn-sendSmsCode" class="btn btn-sendSmsCode ui-corner-all ui-shadow">获取验证码</button>
+                </div>
+            </div>
+            <?php echo $form->error($model, 'verify_code'); ?>
+        </div>
+        <div class="input mt30">
+            <div class="grid inputBorder mb10">
+                <div class="col-1">
+                    <?php echo $form->passwordField($model, 'password', array('placeholder' => '请输入您的密码', 'class' => 'noPaddingInput')); ?>
+                </div>
+                <div class="col-0 w2p mt5 mb5 br-gray">
+                </div>
+                <div class="col-0 w95p smsHide smsSwitch">
+                </div>
+            </div>
+            <?php echo $form->error($model, 'password'); ?>
+        </div>
+        <div class="mt40">
+            <a id="btnSubmit" class="btn btn-yes btn-full">注册</a>
+        </div>
+        <?php $this->endWidget(); ?>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         vailcode();

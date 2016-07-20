@@ -34,94 +34,90 @@ $checkTeamDoctor = $teamDoctor;
         </div>
     </div>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="bookingList_section" class="active" data-init="true">
-        <nav id="bookingList_nav" class="header-secondary bg-white color-black3 font-s16">
-            <ul class="control-group w100">
-                <?php
-                $statusActive = '';
-                if ($status == 0) {
-                    $statusActive = 'active';
-                }
-                ?>
-                <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/0" id="zhuanti" data-target="link">
-                        <div class="grid">
-                            <div class="col-1"></div>
-                            <div class="col-0 statusLine">全部</div>
-                            <div class="col-1"></div>
-                        </div>
-                    </a>
-                </li>
-                <?php
-                $statusActive = '';
-                if ($status == 1) {
-                    $statusActive = 'active';
-                }
-                ?>
-                <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/1" id="story" data-target="link">
-                        <div class="grid">
-                            <div class="col-1"></div>
-                            <div class="col-0 statusLine">待支付</div>
-                            <div class="col-1"></div>
-                        </div>
-                    </a>
-                </li>
-                <?php
-                $statusActive = '';
-                if ($status == 2) {
-                    $statusActive = 'active';
-                }
-                ?>
-                <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/2" id="story" data-target="link">
-                        <div class="grid">
-                            <div class="col-1"></div>
-                            <div class="col-0 statusLine">安排中</div>
-                            <div class="col-1"></div>
-                        </div>
-                    </a>
-                </li>
-                <?php
-                $statusActive = '';
-                if ($status == 5) {
-                    $statusActive = 'active';
-                }
-                ?>
-                <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/5" id="story" data-target="link">
-                        <div class="grid">
-                            <div class="col-1"></div>
-                            <div class="col-0 statusLine">待确认</div>
-                            <div class="col-1"></div>
-                        </div>
-                    </a>
-                </li>
-                <?php
-                $statusActive = '';
-                if ($status == 6) {
-                    $statusActive = 'active';
-                }
-                ?>
-                <li class="<?php echo $statusActive; ?>">
-                    <a href="<?php echo $urlPatientBookingList; ?>/6" id="story" data-target="link">
-                        <div class="grid">
-                            <div class="col-1"></div>
-                            <div class="col-0 statusLine">待完成</div>
-                            <div class="col-1"></div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <article id="bookingList_article" class="active list_article bg-gray3" data-scroll="true">
-            <div>
+<nav id="bookingList_nav" class="header-secondary bg-white color-black3 font-s16">
+    <ul class="control-group w100">
+        <?php
+        $statusActive = '';
+        if ($status == 0) {
+            $statusActive = 'active';
+        }
+        ?>
+        <li class="<?php echo $statusActive; ?>">
+            <a href="<?php echo $urlPatientBookingList; ?>/0" id="zhuanti" data-target="link">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 statusLine">全部</div>
+                    <div class="col-1"></div>
+                </div>
+            </a>
+        </li>
+        <?php
+        $statusActive = '';
+        if ($status == 1) {
+            $statusActive = 'active';
+        }
+        ?>
+        <li class="<?php echo $statusActive; ?>">
+            <a href="<?php echo $urlPatientBookingList; ?>/1" id="story" data-target="link">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 statusLine">待支付</div>
+                    <div class="col-1"></div>
+                </div>
+            </a>
+        </li>
+        <?php
+        $statusActive = '';
+        if ($status == 2) {
+            $statusActive = 'active';
+        }
+        ?>
+        <li class="<?php echo $statusActive; ?>">
+            <a href="<?php echo $urlPatientBookingList; ?>/2" id="story" data-target="link">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 statusLine">安排中</div>
+                    <div class="col-1"></div>
+                </div>
+            </a>
+        </li>
+        <?php
+        $statusActive = '';
+        if ($status == 5) {
+            $statusActive = 'active';
+        }
+        ?>
+        <li class="<?php echo $statusActive; ?>">
+            <a href="<?php echo $urlPatientBookingList; ?>/5" id="story" data-target="link">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 statusLine">待确认</div>
+                    <div class="col-1"></div>
+                </div>
+            </a>
+        </li>
+        <?php
+        $statusActive = '';
+        if ($status == 6) {
+            $statusActive = 'active';
+        }
+        ?>
+        <li class="<?php echo $statusActive; ?>">
+            <a href="<?php echo $urlPatientBookingList; ?>/6" id="story" data-target="link">
+                <div class="grid">
+                    <div class="col-1"></div>
+                    <div class="col-0 statusLine">待完成</div>
+                    <div class="col-1"></div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</nav>
+<article id="bookingList_article" class="active list_article bg-gray3" data-scroll="true" data-active="order_footer">
+    <div>
 
-            </div>
-        </article>
-    </section>
-</div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         J.showMask();

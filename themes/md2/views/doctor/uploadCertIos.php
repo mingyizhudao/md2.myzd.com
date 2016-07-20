@@ -28,75 +28,71 @@ if (isset($output['id'])) {
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="uploaCert_section" class="active">
-        <article class="active pad1" data-scroll="true">
-            <div class="form-wrapper">
-                <form id="doctor-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>" >
-                    <input id="doctorId" type="hidden" name="doctor[id]" value="<?php echo $output['id']; ?>" />                
-                </form>
-                <div class="">
-                    <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
-                    <div class="">
-                        <label>上传医生职业证书或者手持工牌照</label>
-                    </div>
-                    <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
-                    <?php
-                    if ($output['isVerified']) {
-                        echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-                    }
-                    ?>
-                    <div id="uploader" class="mt20">
-                        <div class="imglist">
-                            <ul class="filelist"></ul>
-                        </div>
-                        <div class="queueList">
-                            <div id="dndArea" class="placeholder">
-                                <!-- btn 选择图片 -->
-                                <div id="filePicker"></div>
-                            <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
-                            </div>
-                        </div>
-                        <div class="statusBar clearfix" style="display:none;">
-                            <div class="progress" style="display: none;">
-                                <span class="text">0%</span>
-                                <span class="percentage" style="width: 0%;"></span>
-                            </div>
-                            <div class="info">共0张（0B），已上传0张</div>
-                            <div class="">
-                                <!-- btn 继续添加 -->
-                                <div id="filePicker2" class="pull-right"></div>                          
-
-                            </div>
-                            <div class="ui-field-contain mt20">
-<!--                                <input id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                                <a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>
-                                <!--                <button id="btnSubmit" type="button" class="statusBar state-pedding">提交</button>-->
-                            </div>
-                        </div>
-                        <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
-                        <div class="divider mt20"></div>
-                        <div class="example">
-                            <label class="color-red">示例:</label>
-                            <div class="ui-grid-b">
-                                <div class="ui-block-a">
-                                    <img src="<?php echo $urlResImage; ?>docexample1.png"/>
-                                </div>
-                                <div class="ui-block-b">
-                                    <span>或</span>
-                                </div>
-                                <div class="ui-block-c">
-                                    <img src="<?php echo $urlResImage; ?>docexample2.jpg"/>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+<article class="active pad1" data-scroll="true">
+    <div class="form-wrapper">
+        <form id="doctor-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>" >
+            <input id="doctorId" type="hidden" name="doctor[id]" value="<?php echo $output['id']; ?>" />                
+        </form>
+        <div class="">
+            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
+            <div class="">
+                <label>上传医生职业证书或者手持工牌照</label>
+            </div>
+            <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
+            <?php
+            if ($output['isVerified']) {
+                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
+            }
+            ?>
+            <div id="uploader" class="mt20">
+                <div class="imglist">
+                    <ul class="filelist"></ul>
+                </div>
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <!-- btn 选择图片 -->
+                        <div id="filePicker"></div>
+                    <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                     </div>
                 </div>
+                <div class="statusBar clearfix" style="display:none;">
+                    <div class="progress" style="display: none;">
+                        <span class="text">0%</span>
+                        <span class="percentage" style="width: 0%;"></span>
+                    </div>
+                    <div class="info">共0张（0B），已上传0张</div>
+                    <div class="">
+                        <!-- btn 继续添加 -->
+                        <div id="filePicker2" class="pull-right"></div>                          
+
+                    </div>
+                    <div class="ui-field-contain mt20">
+<!--                                <input id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
+                        <a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>
+                        <!--                <button id="btnSubmit" type="button" class="statusBar state-pedding">提交</button>-->
+                    </div>
+                </div>
+                <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
+                <div class="divider mt20"></div>
+                <div class="example">
+                    <label class="color-red">示例:</label>
+                    <div class="ui-grid-b">
+                        <div class="ui-block-a">
+                            <img src="<?php echo $urlResImage; ?>docexample1.png"/>
+                        </div>
+                        <div class="ui-block-b">
+                            <span>或</span>
+                        </div>
+                        <div class="ui-block-c">
+                            <img src="<?php echo $urlResImage; ?>docexample2.jpg"/>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+    </div>
+</article>
 <script type="text/javascript">
     $(document).ready(function () {
         var isVerified = '<?php echo $output['isVerified']; ?>';

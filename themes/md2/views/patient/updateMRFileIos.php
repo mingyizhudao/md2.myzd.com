@@ -45,137 +45,133 @@ if (isset($output['id'])) {
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="uploadMRFile_section" class="active">
-        <article id="a1" class="active" data-scroll="true">
-            <div class="form-wrapper mt10">
-                <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-patientBookingId="<?php echo $patientBookingId; ?>" data-patientAjaxTask="<?php echo $patientAjaxTask; ?>">
-                    <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $output['id']; ?>" />
-                    <input id="reportType" type="hidden" name="patient[report_type]" value="mr" />
-                </form>
-                <div class="">
-                    <div class="grid">
-                        <div class="col-1 ml10">上传影像资料：</div>
-                        <?php if ($type == 'create') { ?>
-                            <div class="col-0">
-                                <a href="<?php echo $urlReturn; ?>" class="btn btn-yes mr10" data-ajax="false">跳过</a>
-                            </div>
-                        <?php } ?>
+<article id="a1" class="active" data-scroll="true">
+    <div class="form-wrapper mt10">
+        <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-patientBookingId="<?php echo $patientBookingId; ?>" data-patientAjaxTask="<?php echo $patientAjaxTask; ?>">
+            <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $output['id']; ?>" />
+            <input id="reportType" type="hidden" name="patient[report_type]" value="mr" />
+        </form>
+        <div class="">
+            <div class="grid">
+                <div class="col-1 ml10">上传影像资料：</div>
+                <?php if ($type == 'create') { ?>
+                    <div class="col-0">
+                        <a href="<?php echo $urlReturn; ?>" class="btn btn-yes mr10" data-ajax="false">跳过</a>
                     </div>
-                    <div class="mt20">    
-                        <!--图片上传区域 -->
-                        <div id="uploader" class="wu-example">
-                            <div class="imglist">
-                                <ul class="filelist"></ul>
-                            </div>
-                            <div class="queueList">
-                                <div id="dndArea" class="placeholder">
-                                    <div id="filePicker"></div>
-                                    <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
-                                </div>
-                            </div>
-                            <div class="statusBar" style="display:none; padding-bottom: 40px;">
-                                <div class="progress">
-                                    <span class="text">0%</span>
-                                    <span class="percentage"></span>
-                                </div>
-                                <div class="info"></div>
-                                <div class="">
-                                    <!-- btn 继续添加 -->
-                                    <div id="filePicker2" class="pull-right"></div>                                
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="mt20">
-<!--                                    <input id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                                    <a id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block">提交</a>
-                                </div>
-                            </div>
-                            <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
-                            <!--                         <div class="statusBar uploadBtn">提交</div>-->
+                <?php } ?>
+            </div>
+            <div class="mt20">    
+                <!--图片上传区域 -->
+                <div id="uploader" class="wu-example">
+                    <div class="imglist">
+                        <ul class="filelist"></ul>
+                    </div>
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
-
                     </div>
-                    <div class="example">
-                        <label class="color-red">示例:</label>
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="<?php echo $urlResImage; ?>patientexample1.jpg"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="<?php echo $urlResImage; ?>patientexample2.jpg"/>
-                            </div>
+                    <div class="statusBar" style="display:none; padding-bottom: 40px;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info"></div>
+                        <div class="">
+                            <!-- btn 继续添加 -->
+                            <div id="filePicker2" class="pull-right"></div>                                
                         </div>
                         <div class="clearfix"></div>
+                        <div class="mt20">
+<!--                                    <input id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
+                            <a id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block">提交</a>
+                        </div>
+                    </div>
+                    <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
+                    <!--                         <div class="statusBar uploadBtn">提交</div>-->
+                </div>
+
+            </div>
+            <div class="example">
+                <label class="color-red">示例:</label>
+                <div class="ui-grid-b">
+                    <div class="ui-block-a">
+                        <img src="<?php echo $urlResImage; ?>patientexample1.jpg"/>
+                    </div>
+                    <div class="ui-block-b">
+                        <span>或</span>
+                    </div>
+                    <div class="ui-block-c">
+                        <img src="<?php echo $urlResImage; ?>patientexample2.jpg"/>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="mt30"></div>
-        </article>
-    </section>
-</div>
+        </div>
+    </div>
+    <div class="mt30"></div>
+</article>
 <script type="text/javascript">
     $(document).ready(function () {
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
         $.ajax({
-            url: urlPatientMRFiles,
-            success: function (data) {
-                setImgHtml(data.results);
+                    url: urlPatientMRFiles,
+                    success: function (data) {
+                        setImgHtml(data.results);
             }
-        });
+                    });
     });
-    function setImgHtml(files) {
-        var innerHtml = '';
-        var imgfiles = files.files;
-        if (imgfiles && imgfiles.length > 0) {
-            for (i = 0; i < imgfiles.length; i++) {
-                var imgfile = imgfiles[i];
-                innerHtml +=
-                        '<li id="' +
-                        imgfile.id + '"><p class="imgWrap"><img src="' +
-                        imgfile.thumbnailUrl + '" data-src="' +
-                        imgfile.absFileUrl + '"></p><div class="file-panel delete">删除</div></li>';
+            function setImgHtml(files) {
+                var innerHtml = '';
+                var imgfiles = files.files;
+                if (imgfiles && imgfiles.length > 0) {
+                    for (i = 0; i < imgfiles.length; i++) {
+                        var imgfile = imgfiles[i];
+                        innerHtml +=
+                                '<li id="' +
+                                imgfile.id + '"><p class="imgWrap"><img src="' +
+                                imgfile.thumbnailUrl + '" data-src="' +
+                                imgfile.absFileUrl + '"></p><div class="file-panel delete">删除</div></li>';
             }
-        } else {
-            innerHtml += '';
+                    } else {
+                    innerHtml += '';
         }
-        $(".imglist .filelist").html(innerHtml);
+                $(".imglist .filelist").html(innerHtml);
         initDelete();
-    }
-    function initDelete() {
-        $('.imglist .delete').tap(function () {
-            domLi = $(this).parents("li");
-            id = domLi.attr("id");
-            J.confirm('提示', '确定删除这张图片?', function () {
-                deleteImg(id, domLi);
-            }, function () {
-                J.showToast('取消', '', 1000);
+                }
+            function initDelete() {
+                $('.imglist .delete').tap(function () {
+                    domLi = $(this).parents("li");
+                    id = domLi.attr("id");
+                    J.confirm('提示', '确定删除这张图片?', function () {
+                        deleteImg(id, domLi);
+                    }, function () {
+                        J.showToast('取消', '', 1000);
             });
-        });
+                    });
     }
-    function deleteImg(id, domLi) {
+            function deleteImg(id, domLi) {
         J.showMask();
-        var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
+                var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
         $.ajax({
-            url: urldelectPatientMRFile,
-            beforeSend: function () {
+                            url: urldelectPatientMRFile,
+                            beforeSend: function () {
 
             },
-            success: function (data) {
-                if (data.status == 'ok') {
-                    domLi.remove();
-                    J.showToast('删除成功!', '', 1000);
-                } else {
-                    //console.log(data.error);
-                    J.showToast(data.error, '', 3000);
+                            success: function (data) {
+                                if (data.status == 'ok') {
+                                    domLi.remove();
+                                    J.showToast('删除成功!', '', 1000);
+                                } else {
+                                    //console.log(data.error);
+                                    J.showToast(data.error, '', 3000);
                 }
-            },
-            complete: function () {
-                J.hideMask();
+                                },
+                            complete: function () {
+                                J.hideMask();
             }
-        });
+                            });
     }
 </script>
 

@@ -25,15 +25,11 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         </div>
     </div>
 </header>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="main_section" class="active" data-init="true">
-        <article id="searchListView_article" class="active list_article bg-gray3" data-scroll="true">
-            <div>
+<article id="searchListView_article" class="active list_article bg-gray3" data-scroll="true">
+    <div>
 
-            </div>
-        </article>
-    </section>
-</div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         $("#searchListView_header").on("input", function () {
@@ -123,7 +119,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                                 '<div class="col-1 pt8">' +
                                 '预约单号:' + booking.refNo +
                                 '</div>' +
-                                '<div class="col-0">' +
+                                '<div class="col-0 pt5 pb5">' +
                                 '<div class="cancelIcon" data-id="' + booking.id + '">' +
                                 '取消订单' +
                                 '</div>' +

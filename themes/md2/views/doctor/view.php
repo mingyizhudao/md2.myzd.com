@@ -19,128 +19,121 @@ $urlUserbankViewInputKey = $this->createUrl('userbank/viewInputKey', array('addB
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $verified = $user->results->userInfo->verified;
 $teamDoctor = $user->results->userInfo->teamDoctor;
+$isContractDoctor = $user->results->userInfo->isContractDoctor;
 ?>
-<header class="bg-green">
-    <h1 class="title">个人中心</h1>
-</header>
-<div id="section_container">
-    <section id="main_section" class="active">
-        <article id="doctorView_article" class="active" data-scroll="true">
-            <div class="">
-                <div class="bg-green">
-                    <div class="pad20 grid">
-                        <div class="col-0 w77p">
-                            <img src="<?php echo $urlResImage; ?>center/user.png">
+<article id="doctorView_article" class="active" data-scroll="true" data-active="center_footer">
+    <div class="">
+        <div class="bg-green">
+            <div class="pad20 grid">
+                <div class="col-0 w77p">
+                    <img src="<?php echo $urlResImage; ?>center/user.png">
+                </div>
+                <div class="col-1 color-white pl20 grid">
+                    <div class="col-1">
+                        <div class="pt10">
+                            您好!<?php echo $user->results->userInfo->name; ?>
                         </div>
-                        <div class="col-1 color-white pl20 grid">
-                            <div class="col-1">
-                                <div class="pt10">
-                                    您好!<?php echo $user->results->userInfo->name; ?>
-                                </div>
-                                <div class="pt10">
-                                    <span class="realNameIcon">
-                                        <?php
-                                        if ($user->results->userInfo->isProfile == '') {
-                                            echo '未实名认证';
-                                        } else if ($user->results->userInfo->doctorCerts == '') {
-                                            echo '未实名认证';
-                                        } else if ($verified == '') {
-                                            echo '认证中';
-                                        } else {
-                                            echo '实名认证';
-                                        }
-                                        ?>
-                                    </span>
-                                </div>
-                            </div>
-                            <div id="userCenter" class="col-0 w15p grid middle">
-                                <img src="<?php echo $urlResImage; ?>nextImg.png" class="w8p">
-                            </div>
+                        <div class="pt10 font-s12">
+                            <?php
+                            if ($user->results->userInfo->isProfile == '') {
+                                echo '<span class="noIcon">未实名认证</span>';
+                            } else if ($user->results->userInfo->doctorCerts == '') {
+                                echo '<span class="noIcon">未实名认证</span>';
+                            } else if ($verified == '') {
+                                echo '<span class="waitingIcon">认证中</span>';
+                            } else {
+                                echo '<span class="realNameIcon">实名认证</span>';
+                            }
+                            ?>
                         </div>
                     </div>
+                    <div id="userCenter" class="col-0 w15p grid middle">
+                        <img src="<?php echo $urlResImage; ?>nextImg.png" class="w8p">
+                    </div>
                 </div>
-                <ul class="list mt10">
-                    <li class="nextImg hide">
-                        <a id="createCheck" class="color-000">
-                            <div class="grid font-type">
-                                <div class="col-0 w20"></div>
-                                <div class="col-0 w80">
-                                    创建患者
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nextImg">
-                        <a id="patientListCheck" class="color-000">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 myPatients"></div>
-                                <div class="col-0 w80">
-                                    我的患者
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nextImg">
-                        <a id="patientBookingListCheck" class="color-000">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 myBooking"></div>
-                                <div class="col-0 w80">
-                                    我的订单
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nextImg">
-                        <a id="getBooking" class="color-000">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 receivedBooking"></div>
-                                <div class="col-0 w80">
-                                    收到预约
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="list mt10">
-                    <li class="nextImg">
-                        <div id="userbankViewInputKey" class="grid font-type">
-                            <div class="col-0 w20 userbankIcon"></div>
-                            <div class="col-0 w80">
-                                我的账户
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nextImg">
-                        <div id="checkInf" class="grid font-type">
-                            <div class="col-0 w20 consultingAgreement"></div>
-                            <div class="col-0 w80">
-                                名医主刀顾问协议
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nextImg">
-                        <a id="term" class="color-000">
-                            <div class="grid font-type">
-                                <div class="col-0 w20 signDoctor"></div>
-                                <div class="col-0 w80">
-                                    成为签约主刀专家
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li id="phoneService" class="nextImg">
-                        <div class="grid font-type">
-                            <div class="col-0 w20 customerService"></div>
-                            <div class="col-0 w80">
-                                联系客服
-                            </div>
-                        </div>
-                    </li>
-                </ul>
             </div>
-        </article>
-    </section>
-</div>
+        </div>
+        <ul class="list mt10">
+            <li class="nextImg">
+                <a id="patientListCheck" class="color-000">
+                    <div class="grid font-type">
+                        <div class="col-0 w20 myPatients"></div>
+                        <div class="col-0 w80">
+                            草稿箱
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="nextImg">
+                <a id="getBooking" class="color-000">
+                    <div class="grid font-type">
+                        <div class="col-0 w20 receivedBooking"></div>
+                        <div class="col-0 w80">
+                            收到预约
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <ul class="list mt10">
+            <li class="nextImg">
+                <div id="userbankViewInputKey" class="grid font-type">
+                    <div class="col-0 w20 userbankIcon">
+                    </div>
+                    <div class="col-0 w80">
+                        我的账户
+                    </div>
+                </div>
+            </li>
+            <li class="nextImg">
+                <div id="checkInf" class="grid font-type">
+                    <div class="col-0 w20 consultingAgreement"></div>
+                    <div class="col-0 w80">
+                        名医主刀顾问协议
+                        <?php
+                        if ($teamDoctor) {
+                            echo '<span class="teamIcon">已签约</span>';
+                        }
+                        ?>
+                    </div>
+                </div>
+            </li>
+            <li class="nextImg">
+                <a id="term" class="color-000">
+                    <div class="grid font-type">
+                        <div class="col-0 w20 signDoctor"></div>
+                        <div class="col-0 w80">
+                            成为签约主刀专家
+                            <?php
+                            if ($isContractDoctor) {
+                                echo '<span class="signIcon">已同意</span>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <ul class="list mt10">
+            <li id="phoneService" class="nextImg">
+                <div class="grid font-type">
+                    <div class="col-0 w20 customerService"></div>
+                    <div class="col-0 w80">
+                        联系客服
+                    </div>
+                </div>
+            </li>
+            <li id="phoneService" class="nextImg hide">
+                <div class="grid font-type">
+                    <div class="col-0 w20 inviteExperts"></div>
+                    <div class="col-0 w80">
+                        邀请专家
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         //个人中心

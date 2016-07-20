@@ -13,57 +13,53 @@ $urlDoctorHzSubmit = $this->createUrl('doctor/ajaxDoctorHz');
 $urlDoctorZzSubmit = $this->createUrl('doctor/ajaxDoctorZz');
 $urlDoctorView = $this->createUrl('doctor/view');
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="createPatinal_section" class="active" data-init="true">
-        <article id="sign" class="active" data-scroll="true">
-            <div class="color-black6">
-                <div class="grid mt15">
-                    <div class="col-1 grid b-gray-r1">
-                        <div class="col-1"></div>
-                        <div class="col-0 w50">
-                            <a href="<?php echo $urlCreateDoctorHz; ?>" data-target="link">
-                                <img src="<?php echo $urlResImage; ?>/huizhen.png">
-                            </a>
-                        </div>
-                        <div class="col-1"></div>
-                    </div>
-                    <div class="col-1 grid">
-                        <div class="col-1"></div>
-                        <div class="col-0 w50">
-                            <a href="<?php echo $urlCreateDoctorZz; ?>" data-target="link">
-                                <img src="<?php echo $urlResImage; ?>/zhuanzhen.png">
-                            </a>
-                        </div>
-                        <div class="col-1"></div>
-                    </div>
+<article id="sign" class="active" data-scroll="true">
+    <div class="color-black6">
+        <div class="grid mt15">
+            <div class="col-1 grid b-gray-r1">
+                <div class="col-1"></div>
+                <div class="col-0 w50">
+                    <a href="<?php echo $urlCreateDoctorHz; ?>" data-target="link">
+                        <img src="<?php echo $urlResImage; ?>/huizhen.png">
+                    </a>
                 </div>
-                <div class="grid font-s18">
-                    <div class="col-0 w50 grid pt5 b-gray-r1">
-                        <div class="col-1"></div>
-                        <div class="col-0 mt11 line-h1e">
-                            去外地会诊
-                        </div>
-                        <div class="col-1"></div>
-                    </div>
-                    <div class="col-0 w50 grid pt5">
-                        <div class="col-1"></div>
-                        <div class="col-0 mt11 line-h1e">
-                            接受病人转诊
-                        </div>
-                        <div class="col-1"></div>
-                    </div>
-                </div>
-                <div class="mt10 ml15 mr15" style="border-bottom:1px solid #dddddd;"></div>
-                <div class="ml30 mr30 mt15 font-s16 huizhenInfo">
-
-                </div>
-                <div class="ml30 mr30 mt12 mb10 font-s16 zhuanzhenInfo">
-
-                </div>
+                <div class="col-1"></div>
             </div>
-        </article>
-    </section>
-</div>  
+            <div class="col-1 grid">
+                <div class="col-1"></div>
+                <div class="col-0 w50">
+                    <a href="<?php echo $urlCreateDoctorZz; ?>" data-target="link">
+                        <img src="<?php echo $urlResImage; ?>/zhuanzhen.png">
+                    </a>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+        <div class="grid font-s18">
+            <div class="col-0 w50 grid pt5 b-gray-r1">
+                <div class="col-1"></div>
+                <div class="col-0 mt11 line-h1e">
+                    去外地会诊
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="col-0 w50 grid pt5">
+                <div class="col-1"></div>
+                <div class="col-0 mt11 line-h1e">
+                    接受病人转诊
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+        <div class="mt10 ml15 mr15" style="border-bottom:1px solid #dddddd;"></div>
+        <div class="ml30 mr30 mt15 font-s16 huizhenInfo">
+
+        </div>
+        <div class="ml30 mr30 mt12 mb10 font-s16 zhuanzhenInfo">
+
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         ajaxViewDoctorHz();

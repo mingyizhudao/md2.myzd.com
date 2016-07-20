@@ -9,37 +9,33 @@ $urlDoctorView = $this->createUrl('doctor/view');
 $urlAjaxDoctorTerms = $this->createUrl('doctor/ajaxDoctorTerms');
 $urlReturn = $returnUrl;
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?>>
-    <section id="createPatinal_section" class="active" data-init="true">
-        <article id="terms_article" class="active" data-scroll="true">
-            <div id="terms" class="terms">
-                <div>
-                    <div>
-                        <?php $this->renderPartial("//home/doctorContract"); ?>
-                    </div>
-                    <div class="mt20">
-                        <?php if ($teamDoctor == 0) { ?>
-                            <div class="ui-grid-a">
-                                <div class="ui-block-a">
-                                    <a href="<?php echo $urlDoctorView; ?>" class="hideTerms btn btn-default btn-block" >取 消</a>
-                                </div>
-                                <div class="ui-block-b">
-                                    <a id="agreeDoctorTerms" class="btn btn-yes btn-block">同 意</a>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        <?php } else { ?>
-                            <div>
-                                <a class="hideTerms btn btn-default btn-block" >已同意</a>
-                            </div>
-                        <?php } ?>
-                    </div>
-                    <br/>
-                </div>
+<article id="terms_article" class="active" data-scroll="true">
+    <div id="terms" class="terms">
+        <div>
+            <div>
+                <?php $this->renderPartial("//home/doctorContract"); ?>
             </div>
-        </article>
-    </section>
-</div>
+            <div class="mt20">
+                <?php if ($teamDoctor == 0) { ?>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <a href="<?php echo $urlDoctorView; ?>" class="hideTerms btn btn-default btn-block" >取 消</a>
+                        </div>
+                        <div class="ui-block-b">
+                            <a id="agreeDoctorTerms" class="btn btn-yes btn-block">同 意</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                <?php } else { ?>
+                    <div>
+                        <a class="hideTerms btn btn-default btn-block" >已同意</a>
+                    </div>
+                <?php } ?>
+            </div>
+            <br/>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         $('#agreeDoctorTerms').tap(function (e) {

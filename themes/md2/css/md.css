@@ -3,7 +3,7 @@ body,p,h1,h4{color: #333;letter-spacing: 1px;line-height: 1.5;font-weight:200;fo
 .label{padding: 5px;}
 a{color:#333;display: inline!important;}
 .pad1{padding: 1em;}
-section.active{top:44px;}
+/*section.active{top:44px;}*/
 img{max-width: 100%;}
 div.error,div.errorMessage{color: #E21E1A;font-size: 12px;margin-top: -10px;}
 .btn{border-radius: 5px;border:none;text-align: center;padding: 3px 5px;}
@@ -129,6 +129,92 @@ header nav.right .header-user{height: 28px;}
 }
 #popup_btn_container>div>a {
     display: block!important;
+}
+
+/*底部*/
+#public_footer {
+    border-top: inherit;
+}
+#public_footer .control-group li {
+    border-color: #fff;
+}
+#public_footer a{
+    color: #333!important;
+}
+#public_footer .active a{
+    color: #17D7C3!important;
+}
+#public_footer .control-group li.active {
+    background: #ffffff;
+}
+#public_footer .homeIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -4px -28px;
+}
+#public_footer .active .homeIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -3px -3px;
+}
+#public_footer .findIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -28px -28px;
+}
+#public_footer .active .findIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -28px -3px;
+}
+#public_footer .createIcon{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -101px -2px;
+    width: 55px;
+    height: 55px;
+    position: fixed;
+    z-index: 99;
+    margin:0 auto;
+    left:0;
+    right:0;
+    bottom: 20px;
+}
+#public_footer .orderIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -53px -29px;
+}
+#public_footer .active .orderIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -53px -4px;
+}
+#public_footer .centerIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -77px -29px;
+}
+#public_footer .active .centerIcon{
+    width: 24px;
+    height: 24px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background-size: 163px 61px;
+    background-position: -77px -4px;
 }
 
 /*签约医生*/
@@ -300,52 +386,91 @@ header{
     background-position: 95% 50%;
     background-size: 8px 15px;
 }
-#doctorView_article .realNameIcon{
+#doctorView_article .noIcon{
+    background-color: #999999;
     padding: 2px 5px;
-    background-color: #D99431;
-    border-radius: 5px;
+    border-radius: 2px;
+}
+#doctorView_article .waitingIcon{
+    background-color: #EFCA24;
+    padding: 2px 5px;
+    border-radius: 2px;
+}
+#doctorView_article .realNameIcon{
+    background: #EFCA24 url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146890923671198') no-repeat;
+    background-size: 15px 13px;
+    background-position: 3px 3px;
+    padding: 2px 5px 2px 19px;
+    border-radius: 2px;
+}
+#doctorView_article .teamIcon{
+    background-color: #0FC207;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #fff;
+}
+#doctorView_article .signIcon{
+    background-color: #EF4F4F;
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: 12px;
+    color: #fff;
 }
 #doctorView_article .myPatients{
-    background: url('../images/center/myPatients.png') no-repeat;
-    background-size: 20px 20px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 10px;
+    width: 28px;
     background-position-y: 1px;
-    background-position-x: 20px;
-}
-#doctorView_article .myBooking{
-    background: url('../images/center/myBooking.png') no-repeat;
-    background-size: 18px 18px;
-    background-position-y: 1px;
-    background-position-x: 20px;
 }
 #doctorView_article .receivedBooking{
-    background: url('../images/center/receivedBooking.png') no-repeat;
-    background-size: 18px 18px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 20px;
+    width: 19px;
     background-position-y: 1px;
-    background-position-x: 20px;
+    background-position-x: -60px;
 }
 #doctorView_article .userbankIcon {
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146726899855634') no-repeat;
-    background-size: 18px 18px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 20px;
+    width: 18px;
     background-position-y: 1px;
-    background-position-x: 20px;
+    background-position-x: -43px;
 }
 #doctorView_article .consultingAgreement{
-    background: url('../images/center/consultingAgreement.png') no-repeat;
-    background-size: 18px 18px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 20px;
+    width: 18px;
     background-position-y: 1px;
-    background-position-x: 20px;
+    background-position-x: -79px;
 }
 #doctorView_article .signDoctor{
-    background: url('../images/center/signDoctor.png') no-repeat;
-    background-size: 18px 18px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 21px 0px 21px;
+    width: 16px;
     background-position-y: 1px;
-    background-position-x: 20px;
+    background-position-x: -101px;
 }
 #doctorView_article .customerService{
-    background: url('../images/center/customerService.png') no-repeat;
-    background-size: 18px 18px;
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 20px;
+    width: 18px;
     background-position-y: 1px;
-    background-position-x: 20px;
+    background-position-x: -115px;
+}
+#doctorView_article .inviteExperts{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background-size: 158px 25px;
+    margin: 0px 20px 0px 20px;
+    width: 18px;
+    background-position-y: 1px;
+    background-position-x: -134px;
 }
 #doctorView_article .signOut{
     background: url('../images/center/signOut.png') no-repeat;
@@ -581,12 +706,12 @@ header{
 
 /*我的患者*/
 #patientList_nav.header-secondary{
-    top: 0px;
+    /*top: 0px;*/
     height: 40px;
     display: inline;
 }
 #patientList_nav.header-secondary~article{
-    top:40px;
+    /*top:40px;*/
 }
 #patientList_nav.header-secondary{
     background-color: #e1e1e1;
@@ -626,11 +751,11 @@ header{
     text-align: left;
 }
 #bookingList_nav.header-secondary{
-    top: 0px;
+    /*top: 0px;*/
     height: 40px;
 }
 #bookingList_nav.header-secondary~article{
-    top: 40px;
+    top: 84px;
 }
 #bookingList_nav .control-group li:first-child{
     border-radius: 0px;
@@ -820,6 +945,10 @@ header{
     }
 }
 
+/*发现列表*/
+#findView_article{
+    background-color: #EAEFF1;
+}
 /*大事记*/
 #bigEvent_article{
     background-color: #F0EFF4;

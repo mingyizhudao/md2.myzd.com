@@ -4,76 +4,72 @@ $urlAjaxSetKey = $this->createUrl('userbank/ajaxSetKey');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="main_section" class="active">
-        <article class="active pwd_article" data-scroll="true">
-            <div class="pad10">
-                <div id="firstKeyView">
-                    <div>
-                        为了保护账户安全请设置密码
+<article class="active pwd_article" data-scroll="true">
+    <div class="pad10">
+        <div id="firstKeyView">
+            <div>
+                为了保护账户安全请设置密码
+            </div>
+            <div class="pwd-box mt10">
+                <input type="tel" maxlength="6" class="pwd-input" id="firstKey-input">
+                <div class="fake-box grid">
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
-                    <div class="pwd-box mt10">
-                        <input type="tel" maxlength="6" class="pwd-input" id="firstKey-input">
-                        <div class="fake-box grid">
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                        </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
-                    <div class="mt40">
-                        <a id="firstKey" href="javascript:;" class="btn btn-full btn-yellow2">下一步</a>
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
-                </div>
-                <div id="confirmKeyView" class="hide">
-                    <div>
-                        确认密码
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
-                    <div class="pwd-box mt10">
-                        <input type="tel" maxlength="6" class="pwd-input" id="confirmKey-input">
-                        <div class="fake-box grid">
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                            <div class="col-1">
-                                <input type="password" readonly="">
-                            </div>
-                        </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
-                    <div class="mt40">
-                        <a id="submitBtn" href="javascript:;" class="btn btn-full btn-yellow2">确认密码</a>
+                    <div class="col-1">
+                        <input type="password" readonly="">
                     </div>
                 </div>
             </div>
-        </article>
-    </section>
-</div>
+            <div class="mt40">
+                <a id="firstKey" href="javascript:;" class="btn btn-full btn-yellow2">下一步</a>
+            </div>
+        </div>
+        <div id="confirmKeyView" class="hide">
+            <div>
+                确认密码
+            </div>
+            <div class="pwd-box mt10">
+                <input type="tel" maxlength="6" class="pwd-input" id="confirmKey-input">
+                <div class="fake-box grid">
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                    <div class="col-1">
+                        <input type="password" readonly="">
+                    </div>
+                </div>
+            </div>
+            <div class="mt40">
+                <a id="submitBtn" href="javascript:;" class="btn btn-full btn-yellow2">确认密码</a>
+            </div>
+        </div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         var firstKey = '';

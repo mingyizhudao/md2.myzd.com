@@ -1,8 +1,9 @@
 <?php
-//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.min.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.min.js?ts=' . time(), CClientScript::POS_END);
 ?>
 <?php
+$this->setPageTitle('签约专家');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $state = Yii::app()->request->getQuery('state', '');
 $disease_sub_category = Yii::app()->request->getQuery('disease_sub_category', '');
@@ -12,18 +13,13 @@ $urlViewContractDoctors = $this->createUrl('doctor/viewContractDoctors');
 $urlState = $this->createUrl('doctor/ajaxStateList');
 $urlDept = $this->createUrl('doctor/ajaxDeptList');
 $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
-
-$this->show_footer = false;
 ?>
 <style>
     #jingle_popup{
         text-align: inherit;
     }
 </style>
-<header class="bg-green">
-    <h1 class="title">签约专家</h1>
-</header>
-<nav id="contractDoctors_nav" class="header-secondary bg-white">
+<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">
     <div class="grid w100 font-s16 color-black6">
         <div id="stateSelect" class="col-1 w50 br-gray bb-gray grid middle grayImg">
             <span id="stateTitle" data-dept="">全部</span><img src="<?php echo $urlResImage; ?>gray.png">
@@ -33,15 +29,11 @@ $this->show_footer = false;
         </div>
     </div>
 </nav>
-<div id="section_container" <?php echo $this->createPageAttributes(); ?> >
-    <section id="contractDoctors_section" class="active" data-init="true">
-        <article id="contractDoctors_article" class="active" data-scroll="true">
-            <div id="docPage">
+<article id="contractDoctors_article" class="active top50p" data-scroll="true">
+    <div id="docPage">
 
-            </div>
-        </article>
-    </section>
-</div>
+    </div>
+</article>
 <script>
     $(document).ready(function () {
         J.showMask();
@@ -94,7 +86,7 @@ $this->show_footer = false;
 
         function readyDept(data) {
             var results = data.results;
-            var innerHtml = '<div class="grid color-black" style="margin-top:93px;height:315px;">' +
+            var innerHtml = '<div class="grid color-black" style="margin-top:49px;height:315px;">' +
                     '<div id="highDept" class="col-1 w50" data-scroll="true" style="height:315px;width: 50%;">' +
                     '<ul class="list">';
             if (results.length > 0) {
@@ -129,7 +121,7 @@ $this->show_footer = false;
 
         function readyState(data) {
             var stateList = data.results.stateList;
-            var innerHtml = '<div data-scroll="true" style="height:315px;margin-top:93px;"><ul class="list">'
+            var innerHtml = '<div data-scroll="true" style="height:315px;margin-top:49px;"><ul class="list">'
                     + '<li class="state" data-state="">全部</li>';
             //console.log(stateList(1));
             for (var s in stateList) {
