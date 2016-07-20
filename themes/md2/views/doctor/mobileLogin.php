@@ -182,7 +182,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     <!-- /panel -->
     <script>
         $(document).ready(function () {
-            is_weixin();
+            //is_weixin();
             vailcode();
             $('.pageSwitch').click(function () {
                 var page = $(this).attr('data-page');
