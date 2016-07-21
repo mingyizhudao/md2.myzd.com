@@ -1,6 +1,6 @@
 <?php
 $urlCreatePatient = $this->createUrl('patient/create', array('addBackBtn' => 1, 'status' => 0));
-$urlDoctorView = $this->createUrl('doctor/view');
+$urlDoctorView = $this->createUrl('doctor/userView');
 $urlHome = $this->createUrl('home/page', array('view' => 'home'));
 $urlFindView = $this->createUrl('home/page', array('view' => 'findView', 'app' => 0));
 $urlPatientBookingList = $this->createUrl('patientbooking/list', array('status' => 0, 'addBackBtn' => 1));

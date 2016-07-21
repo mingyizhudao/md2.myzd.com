@@ -134,7 +134,7 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -414,6 +414,17 @@ class DoctorController extends MobiledoctorController {
 
     //个人中心
     public function actionView() {
+        // var_dump(Yii::app()->user->id);exit;
+        $user = $this->loadUser();  // User model
+        $svc = new ApiViewUserInfo($user);
+        $output = $svc->loadApiViewData();
+        $this->render('view', array(
+            'user' => $output
+        ));
+    }
+
+    //个人中心
+    public function actionUserView() {
         // var_dump(Yii::app()->user->id);exit;
         $user = $this->loadUser();  // User model
         $svc = new ApiViewUserInfo($user);
