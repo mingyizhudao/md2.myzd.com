@@ -11,16 +11,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $doctor = $data->results->doctor;
 $patient = $data->results->patient;
 ?>
-<header class="bg-green">
-    <nav class="left">
-        <a href="" data-target="back">
-            <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
-            </div>
-        </a>
-    </nav>
-    <h1 class="title">就诊意向</h1>
-</header>
 <article id="createPatientBooking_article" class="active" data-scroll="true">
     <div class="pl10 pr10">
         <?php
