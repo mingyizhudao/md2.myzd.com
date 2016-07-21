@@ -116,62 +116,62 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     $(document).ready(function () {
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
         $.ajax({
-                    url: urlPatientMRFiles,
-                    success: function (data) {
-                        setImgHtml(data.results);
+            url: urlPatientMRFiles,
+            success: function (data) {
+                setImgHtml(data.results);
             }
-                    });
+        });
     });
-            function setImgHtml(files) {
-                var innerHtml = '';
-                var imgfiles = files.files;
-                if (imgfiles && imgfiles.length > 0) {
-                    for (i = 0; i < imgfiles.length; i++) {
-                        var imgfile = imgfiles[i];
-                        innerHtml +=
-                                '<li id="' +
-                                imgfile.id + '"><p class="imgWrap"><img src="' +
-                                imgfile.thumbnailUrl + '" data-src="' +
-                                imgfile.absFileUrl + '"></p><div class="file-panel delete">删除</div></li>';
+    function setImgHtml(files) {
+        var innerHtml = '';
+        var imgfiles = files.files;
+        if (imgfiles && imgfiles.length > 0) {
+            for (i = 0; i < imgfiles.length; i++) {
+                var imgfile = imgfiles[i];
+                innerHtml +=
+                        '<li id="' +
+                        imgfile.id + '"><p class="imgWrap"><img src="' +
+                        imgfile.thumbnailUrl + '" data-src="' +
+                        imgfile.absFileUrl + '"></p><div class="file-panel delete">删除</div></li>';
             }
-                    } else {
-                    innerHtml += '';
+        } else {
+            innerHtml += '';
         }
-                $(".imglist .filelist").html(innerHtml);
+        $(".imglist .filelist").html(innerHtml);
         initDelete();
-                }
-            function initDelete() {
-                $('.imglist .delete').tap(function () {
-                    domLi = $(this).parents("li");
-                    id = domLi.attr("id");
-                    J.confirm('提示', '确定删除这张图片?', function () {
-                        deleteImg(id, domLi);
-                    }, function () {
-                        J.showToast('取消', '', 1000);
-            });
-                    });
     }
-            function deleteImg(id, domLi) {
+    function initDelete() {
+        $('.imglist .delete').tap(function () {
+            domLi = $(this).parents("li");
+            id = domLi.attr("id");
+            J.confirm('提示', '确定删除这张图片?', function () {
+                deleteImg(id, domLi);
+            }, function () {
+                J.showToast('取消', '', 1000);
+            });
+        });
+    }
+    function deleteImg(id, domLi) {
         J.showMask();
-                var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
+        var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
         $.ajax({
-                            url: urldelectPatientMRFile,
-                            beforeSend: function () {
+            url: urldelectPatientMRFile,
+            beforeSend: function () {
 
             },
-                            success: function (data) {
-                                if (data.status == 'ok') {
-                                    domLi.remove();
-                                    J.showToast('删除成功!', '', 1000);
-                                } else {
-                                    //console.log(data.error);
-                                    J.showToast(data.error, '', 3000);
+            success: function (data) {
+                if (data.status == 'ok') {
+                    domLi.remove();
+                    J.showToast('删除成功!', '', 1000);
+                } else {
+                    //console.log(data.error);
+                    J.showToast(data.error, '', 3000);
                 }
-                                },
-                            complete: function () {
-                                J.hideMask();
+            },
+            complete: function () {
+                J.hideMask();
             }
-                            });
+        });
     }
 </script>
 

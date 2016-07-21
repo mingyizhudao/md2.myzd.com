@@ -24,6 +24,13 @@ $user = $this->loadUser();
 $booking = $data->results->booking;
 $notPays = $data->results->notPays;
 $pays = $data->results->pays;
+$this->show_footer = false;
+$hasFile = $data->results->booking->hasFile;
+if ($hasFile == 0) {
+    $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1));
+} else {
+    $urlUpload = $this->createUrl('patient/viewDaFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1));
+}
 $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $booking->patientId . '&reportType=da'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientId));
 ?>
 <header id="payOrder_header" class="bg-green">
@@ -58,7 +65,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
     </nav>
     <h1 class="title">订单详情</h1>
     <nav class="right">
-        <a class="submitSummary" data-target="link" href="<?php echo $urlUpload = $this->createUrl('patient/uploadDAFile', array('id' => $booking->patientId, 'bookingid' => $booking->id, 'addBackBtn' => 1)); ?>">
+        <a class="submitSummary" data-target="link" href="<?php echo $urlUpload; ?>">
             传小结
         </a>
     </nav>
@@ -166,66 +173,66 @@ if ($booking->statusCode != $BK_STATUS_SERVICE_PAIDED) {
             e.preventDefault();
             J.showMask();
             $.ajax({
-            url: '<?php echo $urlAjaxOperation; ?>/' + '<?php echo $booking->id; ?>',
-                            success: function (data) {
-                                console.log(data);
-                                if (data.status == 'ok') {
-                                    J.hideMask();
-                                    J.customConfirm('<div class="color-black3">感谢您的辛勤付出和协助！</div>',
-                                            '<div class="mt10 mb10">请记得上传出院小结哦~</div>',
-                                            '',
-                                            '<a id="closeLogout">返回订单列表</a>',
-                                            function () {
-                                            },
-                                            function () {
-                                            });
-                                    $('#closeLogout').tap(function () {
-                                        J.hideMask();
-                                        location.href = '<?php echo $patientBookingListAll; ?>';
-                                                                });
+                url: '<?php echo $urlAjaxOperation; ?>/' + '<?php echo $booking->id; ?>',
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 'ok') {
+                        J.hideMask();
+                        J.customConfirm('<div class="color-black3">感谢您的辛勤付出和协助！</div>',
+                                '<div class="mt10 mb10">请记得上传出院小结哦~</div>',
+                                '',
+                                '<a id="closeLogout">返回订单列表</a>',
+                                function () {
+                                },
+                                function () {
+                                });
+                        $('#closeLogout').tap(function () {
+                            J.hideMask();
+                            location.href = '<?php echo $patientBookingListAll; ?>';
+                        });
                     }
-                                                            },
-                                                        error: function (XmlHttpRequest, textStatus, errorThrown) {
-                                                            J.hideMask();
-                                                            console.log(XmlHttpRequest);
-                                                            console.log(textStatus);
-                                                            console.log(errorThrown);
                 },
-                                                        });
-                                                    });
-
-                                                //待处理返回
-                                                $('#noPayNew').tap(function () {
-                                                    J.customConfirm('提示',
-                                                            '<div class="mb10">确定暂不支付手术预约金?</div><div class="font-s12">（稍后可在"订单-待支付"里完成）</div>',
-                                                            '<a data="cancel" class="w50">取消</a>',
-                                                            '<a href="<?php echo $patientBookingList; ?>" class="w50 color-green">确定</a>',
-                                                                                function () {
-                                                                                },
-                                                                                function () {
-                                                                                    J.hideMask();
-                                                                                });
+                error: function (XmlHttpRequest, textStatus, errorThrown) {
+                    J.hideMask();
+                    console.log(XmlHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+            });
         });
 
-                                                                    //待确定返回
-                                                                    $('#noPayService').tap(function () {
-                                                                        J.customConfirm('提示',
-                                                                                '<div class="mb10">确定暂不支付手术咨询费?</div><div class="font-s12">（稍后可在"订单-待确认"里完成）</div>',
-                                                                                '<a data="cancel" class="w50">取消</a>',
-                                                                                '<a href="<?php echo $patientBookingList; ?>" class="w50 color-green">确定</a>',
-                                                                                                    function () {
-                                                                                                    },
-                                                                                                    function () {
-                                                                                                        J.hideMask();
-                                                                                                    });
+        //待处理返回
+        $('#noPayNew').tap(function () {
+            J.customConfirm('提示',
+                    '<div class="mb10">确定暂不支付手术预约金?</div><div class="font-s12">（稍后可在"订单-待支付"里完成）</div>',
+                    '<a data="cancel" class="w50">取消</a>',
+                    '<a href="<?php echo $patientBookingList; ?>" class="w50 color-green">确定</a>',
+                    function () {
+                    },
+                    function () {
+                        J.hideMask();
+                    });
         });
 
-                                                                                        $('#payNow').tap(function () {
-                                                                                            var refNo = $(this).attr('data-refNo');
-                                                                                            location.href = '<?php echo $this->createUrl('order/view', array('bookingId' => $booking->id, 'refNo' => '')); ?>/' + refNo;
+        //待确定返回
+        $('#noPayService').tap(function () {
+            J.customConfirm('提示',
+                    '<div class="mb10">确定暂不支付手术咨询费?</div><div class="font-s12">（稍后可在"订单-待确认"里完成）</div>',
+                    '<a data="cancel" class="w50">取消</a>',
+                    '<a href="<?php echo $patientBookingList; ?>" class="w50 color-green">确定</a>',
+                    function () {
+                    },
+                    function () {
+                        J.hideMask();
+                    });
         });
-                                                                                                    $('#pay').tap(function () {
-                                                                                                        location.href = '<?php echo $this->createUrl('order/payOrders', array('bookingId' => $booking->id, 'orderType' => $orderType, 'addBackBtn' => 1)); ?>';
+
+        $('#payNow').tap(function () {
+            var refNo = $(this).attr('data-refNo');
+            location.href = '<?php echo $this->createUrl('order/view', array('bookingId' => $booking->id, 'refNo' => '')); ?>/' + refNo;
+        });
+        $('#pay').tap(function () {
+            location.href = '<?php echo $this->createUrl('order/payOrders', array('bookingId' => $booking->id, 'orderType' => $orderType, 'addBackBtn' => 1)); ?>';
         });
     });
 </script>

@@ -62,7 +62,7 @@ $(function () {
     uploader = WebUploader.create({
         pick: {
             id: '#filePicker',
-            innerHTML: '&nbsp;选择影像资料'
+            innerHTML: ''
         },
         dnd: '#uploader .queueList',
         paste: document.body,
@@ -360,7 +360,6 @@ $(function () {
                 stats = uploader.getStats();
                 if (stats.successNum) {
                     //console.log(stats);
-                    enableBtn(btnSubmit);
                     //电邮提醒
                     if (patientBookingId != '') {
                         $.ajax({
@@ -376,10 +375,12 @@ $(function () {
                             },
                             complete: function () {
                                 location.href = uploadReturnUrl;
+                                enableBtn(btnSubmit);
                             }
                         });
                     } else {
                         location.href = uploadReturnUrl;
+                        enableBtn(btnSubmit);
                     }
                     //location.hash = uploadReturnUrl;
                 } else {
@@ -402,6 +403,7 @@ $(function () {
     };
 
     uploader.onFileQueued = function (file) {
+        btnSubmit.removeAttr('disabled');
         fileCount++;
         fileSize += file.size;
 
@@ -418,6 +420,7 @@ $(function () {
         fileCount--;
         fileSize -= file.size;
         if (!fileCount) {
+            btnSubmit.attr('disabled', 'true');
             setState('pedding');
         }
         removeFile(file);

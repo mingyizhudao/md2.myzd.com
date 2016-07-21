@@ -28,8 +28,9 @@ $user = $this->loadUser();
 $urlUploadFile = $this->createUrl('qiniu/ajaxPatienMr');
 $urlQiniuAjaxToken = $this->createUrl('qiniu/ajaxPatientToken');
 $urlPatientAjaxDrTask = $this->createUrl('patient/ajaxDrTask');
+$id = Yii::app()->request->getQuery('id', '');
 $bookingId = Yii::app()->request->getQuery('bookingid', '');
-$urlReturn = $this->createUrl('order/orderView', array('bookingid' => $bookingId, 'addBackBtn' => 1));
+$urlReturn = $this->createUrl('patient/viewDaFile', array('id' => $id, 'bookingid' => $bookingId));
 if (isset($output['id'])) {
     $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientId . '&reportType=da'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientId));
     $urldelectPatientMRFile = 'http://file.mingyizhudao.com/api/deletepatientmr?userId=' . $user->id . '&id='; //$this->createUrl('patient/delectPatientMRFile');
@@ -37,16 +38,16 @@ if (isset($output['id'])) {
     $urlPatientMRFiles = "";
     $urldelectPatientMRFile = "";
 }
-
+$orderList = $this->createUrl('patientbooking/list', array('status' => 0));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<article id="" class="active android_article" data-scroll="true">
+<article id="updateDAFileAndroid_article" class="active android_article" data-scroll="true">
     <div class="mt20 pl10 pr10">
         <div>
-            上传影像资料
+            请您上传与该订单对应的出院小结
         </div>
-        <div class="imglist mt10">
-            <ul class="filelist"></ul>
+        <div>
+            （最多3张）
         </div>
         <div class="clearfix"></div>
         <div class="form-wrapper mt20">
@@ -60,11 +61,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                         </form>
                     </div>
-                    <div class="body mt10">
-                        <div class="text-center">
+                    <div class="body">
+                        <div class="">
                             <div id="container">
-                                <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
-                                    <span>选择影像资料</span>
+                                <a class="btn btn-default btn-lg " id="pickfiles" href="#">
+                                    <span>
+                                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146770314701592" class="w90p">
+                                    </span>
                                 </a>
                             </div>
                         </div>
@@ -75,8 +78,8 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             </table>
                         </div>
                     </div>
-                    <div id="submitBtn" class="hide">
-                        <button class="btn btn-full bg-green color-white">上传</button>
+                    <div id="submitBtnSummary" class="pt20 pb20 bt-gray">
+                        <button class="btn btn-full bg-green color-white" disabled="true">提交</button>
                     </div>
                 </div>
             </div>
@@ -92,77 +95,3 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         <div id="jingle_toast" class="toast"><a href="#">取消!</a></div>
     </div>
 </article>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#deleteConfirm .cancel").click(function () {
-            $("#deleteConfirm").hide();
-            $("#jingle_toast").show();
-            setTimeout(function () {
-                $("#jingle_toast").hide();
-            }, 1000);
-        });
-        $("#deleteConfirm .delete").click(function () {
-            $("#deleteConfirm").hide();
-            id = $(this).attr("data-id");
-            domId = "#" + id;
-            domLi = $(domId);
-            deleteImg(id, domLi);
-            setTimeout(function () {
-                $("#jingle_toast").hide();
-            }, 2000);
-        });
-        //加载病人病历图片
-        var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
-        $.ajax({
-            url: urlPatientMRFiles,
-            success: function (data) {
-                setImgHtml(data.results.files);
-            }
-        });
-    });
-    function setImgHtml(imgfiles) {
-        var innerHtml = '';
-        if (imgfiles && imgfiles.length > 0) {
-            for (i = 0; i < imgfiles.length; i++) {
-                imgfile = imgfiles[i];
-                innerHtml +=
-                        '<li id="' +
-                        imgfile.id + '"><p class="imgWrap"><img src="' +
-                        imgfile.thumbnailUrl + '" data-src="' +
-                        imgfile.absFileUrl + '"></p><div class="file-panel delete"><span class="">删除</span></div></li>';
-            }
-        } else {
-            innerHtml += '';
-        }
-        $(".imglist .filelist").html(innerHtml);
-        initDelete();
-    }
-    function initDelete() {
-        $('.imglist .delete').click(function () {
-            domLi = $(this).parents("li");
-            id = domLi.attr("id");
-            $("#deleteConfirm .delete").attr("data-id", id);
-            $("#deleteConfirm").show();
-        });
-    }
-    function deleteImg(id, domLi) {
-        $(".ui-loader").show();
-        urlDelectDoctorCert = '<?php echo $urldelectPatientMRFile ?>' + id;
-        $.ajax({
-            url: urlDelectDoctorCert,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                if (data.status == 'ok') {
-                    domLi.remove();
-                    $("#jingle_toast a").text('删除成功!');
-                    $("#jingle_toast").show();
-                }
-            },
-            complete: function () {
-                $(".ui-loader").hide();
-            }
-        });
-    }
-</script>

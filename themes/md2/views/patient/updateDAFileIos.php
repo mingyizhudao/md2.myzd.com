@@ -14,8 +14,9 @@ $patientId = $output['id'];
 $user = $this->loadUser();
 $urlUploadFile = 'http://file.mingyizhudao.com/api/uploadparientmr'; //$this->createUrl("patient/ajaxUploadMRFile");
 $urlPatientAjaxDrTask = $this->createUrl('patient/ajaxDrTask', array('id' => ''));
+$id = Yii::app()->request->getQuery('id', '');
 $bookingId = Yii::app()->request->getQuery('bookingid', '');
-$urlReturn = $this->createUrl('order/orderView', array('bookingid' => $bookingId, 'addBackBtn' => 1));
+$urlReturn = $this->createUrl('patient/viewDaFile', array('id' => $id, 'bookingid' => $bookingId));
 if (isset($output['id'])) {
     $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientId . '&reportType=da'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientId));
     $urldelectPatientMRFile = 'http://file.mingyizhudao.com/api/deletepatientmr?userId=' . $user->id . '&id='; //$this->createUrl('patient/delectPatientMRFile');
@@ -23,9 +24,10 @@ if (isset($output['id'])) {
     $urlPatientMRFiles = "";
     $urldelectPatientMRFile = "";
 }
+$orderList = $this->createUrl('patientbooking/list', array('status' => 0));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<article id="a1" class="active" data-scroll="true">
+<article id="updateDAFileIos_article" class="active" data-scroll="true">
     <div class="form-wrapper mt10">
         <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php echo $bookingId; ?>">
             <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $patientId; ?>" />
@@ -33,13 +35,27 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         </form>
         <div class="pl10 pr10">
             <div>
-                上传影像资料：
+                请您上传与该订单对应的出院小结
             </div>
-            <div class="mt20">    
+            <div>
+                （最多3张）
+            </div>
+            <div class="mt20">
                 <!--图片上传区域 -->
                 <div id="uploader" class="wu-example">
-                    <div class="imglist">
-                        <ul class="filelist"></ul>
+                    <div class="statusBar" style="display:none;">
+                        <div class="progress">
+                            <span class="text">0%</span>
+                            <span class="percentage"></span>
+                        </div>
+                        <div class="info hide"></div>
+                        <div class="">
+                            <!-- btn 继续添加 -->
+                            <div id="filePicker2" class=""></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="mt20">
+                        </div>
                     </div>
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
@@ -47,90 +63,11 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
-                    <div class="statusBar" style="display:none; padding-bottom: 40px;">
-                        <div class="progress">
-                            <span class="text">0%</span>
-                            <span class="percentage"></span>
-                        </div>
-                        <div class="info"></div>
-                        <div class="">
-                            <!-- btn 继续添加 -->
-                            <div id="filePicker2" class="pull-right"></div>                                
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="mt20">
-<!--                                    <input id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                            <a id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block">提交</a>
-                        </div>
-                    </div>
-                    <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
-                    <!--                         <div class="statusBar uploadBtn">提交</div>-->
                 </div>
-
+                <div class="pt20 pb20 bt-gray">
+                    <button id="btnSubmit" class="statusBar uploadBtn state-pedding btn btn-yes btn-block" disabled="true">提交</button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="mt30"></div>
 </article>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
-        $.ajax({
-            url: urlPatientMRFiles,
-            success: function (data) {
-                setImgHtml(data.results);
-            }
-        });
-    });
-    function setImgHtml(files) {
-        var innerHtml = '';
-        var imgfiles = files.files;
-        if (imgfiles && imgfiles.length > 0) {
-            for (i = 0; i < imgfiles.length; i++) {
-                var imgfile = imgfiles[i];
-                innerHtml +=
-                        '<li id="' +
-                        imgfile.id + '"><p class="imgWrap"><img src="' +
-                        imgfile.thumbnailUrl + '" data-src="' +
-                        imgfile.absFileUrl + '"></p><div class="file-panel delete">删除</div></li>';
-            }
-        } else {
-            innerHtml += '';
-        }
-        $(".imglist .filelist").html(innerHtml);
-        initDelete();
-    }
-    function initDelete() {
-        $('.imglist .delete').tap(function () {
-            domLi = $(this).parents("li");
-            id = domLi.attr("id");
-            J.confirm('提示', '确定删除这张图片?', function () {
-                deleteImg(id, domLi);
-            }, function () {
-                J.showToast('取消', '', 1000);
-            });
-        });
-    }
-    function deleteImg(id, domLi) {
-        J.showMask();
-        var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
-        $.ajax({
-            url: urldelectPatientMRFile,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                if (data.status == 'ok') {
-                    domLi.remove();
-                    J.showToast('删除成功!', '', 1000);
-                } else {
-                    //console.log(data.error);
-                    J.showToast(data.error, '', 3000);
-                }
-            },
-            complete: function () {
-                J.hideMask();
-            }
-        });
-    }
-</script>

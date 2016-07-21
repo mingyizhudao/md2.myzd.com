@@ -217,6 +217,26 @@ header nav.right .header-user{height: 28px;}
     background-position: -77px -4px;
 }
 
+/*首页*/
+#home_article{
+    background-color: #EAEFF1;
+}
+#home_article .bx-wrapper {
+    margin: 0 auto 0;
+}
+#home_article #banner .bx-pager {
+    background-color: transparent;
+    bottom: 0;
+    z-index: 99;
+}
+#home_article #banner .bx-wrapper .bx-pager.bx-default-pager a {
+    width: 8px;
+    height: 8px;
+    margin: 0 3px!important;
+    color: #fff!important;
+    display: block!important;
+}
+
 /*签约医生*/
 #contractDoctors_nav.header-secondary{
     height: 50px;
@@ -1189,4 +1209,47 @@ body #viewCommonweal_article{
     background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146717942005220') no-repeat;
     background-size: 15px 15px;
     background-position: 10px 5px;
+}
+
+/*出院小结*/
+#updateDAFileAndroid_article .container{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#updateDAFileAndroid_article #container a {
+    width: inherit;
+    min-width: inherit;
+}
+#updateDAFileAndroid_article .btn {
+    padding: 0;
+    display: inline-block!important;
+}
+#updateDAFileAndroid_article .btn-default {
+    background-color: #fff!important;
+}
+#updateDAFileAndroid_article .backOrder{
+    display: block!important;
+    border: 1px solid #06C1AF;
+    border-radius: 3px;
+    color: #06C1AF;
+    text-align: center;
+    padding: 10px;
+}
+#updateDAFileIos_article #uploader .placeholder{
+    text-align: left;
+}
+#updateDAFileIos_article #uploader .webuploader-pick:after{
+    display: none;
+}
+#updateDAFileIos_article #uploader .queueList{
+    margin: 0px;
+}
+#updateDAFileIos_article .webuploader-pick{
+    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146770314701592');
+    background-size: 100% 100%;
+    width: 100px;
+    height: 100px;
+}
+#updateDAFileIos_article .button:disabled, button:disabled, .button.disabled, button.disabled{
+    background-color: #e3e3e3!important;
 }

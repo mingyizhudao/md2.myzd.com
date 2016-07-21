@@ -386,7 +386,6 @@ FileProgress.prototype.bindUploadCancel = function (up) {
             $(this).parents('tr').remove();
             if ($('#fsUploadProgress').find('tr').length == 0) {
                 $('#submitBtn').addClass('hide');
-                $('#pickfiles').find('span').text('选择影像资料');
             }
             up.removeFile(self.file);
         });
