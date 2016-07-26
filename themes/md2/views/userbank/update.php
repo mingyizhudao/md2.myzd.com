@@ -122,9 +122,9 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
             <div id="setDefault" class="col-0" data-select="<?php echo $model->is_default; ?>">
                 <?php
                 if ($model->is_default == 0) {
-                    echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认';
+                    echo '<img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认';
                 } else {
-                    echo '<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146665213709967" class="w17p mr6">设为默认';
+                    echo '<img src="http://static.mingyizhudao.com/146665213709967" class="w17p mr6">设为默认';
                 }
                 ?>
             </div>
@@ -169,11 +169,11 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
             if ($(this).attr('data-select') == 0) {
                 $(this).attr('data-select', 1);
                 $('input[name="card[is_default]"]').val(1);
-                $(this).html('<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146665213709967" class="w17p mr6">设为默认');
+                $(this).html('<img src="http://static.mingyizhudao.com/146665213709967" class="w17p mr6">设为默认');
             } else {
                 $(this).attr('data-select', 0);
                 $('input[name="card[is_default]"]').val(0);
-                $(this).html('<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认');
+                $(this).html('<img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认');
             }
         });
 

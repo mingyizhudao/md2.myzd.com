@@ -66,7 +66,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             <div id="container">
                                 <a class="btn btn-default btn-lg " id="pickfiles" href="#">
                                     <span>
-                                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146770314701592" class="w90p">
+                                        <img src="http://static.mingyizhudao.com/146770314701592" class="w90p">
                                     </span>
                                 </a>
                             </div>

@@ -16,7 +16,7 @@ $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingI
             <div class="grid pl10 pr10 pt5 pb5 color-green bb-gray">
                 <div class="col-1">基本信息</div>
                 <div class="col-0">
-                    <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146364029000449" class="w22p">
+                    <img src="http://static.mingyizhudao.com/146364029000449" class="w22p">
                 </div>
             </div>
             <div class="grid pad10 bb-gray">
@@ -36,7 +36,7 @@ $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingI
             <div class="grid pl10 pr10 pt5 pb5 color-green bb-gray">
                 <div class="col-1">患者资料</div>
                 <div class="col-0">
-                    <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146364052256387" class="w24p">
+                    <img src="http://static.mingyizhudao.com/146364052256387" class="w24p">
                 </div>
             </div>
             <div class="grid pad10 bb-gray">

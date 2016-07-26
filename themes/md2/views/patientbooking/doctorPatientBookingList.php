@@ -61,7 +61,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 ?>
                 <div class="mb10">
                     <div class="mt50 text-center">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">
+                        <img src="http://static.mingyizhudao.com/146295490734874" class="w170p">
                     </div>
                     <div class="text-center font-s24 color-gray9">暂无预约信息</div>
                 </div>
@@ -119,7 +119,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 ?>
                 <div class="mb10">
                     <div class="mt50 text-center">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146295490734874" class="w170p">
+                        <img src="http://static.mingyizhudao.com/146295490734874" class="w170p">
                     </div>
                     <div class="text-center font-s24 color-gray9">暂无预约信息</div>
                 </div>

@@ -17,7 +17,7 @@ $profile = $profile;
 <article id="viewCommonweal_article" class="active" data-scroll="true">
     <div class="pageBg">
         <div>
-            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356505242989" class="w100">
+            <img src="http://static.mingyizhudao.com/146356505242989" class="w100">
         </div>
         <div class="pl10 pr10 color-black11 text-justify">
             <div class="font-s18 color-brown2 bl2-brown pl10 font-w800">
@@ -108,19 +108,19 @@ $profile = $profile;
             <div class="grid mt10">
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274732063" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274732063" class="w90p">
                     </div>
                     <div class="pad5">柏惠维康</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274744742" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274744742" class="w90p">
                     </div>
                     <div class="pad5">复兴基金会</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/14635627474103" class="w90p">
+                        <img src="http://static.mingyizhudao.com/14635627474103" class="w90p">
                     </div>
                     <div class="pad5">上海德济医院</div>
                 </div>
@@ -128,19 +128,19 @@ $profile = $profile;
             <div class="grid">
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274736592" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274736592" class="w90p">
                     </div>
                     <div class="pad5">春晖博爱</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274748782" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274748782" class="w90p">
                     </div>
                     <div class="pad5">和睦家医疗</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274776219" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274776219" class="w90p">
                     </div>
                     <div class="pad5">嫣然天使基金</div>
                 </div>
@@ -148,19 +148,19 @@ $profile = $profile;
             <div class="grid pb50">
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/14635627471871" class="w90p">
+                        <img src="http://static.mingyizhudao.com/14635627471871" class="w90p">
                     </div>
                     <div class="pad5">爱永纯</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274771177" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274771177" class="w90p">
                     </div>
                     <div class="pad5">暖阳基金</div>
                 </div>
                 <div class="col-1 w33 text-center">
                     <div>
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146356274781396" class="w90p">
+                        <img src="http://static.mingyizhudao.com/146356274781396" class="w90p">
                     </div>
                     <div class="pad5">中国儿童少年基金会</div>
                 </div>

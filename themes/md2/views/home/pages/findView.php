@@ -23,7 +23,7 @@ if ($source == 1) {
     <div>
         <div>
             <a href="<?php echo $urlKaTeEr; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345307724930" class="w100">
+                <img src="http://static.mingyizhudao.com/146345307724930" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">
@@ -31,7 +31,7 @@ if ($source == 1) {
         </div>
         <div class="mt10">
             <a href="<?php echo $urlLuJinsong; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345357860329" class="w100">
+                <img src="http://static.mingyizhudao.com/146345357860329" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">
@@ -39,7 +39,7 @@ if ($source == 1) {
         </div>
         <div class="mt10">
             <a href="<?php echo $urlRenShancheng; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345375303173" class="w100">
+                <img src="http://static.mingyizhudao.com/146345375303173" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">
@@ -47,7 +47,7 @@ if ($source == 1) {
         </div>
         <div class="mt10">
             <a href="<?php echo $urlMillionWelfare; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345400344854" class="w100">
+                <img src="http://static.mingyizhudao.com/146345400344854" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">
@@ -55,7 +55,7 @@ if ($source == 1) {
         </div>
         <div class="mt10">
             <a href="<?php echo $urlForbes; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345567301652" class="w100">
+                <img src="http://static.mingyizhudao.com/146345567301652" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">
@@ -63,7 +63,7 @@ if ($source == 1) {
         </div>
         <div class="mt10">
             <a href="<?php echo $urlDiDoctor; ?>">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146349221777345" class="w100">
+                <img src="http://static.mingyizhudao.com/146349221777345" class="w100">
             </a>
         </div>
         <div class="pad10 text-center bg-white">

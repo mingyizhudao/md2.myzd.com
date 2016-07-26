@@ -14,7 +14,7 @@ if ($source == 1) {
             <div class="mt10 text-center grid">
                 <div class="col-1 w25"></div>
                 <div class="col-1 w50 text-center">
-                    <img class="w170p" src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146345553810114">
+                    <img class="w170p" src="http://static.mingyizhudao.com/146345553810114">
                 </div>
                 <div class="col-1 w25"></div>
             </div>

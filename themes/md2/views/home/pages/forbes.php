@@ -17,7 +17,7 @@ if ($source == 1) {
             </div>
         </div>
         <div class="mt20">
-            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146346289424458" class="w100">
+            <img src="http://static.mingyizhudao.com/146346289424458" class="w100">
         </div>
         <div class="pl10 pr10">
             <div class="mt20 text-indent-2">
@@ -40,7 +40,7 @@ if ($source == 1) {
             </div>
         </div>
         <div class="mt20">
-            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146346289451016" class="w100">
+            <img src="http://static.mingyizhudao.com/146346289451016" class="w100">
         </div>
         <div class="pl10 pr10">
             <div class="grid color-green mt20">
