@@ -27,7 +27,7 @@ if ($addBooking == 1) {
             <div class="grid pl10 pr10 pt5 pb5 color-green bb-gray">
                 <div class="col-1">患者资料</div>
                 <div class="col-0">
-                    <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146364052256387" class="w24p">
+                    <img src="http://static.mingyizhudao.com/146364052256387" class="w24p">
                 </div>
             </div>
             <div class="grid pad10 bb-gray">

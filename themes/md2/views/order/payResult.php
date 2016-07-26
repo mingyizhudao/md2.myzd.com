@@ -18,7 +18,7 @@ $this->show_footer = false;
 <article id="payResult_article" class="active" data-scroll="true">
     <div class="font-s14">
         <div class="text-center pt50">
-            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146285229270718" class="w79p">
+            <img src="http://static.mingyizhudao.com/146285229270718" class="w79p">
         </div>
         <div class="font-s16 text-center color-orange pt20 pb20">
             <?php

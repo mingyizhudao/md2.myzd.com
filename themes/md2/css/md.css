@@ -150,33 +150,33 @@ header nav.right .header-user{height: 28px;}
 #public_footer .homeIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -4px -28px;
 }
 #public_footer .active .homeIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -3px -3px;
 }
 #public_footer .findIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -28px -28px;
 }
 #public_footer .active .findIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -28px -3px;
 }
 #public_footer .createIcon{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -101px -2px;
     width: 55px;
@@ -191,28 +191,28 @@ header nav.right .header-user{height: 28px;}
 #public_footer .orderIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -53px -29px;
 }
 #public_footer .active .orderIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -53px -4px;
 }
 #public_footer .centerIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -77px -29px;
 }
 #public_footer .active .centerIcon{
     width: 24px;
     height: 24px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146891046983793') no-repeat;
+    background: url('http://static.mingyizhudao.com/146891046983793') no-repeat;
     background-size: 163px 61px;
     background-position: -77px -4px;
 }
@@ -303,7 +303,7 @@ header nav.right .header-user{height: 28px;}
     margin: 10px;
     padding-top: 6px;
     border-radius: 5px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146398325471066') no-repeat;
+    background: url('http://static.mingyizhudao.com/146398325471066') no-repeat;
     background-size: 13px 6px;
     background-position-x: 25%;
 }
@@ -311,7 +311,7 @@ header nav.right .header-user{height: 28px;}
     margin: 10px;
     padding-top: 6px;
     border-radius: 5px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146398325471066') no-repeat;
+    background: url('http://static.mingyizhudao.com/146398325471066') no-repeat;
     background-size: 13px 6px;
     background-position-x: 75%;
 }
@@ -326,13 +326,13 @@ header nav.right .header-user{height: 28px;}
 }
 #viewDoctor_article .bgStars{
     padding-left:25px;
-    background:url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146398276822878') no-repeat;
+    background:url('http://static.mingyizhudao.com/146398276822878') no-repeat;
     background-size:11px 11px;
     background-position:10px 3px;
 }
 #viewDoctor_article .bgDiamond{
     padding-left:25px;
-    background:url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146398287126723') no-repeat;
+    background:url('http://static.mingyizhudao.com/146398287126723') no-repeat;
     background-size:11px 11px;
     background-position:10px 3px;
 }
@@ -417,7 +417,7 @@ header{
     border-radius: 2px;
 }
 #doctorView_article .realNameIcon{
-    background: #EFCA24 url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146890923671198') no-repeat;
+    background: #EFCA24 url('http://static.mingyizhudao.com/146890923671198') no-repeat;
     background-size: 15px 13px;
     background-position: 3px 3px;
     padding: 2px 5px 2px 19px;
@@ -438,14 +438,14 @@ header{
     color: #fff;
 }
 #doctorView_article .myPatients{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 10px;
     width: 28px;
     background-position-y: 1px;
 }
 #doctorView_article .receivedBooking{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 20px;
     width: 19px;
@@ -453,7 +453,7 @@ header{
     background-position-x: -60px;
 }
 #doctorView_article .userbankIcon {
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 20px;
     width: 18px;
@@ -461,7 +461,7 @@ header{
     background-position-x: -43px;
 }
 #doctorView_article .consultingAgreement{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 20px;
     width: 18px;
@@ -469,7 +469,7 @@ header{
     background-position-x: -79px;
 }
 #doctorView_article .signDoctor{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 21px 0px 21px;
     width: 16px;
@@ -477,7 +477,7 @@ header{
     background-position-x: -101px;
 }
 #doctorView_article .customerService{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 20px;
     width: 18px;
@@ -485,7 +485,7 @@ header{
     background-position-x: -115px;
 }
 #doctorView_article .inviteExperts{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146882826904486') no-repeat;
+    background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
     margin: 0px 20px 0px 20px;
     width: 18px;
@@ -660,7 +660,7 @@ header{
     height: 24px;
 }
 #payOrder_header .submitSummary{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146708105678029') no-repeat;
+    background: url('http://static.mingyizhudao.com/146708105678029') no-repeat;
     background-size: 17px 17px;
     background-position: 1px 2px;
     padding-left: 22px;
@@ -758,7 +758,7 @@ header{
 
 /*我的订单*/
 #bookingList_header .searchInput{
-    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
+    background: #fff url('http://static.mingyizhudao.com/146243645256928') no-repeat;
     background-size: 15px 15px;
     background-position: 7px 7px;
     height: 30px;
@@ -819,7 +819,7 @@ header{
 .list_article .summary.activeIcon{
     text-align: left;
     color: #FF8656;
-    background: #fff url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146709229641524') no-repeat;
+    background: #fff url('http://static.mingyizhudao.com/146709229641524') no-repeat;
     background-size: 20px 15px;
     background-position-x: 95%;
     background-position-y: 50%;
@@ -835,12 +835,12 @@ header{
     top: 0px;
 }
 #diDoctor_article .placeIcon{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146345690030643') no-repeat;
+    background: url('http://static.mingyizhudao.com/146345690030643') no-repeat;
     background-size: 15px 21px;
     padding-left: 20px;
 }
 #diDoctor_article .titleIcon{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146345689976835') no-repeat;
+    background: url('http://static.mingyizhudao.com/146345689976835') no-repeat;
     background-size: 15px 16px;
     padding-left: 20px;
     background-position-y: 2px;
@@ -913,14 +913,14 @@ header{
 
 /*陆劲松*/
 #lujinsong_article .askTitle {
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146345357856612') no-repeat;
+    background: url('http://static.mingyizhudao.com/146345357856612') no-repeat;
     background-size: 110px 40px;
     height: 40px;
 }
 
 /*任善成*/
 #renshancheng_article .askTitle {
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146345357856612') no-repeat;
+    background: url('http://static.mingyizhudao.com/146345357856612') no-repeat;
     background-size: 110px 40px;
     height: 40px;
 }
@@ -940,7 +940,7 @@ header{
     font-size: 12px;
 }
 #millionWelfare_article .stepImg {
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146345400349095') no-repeat;
+    background: url('http://static.mingyizhudao.com/146345400349095') no-repeat;
     background-size: 100% 100%;
     height: 115px;
 }
@@ -974,23 +974,23 @@ header{
     background-color: #F0EFF4;
 }
 #bigEvent_article .january{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146346313425554') no-repeat;
+    background: url('http://static.mingyizhudao.com/146346313425554') no-repeat;
     background-size: 14px;
 }
 #bigEvent_article .februaryStepOne{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146346313404230') no-repeat;
+    background: url('http://static.mingyizhudao.com/146346313404230') no-repeat;
     background-size: 14px;
 }
 #bigEvent_article .februaryStepTwo{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146346313419932') no-repeat;
+    background: url('http://static.mingyizhudao.com/146346313419932') no-repeat;
     background-size: 14px;
 }
 #bigEvent_article .februaryStepThree{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146346313411912') no-repeat;
+    background: url('http://static.mingyizhudao.com/146346313411912') no-repeat;
     background-size: 14px;
 }
 #bigEvent_article .march{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146346313429555') no-repeat;
+    background: url('http://static.mingyizhudao.com/146346313429555') no-repeat;
     background-size: 14px;
 }
 
@@ -1020,7 +1020,7 @@ body #viewCommonweal_article{
     font-size: 14px;
 }
 #viewCommonweal_article .pageBg{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356500101290') no-repeat;
+    background: url('http://static.mingyizhudao.com/146356500101290') no-repeat;
     background-size: 100% 100%;
 }
 #viewCommonweal_article .imgDiv{
@@ -1031,7 +1031,7 @@ body #viewCommonweal_article{
     overflow: hidden;
 }
 #viewCommonweal_article .moreDoctor{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146639530454214') no-repeat;
+    background: url('http://static.mingyizhudao.com/146639530454214') no-repeat;
     background-size: 100% 100%;
     text-align: center;
     display: block!important;
@@ -1041,7 +1041,7 @@ body #viewCommonweal_article{
     color: #823122;
 }
 #viewCommonweal_article .joinMygy{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356505247898') no-repeat;
+    background: url('http://static.mingyizhudao.com/146356505247898') no-repeat;
     background-size: 100% 100%;
     text-align: center;
     display: block!important;
@@ -1051,7 +1051,7 @@ body #viewCommonweal_article{
     color: #fff;
 }
 #commonwealList_article .pageBg{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146356500101290') no-repeat;
+    background: url('http://static.mingyizhudao.com/146356500101290') no-repeat;
     background-size: 100% 100%;
     padding: 10px;
 }
@@ -1184,7 +1184,7 @@ body #viewCommonweal_article{
     top: 9px;
     width: 15px;
     height: 25px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146243645256928') no-repeat;
+    background: url('http://static.mingyizhudao.com/146243645256928') no-repeat;
     background-size: 15px 15px;
     background-position: 0px 5px;
 }
@@ -1206,7 +1206,7 @@ body #viewCommonweal_article{
     padding: 0 10px;
     width: 35px;
     height: 25px;
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146717942005220') no-repeat;
+    background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
     background-size: 15px 15px;
     background-position: 10px 5px;
 }
@@ -1245,7 +1245,7 @@ body #viewCommonweal_article{
     margin: 0px;
 }
 #updateDAFileIos_article .webuploader-pick{
-    background: url('http://7xsq2z.com2.z0.glb.qiniucdn.com/146770314701592');
+    background: url('http://static.mingyizhudao.com/146770314701592');
     background-size: 100% 100%;
     width: 100px;
     height: 100px;

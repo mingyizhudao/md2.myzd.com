@@ -44,7 +44,7 @@ $userDoctorCerts = $doctorCerts;
                     <div class="font-s16 grid pt10 pb5 bb-gray3">
                         <div class="col-1 color-green">选择就诊意向</div>
                         <div class="col-0">
-                            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146355869332021" class="w20p">
+                            <img src="http://static.mingyizhudao.com/146355869332021" class="w20p">
                         </div>
                     </div>
                     <div class="grid pt20 pb20">
@@ -75,7 +75,7 @@ $userDoctorCerts = $doctorCerts;
                     <div class="font-s16 grid pt10 pb5 bb-gray3">
                         <div class="col-1 color-green">请填写您期望预约的医生信息</div>
                         <div class="col-0">
-                            <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146355869320460" class="w20p">
+                            <img src="http://static.mingyizhudao.com/146355869320460" class="w20p">
                         </div>
                     </div>
                     <div class="grid bb-gray3">
@@ -105,7 +105,7 @@ $userDoctorCerts = $doctorCerts;
                 <div class="font-s16 grid pt10 pb5 bb-gray3">
                     <div class="col-1 color-green">诊疗意见</div>
                     <div class="col-0">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146355869336488" class="w20p">
+                        <img src="http://static.mingyizhudao.com/146355869336488" class="w20p">
                     </div>
                 </div>
                 <div>

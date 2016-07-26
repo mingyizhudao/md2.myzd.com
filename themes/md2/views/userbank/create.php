@@ -104,7 +104,7 @@ $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
         <div class="grid pt10 pl10 pr10">
             <div class="col-1"></div>
             <div id="setDefault" class="col-0" data-select="0">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认
+                <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认
             </div>
         </div>
         <?php
@@ -121,11 +121,11 @@ $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
             if ($(this).attr('data-select') == 0) {
                 $(this).attr('data-select', 1);
                 $('input[name="card[is_default]"]').val(1);
-                $(this).html('<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146665213709967" class="w17p mr6">设为默认');
+                $(this).html('<img src="http://static.mingyizhudao.com/146665213709967" class="w17p mr6">设为默认');
             } else {
                 $(this).attr('data-select', 0);
                 $('input[name="card[is_default]"]').val(0);
-                $(this).html('<img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146664844004130" class="w17p mr6">设为默认');
+                $(this).html('<img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认');
             }
         });
         $("select#card_state_id").change(function () {

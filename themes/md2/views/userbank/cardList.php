@@ -59,7 +59,7 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
         if (isset($data) && !(is_null($data)) && (count($data->results->cards) == 0)) {
             ?>
             <div class="text-center pt20">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146659004210229" class="w170p">
+                <img src="http://static.mingyizhudao.com/146659004210229" class="w170p">
             </div>
             <div class="text-center pt10">
                 <div>

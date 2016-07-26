@@ -23,10 +23,10 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         </div>
         <div class="grid pt20 pb20 bg-white">
             <div class="col-0 pl10 pr10 pb2 br-gray">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146898693233368" class="h16p">
+                <img src="http://static.mingyizhudao.com/146898693233368" class="h16p">
             </div>
             <div class="col-0 pl10 pr10">
-                <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146898697093799" class="h20p">
+                <img src="http://static.mingyizhudao.com/146898697093799" class="h20p">
             </div>
             <div id="information" class="col-1 pr10">
                 <div id="team-bxslider">
@@ -39,7 +39,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             <div class="col-1 w50 bg-white mr5">
                 <a href="<?php echo $urlViewCommonweal; ?>">
                     <div class="text-center pt20 pb20">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146880907449190" class="w80p">
+                        <img src="http://static.mingyizhudao.com/146880907449190" class="w80p">
                         <div class="pt10">
                             加入名医公益
                         </div>
@@ -49,7 +49,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             <div class="col-1 w50 bg-white ml5">
                 <a href="<?php echo $urlMyzd; ?>">
                     <div class="text-center pt20 pb20">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146880906689188" class="w80p">
+                        <img src="http://static.mingyizhudao.com/146880906689188" class="w80p">
                         <div class="pt10">
                             了解名医主刀
                         </div>
@@ -61,13 +61,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             <a href="<?php echo $urlViewContractDoctors; ?>">
                 <div class="pad20 grid bg-white">
                     <div class="col-1">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146880949657339" class="w70p">
+                        <img src="http://static.mingyizhudao.com/146880949657339" class="w70p">
                     </div>
                     <div class="col-0 pl5 pr5">
                         查看名医主刀签约专家
                     </div>
                     <div class="col-1">
-                        <img src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146880950633542" class="w70p">
+                        <img src="http://static.mingyizhudao.com/146880950633542" class="w70p">
                     </div>
                 </div>
             </a>
@@ -79,17 +79,17 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         //轮播图
         var html = '<li class="slide">' +
                 '<a href="<?php echo $urlBigEvent; ?>">' +
-                '<img class="w100" src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146881024079320">' +
+                '<img class="w100" src="http://static.mingyizhudao.com/146881024079320">' +
                 '</a>' +
                 '</li>' +
                 '<li class="slide">' +
                 '<a href="<?php echo $urlNewList; ?>">' +
-                '<img class="w100" src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146881024084983">' +
+                '<img class="w100" src="http://static.mingyizhudao.com/146881024084983">' +
                 '</a>' +
                 '</li>' +
                 '<li class="slide">' +
                 '<a href="<?php echo $urlRobot; ?>">' +
-                '<img class="w100" src="http://7xsq2z.com2.z0.glb.qiniucdn.com/146881024062046">' +
+                '<img class="w100" src="http://static.mingyizhudao.com/146881024062046">' +
                 '</a>' +
                 '</li>';
         $('#banner .bxslider').html(html);
