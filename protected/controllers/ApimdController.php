@@ -33,6 +33,11 @@ class ApimdController extends Controller {
     public function actionList($model) {
         $values = $_GET;
         switch ($model) {
+            case 'appversion':
+                $get = $_GET;
+                $appMgr = new AppManager();
+                $output = $appMgr->loadAppVersionJson($get);
+                break;
             case 'dataversion'://数据版本号
                 $output = array(
                     'status' => EApiViewService::RESPONSE_OK,
