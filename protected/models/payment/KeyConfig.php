@@ -1,6 +1,6 @@
 <?php
 
-class KeyConfig extends DB2ActiveRecord {
+class KeyConfig extends DBKeyActiveRecord {
 
     public static function model($className = __CLASS__) {
         return parent::model($className);
@@ -32,7 +32,7 @@ class KeyConfig extends DB2ActiveRecord {
         //读取myzd-key数据库
         $cri = new CDbCriteria();
         $cri->addCondition('id=1');
-        $config_res = KeyConfig::model()->find($cri);
+        $config_res = $this->find($cri);
         if (!empty($config_res)) {
             if ($config_res->is_active == 1) {
                 return CJSON::decode($config_res->key_config);
