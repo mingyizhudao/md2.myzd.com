@@ -7,11 +7,13 @@
  */
 class PayManager {
 
-    public function doPingxxPay($refNo, $channel, $refurl, $openid='') {
+    public function doPingxxPay($refNo, $channel, $refurl, $openid = '') {
+        $keyconfig = new KeyConfig();
+        $config_res = $keyconfig->getPayConfig();
         $pingCharge = null;
         $apisvs = new ApiViewSalesOrder($refNo);
         $output = $apisvs->loadApiViewData();
-        
+
         $order = $output->results->salesOrder;
         $booking = $output->results->booking;
         if ($order === NULL) {
@@ -22,8 +24,8 @@ class PayManager {
         $payment->initPaymentByOrder($order, $channel);
         $amount = intval($payment->getBillAmount() * 100);
         $orderNo = $payment->getUid();
-        $subject = empty($order->subject)?'1':$order->subject;
-		$body = empty($order->description)?'1':$order->description;
+        $subject = empty($order->subject) ? '1' : $order->subject;
+        $body = empty($order->description) ? '1' : $order->description;
         //获取手机号
         $yeepayIndentity = NULL;
         if ($channel == 'yeepay_wap') {
@@ -35,7 +37,7 @@ class PayManager {
         }
         $extra = $this->createPingxxExtra($payment, $channel, $refurl, $yeepayIndentity, $openid);
 //        \Pingpp\Pingpp::setApiKey('sk_test_W14qv9uPGuP4rbrnHKizLOaT');  // Ping++ test key.
-        \Pingpp\Pingpp::setApiKey('sk_live_bLGCW9m1aX5KvTSeT04G0KyP');  // Ping++ live key.
+        \Pingpp\Pingpp::setApiKey($config_res['setApiKey']);  // Ping++ live key.
 
         $requestArray = array(
             'subject' => $subject,
@@ -46,7 +48,7 @@ class PayManager {
             'extra' => $extra,
             'channel' => $channel,
             'client_ip' => $_SERVER['REMOTE_ADDR'],
-            'app' => array('id' => 'app_SWv9qLSGWj1GKqbn')      // Ping++ app id.
+            'app' => array('id' => $config_res['id'])      // Ping++ app id.
         );
         if ($payment->save() === false) {
             //exception
@@ -64,7 +66,7 @@ class PayManager {
         return $pingCharge;
     }
 
-    public function createPingxxExtra(SalesPayment $payment, $channel, $refurl, $yeepayIndentity, $openid='') {
+    public function createPingxxExtra(SalesPayment $payment, $channel, $refurl, $yeepayIndentity, $openid = '') {
         //$extra 在使用某些渠道的时候，需要填入相应的参数，其它渠道则是 array() .具体见以下代码或者官网中的文档。其他渠道时可以传空值也可以不传。
         $extra = array();
         switch ($channel) {
