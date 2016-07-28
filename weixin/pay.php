@@ -30,12 +30,10 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
         <meta http-equiv="expires" content="0">
         <meta http-equiv="pragma" content="no-cache">
         <title>订单</title>
-        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/themes/md2/css/Jingle.min.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl . '/themes/md2/css/form.css?ts=' . time(); ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl; ?>/themes/md2/css/app.css">
-        <link rel="stylesheet" type="text/css" href="<?php echo $baseUrl . '/themes/md2/css/md.css?ts=' . time(); ?>">
-        <script type="text/javascript" src="<?php echo $baseUrl; ?>/themes/md2/js/lib/zepto.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://md.mingyizhudao.com/themes/md2/js/pingpp-html5-master/example-wap/styles/pinus.css">
+        <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/common.min.1.0.css">
+        <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/custom.min.1.1.css">
+        <script type="text/javascript" src="http://static.mingyizhudao.com/zepto.min.1.0.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/pinus.1.0.css">
         <script type="text/javascript" src="http://myzd.oss-cn-hangzhou.aliyuncs.com/static/web/js/jquery-1.9.1.min.js"></script>
     </head>
     <body>

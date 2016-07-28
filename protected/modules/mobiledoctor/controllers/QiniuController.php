@@ -6,7 +6,7 @@ class QiniuController extends MobiledoctorController {
      * 安卓获取医生头像七牛上传权限
      */
     public function actionAjaxDrToken() {
-        $url = 'http://121.40.127.64:8089/api/tokendrcert';
+        $url = 'http://file.mingyizhudao.com/api/tokendrcert';
         $data = $this->send_get($url);
         $output = array('uptoken' => $data['results']['uploadToken']);
         $this->renderJsonOutput($output);
@@ -16,7 +16,7 @@ class QiniuController extends MobiledoctorController {
      * 安卓获取病人病历七牛上传权限
      */
     public function actionAjaxPatientToken() {
-        $url = 'http://121.40.127.64:8089/api/tokenpatientmr';
+        $url = 'http://file.mingyizhudao.com/api/tokenpatientmr';
         //$url = 'http://192.168.31.119/file.myzd.com/api/tokenpatientmr';
         $data = $this->send_get($url);
         $output = array('uptoken' => $data['results']['uploadToken']);

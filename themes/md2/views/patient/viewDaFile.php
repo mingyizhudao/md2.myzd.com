@@ -8,8 +8,8 @@ $patientId = Yii::app()->request->getQuery('id', '');
 $uploadDAFile = $this->createUrl('patient/uploadDAFile', array('id' => $id, 'bookingid' => $patientId));
 $user = $this->loadUser();
 if ($patientId != '') {
-    $urlPatientMRFiles = 'http://121.40.127.64:8089/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientId . '&reportType=da';
-    $urldelectPatientMRFile = 'http://121.40.127.64:8089/api/deletepatientmr?userId=' . $user->id . '&id=';
+    $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientId . '&reportType=da';
+    $urldelectPatientMRFile = 'http://file.mingyizhudao.com/api/deletepatientmr?userId=' . $user->id . '&id=';
 } else {
     $urlPatientMRFiles = "";
     $urldelectPatientMRFile = "";
