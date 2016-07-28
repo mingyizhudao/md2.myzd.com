@@ -20,7 +20,7 @@ $this->show_footer = false;
     <nav class="left">
         <a href="<?php echo $urlDoctorView; ?>" data-target="link">
             <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
         </a>
     </nav>

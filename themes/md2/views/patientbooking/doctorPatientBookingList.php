@@ -11,7 +11,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     <nav class="left">
         <a href="" data-target="back">
             <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
         </a>
     </nav>
@@ -81,12 +81,11 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             <div class="col-0 grid middle mr10">
                                 <?php
                                 if ($doneBooking->doctorAccept == 1) {
-                                    $imgName = 'agree';
+                                    echo '<img src="http://static.mingyizhudao.com/146968750757337" class="w35p">';
                                 } else {
-                                    $imgName = 'disAgree';
+                                    echo '<img src="http://static.mingyizhudao.com/146968754577748" class="w35p">';
                                 }
                                 ?>
-                                <img src="<?php echo $urlResImage; ?><?php echo $imgName; ?>.png" class="w35p">
                             </div>
                             <div class="col-1">
                                 <div class="text-right font-s12 color-green">发送时间：

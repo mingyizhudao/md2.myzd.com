@@ -1,6 +1,6 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.formvalidate.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/card.min.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/card.min.1.0.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('添加银行卡信息');
@@ -14,7 +14,7 @@ $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
     <nav class="left">
         <a href="<?php echo $urlCardList; ?>">
             <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
         </a>
     </nav>

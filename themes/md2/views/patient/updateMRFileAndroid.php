@@ -11,9 +11,9 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
 
-Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/js/qiniu/css/common.min.css?ts=' . time());
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/custom.min.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.min.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/patientUpload.min.1.0.js', CClientScript::POS_END);
 ?>
 
 <?php
@@ -105,13 +105,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                 <label class="color-red">示例:</label>
                 <div class="ui-grid-b">
                     <div class="ui-block-a">
-                        <img src="<?php echo $urlResImage; ?>patientexample1.jpg"/>
+                        <img src="http://static.mingyizhudao.com/146968736951484"/>
                     </div>
                     <div class="ui-block-b">
                         <span>或</span>
                     </div>
                     <div class="ui-block-c">
-                        <img src="<?php echo $urlResImage; ?>patientexample2.jpg"/>
+                        <img src="http://static.mingyizhudao.com/146968742128587"/>
                     </div>
                 </div>
                 <div class="clearfix"></div>

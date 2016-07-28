@@ -82,9 +82,9 @@ header nav.right .header-user{height: 28px;}
 #order .order-content .title{display: inline-block;width: 5em;font-size: 16px;}
 #order .ch{text-align:center;}
 #order  .up{background-color: #e4e4e4;border:1px solid #ddd!important;border-radius:10px;background-position:center;background-repeat:no-repeat;width:190px!important;margin:5px auto 0!important;padding:10px!important;}
-#order .alipay{background-image: url(../images/icons/ic-alipay.png);}
-#order .yeepay{background-image: url(../images/icons/ic-yeepay.png);}
-#order .weixin{background-image: url(../images/icons/ic-weixin.png);}
+#order .alipay{background-image: url('http://static.mingyizhudao.com/146967393574041');}
+#order .yeepay{background-image: url('http://static.mingyizhudao.com/14696739647743');}
+#order .weixin{background-image: url('http://static.mingyizhudao.com/146967398730692');}
 /**** patientBooking view ****/
 #patientBookingView .title{color:#19aea5;padding: 0!important;}
 #patientBookingView .patientinfo{margin-bottom: 1em;letter-spacing: 2px;}
@@ -114,7 +114,7 @@ header nav.right .header-user{height: 28px;}
 #termslink{text-decoration: underline;}
 .strong{font-weight: bold;}
 /*专家签约*/
-#sign .bgImgGreen{background:url(../images/bg-green.png) no-repeat;background-size:120px 26px;height:26px;color:#fff;}
+#sign .bgImgGreen{background:url('http://static.mingyizhudao.com/14696738890508') no-repeat;background-size:120px 26px;height:26px;color:#fff;}
 
 /**/
 #popup_btn_container>div>a {
@@ -357,7 +357,7 @@ header nav.right .header-user{height: 28px;}
     background-color: #fff;
 }
 #addPatient_article .doctorInf{
-    background: url('../images/patientImg.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967385786216') no-repeat;
     background-size: 100% 100%;
 }
 
@@ -373,13 +373,13 @@ header nav.right .header-user{height: 28px;}
     padding: 5px;
     text-align: center;
     border-radius: 5px;
-    background: url('../images/bookingIntention.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967365510273') no-repeat;
     background-size: 15px;
     background-position-x: 100%;
     background-position-y: 100%;
 }
 #createPatientBooking_article .triangleGreen{
-    background: url('../images/triangleGreen.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967379246016') no-repeat;
     background-size: 9px auto;
     padding-left: 15px;
     background-position-y: 3px;
@@ -397,12 +397,12 @@ header{
     background-color: #EEEEEE;
 }
 #doctorView_article .nextImg{
-    background: url('../images/nextImg.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967375501082') no-repeat;
     background-position: 95% 50%;
     background-size: 8px 15px;
 }
 #doctorView_article .list>li.nextImg {
-    background: url('../images/nextImg.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967375501082') no-repeat;
     background-position: 95% 50%;
     background-size: 8px 15px;
 }
@@ -440,7 +440,7 @@ header{
 #doctorView_article .myPatients{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 10px;
+    margin: 0px 15px 0px 15px;
     width: 28px;
     background-position-y: 1px;
 }
@@ -492,12 +492,6 @@ header{
     background-position-y: 1px;
     background-position-x: -134px;
 }
-#doctorView_article .signOut{
-    background: url('../images/center/signOut.png') no-repeat;
-    background-size: 18px 18px;
-    background-position-y: 1px;
-    background-position-x: 20px;
-}
 /*就诊意向*/
 #patientBookingCreate_article{
     background-color: #EAEFF1;
@@ -513,7 +507,7 @@ header{
     padding: 5px;
     text-align: center;
     border-radius: 5px;
-    background: url('../images/bookingIntention.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967365510273') no-repeat;
     background-size: 15px;
     background-position-x: 100%;
     background-position-y: 100%;
@@ -554,13 +548,13 @@ header{
     opacity: 0.5;
 }
 #login_article .phoneIcon{
-    background: url('../images/login/phone.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967360976918') no-repeat;
     background-size: 11px 17px;
     background-position: 15px 11px;
     width: 40px;
 }
 #login_article .lockIcon{
-    background: url('../images/login/lock.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967358382311') no-repeat;
     background-size: 11px 17px;
     background-position: 15px 11px;
     width: 40px;
@@ -590,12 +584,12 @@ header{
     opacity: 0.5;
 }
 #register_article .smsHide{
-    background: url('../images/login/smsHide.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967353821019') no-repeat;
     background-size: 21px 16px;
     background-position: 50% 50%;
 }
 #register_article .smsDisplay{
-    background: url('../images/login/smsDisplay.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967351940832') no-repeat;
     background-size: 21px 16px;
     background-position: 50% 50%;
 }
@@ -624,12 +618,12 @@ header{
     opacity: 0.5;
 }
 #forgetPassword_article .smsHide{
-    background: url('../images/login/smsHide.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967353821019') no-repeat;
     background-size: 21px 16px;
     background-position: 50% 50%;
 }
 #forgetPassword_article .smsDisplay{
-    background: url('../images/login/smsDisplay.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967351940832') no-repeat;
     background-size: 21px 16px;
     background-position: 50% 50%;
 }
@@ -642,7 +636,7 @@ header{
     color: #333333;
 }
 #patientList_nav .searchIcon{
-    background: url('../images/searchBlack.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967346761916') no-repeat;
     background-size: 14px 14px;
     width: 24px;
     background-position-x: 5px;
@@ -846,7 +840,7 @@ header{
     background-position-y: 2px;
 }
 #diDoctor_article .addLike{
-    background: url('../images/event/like.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/14696732656375') no-repeat;
     height: 90px;
     background-size: 90px 90px;
 }
@@ -862,7 +856,7 @@ header{
     border-radius: 3px;
 }
 #forbes_article .addLike{
-    background: url('../images/event/like.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/14696732656375') no-repeat;
     height: 90px;
     background-size: 90px 90px;
 }
@@ -872,19 +866,19 @@ header{
     top:0px;
 }
 #myzd_article .resourcesIcon{
-    background: url('../images/event/resources.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967331402387') no-repeat;
     background-size: 21px 21px;
     padding-left: 25px;
     background-position-y: 1px;
 }
 #myzd_article .serviceIcon{
-    background: url('../images/event/service.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967331413987') no-repeat;
     background-size: 21px 21px;
     padding-left: 25px;
     background-position-y: 1px;
 }
 #myzd_article .circularIcon{
-    background: url('../images/event/circular.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/146967331393890') no-repeat;
     background-size: 21px 21px;
     padding-left: 25px;
     background-position-y: 1px;
@@ -895,7 +889,7 @@ header{
     top:0px;
 }
 #newList_article .addLike{
-    background: url('../images/event/like.png') no-repeat;
+    background: url('http://static.mingyizhudao.com/14696732656375') no-repeat;
     height: 90px;
     background-size: 90px 90px;
 }

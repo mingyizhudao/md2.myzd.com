@@ -13,13 +13,13 @@ $this->show_header = false;
 
     section.active{top:0px;}
     #joinMygy_header .joinBtn{border: 1px solid #06C1AE;padding: 3px 40px;border-radius: 5px;}
-    #joinMygy_article .grayTriangle{background: url('<?php echo $urlResImage; ?>grayTriangle.png') no-repeat;background-size: 12px 22px;padding-right: 20px;background-position-x: 100%;}
+    #joinMygy_article .grayTriangle{background: url('http://static.mingyizhudao.com/146968511634073') no-repeat;background-size: 12px 22px;padding-right: 20px;background-position-x: 100%;}
     #joinMygy_article .introDiv{position: relative;top: -5px;}
     #joinMygy_article .intro{box-shadow: 2px 2px 15px rgba(0,0,0,0.3);padding: 0px 10px;background-color: #06C1AE;color: #fff;font-size: 16px;}
     #joinMygy_article .introBorder{box-shadow: 2px 2px 15px rgba(0,0,0,0.3);}
     #joinMygy_article .greenLine{width: 5px;height: 18px;background-color: #06C1AE;border-radius: 3px;}
     #joinMygy_article .imgDiv{width: 60px;height: 60px;border-radius: 50%;border: 1px solid #cccccc;overflow: hidden}
-    #joinMygy_article .mydsIcon{background: url('<?php echo $urlResImage; ?>mygy/myds.png') no-repeat;background-position-x:100%;background-size:65px;}
+    #joinMygy_article .mydsIcon{background: url('http://static.mingyizhudao.com/146968522228011') no-repeat;background-position-x:100%;background-size:65px;}
 </style>
 <header id="joinMygy_header" class="hide">
     <div class="grid w100">
@@ -149,7 +149,7 @@ $this->show_header = false;
                     <div class="b-gray1 p5 mydsIcon mt15">
                         <div class="grid">
                             <div class="col-0 mr5">
-                                <img src="<?php echo $urlResImage; ?>mygy/langyongchun.png" class="w110p">
+                                <img src="http://static.mingyizhudao.com/146968525302766" class="w110p">
                             </div>
                             <div class="col-1">
                                 <div class="pt5">
@@ -167,7 +167,7 @@ $this->show_header = false;
                     <div class="b-gray1 p5 mydsIcon mt15">
                         <div class="grid">
                             <div class="col-0 mr5">
-                                <img src="<?php echo $urlResImage; ?>mygy/wangyan.png" class="w110p">
+                                <img src="http://static.mingyizhudao.com/146968527811949" class="w110p">
                             </div>
                             <div class="col-1">
                                 <div class="pt5">
@@ -190,7 +190,7 @@ $this->show_header = false;
                     <div class="b-gray1 p5 mydsIcon mt15">
                         <div class="grid">
                             <div class="col-0 mr5">
-                                <img src="<?php echo $urlResImage; ?>mygy/qianjing.png" class="w110p">
+                                <img src="http://static.mingyizhudao.com/146968530593317" class="w110p">
                             </div>
                             <div class="col-1">
                                 <div class="pt5">
@@ -208,7 +208,7 @@ $this->show_header = false;
                     <div class="b-gray1 p5 mydsIcon mt15">
                         <div class="grid">
                             <div class="col-0 mr5">
-                                <img src="<?php echo $urlResImage; ?>mygy/qiaozhen.png" class="w110p">
+                                <img src="http://static.mingyizhudao.com/146968535189096" class="w110p">
                             </div>
                             <div class="col-1">
                                 <div class="pt5">
@@ -235,7 +235,7 @@ $this->show_header = false;
                     <div class="grid text-center mt10">
                         <div class="col-1 w33">
                             <div>
-                                <img src="<?php echo $urlResImage; ?>mygy/yanrantianshi.png" class="w43p">
+                                <img src="http://static.mingyizhudao.com/146968538283542" class="w43p">
                             </div>
                             <div>
                                 嫣然天使基金
@@ -243,7 +243,7 @@ $this->show_header = false;
                         </div>
                         <div class="col-1 w33">
                             <div class="pt18">
-                                <img src="<?php echo $urlResImage; ?>mygy/nuanyang.png" class="w81p">
+                                <img src="http://static.mingyizhudao.com/146968540981096" class="w81p">
                             </div>
                             <div>
                                 暖阳基金
@@ -251,7 +251,7 @@ $this->show_header = false;
                         </div>
                         <div class="col-1 w33">
                             <div class="pt3">
-                                <img src="<?php echo $urlResImage; ?>mygy/chunhui.png" class="w56p">
+                                <img src="http://static.mingyizhudao.com/146968543563654" class="w56p">
                             </div>
                             <div>
                                 大病救助基金
@@ -261,7 +261,7 @@ $this->show_header = false;
                     <div class="grid text-center mt10 mb50">
                         <div class="col-1 w50">
                             <div class="pt1">
-                                <img src="<?php echo $urlResImage; ?>mygy/childrenFund.png" class="w30p">
+                                <img src="http://static.mingyizhudao.com/14696854730787" class="w30p">
                             </div>
                             <div>
                                 中国少年儿童基金会
@@ -269,7 +269,7 @@ $this->show_header = false;
                         </div>
                         <div class="col-1 w50">
                             <div>
-                                <img src="<?php echo $urlResImage; ?>mygy/womanHelth.png" class="w25p">
+                                <img src="http://static.mingyizhudao.com/146968549841937" class="w25p">
                             </div>
                             <div>
                                 关注女性健康基金会

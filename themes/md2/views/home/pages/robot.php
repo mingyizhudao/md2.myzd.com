@@ -18,7 +18,7 @@ if ($source == 1) {
             与Alpha Go不同，达芬奇手术机器人并非人工智能。一提到它，也许很多医疗界外的人会感觉是科幻片的主角。但实际上它是一台用微创的方法，实施复杂外科手术的系统，只是从智能的意义上讲的确可称为机器人。它的三维视觉可放大物体10-15倍，在手术应用中非常精准且极度微创，曾成功缝合厚度不到1毫米的葡萄皮。现被应用于普通外科、胸外科、泌尿外科、妇产科等领域。
         </div>
         <div class="mt5">
-            <img src="<?php echo $urlResImage; ?>event/robot/manMachineWar.png" class="w100">
+            <img src="http://static.mingyizhudao.com/146968556589134" class="w100">
         </div>
         <div class="mt20 grid">
             <div class="col-0 pt3 pr10">
@@ -36,7 +36,7 @@ if ($source == 1) {
             <span class="color-yellow1">3.成像系统：</span>内装有外科手术机器人的核心处理器以及图象处理设备。外科手术机器人的内窥镜对手术视野具有10倍以上的放大倍数，能为主刀医生带来患者体腔内三维立体高清影像，使主刀医生较普通腹腔镜手术更能把握操作距离，更能辨认解剖结构，提升了手术精确度。
         </div>
         <div class="mt5">
-            <img src="<?php echo $urlResImage; ?>event/robot/machine.png" class="w100">
+            <img src="http://static.mingyizhudao.com/146968559567077" class="w100">
         </div>
         <div class="mt20 grid">
             <div class="col-0 pt3 pr10">
@@ -45,7 +45,7 @@ if ($source == 1) {
             <div class="col-1 color-green">手术机器人有啥优势？</div>
         </div>
         <div class="mt5">
-            <img src="<?php echo $urlResImage; ?>event/robot/sample.png" class="w100">
+            <img src="http://static.mingyizhudao.com/146968562401618" class="w100">
         </div>
         <div class="mt5">
             ①手术操作更精确，与腹腔镜(二维视觉)相比，因三维视觉可放大10-15倍，使手术精确度大大增加，术后恢复快，愈合好。
@@ -78,7 +78,7 @@ if ($source == 1) {
             <div class="col-1 color-green">8个月大女婴接受“达芬奇”手术</div>
         </div>
         <div class="pull-right pt5 pl10">
-            <img src="<?php echo $urlResImage; ?>event/robot/doctor.png" class="w140p">
+            <img src="http://static.mingyizhudao.com/146968564950610" class="w140p">
         </div>
         <div class="text-indent-2">
             妮妮是个8个月大的漂亮女孩儿，是目前国内年龄最小的接受“达芬奇”手术的患者，妮妮还在妈妈肚子里的时候就被发现肾脏存在问题，双肾盂积水，有重肾症状。病灶部分不但没有正常机能，反而成了“细菌大本营”，让她的尿道反复感染、发炎。最好的解决办法是切除病灶部分，可是仅八个月大的娇弱小身板，能否接受开腹这样的手术呢？即使是采用微创腔镜手术，那么狭小的腹腔无疑让操作难度上了好几个台阶，效果难料。那么就用达芬奇手术机器人吧，手术的主刀医生是北京和睦家医院的外科主任，著名的小儿外科专家--郑伟，由他主刀，加上“达芬奇”的配合，手术进行的非常顺利，术后仅仅两天，妮妮已经可以出院了，这让妮妮的父母万万没有想到。

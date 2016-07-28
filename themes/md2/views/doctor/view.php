@@ -26,7 +26,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
         <div class="bg-green">
             <div class="pad20 grid">
                 <div class="col-0 w77p">
-                    <img src="<?php echo $urlResImage; ?>center/user.png">
+                    <img src="http://static.mingyizhudao.com/146968490433527">
                 </div>
                 <div class="col-1 color-white pl20 grid">
                     <div class="col-1">
@@ -48,7 +48,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
                         </div>
                     </div>
                     <div id="userCenter" class="col-0 w15p grid middle">
-                        <img src="<?php echo $urlResImage; ?>nextImg.png" class="w8p">
+                        <img src="http://static.mingyizhudao.com/146967375501082" class="w8p">
                     </div>
                 </div>
             </div>

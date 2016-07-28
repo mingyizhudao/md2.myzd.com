@@ -1,6 +1,6 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.min.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/viewContractDoctors.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('签约专家');
@@ -22,10 +22,10 @@ $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
 <nav id="contractDoctors_nav" class="header-secondary bg-white top0p">
     <div class="grid w100 font-s16 color-black6">
         <div id="stateSelect" class="col-1 w50 br-gray bb-gray grid middle grayImg">
-            <span id="stateTitle" data-dept="">全部</span><img src="<?php echo $urlResImage; ?>gray.png">
+            <span id="stateTitle" data-dept="">全部</span><img src="http://static.mingyizhudao.com/146968503801292">
         </div>
         <div id="deptSelect" class="col-1 w50 bb-gray grid middle grayImg">
-            <span id="deptTitle" data-disease="">科室</span><img src="<?php echo $urlResImage; ?>gray.png">
+            <span id="deptTitle" data-disease="">科室</span><img src="http://static.mingyizhudao.com/146968503801292">
         </div>
     </div>
 </nav>

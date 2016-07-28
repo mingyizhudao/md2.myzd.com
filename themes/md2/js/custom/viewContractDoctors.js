@@ -7,10 +7,10 @@ $('#stateSelect').tap(function () {
             '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
             '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
-            '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="../../themes/md2/images/gray.png">' +
+            '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
             '<div id="deptSelect" data-target="closePopup" class="col-1 w50 bb-gray grid middle grayImg">' +
-            '<span id="deptTitle" data-dept="' + deptId + '">' + deptName + '</span><img src="../../themes/md2/images/gray.png">' +
+            '<span id="deptTitle" data-dept="' + deptId + '">' + deptName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
             '</div>' +
             '</nav>' +
@@ -35,8 +35,6 @@ $('#stateSelect').tap(function () {
         $condition["page"] = 1;
         J.closePopup();
         var requestUrl = $requestDoc + '?' + setUrlCondition() + '&getcount=1';
-        //console.log(requestUrl);
-        //alert(requestUrl);
         J.showMask();
         $.ajax({
             url: requestUrl,
@@ -64,10 +62,10 @@ function deptSelect() {
             '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
             '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
-            '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="../../themes/md2/images/gray.png">' +
+            '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
             '<div id="deptSelect" data-target="closePopup" class="col-1 w50 bb-gray grid middle grayImg">' +
-            '<span id="deptTitle" data-dept="' + deptId + '">' + deptName + '</span><img src="../../themes/md2/images/gray.png">' +
+            '<span id="deptTitle" data-dept="' + deptId + '">' + deptName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
             '</div>' +
             '</nav>' +
@@ -109,7 +107,6 @@ function deptSelect() {
         $condition["page"] = 1;
         J.closePopup();
         var requestUrl = $requestDoc + '?' + setUrlCondition() + '&getcount=1';
-        //alert(requestUrl);
         J.showMask();
         $.ajax({
             url: requestUrl,

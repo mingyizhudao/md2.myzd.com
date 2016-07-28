@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/js/pingpp-html5-master/example-wap/styles/pinus.css">
+<link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/pinus.1.0.css">
 <?php
 /*
  * $data

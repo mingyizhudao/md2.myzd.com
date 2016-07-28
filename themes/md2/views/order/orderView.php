@@ -40,7 +40,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
             ?>
             <a id="noPayNew">
                 <div class="pl5">
-                    <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                 </div>
             </a>
             <?php
@@ -48,7 +48,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
             ?>
             <a id="noPayService">
                 <div class="pl5">
-                    <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                 </div>
             </a>
             <?php
@@ -56,7 +56,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
             ?>
             <a href="" data-target="back">
                 <div class="pl5">
-                    <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                 </div>
             </a>
             <?php
@@ -116,7 +116,7 @@ if ($booking->statusCode != $BK_STATUS_SERVICE_PAIDED) {
         ?>
         <div class="grid pl10 pr10 mt20 color-green <?php echo $fontSize; ?>">
             <div class="col-0">
-                <img src="<?php echo $urlResImage; ?>orderStatusIcon.png" class="w20p mr10">
+                <img src="http://static.mingyizhudao.com/146968572624750" class="w20p mr10">
             </div>
             <div class="col-1 pt3 grid">
                 <div class="col-0"><?php echo $booking->statusTitle; ?></div>

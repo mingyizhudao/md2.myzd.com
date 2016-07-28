@@ -11,7 +11,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         <div class="col-0 pl5 pr10">
             <a href="" data-target="back">
                 <div class="pl5">
-                    <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                 </div>
             </a>
         </div>

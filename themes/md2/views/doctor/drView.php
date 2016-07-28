@@ -20,7 +20,7 @@ $urlDoctorView = $this->createUrl('doctor/view');
                 <div class="col-1"></div>
                 <div class="col-0 w50">
                     <a href="<?php echo $urlCreateDoctorHz; ?>" data-target="link">
-                        <img src="<?php echo $urlResImage; ?>/huizhen.png">
+                        <img src="http://static.mingyizhudao.com/146968468782635">
                     </a>
                 </div>
                 <div class="col-1"></div>
@@ -29,7 +29,7 @@ $urlDoctorView = $this->createUrl('doctor/view');
                 <div class="col-1"></div>
                 <div class="col-0 w50">
                     <a href="<?php echo $urlCreateDoctorZz; ?>" data-target="link">
-                        <img src="<?php echo $urlResImage; ?>/zhuanzhen.png">
+                        <img src="http://static.mingyizhudao.com/146968472411429">
                     </a>
                 </div>
                 <div class="col-1"></div>

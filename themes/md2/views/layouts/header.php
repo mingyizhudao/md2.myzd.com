@@ -9,9 +9,9 @@ if ($showHeader == 1) {
     <header class="bg-green">
         <?php
         if (isset($addBackBtn) && $addBackBtn == true) {
-            echo '<nav class="left"><a href="" data-target="back"><div class="pl5"><img src="' . $urlResImage . 'back.png" class="w11p"></div></a></nav>';
+            echo '<nav class="left"><a href="" data-target="back"><div class="pl5"><img src="http://static.mingyizhudao.com/146968435878253" class="w11p"></div></a></nav>';
         } else {
-            echo '<nav class="left" style="display:none;"><a href="" data-target="back"><div class="pl5"><img src="' . $urlResImage . 'back.png" class="w11p"></div></a></nav>';
+            echo '<nav class="left" style="display:none;"><a href="" data-target="back"><div class="pl5"><img src="http://static.mingyizhudao.com/146968435878253" class="w11p"></div></a></nav>';
         }
         ?>
         <h1 class="title color-white"><?php echo $this->pageTitle; ?></h1>

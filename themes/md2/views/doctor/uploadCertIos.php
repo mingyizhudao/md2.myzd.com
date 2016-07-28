@@ -1,8 +1,8 @@
 <?php
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
-Yii::app()->clientScript->registerCssFile(Yii::app()->theme->baseUrl . '/js/webuploader/css/webuploader.custom.css');
+Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -78,13 +78,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     <label class="color-red">示例:</label>
                     <div class="ui-grid-b">
                         <div class="ui-block-a">
-                            <img src="<?php echo $urlResImage; ?>docexample1.png"/>
+                            <img src="http://static.mingyizhudao.com/146968477003421"/>
                         </div>
                         <div class="ui-block-b">
                             <span>或</span>
                         </div>
                         <div class="ui-block-c">
-                            <img src="<?php echo $urlResImage; ?>docexample2.jpg"/>
+                            <img src="http://static.mingyizhudao.com/146968481261970"/>
                         </div>
                     </div>
                     <div class="clearfix"></div>

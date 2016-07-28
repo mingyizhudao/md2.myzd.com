@@ -13,7 +13,7 @@ $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBt
     <nav class="left">
         <a href="" data-target="back">
             <div class="pl5">
-                <img src="<?php echo $urlResImage; ?>back.png" class="w11p">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
         </a>
     </nav>
@@ -53,7 +53,7 @@ $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBt
                 ?>
                 <div class="grid patientList mt10">
                     <div class="col-0 w50p grid middle">
-                        <img src="<?php echo $urlResImage; ?>unSelect.png" class="selectPatient w20p" data-id="<?php echo $patientInfo->id; ?>">
+                        <img src="http://static.mingyizhudao.com/14696845618638" class="selectPatient w20p" data-id="<?php echo $patientInfo->id; ?>">
                     </div>
                     <div class="col-1">
                         <div class="mt10"><?php echo $patientInfo->name; ?></div>
@@ -80,10 +80,10 @@ $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBt
         $('.selectPatient').click(function () {
             $('.selectPatient').each(function () {
                 $(this).removeClass('select');
-                $(this).attr('src', '<?php echo $urlResImage; ?>unSelect.png');
+                $(this).attr('src', 'http://static.mingyizhudao.com/14696845618638');
             });
             $(this).addClass('select');
-            $(this).attr('src', '<?php echo $urlResImage; ?>select.png');
+            $(this).attr('src', 'http://static.mingyizhudao.com/146968462384937');
         });
         $('#btnSubmit').click(function () {
             var patientId = '';
