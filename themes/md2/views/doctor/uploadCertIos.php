@@ -14,13 +14,13 @@ $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
-$urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
+$urlUploadFile = 'http://121.40.127.64:8089/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
 
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
-    $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
+    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDelectDoctorCert = 'http://121.40.127.64:8089/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
