@@ -2,6 +2,7 @@
 
 class MongoManager extends EMongoDocument
 {
+    public $source;
     public $user_host_ip;
     public $url;
     public $url_referrer;

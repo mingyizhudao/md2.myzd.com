@@ -215,6 +215,7 @@ abstract class WebsiteController extends Controller {
         }
         elseif (get_extension_funcs("mongo") !== false) {
             $mongo = new MongoManager();
+            $mongo->source = 'doctor';
             $mongo->user_host_ip = Yii::app()->request->getUserHostAddress();
             $mongo->url = Yii::app()->request->getUrl();
             $mongo->url_referrer = Yii::app()->request->getUrlReferrer();
