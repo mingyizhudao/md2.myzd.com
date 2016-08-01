@@ -200,14 +200,37 @@ abstract class WebsiteController extends Controller {
     /**
      * Stores user's access info for every request.
      */
-    public function storeUserAccessInfo() {
-        $coreAccess = new CoreAccess();
-        $coreAccess->user_host_ip = Yii::app()->request->getUserHostAddress();
-        $coreAccess->url = Yii::app()->request->getUrl();
-        $coreAccess->url_referrer = Yii::app()->request->getUrlReferrer();
-        $coreAccess->user_agent = Yii::app()->request->getUserAgent();
-        $coreAccess->user_host = Yii::app()->request->getUserHost();
-        $coreAccess->save();
+    public function storeUserAccessInfo() 
+    {
+        if (get_extension_funcs("mongodb") !== false) {
+            $mongodb = new MongoDbManager();
+            $mongodb->insert([
+                'source' => 'doctor',
+                'user_host_ip' => Yii::app()->request->getUserHostAddress(),
+                'url' => Yii::app()->request->getUrl(),
+                'url_referrer' => Yii::app()->request->getUrlReferrer(),
+                'user_agent' => Yii::app()->request->getUserAgent(),
+                'user_host' => Yii::app()->request->getUserHost(),
+            ]);
+        }
+        elseif (get_extension_funcs("mongo") !== false) {
+            $mongo = new MongoManager();
+            $mongo->user_host_ip = Yii::app()->request->getUserHostAddress();
+            $mongo->url = Yii::app()->request->getUrl();
+            $mongo->url_referrer = Yii::app()->request->getUrlReferrer();
+            $mongo->user_agent = Yii::app()->request->getUserAgent();
+            $mongo->user_host = Yii::app()->request->getUserHost();
+            $mongo->addInfo();
+        }
+        else {
+            $coreAccess = new CoreAccess();
+            $coreAccess->user_host_ip = Yii::app()->request->getUserHostAddress();
+            $coreAccess->url = Yii::app()->request->getUrl();
+            $coreAccess->url_referrer = Yii::app()->request->getUrlReferrer();
+            $coreAccess->user_agent = Yii::app()->request->getUserAgent();
+            $coreAccess->user_host = Yii::app()->request->getUserHost();
+            $coreAccess->save();
+        }
     }
 
     /*

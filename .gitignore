@@ -1,1 +1,7 @@
 /nbproject/private/
+/yii/
+/.settings/
+.buildpath
+.project
+index.php
+.htaccess

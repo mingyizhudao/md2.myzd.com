@@ -1,0 +1,421 @@
+2016/07/31 14:43:03 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.doctor' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `doctor`.
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (36)
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (13)
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (20)
+2016/07/31 14:43:03 [error] [EApiViewService::loadApiViewData] 数据库中无法找到 active record class "Doctor" 对应的 table "doctor".
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (25)
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (62)
+in /var/www/md2.myzd.com/index.php (14)
+2016/07/31 15:08:12 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.doctor' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `doctor`.
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (36)
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (13)
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (20)
+2016/07/31 15:08:12 [error] [EApiViewService::loadApiViewData] 数据库中无法找到 active record class "Doctor" 对应的 table "doctor".
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (25)
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (62)
+in /var/www/md2.myzd.com/index.php (14)
+2016/07/31 15:10:46 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): MongoManager->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): MongoManager->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): MongoManager->init()
+#6 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): MongoManager->__construct()
+#7 unknown(0): ApimdController->actionList()
+#8 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#9 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#12 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#13 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#14 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#15 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/07/31 15:17:35 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): MongoManager->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): MongoManager->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): MongoManager->init()
+#6 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): MongoManager->__construct()
+#7 unknown(0): ApimdController->actionList()
+#8 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#9 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#12 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#13 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#14 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#15 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/07/31 15:26:22 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): MongoManager->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): MongoManager->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): MongoManager->init()
+#6 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): MongoManager->__construct()
+#7 unknown(0): ApimdController->actionList()
+#8 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#9 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#12 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#13 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#14 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#15 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/07/31 15:34:54 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.user' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `user`.
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (34)
+in /var/www/md2.myzd.com/index.php (14)
+2016/07/31 15:34:54 [error] [exception.CDbException] CDbException: 数据库中无法找到 active record class "User" 对应的 table "user". in /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php:2362
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(User))
+#1 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1350): CActiveRecord->getTableSchema()
+#3 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#4 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CActiveRecord->findAll()
+#5 [internal function]: ApimdController->actionList('indexannounceme...')
+#6 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#7 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#12 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#13 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/07/31 15:35:41 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.user' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `user`.
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (34)
+in /var/www/md2.myzd.com/index.php (14)
+2016/07/31 15:35:41 [error] [exception.CDbException] CDbException: 数据库中无法找到 active record class "User" 对应的 table "user". in /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php:2362
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(User))
+#1 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1350): CActiveRecord->getTableSchema()
+#3 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#4 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CActiveRecord->findAll()
+#5 [internal function]: ApimdController->actionList('indexannounceme...')
+#6 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#7 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#12 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#13 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/07/31 15:35:47 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.user' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `user`.
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (34)
+in /var/www/md2.myzd.com/index.php (14)
+2016/07/31 15:35:47 [error] [exception.CDbException] CDbException: 数据库中无法找到 active record class "User" 对应的 table "user". in /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php:2362
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(User))
+#1 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1350): CActiveRecord->getTableSchema()
+#3 /var/www/md2.myzd.com/yii/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#4 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CActiveRecord->findAll()
+#5 [internal function]: ApimdController->actionList('indexannounceme...')
+#6 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#7 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#12 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#13 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/07/31 15:37:29 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): TestMongo->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): TestMongo->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): TestMongo->init()
+#6 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): TestMongo->__construct()
+#7 unknown(0): ApimdController->actionList()
+#8 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#9 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#12 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#13 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#14 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#15 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/07/31 16:35:40 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): MongoManager->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): MongoManager->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): MongoManager->init()
+#6 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->__construct()
+#7 unknown(0): ApimdController->actionList()
+#8 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#9 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#11 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#12 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#13 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#14 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#15 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/07/31 16:42:46 [error] [exception.Error] Error: Call to undefined function swoole_http_server() in /var/www/md2.myzd.com/protected/controllers/ApimdController.php:34
+Stack trace:
+#0 [internal function]: ApimdController->actionList('indexannounceme...')
+#1 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#2 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#3 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#7 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#8 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#10 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 09:58:18 [error] [exception.Error] Error: Access to undeclared static property: Yii::$app in /var/www/md2.myzd.com/protected/controllers/ApimdController.php:34
+Stack trace:
+#0 [internal function]: ApimdController->actionList('indexannounceme...')
+#1 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#2 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#3 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#7 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#8 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#10 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 09:58:19 [error] [exception.CHttpException.404] CHttpException: 无法解析请求 "favicon.ico"。 in /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('favicon.ico')
+#1 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2016/08/01 10:08:17 [error] [exception.CException] CException: 对象配置必须是内含有一个 "class" 元素的一个数组. in /var/www/md2.myzd.com/yii/framework/YiiBase.php:193
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/base/CModule.php(386): YiiBase::createComponent(Array)
+#1 /var/www/md2.myzd.com/yii/framework/base/CModule.php(103): CModule->getComponent('mongodb')
+#2 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CModule->__get('mongodb')
+#3 [internal function]: ApimdController->actionList('indexannounceme...')
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#10 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#11 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#13 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 10:09:10 [error] [php] include(EMongoDB.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/YiiBase.php(196): import()
+#1 /var/www/md2.myzd.com/yii/framework/base/CModule.php(386): createComponent()
+#2 /var/www/md2.myzd.com/yii/framework/base/CModule.php(103): CWebApplication->getComponent()
+#3 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CWebApplication->__get()
+#4 unknown(0): ApimdController->actionList()
+#5 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#6 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#9 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#10 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#11 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (34)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 10:17:19 [error] [php] include(EMongoDB.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/YiiBase.php(196): import()
+#1 /var/www/md2.myzd.com/yii/framework/base/CModule.php(386): createComponent()
+#2 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CWebApplication->getComponent()
+#3 unknown(0): ApimdController->actionList()
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs()
+#5 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams()
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): ApimdController->runAction()
+#8 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): ApimdController->runActionWithFilters()
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): ApimdController->run()
+#10 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#11 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#12 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/apimd/indexannouncement
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (34)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 10:17:31 [error] [exception.CException] CException: 对象配置必须是内含有一个 "class" 元素的一个数组. in /var/www/md2.myzd.com/yii/framework/YiiBase.php:193
+Stack trace:
+#0 /var/www/md2.myzd.com/yii/framework/base/CModule.php(386): YiiBase::createComponent(Array)
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(34): CModule->getComponent('mongodb')
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 11:17:09 [error] [exception.MongoDB\Driver\Exception\ConnectionTimeoutException] MongoDB\Driver\Exception\ConnectionTimeoutException: No suitable servers found (`serverselectiontryonce` set): [connection error calling ismaster on '120.26.107.48:27017'] in /var/www/md2.myzd.com/protected/models/MongoManager.php:41
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/models/MongoManager.php(41): MongoDB\Driver\Manager->executeBulkWrite('db.myzd', Object(MongoDB\Driver\BulkWrite), Object(MongoDB\Driver\WriteConcern))
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->insert(Array)
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 11:21:10 [error] [exception.MongoDB\Driver\Exception\InvalidArgumentException] MongoDB\Driver\Exception\InvalidArgumentException: Invalid namespace provided: myzd in /var/www/md2.myzd.com/protected/models/MongoManager.php:31
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/models/MongoManager.php(31): MongoDB\Driver\Manager->executeQuery('myzd', Object(MongoDB\Driver\Query), Object(MongoDB\Driver\ReadPreference))
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->queryAll()
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 11:21:38 [error] [exception.MongoDB\Driver\Exception\ConnectionTimeoutException] MongoDB\Driver\Exception\ConnectionTimeoutException: No suitable servers found (`serverselectiontryonce` set): [connection error calling ismaster on '120.26.107.48:27017'] in /var/www/md2.myzd.com/protected/models/MongoManager.php:31
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/models/MongoManager.php(31): MongoDB\Driver\Manager->executeQuery('db.myzd', Object(MongoDB\Driver\Query), Object(MongoDB\Driver\ReadPreference))
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->queryAll()
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 11:25:20 [error] [exception.MongoDB\Driver\Exception\ConnectionTimeoutException] MongoDB\Driver\Exception\ConnectionTimeoutException: No suitable servers found (`serverselectiontryonce` set): [connection error calling ismaster on '120.26.107.48:27017'] in /var/www/md2.myzd.com/protected/models/MongoManager.php:31
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/models/MongoManager.php(31): MongoDB\Driver\Manager->executeQuery('db.myzd', Object(MongoDB\Driver\Query), Object(MongoDB\Driver\ReadPreference))
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->queryAll()
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 11:30:13 [error] [exception.MongoDB\Driver\Exception\ConnectionTimeoutException] MongoDB\Driver\Exception\ConnectionTimeoutException: No suitable servers found (`serverselectiontryonce` set): [connection error calling ismaster on '120.26.107.48:27017'] in /var/www/md2.myzd.com/protected/models/MongoManager.php:27
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/models/MongoManager.php(27): MongoDB\Driver\Manager->executeQuery('db.myzd', Object(MongoDB\Driver\Query), Object(MongoDB\Driver\ReadPreference))
+#1 /var/www/md2.myzd.com/protected/controllers/ApimdController.php(35): MongoManager->queryAll()
+#2 [internal function]: ApimdController->actionList('indexannounceme...')
+#3 /var/www/md2.myzd.com/yii/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(ApimdController), Array)
+#4 /var/www/md2.myzd.com/yii/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(ApimdController), Object(ReflectionMethod), Array)
+#5 /var/www/md2.myzd.com/yii/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /var/www/md2.myzd.com/yii/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#7 /var/www/md2.myzd.com/yii/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(282): CController->run('list')
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController('apimd/list')
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CApplication->run()
+#12 {main}
+REQUEST_URI=/apimd/indexannouncement
+---
+2016/08/01 12:05:10 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'myzd.doctor' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `doctor`.
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (36)
+in /var/www/md2.myzd.com/protected/apiservices/ApiViewIndex.php (13)
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (20)
+2016/08/01 12:05:10 [error] [EApiViewService::loadApiViewData] 数据库中无法找到 active record class "Doctor" 对应的 table "doctor".
+in /var/www/md2.myzd.com/protected/apiservices/EApiViewService.php (25)
+in /var/www/md2.myzd.com/protected/controllers/ApimdController.php (62)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 13:04:38 [error] [php] include(Mongo.php): failed to open stream: No such file or directory (/var/www/md2.myzd.com/yii/framework/YiiBase.php:427)
+Stack trace:
+#0 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(144): spl_autoload_call()
+#1 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php(181): EMongoDB->getConnection()
+#2 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(166): EMongoDB->getDbInstance()
+#3 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(191): MongoManager->getDb()
+#4 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(387): MongoManager->getCollection()
+#5 /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php(97): MongoManager->init()
+#6 /var/www/md2.myzd.com/protected/components/WebsiteController.php(205): MongoManager->__construct()
+#7 /var/www/md2.myzd.com/protected/components/WebsiteController.php(58): AuthController->storeUserAccessInfo()
+#8 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(281): AuthController->init()
+#9 /var/www/md2.myzd.com/yii/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /var/www/md2.myzd.com/yii/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /var/www/md2.myzd.com/index.php(14): CWebApplication->run()
+REQUEST_URI=/auth/aa
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
+in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
