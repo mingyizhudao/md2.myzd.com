@@ -81,7 +81,7 @@ return array(
         'mongodb' => array(
             'class'            => 'EMongoDB',
             'connectionString' => 'mongodb://120.26.107.48:27017',
-            'dbName'           => 'db',
+            'dbName'           => 'myzd',
             'fsyncFlag'        => true,
             'safeFlag'         => true,
             'useCursor'        => false
@@ -259,7 +259,7 @@ return array(
         //mongodb配置
         'mongodb' => array(
             'connectionString' => 'mongodb://120.26.107.48:27017', //服务器地址
-            'dbName'           => 'db.myzd',//数据库名称
+            'dbName'           => 'myzd.core_access_doctor',//数据库名称
         ),
     ),
     'theme' => 'md2',

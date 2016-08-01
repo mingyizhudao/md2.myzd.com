@@ -3331,3 +3331,39 @@ in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php
 in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (144)
 in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDB.php (181)
 in /var/www/md2.myzd.com/protected/extensions/YiiMongoDbSuite/EMongoDocument.php (166)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "log" application component
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "db" application component
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.db.CDbConnection] Opening DB connection
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.db.CDbCommand] Executing SQL: DELETE FROM `core_log` WHERE 0=1
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "request" application component
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "session" application component
+in /var/www/md2.myzd.com/protected/components/ApplicationConfigBehavior.php (28)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.db.CDbCommand] Executing SQL: DELETE FROM `core_session` WHERE expire<:expire
+in /var/www/md2.myzd.com/protected/components/ApplicationConfigBehavior.php (28)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.db.CDbCommand] Querying SQL: SELECT `data`
+FROM `core_session`
+WHERE expire>:expire AND id=:id
+in /var/www/md2.myzd.com/protected/components/ApplicationConfigBehavior.php (28)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "user" application component
+in /var/www/md2.myzd.com/protected/components/ApplicationConfigBehavior.php (32)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "urlManager" application component
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "themeManager" application component
+in /var/www/md2.myzd.com/protected/components/WebsiteController.php (39)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.CModule] Loading "clientScript" application component
+in /var/www/md2.myzd.com/protected/components/WebsiteController.php (40)
+in /var/www/md2.myzd.com/index.php (14)
+2016/08/01 17:59:38 [trace] [system.db.CDbCommand] Querying SQL: SELECT `id`
+FROM `core_session`
+WHERE id=:id
+2016/08/01 17:59:38 [trace] [system.db.CDbCommand] Executing SQL: INSERT INTO `core_session` (`id`, `data`, `expire`) VALUES (:id, :data, :expire)

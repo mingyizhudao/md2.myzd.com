@@ -16,7 +16,7 @@ class MongoManager extends EMongoDocument
   
     public function getCollectionName()
     {
-        return 'myzd';
+        return 'core_access_doctor';
     }
     
 	public function addInfo() 
