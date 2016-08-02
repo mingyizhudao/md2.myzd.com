@@ -16,6 +16,25 @@ class DoctorController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
+    //保存医生头像信息
+    public function actionAjaxAvAtar($domain, $key) {
+        $output = array('status' => 'no');
+        if (strIsEmpty($domain) && strIsEmpty($key)) {
+            $output['errors'] = 'miss data...';
+        } else {
+            $model = new NewDoctor();
+            $model->remote_domain = $domain;
+            $model->remote_file_key = $key;
+            if ($model->save()) {
+                $output['status'] = 'ok';
+                $output['id'] = $model->getId();
+            } else {
+                $output['errors'] = $model->getErrors();
+            }
+        }
+        $this->renderJsonOutput($output);
+    }
+
     public function actionAjaxBasic() {
         $output = array('status' => 'no');
         if (isset($_POST['BasicForm'])) {
