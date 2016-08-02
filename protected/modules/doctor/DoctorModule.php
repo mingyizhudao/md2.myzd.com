@@ -8,6 +8,8 @@ class DoctorModule extends CWebModule {
      * @return
      */
     public function init() {
+        parent::init();
+        Yii::setPathOfAlias('doctor', dirname(__FILE__));
         $this->setImport(array(
             'doctor.components.*',
             'doctor.models.*',
@@ -15,7 +17,19 @@ class DoctorModule extends CWebModule {
             'doctor.models.disease.*',
             'doctor.controllers.*',
         ));
-        return parent::init();
+        $this->setTheme('doctor');
+    }
+
+    private function setTheme($theme, $setViewPath = true) {
+        // set theme.
+        Yii::app()->theme = $theme;
+        // set theme url & path.
+        Yii::app()->themeManager->setBaseUrl(Yii::app()->theme->baseUrl);
+        Yii::app()->themeManager->setBasePath(Yii::app()->theme->basePath);
+        // set module viewPath.
+        if ($setViewPath) {
+            $this->setViewPath(Yii::app()->theme->basePath . '/views');
+        }
     }
 
 }
