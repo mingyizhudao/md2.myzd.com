@@ -12,10 +12,12 @@
  * @property string $email
  * @property integer $hospital_id
  * @property string $hospital_name
- * @property integer $sub_cat_id
- * @property string $sub_cat_name
+ * @property integer $category_id
+ * @property string $cat_name
  * @property integer $clinic_title
  * @property integer $academic_title
+ * @property string $remote_domain
+ * @property string $remote_file_key
  * @property integer $display_order
  * @property string $date_created
  * @property string $date_updated
@@ -37,13 +39,16 @@ class NewDoctor extends EActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('gender, hospital_id, sub_cat_id, clinic_title, academic_title, display_order', 'numerical', 'integerOnly' => true),
-            array('name, email, hospital_name, sub_cat_name', 'length', 'max' => 50),
+            array('date_created', 'required'),
+            array('gender, hospital_id, category_id, clinic_title, academic_title, display_order', 'numerical', 'integerOnly' => true),
+            array('name, email, hospital_name, cat_name', 'length', 'max' => 50),
             array('mobile', 'length', 'max' => 20),
+            array('remote_domain', 'length', 'max' => 225),
+            array('remote_file_key', 'length', 'max' => 100),
             array('birthday, date_updated, date_deleted', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, gender, birthday, mobile, email, hospital_id, hospital_name, sub_cat_id, sub_cat_name, clinic_title, academic_title, display_order, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
+            array('id, name, gender, birthday, mobile, email, hospital_id, hospital_name, category_id, cat_name, clinic_title, academic_title, remote_domain, remote_file_key, display_order, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
         );
     }
 
@@ -63,17 +68,19 @@ class NewDoctor extends EActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'name' => '姓名',
-            'gender' => '性别',
-            'birthday' => '生日',
-            'mobile' => '手机',
+            'name' => 'Name',
+            'gender' => 'Gender',
+            'birthday' => 'Birthday',
+            'mobile' => 'Mobile',
             'email' => 'Email',
-            'hospital_id' => '执业医院ID',
-            'hospital_name' => '执业医院',
-            'sub_cat_id' => '科目ID',
-            'sub_cat_name' => '二级科目（专业）',
-            'clinic_title' => '临床职称',
-            'academic_title' => '学术职称',
+            'hospital_id' => 'Hospital',
+            'hospital_name' => 'Hospital Name',
+            'category_id' => 'Category',
+            'cat_name' => 'Cat Name',
+            'clinic_title' => 'Clinic Title',
+            'academic_title' => 'Academic Title',
+            'remote_domain' => 'Remote Domain',
+            'remote_file_key' => 'Remote File Key',
             'display_order' => 'Display Order',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
@@ -106,10 +113,12 @@ class NewDoctor extends EActiveRecord {
         $criteria->compare('email', $this->email, true);
         $criteria->compare('hospital_id', $this->hospital_id);
         $criteria->compare('hospital_name', $this->hospital_name, true);
-        $criteria->compare('sub_cat_id', $this->sub_cat_id);
-        $criteria->compare('sub_cat_name', $this->sub_cat_name, true);
+        $criteria->compare('category_id', $this->category_id);
+        $criteria->compare('cat_name', $this->cat_name, true);
         $criteria->compare('clinic_title', $this->clinic_title);
         $criteria->compare('academic_title', $this->academic_title);
+        $criteria->compare('remote_domain', $this->remote_domain, true);
+        $criteria->compare('remote_file_key', $this->remote_file_key, true);
         $criteria->compare('display_order', $this->display_order);
         $criteria->compare('date_created', $this->date_created, true);
         $criteria->compare('date_updated', $this->date_updated, true);

@@ -4,14 +4,16 @@ class DoctorController extends WebsiteController {
 
     //基本信息页面
     public function actionBasicView() {
-        $url = 'basicView';
-        if ($this->isUserAgentIOS()) {
-            $url .= 'Ios';
-        } else {
-            $url .= 'Android';
-        }
         $form = new BasicInfoForm();
-        $this->render($url, array('model' => $form));
+        $this->render('basicView', array('model' => $form));
+    }
+
+    //获取医生头像七牛上传权限
+    public function actionAjaxDrToken() {
+        $url = 'http://121.40.127.64:8089/api/tokendrcert';
+        $data = $this->send_get($url);
+        $output = array('uptoken' => $data['results']['uploadToken']);
+        $this->renderJsonOutput($output);
     }
 
     public function actionAjaxBasic() {
@@ -57,7 +59,7 @@ class DoctorController extends WebsiteController {
                 $model = NewDoctor::model()->getById($form->id);
                 $attributes = $form->getSafeAttributes();
                 $model->setAttributes($attributes, true);
-                if ($model->update(array('hospital_id', 'hospital_name', 'sub_cat_id', 'sub_cat_name', 'clinic_title', 'academic_title'))) {
+                if ($model->update(array('hospital_id', 'hospital_name', 'category_id', 'cat_name', 'clinic_title', 'academic_title'))) {
                     $output['status'] = 'ok';
                     $output['id'] = $model->getId();
                 } else {
