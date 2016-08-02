@@ -1,6 +1,7 @@
 /nbproject/private/
 /yii/
 /.settings/
+/protected/runtime/
 .buildpath
 .project
 index.php

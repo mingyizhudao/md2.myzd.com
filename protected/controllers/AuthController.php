@@ -2,9 +2,6 @@
 
 class AuthController extends WebsiteController {
 
-    public function actionAa(){
-        echo 111;exit;
-    }
     /**
      * @return array action filters
      */
