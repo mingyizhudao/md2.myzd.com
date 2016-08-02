@@ -37,6 +37,7 @@ class ApiViewHospitalSearch extends EApiViewService {
 
     public function loadHospital() {
         $models = $this->hpSearch->search();
+        var_dump($models); exit;
         if (arrayNotEmpty($models)) {
             $this->setHospital($models);
         }

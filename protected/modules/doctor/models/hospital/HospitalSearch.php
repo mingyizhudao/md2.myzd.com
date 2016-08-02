@@ -15,7 +15,7 @@ class HospitalSearch extends ESearchModel {
     }
 
     public function addQueryConditions() {
-        $this->criteria->addCondition('t.date_delete is not null');
+        $this->criteria->addCondition('t.date_deleted is null');
         if ($this->hasQueryParams()) {
             if (isset($this->queryParams['name'])) {
                 $name = $this->queryParams['name'];

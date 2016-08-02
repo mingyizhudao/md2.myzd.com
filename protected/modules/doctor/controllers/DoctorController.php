@@ -111,11 +111,14 @@ class DoctorController extends WebsiteController {
     //异步加载亚专业
     public function actionAjaxSubCat($id) {
         $doctor = NewDoctor::model()->getById($id);
-        if (isset($doctor)) {
-            $list = NewDiseaseCategory::model()->loadAllSubCatByCatId($doctor->category_id);
-        } else {
-            
-        }
+        $api = new ApiViewSubCat($doctor->category_id);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    //异步加载手术
+    public function actionAjaxSurgery() {
+        
     }
 
 }
