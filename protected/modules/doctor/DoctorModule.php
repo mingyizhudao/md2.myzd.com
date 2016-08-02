@@ -13,11 +13,13 @@ class DoctorModule extends CWebModule {
         $this->setImport(array(
             'doctor.components.*',
             'doctor.models.*',
+            'doctor.apiservices.*',
             'doctor.models.newdoctor.*',
+            'doctor.models.hospital.*',
             'doctor.models.disease.*',
             'doctor.controllers.*',
         ));
-        $this->setTheme('doctor');
+        // $this->setTheme('doctor');
     }
 
     private function setTheme($theme, $setViewPath = true) {

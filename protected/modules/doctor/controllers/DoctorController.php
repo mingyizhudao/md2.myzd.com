@@ -93,12 +93,29 @@ class DoctorController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
-    //根据名字查询医院
+    //查询医院
     public function actionAjaxSearchHospital() {
         $input = $_GET;
         $apiview = new ApiViewHospitalSearch($input);
         $output = $apiview->loadApiViewData();
         $this->renderJsonOutput($output);
+    }
+
+    //进入专业页面
+    public function actionMajorView($id) {
+        $form = new MajorForm();
+        $form->id = $id;
+        $this->render('majoyView', array('model' => $form));
+    }
+
+    //异步加载亚专业
+    public function actionAjaxSubCat($id) {
+        $doctor = NewDoctor::model()->getById($id);
+        if (isset($doctor)) {
+            $list = NewDiseaseCategory::model()->loadAllSubCatByCatId($doctor->category_id);
+        } else {
+            
+        }
     }
 
 }

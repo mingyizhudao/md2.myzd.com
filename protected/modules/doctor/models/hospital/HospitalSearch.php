@@ -27,7 +27,7 @@ class HospitalSearch extends ESearchModel {
             }
             if (isset($this->queryParams['statename'])) {
                 $statename = $this->queryParams['statename'];
-                $this->criteria->compare('t.state_name', mb_str_replace('省', '', $statename));
+                $this->criteria->compare('t.state_name', $statename);
             }
             if (isset($this->queryParams['cityid'])) {
                 $cityId = $this->queryParams['cityid'];
@@ -36,7 +36,7 @@ class HospitalSearch extends ESearchModel {
 
             if (isset($this->queryParams['cityname'])) {
                 $cityname = $this->queryParams['cityname'];
-                $this->criteria->compare('t.city_name', mb_str_replace('市', '', $cityname));
+                $this->criteria->compare('t.city_name', $cityname);
             }
         }
     }

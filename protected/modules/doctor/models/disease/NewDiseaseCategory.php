@@ -52,6 +52,7 @@ class NewDiseaseCategory extends EActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            
         );
     }
 
@@ -126,6 +127,10 @@ class NewDiseaseCategory extends EActiveRecord {
         $criteria->distinct = true;
         $criteria->addCondition("app_version=8");
         return $this->findAll($criteria);
+    }
+
+    public function loadAllSubCatByCatId($catId) {
+        return $this->getAllByAttributes(array('cat_id' => $catId));
     }
 
 }

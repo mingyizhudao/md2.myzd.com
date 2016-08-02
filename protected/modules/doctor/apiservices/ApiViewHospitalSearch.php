@@ -19,7 +19,7 @@ class ApiViewHospitalSearch extends EApiViewService {
     public function __construct($searchInputs) {
         parent::__construct();
         $this->list = array();
-        $this->hpSearch = new DoctorSearch($searchInputs);
+        $this->hpSearch = new HospitalSearch($searchInputs);
     }
 
     protected function createOutput() {
@@ -36,7 +36,7 @@ class ApiViewHospitalSearch extends EApiViewService {
     }
 
     public function loadHospital() {
-        $models = $this->doctorSearch->search();
+        $models = $this->hpSearch->search();
         if (arrayNotEmpty($models)) {
             $this->setHospital($models);
         }
