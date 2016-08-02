@@ -1,29 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "new_disease_category".
+ * This is the model class for table "new_hospital".
  *
- * The followings are the available columns in table 'new_disease_category':
+ * The followings are the available columns in table 'new_hospital':
  * @property integer $id
- * @property integer $cat_id
- * @property string $cat_name
- * @property integer $sub_cat_id
- * @property string $sub_cat_name
- * @property string $description
- * @property integer $expteam_id
- * @property string $app_version
- * @property integer $display_order
+ * @property string $name
+ * @property string $short_name
+ * @property integer $class
+ * @property integer $type
+ * @property integer $state_id
+ * @property string $state_name
+ * @property integer $city_id
+ * @property string $city_name
+ * @property integer $display
  * @property string $date_created
  * @property string $date_updated
  * @property string $date_deleted
  */
-class NewDiseaseCategory extends EActiveRecord {
+class NewHospital extends EActiveRecord {
 
     /**
      * @return string the associated database table name
      */
     public function tableName() {
-        return 'new_disease_category';
+        return 'new_hospital';
     }
 
     /**
@@ -34,14 +35,12 @@ class NewDiseaseCategory extends EActiveRecord {
         // will receive user inputs.
         return array(
             array('date_created', 'required'),
-            array('cat_id, sub_cat_id, expteam_id, display_order', 'numerical', 'integerOnly' => true),
-            array('cat_name, sub_cat_name', 'length', 'max' => 50),
-            array('description', 'length', 'max' => 100),
-            array('app_version', 'length', 'max' => 10),
+            array('class, type, state_id, city_id, display', 'numerical', 'integerOnly' => true),
+            array('name, short_name, state_name, city_name', 'length', 'max' => 50),
             array('date_updated, date_deleted', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, cat_id, cat_name, sub_cat_id, sub_cat_name, description, expteam_id, app_version, display_order, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
+            array('id, name, short_name, class, type, state_id, state_name, city_id, city_name, display, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,14 +60,15 @@ class NewDiseaseCategory extends EActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'cat_id' => 'Cat',
-            'cat_name' => 'Cat Name',
-            'sub_cat_id' => 'Sub Cat',
-            'sub_cat_name' => 'Sub Cat Name',
-            'description' => 'Description',
-            'expteam_id' => 'Expteam',
-            'app_version' => 'App Version',
-            'display_order' => 'Display Order',
+            'name' => 'Name',
+            'short_name' => 'Short Name',
+            'class' => 'Class',
+            'type' => 'Type',
+            'state_id' => 'State',
+            'state_name' => 'State Name',
+            'city_id' => 'City',
+            'city_name' => 'City Name',
+            'display' => 'Display',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
             'date_deleted' => 'Date Deleted',
@@ -93,14 +93,15 @@ class NewDiseaseCategory extends EActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('cat_id', $this->cat_id);
-        $criteria->compare('cat_name', $this->cat_name, true);
-        $criteria->compare('sub_cat_id', $this->sub_cat_id);
-        $criteria->compare('sub_cat_name', $this->sub_cat_name, true);
-        $criteria->compare('description', $this->description, true);
-        $criteria->compare('expteam_id', $this->expteam_id);
-        $criteria->compare('app_version', $this->app_version, true);
-        $criteria->compare('display_order', $this->display_order);
+        $criteria->compare('name', $this->name, true);
+        $criteria->compare('short_name', $this->short_name, true);
+        $criteria->compare('class', $this->class);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('state_id', $this->state_id);
+        $criteria->compare('state_name', $this->state_name, true);
+        $criteria->compare('city_id', $this->city_id);
+        $criteria->compare('city_name', $this->city_name, true);
+        $criteria->compare('display', $this->display);
         $criteria->compare('date_created', $this->date_created, true);
         $criteria->compare('date_updated', $this->date_updated, true);
         $criteria->compare('date_deleted', $this->date_deleted, true);
@@ -114,18 +115,10 @@ class NewDiseaseCategory extends EActiveRecord {
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return NewDiseaseCategory the static model class
+     * @return NewHospital the static model class
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);
-    }
-
-    public function loadAllCatSub() {
-        $criteria = new CDbCriteria();
-        $criteria->select = 'cat_id,cat_name';
-        $criteria->distinct = true;
-        $criteria->addCondition("app_version=8");
-        return $this->findAll($criteria);
     }
 
 }

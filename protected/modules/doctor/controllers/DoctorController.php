@@ -93,4 +93,12 @@ class DoctorController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
+    //根据名字查询医院
+    public function actionAjaxSearchHospital() {
+        $input = $_GET;
+        $apiview = new ApiViewHospitalSearch($input);
+        $output = $apiview->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
 }
