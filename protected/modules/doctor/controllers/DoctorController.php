@@ -5,7 +5,7 @@ class DoctorController extends WebsiteController {
     //基本信息页面
     public function actionBasicView($id = null) {
         $form = new BasicInfoForm();
-        if (strIsEmpty($id)) {
+        if (strIsEmpty($id) === false) {
             $doctor = NewDoctor::model()->getById($id);
             $form->initModel($doctor);
         }

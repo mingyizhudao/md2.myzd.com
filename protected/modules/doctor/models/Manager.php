@@ -18,19 +18,15 @@ class Manager {
                     $diseaseDoctorJoin->save();
                 }
                 $surgeryList = $form->surgeryList;
-                foreach ($surgeryList as $surid => $values) {
-                    foreach ($values as $type => $value) {
-                        $surjoin = new SurgeryDoctorJoin();
-                        $surjoin->doctor_id = $doctorId;
-                        $surjoin->surgery_id = $surid;
-                        $surjoin->surgery_type = $type;
-                        $surjoin->surgery_count_min = $value[0];
-                        $surjoin->surgery_count_max = $value[1];
-                        $surjoin->save();
-                    }
+                foreach ($surgeryList as $values) {
+                    $surjoin = new SurgeryDoctorJoin();
+                    $surjoin->doctor_id = $doctorId;
+                    $surjoin->surgery_id = $values['id'];
+                    $surjoin->surgery_type = $values['type'];
+                    $surjoin->surgery_count_min = $values['min'];
+                    $surjoin->surgery_count_max = $values['max'];
+                    $surjoin->save();
                 }
-                //array("surid"=>array("1"=>array(0,4)));
-                //操作成功 数据库提交
                 $dbTran->commit();
                 $output['status'] = 'ok';
                 $output['id'] = $doctorId;
