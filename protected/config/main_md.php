@@ -261,6 +261,11 @@ return array(
             'connectionString' => 'mongodb://120.26.107.48:27017', //服务器地址
             'dbName'           => 'myzd.core_access_doctor',//数据库名称
         ),
+        
+        //jPush配置
+        'jPush' => array(
+            'logPath' => dirname(__DIR__ . '../') . '/runtime/jpush.log'
+        ),
     ),
     'theme' => 'md2',
 );

@@ -30,6 +30,8 @@ class MongoDbManager
     
     public function insert(Array $params)
     {
+
+        
         $bulk = new MongoDB\Driver\BulkWrite(['ordered' => true]);
         $bulk->insert($params);
         

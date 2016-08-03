@@ -1,0 +1,11 @@
+{
+    "require": {
+        "jpush/jpush": "v3.3.9"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}
