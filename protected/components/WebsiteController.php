@@ -202,6 +202,7 @@ abstract class WebsiteController extends Controller {
      */
     public function storeUserAccessInfo() 
     {
+        $time = time();
         if (get_extension_funcs("mongodb") !== false) {
             $mongodb = new MongoDbManager();
             $mongodb->insert([
@@ -211,6 +212,8 @@ abstract class WebsiteController extends Controller {
                 'url_referrer' => Yii::app()->request->getUrlReferrer(),
                 'user_agent' => Yii::app()->request->getUserAgent(),
                 'user_host' => Yii::app()->request->getUserHost(),
+                'timestamp' => $time,
+                'date_time' => date('Y-m-d H:i:s', $time)
             ]);
         }
         elseif (get_extension_funcs("mongo") !== false) {
@@ -221,6 +224,8 @@ abstract class WebsiteController extends Controller {
             $mongo->url_referrer = Yii::app()->request->getUrlReferrer();
             $mongo->user_agent = Yii::app()->request->getUserAgent();
             $mongo->user_host = Yii::app()->request->getUserHost();
+            $mongo->timestamp = $time;
+            $mongo->date_time = date('Y-m-d H:i:s', $time);
             $mongo->addInfo();
         }
         else {
