@@ -72,6 +72,7 @@ class DoctorController extends WebsiteController {
         $this->render('doctorView', array('model' => $form));
     }
 
+    //第二个页面的信息保存
     public function actionAjaxDoctor() {
         $output = array('status' => 'no');
         if (isset($_POST['DoctorForm'])) {
@@ -120,10 +121,24 @@ class DoctorController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
+    //异步查询亚专业
+    public function actionAjaxSearchSub($id, $name) {
+        $api = new ApiViewSubSearch($id, $name);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
     //异步加载手术
     public function actionAjaxSurgery($id) {
         $doctor = NewDoctor::model()->getById($id);
         $api = new ApiViewSurgery($doctor->category_id);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    //异步查询手术
+    public function actionAjaxSearchSurgery($id, $name) {
+        $api = new ApiViewSurgerySearch($id, $name);
         $output = $api->loadApiViewData();
         $this->renderJsonOutput($output);
     }
