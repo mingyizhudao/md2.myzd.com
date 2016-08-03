@@ -167,14 +167,14 @@ return array(
             ),
         ),
 //         myzd - test .
-       'db' => array(
-           'connectionString' => 'mysql:host=121.40.127.64;dbname=myzd-test',
-           'emulatePrepare' => true,
-           'username' => 'root',
-           'password' => '123456',
-           'charset' => 'utf8',
-           'schemaCachingDuration' => 3600    // 开启表结构缓存（schema caching）提高性能
-       ),
+//        'db' => array(
+//            'connectionString' => 'mysql:host=121.40.127.64;dbname=myzd-test',
+//            'emulatePrepare' => true,
+//            'username' => 'root',
+//            'password' => 'myzd_@!@#123456',
+//            'charset' => 'utf8',
+//            'schemaCachingDuration' => 3600    // 开启表结构缓存（schema caching）提高性能
+//        ),
         'db2' => array(
             'connectionString' => 'mysql:host=qpmyzdstaging91466636.mysql.rds.aliyuncs.com;dbname=myzd-test2',
             'class' => 'CDbConnection',
@@ -185,14 +185,14 @@ return array(
             'schemaCachingDuration' => 3600    // 开启表结构缓存（schema caching）提高性能
         ),
         //       本地数据库        
-//         'db' => array(
-//             'connectionString' => 'mysql:host=localhost;dbname=myzd',
-//             'emulatePrepare' => true,
-//             'username' => 'fengzhi',
-//             'password' => '123123',
-//             'charset' => 'utf8',
-//             'schemaCachingDuration' => 3600    // 开启表结构缓存（schema caching）提高性能
-//         ),
+        'db' => array(
+            'connectionString' => 'mysql:host=localhost;dbname=myzd',
+            'emulatePrepare' => true,
+            'username' => 'fengzhi',
+            'password' => '123123',
+            'charset' => 'utf8',
+            'schemaCachingDuration' => 3600    // 开启表结构缓存（schema caching）提高性能
+        ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
