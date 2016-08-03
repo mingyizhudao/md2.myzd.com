@@ -2,6 +2,38 @@
 
 class Manager {
 
+    public function saveBasic($values) {
+        $output = array('status' => 'no');
+        $form = new BasicInfoForm();
+        $form->setAttributes($values, true);
+        if ($form->validate()) {
+            if (strIsEmpty($form->id)) {
+                $model = new NewDoctor();
+                $attributes = $form->getSafeAttributes();
+                $model->setAttributes($attributes, true);
+                if ($model->save()) {
+                    $output['status'] = 'ok';
+                    $output['id'] = $model->getId();
+                } else {
+                    $output['errors'] = $model->getErrors();
+                }
+            } else {
+                $model = NewDoctor::model()->getById($form->id);
+                $attributes = $form->getSafeAttributes();
+                $model->setAttributes($attributes, true);
+                if ($model->update(array('name', 'gender', 'birthday', 'mobile', 'email', 'remote_domain', 'remote_file_key'))) {
+                    $output['status'] = 'ok';
+                    $output['id'] = $model->getId();
+                } else {
+                    $output['errors'] = $model->getErrors();
+                }
+            }
+        } else {
+            $output['errors'] = $form->getErrors();
+        }
+        return $output;
+    }
+
     public function saveMajor($values) {
         $output = array("status" => 'no');
         if (arrayNotEmpty($values['diseaseList']) && arrayNotEmpty($values['surgeryList'])) {

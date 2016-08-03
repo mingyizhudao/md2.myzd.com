@@ -20,44 +20,12 @@ class DoctorController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
-    //保存医生头像信息
-    public function actionAjaxAvAtar($domain, $key) {
-        $output = array('status' => 'no');
-        if (strIsEmpty($domain) && strIsEmpty($key)) {
-            $output['errors'] = 'miss data...';
-        } else {
-            $model = new NewDoctor();
-            $model->remote_domain = $domain;
-            $model->remote_file_key = $key;
-            if ($model->save()) {
-                $output['status'] = 'ok';
-                $output['id'] = $model->getId();
-            } else {
-                $output['errors'] = $model->getErrors();
-            }
-        }
-        $this->renderJsonOutput($output);
-    }
-
     public function actionAjaxBasic() {
         $output = array('status' => 'no');
-        if (isset($_POST['BasicInfoForm'])) {
-            $values = $_POST['BasicInfoForm'];
-            $form = new BasicInfoForm();
-            $form->setAttributes($values, true);
-            if ($form->validate()) {
-                $model = NewDoctor::model()->getById($form->id);
-                $attributes = $form->getSafeAttributes();
-                $model->setAttributes($attributes, true);
-                if ($model->update(array('name', 'gender', 'birthday', 'mobile', 'email'))) {
-                    $output['status'] = 'ok';
-                    $output['id'] = $model->getId();
-                } else {
-                    $output['errors'] = $model->getErrors();
-                }
-            } else {
-                $output['errors'] = $form->getErrors();
-            }
+        if (isset($_POST['BasicForm'])) {
+            $values = $_POST['BasicForm'];
+            $manager = new Manager();
+            $output = $manager->saveBasic($values);
         } else {
             $output['errors'] = 'miss data...';
         }
