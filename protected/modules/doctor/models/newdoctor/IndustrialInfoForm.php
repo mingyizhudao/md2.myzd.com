@@ -33,6 +33,14 @@ class IndustrialInfoForm extends EFormModel {
         );
     }
 
+    public function initModel($model = null) {
+        if (isset($model)) {
+            $attributes = $model->attributes;
+            $this->setAttributes($attributes, true);
+        }
+        $this->loadOptions();
+    }
+
     public function loadOptions() {
         $this->loadOptionsClinicalTitle();
         $this->loadOptionsAcademicTitle();

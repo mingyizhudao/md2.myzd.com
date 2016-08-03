@@ -8,6 +8,8 @@ class BasicInfoForm extends EFormModel {
     public $birthday;
     public $mobile;
     public $email;
+    public $remote_domain;
+    public $remote_file_key;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
@@ -16,7 +18,7 @@ class BasicInfoForm extends EFormModel {
             array('id, gender', 'numerical', 'integerOnly' => true),
             array('name, email', 'length', 'max' => 50),
             array('mobile', 'length', 'max' => 20),
-            array('birthday', 'safe'),
+            array('birthday, remote_domain, remote_file_key', 'safe'),
         );
     }
 
@@ -28,6 +30,13 @@ class BasicInfoForm extends EFormModel {
             'mobile' => '手机',
             'email' => 'Email',
         );
+    }
+
+    public function initModel($model = null) {
+        if (isset($model)) {
+            $attributes = $model->attributes;
+            $this->setAttributes($attributes, true);
+        }
     }
 
 }
