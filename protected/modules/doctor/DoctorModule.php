@@ -19,7 +19,7 @@ class DoctorModule extends CWebModule {
             'doctor.models.disease.*',
             'doctor.controllers.*',
         ));
-        // $this->setTheme('doctor');
+         $this->setTheme('doctor');
     }
 
     private function setTheme($theme, $setViewPath = true) {

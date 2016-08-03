@@ -1,6 +1,6 @@
 <?php
 
-class MajorForm {
+class MajorForm extends EFormModel {
 
     public $id;
     public $diseaseList; //擅长疾病

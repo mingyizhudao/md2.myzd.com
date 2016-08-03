@@ -4,20 +4,18 @@ class Manager {
 
     public function saveMajor($values) {
         $output = array("status" => 'no');
-        $form = new MajorForm();
-        $form->setAttributes($values, true);
-        if (arrayNotEmpty($form->diseaseList) && arrayNotEmpty($form->surgeryList)) {
-            $doctorId = $form->id;
+        if (arrayNotEmpty($values['diseaseList']) && arrayNotEmpty($values['surgeryList'])) {
+            $doctorId = $values['id'];
             $dbTran = Yii::app()->db->beginTransaction();
             try {
-                $diseaseList = $form->diseaseList;
+                $diseaseList = $values['diseaseList'];
                 foreach ($diseaseList as $v) {
                     $diseaseDoctorJoin = new NewDiseaseDoctorJoin();
                     $diseaseDoctorJoin->disease_id = $v;
                     $diseaseDoctorJoin->doctor_id = $doctorId;
                     $diseaseDoctorJoin->save();
                 }
-                $surgeryList = $form->surgeryList;
+                $surgeryList = $values['surgeryList'];
                 foreach ($surgeryList as $values) {
                     $surjoin = new SurgeryDoctorJoin();
                     $surjoin->doctor_id = $doctorId;

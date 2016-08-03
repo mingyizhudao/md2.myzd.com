@@ -5,7 +5,7 @@ class DoctorController extends WebsiteController {
     //基本信息页面
     public function actionBasicView($id = null) {
         $form = new BasicInfoForm();
-        if (strIsEmpty($id) === false) {
+        if (strIsEmpty($id) == false) {
             $doctor = NewDoctor::model()->getById($id);
             $form->initModel($doctor);
         }
@@ -41,8 +41,8 @@ class DoctorController extends WebsiteController {
 
     public function actionAjaxBasic() {
         $output = array('status' => 'no');
-        if (isset($_POST['BasicForm'])) {
-            $values = $_POST['BasicForm'];
+        if (isset($_POST['BasicInfoForm'])) {
+            $values = $_POST['BasicInfoForm'];
             $form = new BasicInfoForm();
             $form->setAttributes($values, true);
             if ($form->validate()) {
@@ -65,7 +65,7 @@ class DoctorController extends WebsiteController {
     }
 
     //医生信息页面
-    public function actionDoctrView($id) {
+    public function actionDoctorView($id) {
         $form = new IndustrialInfoForm();
         $doctor = NewDoctor::model()->getById($id);
         $form->initModel($doctor);
