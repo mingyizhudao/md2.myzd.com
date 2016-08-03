@@ -1,1 +1,8 @@
 /nbproject/private/
+/yii/
+/.settings/
+/protected/runtime/application.log
+/protected/runtime/trace.log
+.buildpath
+.project
+.htaccess

@@ -28,7 +28,7 @@ class ApimdController extends Controller {
         header('Access-Control-Allow-Credentials:true');      // 允许携带 用户认证凭据（也就是允许客户端发送的请求携带Cookie）
         return parent::init();
     }
-
+    
     //查看列表
     public function actionList($model) {
         $values = $_GET;

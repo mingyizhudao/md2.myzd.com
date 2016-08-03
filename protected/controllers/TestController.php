@@ -1,6 +1,18 @@
 <?php
 
 class TestController extends WebsiteController {
+    
+    public function actionJiguang() 
+    { 
+        $config = Yii::app()->params->itemAt('jPush');
+        $client = new \JPush('c15e1ac0a68a4ae48509992d', '6e84eaae55ac654eae2de204', $config['logPath']);
+        $result = $client->push()
+            ->setPlatform('all')
+            ->addAllAudience()
+            ->setMessage('key=data,value={"type":"app","url":"nil","title":"您的订单尚未上传小结","ad":{"classname":"com.shoushuzhitongche.app.view.order.OrderDetailsActivity","param":{"jpush":"jpush","key1":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}')
+            ->send();
+        echo 'Result=' . json_encode($result);exit;
+    }
 
     public function actionUserlogin() {
         $url = $this->createAbsoluteUrl('api/create', array('model' => 'userlogin'));
