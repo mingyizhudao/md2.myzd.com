@@ -1,23 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "surgery".
+ * This is the model class for table "surgery_doctor_join".
  *
- * The followings are the available columns in table 'surgery':
+ * The followings are the available columns in table 'surgery_doctor_join':
  * @property integer $id
- * @property string $name
+ * @property integer $surgery_id
+ * @property integer $doctor_id
+ * @property integer $surgery_type
+ * @property integer $surgery_count_min
+ * @property integer $surgery_count_max
  * @property integer $display_order
  * @property string $date_created
  * @property string $date_updated
  * @property string $date_deleted
  */
-class Surgery extends EActiveRecord {
+class SurgeryDoctorJoin extends EActiveRecord {
 
     /**
      * @return string the associated database table name
      */
     public function tableName() {
-        return 'surgery';
+        return 'surgery_doctor_join';
     }
 
     /**
@@ -27,12 +31,12 @@ class Surgery extends EActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, display_order', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 50),
-            array('date_created, date_updated, date_deleted', 'safe'),
+            array('date_created', 'required'),
+            array('surgery_id, doctor_id, surgery_type, surgery_count_min, surgery_count_max, display_order', 'numerical', 'integerOnly' => true),
+            array('date_updated, date_deleted', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, display_order, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
+            array('id, surgery_id, doctor_id, surgery_type, surgery_count_min, surgery_count_max, display_order, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
         );
     }
 
@@ -52,7 +56,11 @@ class Surgery extends EActiveRecord {
     public function attributeLabels() {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
+            'surgery_id' => 'Surgery',
+            'doctor_id' => 'Doctor',
+            'surgery_type' => 'Surgery Type',
+            'surgery_count_min' => 'Surgery Count Min',
+            'surgery_count_max' => 'Surgery Count Max',
             'display_order' => 'Display Order',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
@@ -78,7 +86,11 @@ class Surgery extends EActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name, true);
+        $criteria->compare('surgery_id', $this->surgery_id);
+        $criteria->compare('doctor_id', $this->doctor_id);
+        $criteria->compare('surgery_type', $this->surgery_type);
+        $criteria->compare('surgery_count_min', $this->surgery_count_min);
+        $criteria->compare('surgery_count_max', $this->surgery_count_max);
         $criteria->compare('display_order', $this->display_order);
         $criteria->compare('date_created', $this->date_created, true);
         $criteria->compare('date_updated', $this->date_updated, true);
@@ -93,7 +105,7 @@ class Surgery extends EActiveRecord {
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Surgery the static model class
+     * @return SurgeryDoctorJoin the static model class
      */
     public static function model($className = __CLASS__) {
         return parent::model($className);

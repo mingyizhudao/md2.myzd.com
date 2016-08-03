@@ -117,8 +117,11 @@ class DoctorController extends WebsiteController {
     }
 
     //异步加载手术
-    public function actionAjaxSurgery() {
-        
+    public function actionAjaxSurgery($id) {
+        $doctor = NewDoctor::model()->getById($id);
+        $api = new ApiViewSurgery($doctor->category_id);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
     }
 
 }

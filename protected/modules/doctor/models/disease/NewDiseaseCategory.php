@@ -50,7 +50,10 @@ class NewDiseaseCategory extends EActiveRecord {
      */
     public function relations() {
         return array(
-            'disease' => array(self::HAS_MANY, 'NewDisease', '', 'on' => 't.sub_cat_id = disease.category_id and disease.date_deleted is null')
+            'disease' => array(self::HAS_MANY, 'NewDisease', '', 'on' => 't.sub_cat_id = disease.category_id and disease.app_version=8'),
+            'surgery' => array(self::HAS_MANY, 'surgery', '', 'on' => 't.sub_cat_id = surgery.category_id and surgery.app_version=8'),
+            'surgeryJoin' => array(self::HAS_MANY, 'CategorySurgeryJoin', '', 'on' => 't.sub_cat_id = surgeryJoin.sub_cat_id'),
+            'diseaseJoin' => array(self::HAS_MANY, 'NewCategoryDiseaseJoin', '', 'on' => 't.sub_cat_id = diseaseJoin.sub_cat_id'),
         );
     }
 
@@ -128,7 +131,7 @@ class NewDiseaseCategory extends EActiveRecord {
     }
 
     public function loadAllSubCatByCatId($catId, $with = null) {
-        return $this->getAllByAttributes(array('cat_id' => $catId), $with);
+        return $this->getAllByAttributes(array('cat_id' => $catId, 'app_version' => 8), $with);
     }
 
 }

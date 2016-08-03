@@ -14,12 +14,12 @@
 class ApiViewSurgery extends EApiViewService {
 
     private $catid;
-    private $surgerys;
+    private $list;
 
     public function __construct($catid) {
         parent::__construct();
         $this->catid = $catid;
-        $this->surgerys = array();
+        $this->list = array();
     }
 
     protected function createOutput() {
@@ -36,11 +36,12 @@ class ApiViewSurgery extends EApiViewService {
     }
 
     private function loadSurgerys() {
-        $models = NewDiseaseCategory::model()->loadAllSubCatByCatId($this->catid, array('disease'));
+        $with = array('surgeryJoin' => array('surgery'));
+        $models = NewDiseaseCategory::model()->loadAllSubCatByCatId($this->catid, $with);
         if (arrayNotEmpty($models)) {
-            $this->setSubcat($models);
+            $this->setSurgerys($models);
         }
-        $this->results->subcatList = $this->subcats;
+        $this->results->subcatList = $this->list;
     }
 
     private function setSurgerys($models) {
@@ -48,17 +49,20 @@ class ApiViewSurgery extends EApiViewService {
             $data = new stdClass();
             $data->subCatId = $value->sub_cat_id;
             $data->subCatName = $value->sub_cat_name;
-            $diseases = array();
-            if (arrayNotEmpty($value->disease)) {
-                foreach ($value->disease as $d) {
-                    $dis = new stdClass();
-                    $dis->diseaseId = $d->id;
-                    $dis->diseaseName = $d->name;
-                    $diseases[] = $dis;
+            $surgery = array();
+            if (arrayNotEmpty($value->surgeryJoin)) {
+                foreach ($value->surgeryJoin as $v) {
+                    if (isset($v->surgery)) {
+                        $s = $v->surgery;
+                        $dis = new stdClass();
+                        $dis->surgeryId = $s->id;
+                        $dis->surgeryName = $s->name;
+                        $surgery[] = $dis;
+                    }
                 }
             }
-            $data->diseaseList = $diseases;
-            $this->subcats[] = $data;
+            $data->surgeryList = $surgery;
+            $this->list[] = $data;
         }
     }
 
