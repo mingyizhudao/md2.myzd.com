@@ -2,11 +2,6 @@
 
 class AuthController extends WebsiteController {
 
-    public function actionAa()
-    {
-        $mongodb = new MongoDbManager();
-        var_dump($mongodb->queryAll());exit;
-    }
     /**
      * @return array action filters
      */
