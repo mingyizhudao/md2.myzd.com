@@ -3,8 +3,12 @@
 class DoctorController extends WebsiteController {
 
     //基本信息页面
-    public function actionBasicView() {
+    public function actionBasicView($id = null) {
         $form = new BasicInfoForm();
+        if (strIsEmpty($id)) {
+            $doctor = NewDoctor::model()->getById($id);
+            $form->initModel($doctor);
+        }
         $this->render('basicView', array('model' => $form));
     }
 
@@ -63,8 +67,8 @@ class DoctorController extends WebsiteController {
     //医生信息页面
     public function actionDoctrView($id) {
         $form = new IndustrialInfoForm();
-        $form->id = $id;
-        $form->loadOptions();
+        $doctor = NewDoctor::model()->getById($id);
+        $form->initModel($doctor);
         $this->render('doctorView', array('model' => $form));
     }
 
@@ -121,6 +125,19 @@ class DoctorController extends WebsiteController {
         $doctor = NewDoctor::model()->getById($id);
         $api = new ApiViewSurgery($doctor->category_id);
         $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    //保存专业数据
+    public function actionAjaxMajor($id) {
+        $output = array('status' => 'no');
+        if (isset($_POST['MajorForm'])) {
+            $values = $_POST['MajorForm'];
+            $manager = new Manager();
+            $output = $manager->saveMajor($values);
+        } else {
+            $output['errors'] = 'miss data...';
+        }
         $this->renderJsonOutput($output);
     }
 
