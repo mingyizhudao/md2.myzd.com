@@ -12,6 +12,9 @@ class IndustrialInfoForm extends EFormModel {
     public $options_c_title;
     public $options_a_title;
     public $options_subcat;
+    public $options_state;
+    public $options_city;
+    public $country_id;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
@@ -38,6 +41,7 @@ class IndustrialInfoForm extends EFormModel {
             $attributes = $model->attributes;
             $this->setAttributes($attributes, true);
         }
+        $this->country_id = 1;
         $this->loadOptions();
     }
 
@@ -66,6 +70,22 @@ class IndustrialInfoForm extends EFormModel {
             $this->options_subcat = CHtml::listData(NewDiseaseCategory::model()->loadAllCatSub(), 'cat_id', 'cat_name');
         }
         return $this->options_subcat;
+    }
+
+    public function loadOptionsState() {
+        if (is_null($this->options_state)) {
+            $this->options_state = CHtml::listData(RegionState::model()->getAllByCountryId($this->country_id), 'id', 'name');
+        }
+        return $this->options_state;
+    }
+
+    public function loadOptionsCity() {
+        if (is_null($this->state_id)) {
+            $this->options_city = array();
+        } else {
+            $this->options_city = CHtml::listData(RegionCity::model()->getAllByStateId($this->state_id), 'id', 'name');
+        }
+        return $this->options_city;
     }
 
 }
