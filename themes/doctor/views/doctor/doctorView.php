@@ -208,13 +208,16 @@
             display: none;
         }
         div.error{margin-top:5px;}
+        h1{
+            padding-bottom:0px;
+        }
     </style>
     <body>
         <section id="search_section">
             <header id="bookingList_header" class="list_header bg-green">
                 <div class="grid w100">
                     <div class="col-0 pl5 pr10">
-                        <a id="btn-back-search" href="" data-target="">
+                        <a id="btn-back-search" href="javascript:;">
                             <div class="pl5">
                                 <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                             </div>
@@ -272,7 +275,7 @@
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
                 <header class="bg-green">
-                    <!-- <h1 class="title">医生</h1> -->
+                    <h1 class="title">医生</h1>
                 </header>
                 <article class="active" data-scroll="true">
                     <div id="major-layer" class="major-layer">

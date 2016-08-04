@@ -21,6 +21,9 @@
         $urlAjaxMajor = $this->createUrl('doctor/ajaxMajor', array('id' => 6));
         $urlSuccess = $this->createUrl('doctor/success');
         $urlDoctorView = $this->createUrl('doctor/doctorView', array('id' => $model->id));
+        $urlAjaxSearchSub = $this->createUrl('doctor/ajaxSearchSub');
+        $urlAjaxSearchSurgery = $this->createUrl('doctor/ajaxSearchSurgery');
+        $urlId = $model->id;
         $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         ?>
     </head>
@@ -188,8 +191,8 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-1 aSearch">
-                                搜索术式名称
+                            <div id="searchDisease" class="col-1 aSearch">
+                                搜索疾病名称
                             </div>
                         </div>
                     </header>
@@ -226,42 +229,20 @@
                         <div class="w100 pl10 pr10 grid">
                             <div class="col-1">
                                 <i class="icon_search"></i>
-                                <input class="icon_input" type="text" placeholder="您可以输入患者姓名，医生姓名"/>
+                                <input class="icon_input" name="searchName" type="text" placeholder="您可以输入患者姓名，医生姓名"/>
                                 <a class="icon_clear"></a>
                             </div>
-                            <div id="searchBtn" class="col-0 pt5 pl10 color-black">
-                                搜索
+                            <div id="backDisease" class="col-0 pl10 color-black">
+                                取消
                             </div>
                         </div>
                     </header>
                     <article class="active" data-scroll="true">
                         <div>
                             <div class="pad10">
-                                <ul class="list">
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
-                                    <li>开颅探查术</li>
+                                <ul id="searchDiseaseList" class="list">
+
                                 </ul>
-                                <div>
-                                    <div>
-                                        没有找到擅长术式？
-                                    </div>
-                                    <div>
-                                        创建术式：肿
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </article>
@@ -276,7 +257,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-1 aSearch">
+                            <div id="searchOperation" class="col-1 aSearch">
                                 搜索术式名称
                             </div>
                         </div>
@@ -303,6 +284,29 @@
                             </div>
                             <div class="pl10 pr10 pb10 pt44">
                                 <ul id="operationListSelected" class="list">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div id="five" class="hide">
+                    <header class="bg-silvery">
+                        <div class="w100 pl10 pr10 grid">
+                            <div class="col-1">
+                                <i class="icon_search"></i>
+                                <input class="icon_input" name="operationName" type="text" placeholder="搜索术式名称"/>
+                                <a class="icon_clear"></a>
+                            </div>
+                            <div id="backOperation" class="col-0 pl10 color-black">
+                                取消
+                            </div>
+                        </div>
+                    </header>
+                    <article class="active" data-scroll="true">
+                        <div>
+                            <div class="pad10">
+                                <ul id="searchOperationList" class="list">
 
                                 </ul>
                             </div>
@@ -401,6 +405,22 @@
             $('.selectLi').click(function () {
                 //添加数组
                 if ($(this).attr('data-active') != 1) {
+                    //判断是否超出10
+                    if (dataArray.length >= 10) {
+                        J.customConfirm('',
+                                '<div class="mt10 mb10">最多只能选择10中主治疾病</div>',
+                                '<a id="closeLogout" class="w100">我知道了</a>',
+                                '',
+                                function () {
+                                },
+                                function () {
+                                });
+                        $('#closeLogout').click(function () {
+                            J.closePopup();
+                        });
+                        return;
+                    }
+                    //添加选择
                     $(this).attr('data-active', 1);
                     var num = dataArray.push($(this).attr('data-num'));
                     nameArray.push($(this).find('.col-1').html());
@@ -472,6 +492,62 @@
             $('#one').removeClass('hide');
         });
 
+        //搜索疾病
+        $('#searchDisease').click(function () {
+            $('#two').addClass('hide');
+            $('#three').removeClass('hide');
+        });
+        //返回
+        $('#backDisease').click(function () {
+            $('#three').addClass('hide');
+            $('#two').removeClass('hide');
+        });
+        //搜索
+        //document.addEventListener('input', function (e) {
+        $('input[name="searchName"]').change(function (e) {
+            e.preventDefault();
+            var diseaseName = $('input[name="searchName"]').val();
+            if (diseaseName == '') {
+                $('#searchDiseaseList').html('');
+                return;
+            } else if (diseaseName.match(/[a-zA-Z]/g) != null) {
+                return;
+            } else {
+                ajaxSearchDisease(diseaseName);
+            }
+        });
+
+        //疾病搜索列表
+        function ajaxSearchDisease(diseaseName) {
+            $.ajax({
+                url: '<?php echo $urlAjaxSearchSub; ?>/id/' + '<?php echo $urlId; ?>/name/' + diseaseName,
+                success: function (data) {
+                    var diseaseList = data.results.diseaseList;
+                    console.log(diseaseList);
+                    var innerList = '';
+                    if (diseaseList.length > 0) {
+                        for (var i = 0; i < diseaseList.length; i++) {
+                            innerList += '<li class="selectLi grid" data-num="' + diseaseList[i].diseaseId + '">' +
+                                    '<div class="col-1">' + diseaseList[i].diseaseName +
+                                    '</div>' +
+                                    '<div class="col-0 w100p">' +
+                                    '</div>' +
+                                    '</li>';
+                        }
+                    } else {
+                        innerList += '<li>未找到该疾病</li>';
+                    }
+                    $('#searchDiseaseList').html(innerList);
+                    diseaseSelected();
+                    $('.selectLi').click(function () {
+                        $('#three').addClass('hide');
+                        $('#two').removeClass('hide');
+                    });
+                }
+            });
+        }
+
+
         //添加擅长手术
         $('#addOperation').click(function () {
             $('#one').addClass('hide');
@@ -480,6 +556,7 @@
         //返回页面
         $('#operationPage').click(function () {
             $('#four').addClass('hide');
+            $('#three').addClass('hide');
             $('#one').removeClass('hide');
         });
 
@@ -512,7 +589,7 @@
             }
             $('.operationMajorList').html(innerHtml);
             $('#operationListSelected').html(operationSurgeryList);
-            operationSelected();
+            operationSelected(1);
             $('#operationSubSpecialty').click(function () {
                 if ($('.operationMajorList').hasClass('hide')) {
                     $('.operationMajorList').removeClass('hide');
@@ -535,7 +612,7 @@
                 }
                 $('.operationMajorList').addClass('hide');
                 $('#operationListSelected').html(innerHtml);
-                operationSelected();
+                operationSelected(1);
             });
         }
 
@@ -545,7 +622,7 @@
         //var operationNum = 1;
         var operationArray = new Array();
         var operationNameArray = new Array();
-        function operationSelected() {
+        function operationSelected(type) {
             $('.operationLi').click(function () {
                 var operationObject = new Object();
                 operationObject.id = '';
@@ -554,6 +631,22 @@
 
                 //添加数组
                 if ($(this).attr('data-active') != 1) {
+                    //判断是否超出10
+                    if (operationArray.length >= 10) {
+                        J.customConfirm('',
+                                '<div class="mt10 mb10">最多只能选择10中擅长手术</div>',
+                                '<a id="closeLogout" class="w100">我知道了</a>',
+                                '',
+                                function () {
+                                },
+                                function () {
+                                });
+                        $('#closeLogout').click(function () {
+                            J.closePopup();
+                        });
+                        return;
+                    }
+                    //添加术式
                     $(this).attr('data-active', 1);
                     operationObject.id = $(this).attr('data-num');
                     var num = operationArray.push(operationObject);
@@ -762,6 +855,10 @@
                                 }
                             });
                         }
+                        if (type == 2) {
+                            $('#five').addClass('hide');
+                            $('#three').removeClass('hide');
+                        }
                         if (operationNameArray.length > 0) {
                             var innerSpan = '';
                             operationNameArray.reverse();
@@ -792,8 +889,61 @@
             }
             $('#operationShow').html(operationShow);
             $('#four').addClass('hide');
+            $('#three').addClass('hide');
             $('#one').removeClass('hide');
         });
+
+        //搜索疾病
+        $('#searchOperation').click(function () {
+            $('#three').addClass('hide');
+            $('#operation_footer').addClass('hide');
+            $('#five').removeClass('hide');
+        });
+        //返回
+        $('#backOperation').click(function () {
+            $('#five').addClass('hide');
+            $('#four').removeClass('hide');
+        });
+
+        //搜索
+        //document.addEventListener('input', function (e) {
+        $('input[name="operationName"]').change(function (e) {
+            e.preventDefault();
+            var operationName = $('input[name="operationName"]').val();
+            if (operationName == '') {
+                $('#searchOperationList').html('');
+                return;
+            } else if (operationName.match(/[a-zA-Z]/g) != null) {
+                return;
+            } else {
+                ajaxSearchOperation(operationName);
+            }
+        });
+
+        //疾病搜索列表
+        function ajaxSearchOperation(operationName) {
+            $.ajax({
+                url: '<?php echo $urlAjaxSearchSurgery; ?>/id/' + '<?php echo $urlId; ?>/name/' + operationName,
+                success: function (data) {
+                    var surgeryList = data.results.surgeryList;
+                    var innerList = '';
+                    if (surgeryList.length > 0) {
+                        for (var i = 0; i < surgeryList.length; i++) {
+                            innerList += '<li class="operationLi grid" data-num="' + surgeryList[i].surgeryId + '">' +
+                                    '<div class="col-1">' + surgeryList[i].surgeryName +
+                                    '</div>' +
+                                    '<div class="col-0 w100p">' +
+                                    '</div>' +
+                                    '</li>';
+                        }
+                    } else {
+                        innerList += '<li>未找到该疾病</li>';
+                    }
+                    $('#searchOperationList').html(innerList);
+                    operationSelected(2);
+                }
+            });
+        }
 
         //填写完成
         $('#complete').click(function () {
@@ -839,5 +989,6 @@
             }
             return activeBoolen;
         }
-    });
+    }
+    );
 </script>

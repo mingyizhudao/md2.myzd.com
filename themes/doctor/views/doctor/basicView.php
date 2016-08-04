@@ -78,7 +78,7 @@
                 <header class = "bg-green">
                     <h1 class = "title">医生</h1>
                 </header>
-                <footer id="btnSubmit" class="bg-white">
+                <footer id="btnSubmit" class="bg-green color-white">
                     <div class="text-center">
                         继续职业信息
                     </div>
@@ -103,6 +103,8 @@
                         <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>"/>
                         <input type="hidden" name="BasicInfoForm[id]" value="<?php echo $model->id; ?>"/>
                         <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender; ?>"/>
+                        <input type="hidden" name="BasicInfoForm[remote_domain]" value="<?php echo $model->remote_domain; ?>"/>
+                        <input type="hidden" name="BasicInfoForm[remote_file_key]" value="<?php echo $model->remote_file_key; ?>"/>
                         <div>
                             个人信息
                         </div>
@@ -112,7 +114,13 @@
                                     <div id="container">
                                         <a class="btn btn-default btn-lg" id="pickfiles" href="#">
                                             <span>
-                                                <img src="http://7xp8ky.com1.z0.glb.clouddn.com/147012383129870.jpg" class="w100p h100 br50">
+                                                <?php
+                                                if (isset($model->id)) {
+                                                    echo '<img src="' . $model->remote_domain . $model->remote_file_key . '" class="w100p h100 br50"/>';
+                                                } else {
+                                                    echo '<img src="http://7xp8ky.com1.z0.glb.clouddn.com/147012383129870.jpg" class="w100p h100 br50"/>';
+                                                }
+                                                ?>
                                             </span>
                                         </a>
                                     </div>
@@ -173,7 +181,7 @@
                                     出生日期
                                 </div>
                                 <div class="col-1">
-                                    <?php echo $form->dateField($model, 'birthday', array('placeholder' => '选择您的出生年月日', 'class' => 'noPaddingInput')); ?>  
+                                    <input type="date" class="noPaddingInput" placeholder="选择您的出生年月日" value="<?php echo $model->birthday; ?>" name="BasicInfoForm[birthday]" id="">
                                 </div>
                             </div>
                         </div>
@@ -209,11 +217,11 @@
                             $(this).addClass('active');
                             $('input[name="BasicInfoForm[gender]"]').val($(this).attr('data-gender'));
                         });
-                        <?php 
-                        $time = strtotime($model->birthday);
-                        $data = date('Y/m/d',$time);
-                        ?>
-                        $('#BasicInfoForm_birthday').attr('value','<?php echo $data; ?>');
+<?php
+$time = strtotime($model->birthday);
+$data = date('Y/m/d', $time);
+?>
+                        $('#BasicInfoForm_birthday').attr('value', '<?php echo $data; ?>');
                     });
                 </script>
             </section>

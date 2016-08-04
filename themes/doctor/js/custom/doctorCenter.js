@@ -75,21 +75,11 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
-                $.ajax({
-                    url: domForm.attr('data-url-uploadfile') + '?domain=' + domForm.find('#domain').val() + '&key=' + infoJson.key,
-                    type: 'post',
-                    success: function (data) {
-                        if (data.status == 'ok') {
-                            $('input[name="BasicInfoForm[id]"]').val(data.id);
-                            $('#uploadHeadImg').addClass('hide');
-                            $('#showHeadImg').find('img').attr('src', imgUrl);
-                            $('#showHeadImg').removeClass('hide');
-                        } else {
-                        }
-                    },
-                    error: function (data) {
-                    }
-                });
+                $('#uploadHeadImg').addClass('hide');
+                $('#showHeadImg').find('img').attr('src', imgUrl);
+                $('#showHeadImg').removeClass('hide');
+                $('input[name="BasicInfoForm[remote_domain]"]').val(domForm.find('#domain').val());
+                $('input[name="BasicInfoForm[remote_file_key]"]').val(infoJson.key);
             },
             'Error': function (up, err, errTip) {
                 returnResult = false;

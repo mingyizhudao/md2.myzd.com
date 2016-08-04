@@ -22,8 +22,8 @@ class DoctorController extends WebsiteController {
 
     public function actionAjaxBasic() {
         $output = array('status' => 'no');
-        if (isset($_POST['BasicForm'])) {
-            $values = $_POST['BasicForm'];
+        if (isset($_POST['BasicInfoForm'])) {
+            $values = $_POST['BasicInfoForm'];
             $manager = new Manager();
             $output = $manager->saveBasic($values);
         } else {

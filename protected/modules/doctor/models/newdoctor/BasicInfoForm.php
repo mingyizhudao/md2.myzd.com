@@ -36,6 +36,11 @@ class BasicInfoForm extends EFormModel {
         if (isset($model)) {
             $attributes = $model->attributes;
             $this->setAttributes($attributes, true);
+            if(strIsEmpty($this->birthday)===false){
+                $format = 'Y-m-d';
+                $date = new DateTime($this->birthday);
+                $this->birthday = $date->format($format);
+            }
         }
     }
 

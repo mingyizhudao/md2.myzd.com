@@ -19,7 +19,6 @@ $(function () {
     var validator = domForm.validate({
         rules: {
             'BasicInfoForm[id]': {
-                required: true
             },
             'BasicInfoForm[gender]': {
                 required: true
@@ -39,7 +38,6 @@ $(function () {
         },
         messages: {
             'BasicInfoForm[id]': {
-                required: '请上传照片'
             },
             'BasicInfoForm[gender]': {
                 required: '请选择性别'
