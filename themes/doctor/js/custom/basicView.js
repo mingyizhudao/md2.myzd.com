@@ -10,6 +10,13 @@ $(function () {
     }, "请填写正确的手机号码");
 
     btnSubmit.click(function () {
+        if ($('input[name="BasicInfoForm[remote_file_key]"]').val() == '') {
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                $('#jingle_toast').hide();
+            }, 1500);
+            return;
+        }
         var bool = validator.form();
         if (bool) {
             formAjaxSubmit();
@@ -65,6 +72,7 @@ $(function () {
 
     function formAjaxSubmit() {
         //form插件的异步无刷新提交
+        disabledBtn(btnSubmit);
         var formdata = domForm.serializeArray();
 //        var dataArray = structure_formdata('UserRegisterForm', formdata);
 //        var encryptContext = do_encrypt(dataArray, pubkey);

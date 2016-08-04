@@ -18,10 +18,10 @@
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/basicView.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorCenter.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js?ts=' . time(), CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js?ts=' . time(), CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/basicView.js?ts=' . time(), CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorCenter.js?ts=' . time(), CClientScript::POS_END);
         $urlQiniuAjaxDrToken = $this->createUrl('doctor/ajaxDrToken');
         $urlUploadfile = $this->createUrl('doctor/ajaxAvAtar');
         $urlAjaxBasic = $this->createUrl('doctor/ajaxBasic');
@@ -71,8 +71,54 @@
             display:block;
             margin:5px auto;
         }
+        #jingle_loading_mask {
+            background-color: #222;
+        }
+        #jingle_loading_mask {
+            display: none;
+            position: absolute;
+            z-index: 90;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            opacity: 0;
+        }
+        #jingle_loading.loading {
+            background-color: #2C3E50;
+        }
+        #jingle_loading.loading {
+            top: 50%;
+            left: 50%;
+            margin: -75px 0 0 -75px;
+            opacity: .9;
+            text-align: center;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+        }
+        #jingle_loading {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 98;
+            min-height: 50px;
+        }
+        #jingle_loading.loading i.icon {
+            color: #fff;
+            font-size: 4em;
+            line-height: 110px;
+            margin: 0;
+        }
+        #jingle_loading p{
+            color: #fff;
+        }
     </style>
     <body>
+        <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
+        <div id="jingle_loading_mask" style="opacity: 0; display: block;"></div>
+        <div id="jingle_toast" class="toast" style="display: none;"><a href="#">请上传头像</a></div>
         <div id = "section_container">
             <section id = "main_section" class = "active" data-init = "true">
                 <header class = "bg-green">
@@ -81,6 +127,9 @@
                 <footer id="btnSubmit" class="bg-green color-white">
                     <div class="text-center">
                         继续职业信息
+                    </div>
+                    <div class="text-center">
+                        <img src="http://static.mingyizhudao.com/147029008156318" class="w24p">
                     </div>
                 </footer>
                 <article class = "active" data-scroll = "true">
@@ -210,6 +259,8 @@
                 </article>
                 <script>
                     $(document).ready(function () {
+                        $('#jingle_loading.initLoading').remove();
+                        $('#jingle_loading_mask').remove();
                         $('.genderIcon').click(function () {
                             $('.genderIcon').each(function () {
                                 $(this).removeClass('active');
@@ -217,11 +268,6 @@
                             $(this).addClass('active');
                             $('input[name="BasicInfoForm[gender]"]').val($(this).attr('data-gender'));
                         });
-<?php
-$time = strtotime($model->birthday);
-$data = date('Y/m/d', $time);
-?>
-                        $('#BasicInfoForm_birthday').attr('value', '<?php echo $data; ?>');
                     });
                 </script>
             </section>
