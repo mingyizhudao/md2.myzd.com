@@ -11,9 +11,9 @@ class TestController extends WebsiteController {
             ->addAllAudience()
             ->setNotificationAlert('Hi, JPush')
             ->addAndroidNotification('Hi, android notification', 'notification title', 1, array('data' => '{"type":"app","url":"nil","title":"您的订单尚未上传小结","ad":{"classname":"com.shoushuzhitongche.app.view.order.OrderDetailsActivity","param":{"jpush":"jpush","key1":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}'))
-            ->addIosNotification("Hi, iOS notification", 'iOS sound', '+1', true, 'iOS category', array('data' => '{"type":"app","url":"nil","title":"您的订单尚未上传小结","ios":{"classname":"LookForDoctorViewController","param":{" isSelectDoctor":"0","key1":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}'))
+            ->addIosNotification("Hi, iOS notification", 'iOS sound', '+1', true, 'iOS category', array('data' => '{"type":"app","isNeedLogin":"1","url":"nil","title":"您的订单尚未上传小结","ios":{"classname":"OrderDetailsViewController","param":{"isSelectDoctor":"1","serActionUrl":"http://mdapi.mingyizhudao.com/apimd/orderinfo/1210"}}}'))
             ->setMessage("msg content", 'msg title', 'type', array("key1"=>"value1", "key2"=>"value2"))
-            ->setOptions(100000, 3600, null, false)
+            //->setOptions(100000, 3600, null, false)
             ->send();
         echo 'Result=' . json_encode($result);exit;
     }

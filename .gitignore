@@ -1,8 +1,9 @@
 /nbproject/private/
 /yii/
 /.settings/
-/protected/runtime/application.log
-/protected/runtime/trace.log
+/protected/runtime/
 .buildpath
 .project
 .htaccess
+index.php
+/protected/config/main_md.php
