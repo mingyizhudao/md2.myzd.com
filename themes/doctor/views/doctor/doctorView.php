@@ -7,7 +7,7 @@
         <meta http-equiv="cache-control" content="no-cache" />
         <meta http-equiv="expires" content="0" />
         <meta http-equiv="pragma" content="no-cache" />
-        <title><?php echo $this->pageTitle; ?></title>
+        <title>医生</title>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
         <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=307d8183b8289d804cbf41d086c0c904"></script>
@@ -113,7 +113,7 @@
             height: 40px;
             position: absolute;
             z-index: 1;
-            background: url('<?php echo $urlResImage; ?>btn-back.png') center no-repeat;
+            background: url('http://static.mingyizhudao.com/147029023304790') center no-repeat;
             border: 0px;
             box-shadow: none;
             background-size: 30px;
@@ -122,7 +122,7 @@
             height: 70px;
             position: fixed;
             bottom: 0;
-            background: url('<?php echo $urlResImage; ?>btn-next.png') center 80% no-repeat #32c9c0;
+            background: url('http://static.mingyizhudao.com/147029008156318') center 80% no-repeat #32c9c0;
             border: 0px;
             box-shadow: none;
             background-size: 30px;
