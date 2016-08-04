@@ -57,6 +57,7 @@ return array(
     'modules' => array(
         'fileupload',
         'mobiledoctor',
+        'doctor',
         'weixinpub',
         'translate', //manages translation message.
         /** user module * */
