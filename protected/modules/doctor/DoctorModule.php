@@ -9,7 +9,7 @@ class DoctorModule extends CWebModule {
      */
     public function init() {
         parent::init();
-        Yii::setPathOfAlias('doctor', dirname(__FILE__));
+        //Yii::setPathOfAlias('doctor', dirname(__FILE__));
         $this->setImport(array(
             'doctor.components.*',
             'doctor.models.*',
