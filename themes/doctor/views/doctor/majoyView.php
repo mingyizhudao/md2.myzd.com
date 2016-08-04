@@ -143,7 +143,8 @@
                     </header>
                     <footer class="bg-white">
                         <div id="complete" class="w100 bg-green color-white text-center">
-                            填写完成
+                            <div>填写完成</div>
+                            <img src="http://static.mingyizhudao.com/147029008156318" class="w24p">
                         </div>
                     </footer>
                     <article class="active" data-scroll="true">
@@ -694,6 +695,7 @@
                 //展示弹窗
                 var operationOrder = $(this).attr('data-id');
                 var operationOrderText = '';
+                var operationNameText = $(this).find('.col-1').html();
                 if (operationOrder == 1) {
                     operationOrderText = '第一';
                 } else if (operationOrder == 2) {
@@ -703,7 +705,7 @@
                 }
                 var innerHtml = '<div id="operationPopup" class="text-left">' +
                         '<div class="pad10">' + operationOrderText + '擅长术式</div>' +
-                        '<div class="pad10 bg-white">颅内硬膜外血肿</div>' +
+                        '<div class="pad10 bg-white">' + operationNameText + '</div>' +
                         '<div class="pad10">该术式擅长的方法</div>' +
                         '<ul class="list">';
                 var methodActiveOne = '';
@@ -800,7 +802,7 @@
                                 var methodSelected = operationArray[operationId - 1].method;
                                 var innerHtml = '<div class="text-left">' +
                                         '<div class="pad10">' + operationOrderText + '擅长术式</div>' +
-                                        '<div class="pad10 bg-white">颅内硬膜外血肿</div>' +
+                                        '<div class="pad10 bg-white">' + operationNameText + '</div>' +
                                         '<div class="pad10">该术式擅长的方法</div>' +
                                         '<ul class="list">';
                                 var methodOne = '';
@@ -961,7 +963,7 @@
         });
         $('#five').find('.icon_clear').click(function () {
             $(this).addClass('hide');
-            $('input[name="operationName"]').val('')
+            $('input[name="operationName"]').val('');
             $('#searchOperationList').html('');
         });
 
@@ -1007,7 +1009,12 @@
                 success: function (data) {
                     if (data.status = 'ok') {
                         location.href = '<?php echo $urlSuccess; ?>';
+                    } else {
+                        J.hideMask();
                     }
+                },
+                error: function () {
+                    J.hideMask();
                 }
             });
         });
@@ -1045,6 +1052,5 @@
         function Trim(str) {
             return str.replace(/(^\s*)|(\s*$)/g, "");
         }
-    }
-    );
+    });
 </script>

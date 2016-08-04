@@ -211,8 +211,110 @@
         h1{
             padding-bottom:0px;
         }
+        #jingle_loading_mask {
+            background-color: #222;
+        }
+        #jingle_loading_mask {
+            display: none;
+            position: absolute;
+            z-index: 90;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            opacity: 0;
+        }
+        #jingle_loading.loading {
+            background-color: #2C3E50;
+        }
+        #jingle_loading.loading {
+            top: 50%;
+            left: 50%;
+            margin: -75px 0 0 -75px;
+            opacity: .9;
+            text-align: center;
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+        }
+        #jingle_loading {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 98;
+            min-height: 50px;
+        }
+        #jingle_loading.loading i.icon {
+            color: #fff;
+            font-size: 4em;
+            line-height: 110px;
+            margin: 0;
+        }
+        #jingle_loading p{
+            color: #fff;
+        }
+        #searchInput_section{
+            display: none;
+        }
+        .icon_search {
+            position: absolute;
+            left: 20px;
+            top: 9px;
+            width: 15px;
+            height: 25px;
+            background: url('http://static.mingyizhudao.com/146243645256928') no-repeat;
+            background-size: 15px 15px;
+            background-position: 0 5px;
+        }
+        .icon_input {
+            color: #000;
+            margin-bottom: 0;
+            border-radius: 5px!important;
+            -webkit-box-shadow: none!important;
+            box-shadow: none!important;
+            padding: 0 10px 0 30px!important;
+            height: 30px!important;
+            border: none!important;
+            margin-top: 7px;
+            background-color: #E0DFDE;
+        }
+        .icon_clear {
+            position: absolute;
+            top: 9px;
+            right: 50px;
+            padding: 0 10px;
+            width: 35px;
+            height: 25px;
+            background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
+            background-size: 15px 15px;
+            background-position: 10px 5px;
+        }
     </style>
     <body>
+        <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
+        <div id="jingle_loading_mask" style="opacity: 0; display: block;"></div>
+        <section id="searchInput_section">
+            <header class="">
+                <div class="w100 pl10 pr10 grid">
+                    <div class="col-1">
+                        <i class="icon_search"></i>
+                        <input class="icon_input" name="hospitalName" type="text" placeholder="搜索疾病名称">
+                            <a class="icon_clear hide"></a>
+                    </div>
+                    <div id="backHospital" class="col-0 pl10 color-black">
+                        取消
+                    </div>
+                </div>
+            </header>
+            <article class="active" data-scroll="true">
+                <div>
+                    <ul id="searchHospital" class="list">
+
+                    </ul>
+                </div>
+            </article>
+        </section>
         <section id="search_section">
             <header id="bookingList_header" class="list_header bg-green">
                 <div class="grid w100">
@@ -224,7 +326,7 @@
                         </a>
                     </div>
                     <div class="col-1 pt7 pb7 pr10">
-                        <div class="searchInput"><input type="text" name="" placeholder="请输入医生或医院名称"></div>
+                        <div class="searchInput">请输入医生或医院名称</div>
                     </div>
                 </div>
             </header>
@@ -240,8 +342,10 @@
                     <div id="pick-province-layer" class="w100">
                         <div>
                             <p>热门省份</p>
-                            <ul>
+                            <ul class="hotCitiesList">
                                 <li>北京</li>
+                                <li>上海</li>
+                                <li>广州</li>
                             </ul>
                             <p>全国省份</p>
                             <ul class="stateList">
@@ -252,8 +356,10 @@
                     <div id="pick-city-layer" class="w100">
                         <div>
                             <p>热门城市</p>
-                            <ul>
+                            <ul class="hotCitiesList">
                                 <li>北京</li>
+                                <li>上海</li>
+                                <li>广州</li>
                             </ul>
                             <p>全国城市</p>
                             <ul class="cityList">
@@ -270,7 +376,6 @@
                 </div>
             </article>
         </section>
-
 
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
@@ -380,6 +485,8 @@
                 </article>
                 <script>
                     $(document).ready(function () {
+                        $('#jingle_loading.initLoading').remove();
+                        $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
                         $('#major-layer').click(function () {
                             $('#major-layer').css('display', 'none');
@@ -425,6 +532,75 @@
                             $('#DoctorForm_cat_name').parent().find('div.error').remove();
                             $('#major-layer').css('display', 'none');
                         });
+                        $('.hotCitiesList>li').click(function () {
+                            var cityName = $(this).text();
+                            $('#pick-province>span').text(cityName);
+                            $('#pick-city>span').text(cityName);
+                            getHospitalList(cityName);
+                        });
+                        //搜索医院
+                        $('.searchInput').click(function () {
+                            $('#search_section').css('display', 'none');
+                            $('#searchInput_section').css('display', 'block');
+                        });
+                        //返回定位
+                        $('#backHospital').click(function () {
+                            $('#searchInput_section').css('display', 'none');
+                            $('#search_section').css('display', 'block');
+                        });
+                        //搜索
+                        $('input[name="hospitalName"]').on('input', function (e) {
+                            e.preventDefault();
+                            var hospitalName = $('input[name="hospitalName"]').val();
+                            hospitalName = Trim(hospitalName);
+                            if (hospitalName == '') {
+                                $('#searchInput_section').find('.icon_clear').addClass('hide');
+                                $('#searchHospital').html('');
+                                return;
+                            } else if (hospitalName.match(/[a-zA-Z]/g) != null) {
+                                $('#searchInput_section').find('.icon_clear').removeClass('hide');
+                            } else {
+                                $('#searchInput_section').find('.icon_clear').removeClass('hide');
+                                ajaxSearchHospital(hospitalName);
+                            }
+                        });
+                        //清空
+                        $('#searchInput_section').find('.icon_clear').click(function () {
+                            $(this).addClass('hide');
+                            $('input[name="hospitalName"]').val('');
+                            $('#searchHospital').html('');
+                        });
+                        function ajaxSearchHospital(hospitalName) {
+                            $.ajax({
+                                url: '<?php echo $urlHospital; ?>?name=' + hospitalName,
+                                success: function (data) {
+                                    readyHospital(data)
+                                }
+                            });
+                        }
+                        function readyHospital(data) {
+                            var hospital = data.results.hospital;
+                            var innerHtml = '';
+                            if (hospital.length > 0) {
+                                for (var i = 0; i < hospital.length; i++) {
+                                    innerHtml += '<li data-id="' + hospital[i].id + '">' + hospital[i].name + '</li>';
+                                }
+                            } else {
+                                innerHtml += '<li>未查询到</li>';
+                            }
+                            $('#searchHospital').html(innerHtml);
+                            $('#searchHospital').find('li').click(function () {
+                                var hpName = $(this).text();
+                                var hpId = $(this).attr('data-id');
+                                $('#DoctorForm_hospital_name').val(hpName);
+                                $('#DoctorForm_hospital_id').val(hpId);
+                                $('#DoctorForm_hospital_name').parent().find('div.error').remove();
+                                $('#searchInput_section').css('display', 'none');
+                            });
+                        }
+                        function Trim(str) {
+                            return str.replace(/(^\s*)|(\s*$)/g, "");
+                        }
                     });
 
 
