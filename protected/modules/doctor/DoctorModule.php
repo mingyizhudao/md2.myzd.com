@@ -9,7 +9,7 @@ class DoctorModule extends CWebModule {
      */
     public function init() {
         parent::init();
-        //Yii::setPathOfAlias('doctor', dirname(__FILE__));
+        Yii::setPathOfAlias('doctor', dirname(__FILE__));
         $this->setImport(array(
             'doctor.components.*',
             'doctor.models.*',
@@ -19,6 +19,12 @@ class DoctorModule extends CWebModule {
             'doctor.models.disease.*',
             'doctor.controllers.*',
         ));
+        Yii::app()->setComponents(array(
+            'errorHandler' => array(
+                'class' => 'CErrorHandler',
+                'errorAction' => $this->getId() . '/home/error',
+            ),
+        ), true);
          $this->setTheme('doctor');
     }
 
