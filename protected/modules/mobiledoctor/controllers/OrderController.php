@@ -40,6 +40,9 @@ class OrderController extends MobiledoctorController {
         if (empty($refNo)) {
             $refNo = Yii::app()->request->getParam('refno');
         }
+        if (empty($refNo)) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
