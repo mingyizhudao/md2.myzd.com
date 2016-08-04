@@ -7,7 +7,7 @@
         <meta http-equiv="cache-control" content="no-cache" />
         <meta http-equiv="expires" content="0" />
         <meta http-equiv="pragma" content="no-cache" />
-        <title><?php echo $this->pageTitle; ?></title>
+        <title>医生</title>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
         <?php
@@ -125,7 +125,7 @@
         .btn-back{
             height: 40px;
             z-index: 1;
-            background: url('<?php echo $urlResImage; ?>btn-back.png') center no-repeat;
+            background: url('http://static.mingyizhudao.com/147029023304790') center no-repeat;
             border: 0px;
             box-shadow: none;
             background-size: 30px;
@@ -229,8 +229,8 @@
                         <div class="w100 pl10 pr10 grid">
                             <div class="col-1">
                                 <i class="icon_search"></i>
-                                <input class="icon_input" name="searchName" type="text" placeholder="您可以输入患者姓名，医生姓名"/>
-                                <a class="icon_clear"></a>
+                                <input class="icon_input" name="searchName" type="text" placeholder="搜索疾病名称"/>
+                                <a class="icon_clear hide"></a>
                             </div>
                             <div id="backDisease" class="col-0 pl10 color-black">
                                 取消
@@ -296,7 +296,7 @@
                             <div class="col-1">
                                 <i class="icon_search"></i>
                                 <input class="icon_input" name="operationName" type="text" placeholder="搜索术式名称"/>
-                                <a class="icon_clear"></a>
+                                <a class="icon_clear hide"></a>
                             </div>
                             <div id="backOperation" class="col-0 pl10 color-black">
                                 取消
@@ -315,37 +315,31 @@
                 </div>
             </section>
         </div>
+        <div id="jingle_toast" class="toast" style="display: none;"><a href="#">疾病或手术未选择</a></div>
     </body>
 </html>
 <script>
     $(document).ready(function () {
         //添加擅长疾病
+        var diseaseData = true;
         $('#addDisease').click(function () {
             $('#one').addClass('hide');
             $('#two').removeClass('hide');
-            J.customConfirm('',
-                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
-                    '<a id="closeLogout" class="w100">我知道了</a>',
-                    '',
-                    function () {
-                    },
-                    function () {
-                    });
-            $('#closeLogout').click(function () {
-                J.closePopup();
-            });
+            if (diseaseData) {
+                //加载亚专业
+                J.showMask();
+                $.ajax({
+                    url: '<?php echo $urlAjaxSubCat; ?>',
+                    success: function (data) {
+                        readySubSpecialty(data);
+                    }
+                });
+            }
         });
         //返回
         $('#diseasePage').click(function () {
             $('#two').addClass('hide');
             $('#one').removeClass('hide');
-        });
-        //加载亚专业
-        $.ajax({
-            url: '<?php echo $urlAjaxSubCat; ?>',
-            success: function (data) {
-                readySubSpecialty(data);
-            }
         });
         function readySubSpecialty(data) {
             var innerHtml = '';
@@ -395,6 +389,19 @@
                 $('#diseaseList').html(innerList);
                 diseaseSelected();
             });
+            diseaseData = false;
+            J.hideMask();
+            J.customConfirm('',
+                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
+                    '<a id="closeLogout" class="w100">我知道了</a>',
+                    '',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#closeLogout').click(function () {
+                J.closePopup();
+            });
         }
 
         //选择疾病
@@ -403,6 +410,8 @@
         var nameArray = new Array();
         function diseaseSelected() {
             $('.selectLi').click(function () {
+                //隐藏专业列表
+                $('.majorList').addClass('hide');
                 //添加数组
                 if ($(this).attr('data-active') != 1) {
                     //判断是否超出10
@@ -503,18 +512,26 @@
             $('#two').removeClass('hide');
         });
         //搜索
-        //document.addEventListener('input', function (e) {
-        $('input[name="searchName"]').change(function (e) {
+        $('input[name="searchName"]').on('input', function (e) {
+            //$('input[name="searchName"]').change(function (e) {
             e.preventDefault();
             var diseaseName = $('input[name="searchName"]').val();
+            diseaseName = Trim(diseaseName);
             if (diseaseName == '') {
+                $('#three').find('.icon_clear').addClass('hide');
                 $('#searchDiseaseList').html('');
                 return;
             } else if (diseaseName.match(/[a-zA-Z]/g) != null) {
-                return;
+                $('#three').find('.icon_clear').removeClass('hide');
             } else {
+                $('#three').find('.icon_clear').removeClass('hide');
                 ajaxSearchDisease(diseaseName);
             }
+        });
+        $('#three').find('.icon_clear').click(function () {
+            $(this).addClass('hide');
+            $('input[name="searchName"]').val('')
+            $('#searchDiseaseList').html('');
         });
 
         //疾病搜索列表
@@ -523,7 +540,6 @@
                 url: '<?php echo $urlAjaxSearchSub; ?>/id/' + '<?php echo $urlId; ?>/name/' + diseaseName,
                 success: function (data) {
                     var diseaseList = data.results.diseaseList;
-                    console.log(diseaseList);
                     var innerList = '';
                     if (diseaseList.length > 0) {
                         for (var i = 0; i < diseaseList.length; i++) {
@@ -549,9 +565,20 @@
 
 
         //添加擅长手术
+        var operationData = true;
         $('#addOperation').click(function () {
             $('#one').addClass('hide');
             $('#four').removeClass('hide');
+            //加载术式
+            if (operationData) {
+                J.showMask();
+                $.ajax({
+                    url: '<?php echo $urlAjaxSurgery; ?>',
+                    success: function (data) {
+                        readyOperation(data);
+                    }
+                });
+            }
         });
         //返回页面
         $('#operationPage').click(function () {
@@ -560,13 +587,6 @@
             $('#one').removeClass('hide');
         });
 
-        //加载术式
-        $.ajax({
-            url: '<?php echo $urlAjaxSurgery; ?>',
-            success: function (data) {
-                readyOperation(data);
-            }
-        });
         function readyOperation(data) {
             var innerHtml = '';
             var operationSurgeryList = '';
@@ -614,6 +634,8 @@
                 $('#operationListSelected').html(innerHtml);
                 operationSelected(1);
             });
+            operationData = false;
+            J.hideMask();
         }
 
         //选择手术
@@ -624,6 +646,9 @@
         var operationNameArray = new Array();
         function operationSelected(type) {
             $('.operationLi').click(function () {
+                //隐藏专业列表
+                $('.operationMajorList').addClass('hide');
+
                 var operationObject = new Object();
                 operationObject.id = '';
                 operationObject.method = new Array();
@@ -662,13 +687,24 @@
                         $(this).addClass('color-gray');
                         $(this).find('.w100p').html('中');
                     }
+                } else {
+                    operationId = operationArray.length;
                 }
 
                 //展示弹窗
-                var innerHtml = '<div id="operationPopup">' +
-                        '<div>第一擅长术式</div>' +
-                        '<div>颅内硬膜外血肿</div>' +
-                        '<div>该术式擅长的方法</div>' +
+                var operationOrder = $(this).attr('data-id');
+                var operationOrderText = '';
+                if (operationOrder == 1) {
+                    operationOrderText = '第一';
+                } else if (operationOrder == 2) {
+                    operationOrderText = '第二';
+                } else if (operationOrder == 3) {
+                    operationOrderText = '第三';
+                }
+                var innerHtml = '<div id="operationPopup" class="text-left">' +
+                        '<div class="pad10">' + operationOrderText + '擅长术式</div>' +
+                        '<div class="pad10 bg-white">颅内硬膜外血肿</div>' +
+                        '<div class="pad10">该术式擅长的方法</div>' +
                         '<ul class="list">';
                 var methodActiveOne = '';
                 var methodActiveTwo = '';
@@ -709,7 +745,7 @@
                         '</div>' +
                         '</li>' +
                         '</ul>' +
-                        '<div id="selectOver" class="pad10">' +
+                        '<div id="selectOver" class="pad10 text-center">' +
                         '选择完毕' +
                         '</div>' +
                         '</div>';
@@ -762,10 +798,10 @@
                                 operationArray[operationId - 1].num.push(dataNum);
                                 J.hideMask();
                                 var methodSelected = operationArray[operationId - 1].method;
-                                var innerHtml = '<div>' +
-                                        '<div>第一擅长术式</div>' +
-                                        '<div>颅内硬膜外血肿</div>' +
-                                        '<div>该术式擅长的方法</div>' +
+                                var innerHtml = '<div class="text-left">' +
+                                        '<div class="pad10">' + operationOrderText + '擅长术式</div>' +
+                                        '<div class="pad10 bg-white">颅内硬膜外血肿</div>' +
+                                        '<div class="pad10">该术式擅长的方法</div>' +
                                         '<ul class="list">';
                                 var methodOne = '';
                                 var methodTwo = '';
@@ -907,17 +943,26 @@
 
         //搜索
         //document.addEventListener('input', function (e) {
-        $('input[name="operationName"]').change(function (e) {
+        $('input[name="operationName"]').on('input', function (e) {
+            //$('input[name="operationName"]').change(function (e) {
             e.preventDefault();
             var operationName = $('input[name="operationName"]').val();
+            operationName = Trim(operationName);
             if (operationName == '') {
+                $('#five').find('.icon_clear').addClass('hide');
                 $('#searchOperationList').html('');
                 return;
             } else if (operationName.match(/[a-zA-Z]/g) != null) {
-                return;
+                $('#five').find('.icon_clear').removeClass('hide');
             } else {
+                $('#five').find('.icon_clear').removeClass('hide');
                 ajaxSearchOperation(operationName);
             }
+        });
+        $('#five').find('.icon_clear').click(function () {
+            $(this).addClass('hide');
+            $('input[name="operationName"]').val('')
+            $('#searchOperationList').html('');
         });
 
         //疾病搜索列表
@@ -947,6 +992,14 @@
 
         //填写完成
         $('#complete').click(function () {
+            if ((dataArray.length == 0) || (operationArray.length == 0)) {
+                $('#jingle_toast').show();
+                setTimeout(function () {
+                    $('#jingle_toast').hide();
+                }, 1500);
+                return;
+            }
+            J.showMask();
             $.ajax({
                 type: 'post',
                 url: '<?php echo $urlAjaxMajor; ?>',
@@ -988,6 +1041,9 @@
                 }
             }
             return activeBoolen;
+        }
+        function Trim(str) {
+            return str.replace(/(^\s*)|(\s*$)/g, "");
         }
     }
     );
