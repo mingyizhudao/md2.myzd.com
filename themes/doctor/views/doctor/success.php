@@ -33,7 +33,7 @@
                 </header>
                 <article class="active" data-scroll="true">
                     <div>
-                        <div>
+                        <div class="pt50 text-center font-s24">
                             感谢您的耐心填写
                         </div>
                     </div>
