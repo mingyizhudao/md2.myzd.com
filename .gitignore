@@ -7,3 +7,4 @@
 .htaccess
 index.php
 /assets/
+/protected/config/main_md.php
