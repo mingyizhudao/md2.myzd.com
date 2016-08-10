@@ -118,18 +118,6 @@
             box-shadow: none;
             background-size: 30px;
         }
-        .btn-next{
-            height: 70px;
-            position: fixed;
-            bottom: 0;
-            background: url('http://static.mingyizhudao.com/147029008156318') center 80% no-repeat #32c9c0;
-            border: 0px;
-            box-shadow: none;
-            background-size: 30px;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0 0 0;
-        }
         .nav-crumbs {
             display: flex;
             align-items: center;
@@ -164,22 +152,6 @@
             align-items: center;
         }
         .from-contanier{
-        }
-        .major-layer{
-            position: absolute;
-            z-index: 2;
-            background: rgba(0, 0, 0, 0.21);
-            top: 0px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: none;
-        }
-        .major-layer ul{
-            background: #fff;
-        }
-        .major-layer li{
-            padding: 5px 10px;
         }
         .from-contanier input,.from-contanier select{
             margin-bottom: 0;
@@ -290,6 +262,19 @@
             background-size: 15px 15px;
             background-position: 10px 5px;
         }
+        ul, ol {
+            margin-bottom: 0px;
+        }
+        #cat_name{
+            height: 43px;
+            padding: 10px 0px;
+            border-bottom: 1px solid #d4d4d4!important;
+        }
+        #hospital_name{
+            height: 43px;
+            padding: 10px 0px;
+            border-bottom: 1px solid #d4d4d4!important;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -382,24 +367,15 @@
                 <header class="bg-green">
                     <h1 class="title">医生</h1>
                 </header>
-                <article class="active" data-scroll="true">
-                    <div id="major-layer" class="major-layer">
-                        <ul>
-                            <li data-id="1">普通外科</li>
-                            <li data-id="2">骨科</li>
-                            <li data-id="3">泌尿外科</li>
-                            <li data-id="4">胸外科</li>
-                            <li data-id="5">心脏大血管外科</li>
-                            <li data-id="6">神经外科</li>
-                            <li data-id="7">整形外科</li>
-                            <li data-id="8">妇科</li>
-                            <li data-id="9">小儿外科</li>
-                            <li data-id="10">眼科</li>
-                            <li data-id="11">耳鼻咽喉外科</li>
-                            <li data-id="12">口腔额面外科</li>
-                            <li data-id="13">介入科</li>
-                        </ul>
+                <footer id="doctorSubmitBtn" class="bg-green color-white">
+                    <div class="text-center">
+                        继续填写手术信息
                     </div>
+                    <div class="text-center">
+                        <img src="http://static.mingyizhudao.com/147029008156318" class="w24p">
+                    </div>
+                </footer>
+                <article class="active" data-scroll="true">
                     <a href="<?php echo $urlDoctorBasicView; ?>">
                         <div class="btn-back w100"></div>
                     </a>
@@ -428,29 +404,32 @@
                                 echo CHtml::hiddenField("DoctorForm[hospital_id]", $model->hospital_id);
                                 echo CHtml::hiddenField("DoctorForm[category_id]", $model->category_id);
                                 ?>
+                                <input type="hidden" name="DoctorForm[hospital_name]"/>
+                                <input type="hidden" name="DoctorForm[cat_name]"/>
                                 <div class="grid">
-                                    <div class="col-0 w80p pt7">
+                                    <div class="col-0 w80p pt10">
                                         执业医院
                                     </div>
                                     <div class="col-1">
-                                        <?php echo $form->textField($model, 'hospital_name', array('name' => 'DoctorForm[hospital_name]', 'placeholder' => '选择医院', 'maxlength' => 45)); ?>
+                                        <div id="hospital_name">选择您的执业医院</div>
                                     </div>
                                 </div>
                                 <div class="grid">
-                                    <div class="col-0 w80p pt7">
+                                    <div class="col-0 w80p pt10">
                                         专业
                                     </div>
                                     <div class="col-1">
-                                        <?php echo $form->textField($model, 'cat_name', array('name' => 'DoctorForm[cat_name]', 'placeholder' => '选择您的专业', 'maxlength' => 45)); ?>
+                                        <div id="cat_name">选择您的专业</div>
                                     </div>
                                 </div>
                                 <div class="grid">
-                                    <div class="col-0 w80p pt7">
+                                    <div class="col-0 w80p pt10">
                                         医疗职称
                                     </div>
                                     <div class="col-1">
                                         <!-- <input type="text" class="" placeholder="选择您的医疗职称"> -->
                                         <select>
+                                            <option value=""></option>
                                             <option value="0">主任医师</option>
                                             <option value="1">副主任医师</option>
                                             <option value="2">主治医师</option>
@@ -459,13 +438,14 @@
                                     </div>
                                 </div>
                                 <div class="grid">
-                                    <div class="col-0 w80p pt7">
+                                    <div class="col-0 w80p pt10">
                                         教学职称
                                     </div>
                                     <div class="col-1">
                                         <!-- <input type="text" id="" class="" placeholder="选择您的教学职称"> -->
                                         <!-- <label id="select1"> 选择您的医疗职称</label> -->
                                         <select id="onselect1">
+                                            <option value=""></option>
                                             <option value="0">教授</option>
                                             <option value="1">副教授</option>
                                             <option value="2">讲师</option>
@@ -479,22 +459,46 @@
                             </div>
                         </div>
                     </div>
-                    <div id="doctorSubmitBtn" class="btn-next w100">
-                        <span>继续填写手术信息</span>
-                    </div>
                 </article>
                 <script>
                     $(document).ready(function () {
                         $('#jingle_loading.initLoading').remove();
                         $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
-                        $('#major-layer').click(function () {
-                            $('#major-layer').css('display', 'none');
+                        //选择专业
+                        $('#cat_name').click(function () {
+                            var innerHtml = '<div id="major-layer" style="height:400px;" data-scroll="true">' +
+                                    '<ul class="list">' +
+                                    '<li data-id="1">普通外科</li>' +
+                                    '<li data-id="2">骨科</li>' +
+                                    '<li data-id="3">泌尿外科</li>' +
+                                    '<li data-id="4">胸外科</li>' +
+                                    '<li data-id="5">心脏大血管外科</li>' +
+                                    '<li data-id="6">神经外科</li>' +
+                                    '<li data-id="7">整形外科</li>' +
+                                    '<li data-id="8">妇科</li>' +
+                                    '<li data-id="9">小儿外科</li>' +
+                                    '<li data-id="10">眼科</li>' +
+                                    '<li data-id="11">耳鼻咽喉外科</li>' +
+                                    '<li data-id="12">口腔额面外科</li>' +
+                                    '<li data-id="13">介入科</li>' +
+                                    '</ul></div>';
+                            J.popup({
+                                html: innerHtml,
+                                pos: 'center'
+                            });
+                            $('#major-layer ul>li').click(function () {
+                                var layer = $(this).text();
+                                var layerId = $(this).attr('data-id');
+                                $('input[name="DoctorForm[cat_name]"]').val(layer);
+                                $('#cat_name').html(layer);
+                                $('#DoctorForm_category_id').val(layerId);
+                                $('#cat_name').parent().find('div.error').remove();
+                                J.hideMask();
+                            });
                         });
-                        $('#DoctorForm_cat_name').focus(function () {
-                            $('#major-layer').css('display', 'block');
-                        });
-                        $('#DoctorForm_hospital_name').click(function () {
+                        //选择职业医院
+                        $('#hospital_name').click(function () {
                             $('#search_section').css('display', 'block');
                         });
                         $('#btn-back-search').click(function () {
@@ -503,17 +507,21 @@
 
                         $('#pick-province').click(function () {
                             if ($('#pick-province-layer').css('display') == 'none') {
+                                $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
                                 $('#pick-city-layer').css('display', 'none');
                                 $('#pick-province-layer').css('display', 'block');
                             } else {
+                                $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                                 $('#pick-province-layer').css('display', 'none');
                             }
                         });
                         $('#pick-city').click(function () {
                             if ($('#pick-city-layer').css('display') == 'none') {
+                                $('#pick-city').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
                                 $('#pick-province-layer').css('display', 'none');
                                 $('#pick-city-layer').css('display', 'block');
                             } else {
+                                $('#pick-city').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                                 $('#pick-city-layer').css('display', 'none');
                             }
 
@@ -524,14 +532,6 @@
                         $('#pick-city-layer').click(function () {
                             $('#pick-city-layer').css('display', 'none');
                         });
-                        $('#major-layer ul>li').click(function () {
-                            var layer = $(this).text();
-                            var layerId = $(this).attr('data-id');
-                            $('#DoctorForm_cat_name').val(layer);
-                            $('#DoctorForm_category_id').val(layerId);
-                            $('#DoctorForm_cat_name').parent().find('div.error').remove();
-                            $('#major-layer').css('display', 'none');
-                        });
                         $('.hotCitiesList>li').click(function () {
                             var cityName = $(this).text();
                             $('#pick-province>span').text(cityName);
@@ -541,6 +541,10 @@
                         //搜索医院
                         $('.searchInput').click(function () {
                             $('#search_section').css('display', 'none');
+                            //清空输入框内容和搜索结果
+                            $('#searchInput_section').find('.icon_clear').addClass('hide');
+                            $('input[name="hospitalName"]').val('');
+                            $('#searchHospital').html('');
                             $('#searchInput_section').css('display', 'block');
                         });
                         //返回定位
@@ -592,9 +596,14 @@
                             $('#searchHospital').find('li').click(function () {
                                 var hpName = $(this).text();
                                 var hpId = $(this).attr('data-id');
-                                $('#DoctorForm_hospital_name').val(hpName);
+                                //未查询到
+                                if (hpName == '未查询到') {
+                                    return false;
+                                }
+                                $('input[name="DoctorForm[hospital_name]"]').val(hpName);
+                                $('#hospital_name').html(hpName);
                                 $('#DoctorForm_hospital_id').val(hpId);
-                                $('#DoctorForm_hospital_name').parent().find('div.error').remove();
+                                $('#hospital_name').parent().find('div.error').remove();
                                 $('#searchInput_section').css('display', 'none');
                             });
                         }
@@ -703,9 +712,10 @@
                         $('ul#hospital-list>li').click(function () {
                             var hpName = $(this).text();
                             var hpId = $(this).attr('id');
-                            $('#DoctorForm_hospital_name').val(hpName);
+                            $('input[name="DoctorForm[hospital_name]"]').val(hpName);
+                            $('#hospital_name').html(hpName);
                             $('#DoctorForm_hospital_id').val(hpId);
-                            $('#DoctorForm_hospital_name').parent().find('div.error').remove();
+                            $('#hospital_name').parent().find('div.error').remove();
                             $('#search_section').css('display', 'none');
                         });
                     }

@@ -114,6 +114,30 @@
         #jingle_loading p{
             color: #fff;
         }
+
+        .nav-crumbs {
+            display: flex;
+            align-items: center;
+        }
+        .nav-crumbs i{
+            background: #32c9c0;
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 2px;
+            margin: 0 0 0 5px;
+        }
+        .nav-crumbs span{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #32c9c0;
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            margin: 0 5px;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -121,12 +145,9 @@
         <div id="jingle_toast" class="toast" style="display: none;"><a href="#">请上传头像</a></div>
         <div id = "section_container">
             <section id = "main_section" class = "active" data-init = "true">
-                <header class = "bg-green">
-                    <h1 class = "title">医生</h1>
-                </header>
                 <footer id="btnSubmit" class="bg-green color-white">
                     <div class="text-center">
-                        继续职业信息
+                        继续填写职业信息
                     </div>
                     <div class="text-center">
                         <img src="http://static.mingyizhudao.com/147029008156318" class="w24p">
@@ -154,10 +175,13 @@
                         <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_domain]" value="<?php echo $model->remote_domain; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_file_key]" value="<?php echo $model->remote_file_key; ?>"/>
-                        <div>
+                        <div class="nav-crumbs">
+                            <span>1</span>
                             个人信息
+                            <i></i><i></i><span>2</span>
+                            <i></i><i></i><span>3</span>
                         </div>
-                        <div id="uploadHeadImg" class="">
+                        <div id="uploadHeadImg" class="pt10">
                             <div class="body">
                                 <div class="text-center">
                                     <div id="container">
@@ -182,12 +206,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="showHeadImg" class="text-center mb20 hide">
-                            <img src="http://7xp8ky.com1.z0.glb.clouddn.com/147012383129870.jpg" class="w100p h100 br50">
-                        </div>
                         <div class="inputBorder">
                             <div class="grid">
-                                <div class="col-0 w80p pt7">
+                                <div class="col-0 w80p pt10">
                                     姓名
                                 </div>
                                 <div class="col-1">
@@ -226,7 +247,7 @@
                         </div>
                         <div class="inputBorder">
                             <div class="grid">
-                                <div class="col-0 w80p pt7">
+                                <div class="col-0 w80p pt10">
                                     出生日期
                                 </div>
                                 <div class="col-1">
@@ -236,7 +257,7 @@
                         </div>
                         <div class="inputBorder">
                             <div class="grid">
-                                <div class="col-0 w80p pt7">
+                                <div class="col-0 w80p pt10">
                                     手机
                                 </div>
                                 <div class="col-1">
@@ -259,8 +280,8 @@
                 </article>
                 <script>
                     $(document).ready(function () {
-                        $('#jingle_loading.initLoading').remove();
-                        $('#jingle_loading_mask').remove();
+                        $('#jingle_loading.initLoading').hide();
+                        $('#jingle_loading_mask').hide();
                         $('.genderIcon').click(function () {
                             $('.genderIcon').each(function () {
                                 $(this).removeClass('active');
