@@ -445,7 +445,7 @@
                                     </div>
                                     <div class="col-1">
                                         <!-- <input type="text" class="" placeholder="选择您的医疗职称"> -->
-                                        <select>
+                                        <select id="onselect2">
                                             <option value=""></option>
                                             <option value="0">主任医师</option>
                                             <option value="1">副主任医师</option>
