@@ -251,7 +251,7 @@
                                     出生日期
                                 </div>
                                 <div class="col-1">
-                                    <input type="date" class="noPaddingInput" placeholder="选择您的出生年月日" value="<?php echo $model->birthday; ?>" name="BasicInfoForm[birthday]" id="">
+                                    <input id="datePicker" type="date" class="noPaddingInput" placeholder="选择您的出生年月日" value="" name="BasicInfoForm[birthday]" id=""  required="required"> 
                                 </div>
                             </div>
                         </div>
@@ -271,7 +271,7 @@
                                     电子邮箱
                                 </div>
                                 <div class="col-1">
-                                    <?php echo $form->textField($model, 'email', array('placeholder' => '输入您的电子邮箱（选填）', 'class' => 'noPaddingInput')); ?>
+                                    <?php echo $form->emailField($model, 'email', array('placeholder' => '输入您的电子邮箱（选填）', 'class' => 'noPaddingInput')); ?>
                                 </div>
                             </div>
                         </div>
@@ -289,6 +289,13 @@
                             $(this).addClass('active');
                             $('input[name="BasicInfoForm[gender]"]').val($(this).attr('data-gender'));
                         });
+                        //设置日期选择默认日期
+                        $birthday= '<?php echo $model->birthday?>'
+                        if ($birthday) {
+                            $('#datePicker').val($birthday);
+                        }else{
+                            $('#datePicker').val('1995-01-01');
+                        }
                     });
                 </script>
             </section>

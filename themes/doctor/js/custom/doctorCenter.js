@@ -34,6 +34,12 @@ $(function () {
         // },
         auto_start: true,
         log_level: 5,
+        filters : {
+            prevent_duplicates: true,
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}
+            ]
+        },
         init: {
             'FilesAdded': function (up, files) {
                 $('#submitBtn').removeClass('hide');

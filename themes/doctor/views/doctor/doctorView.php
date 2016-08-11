@@ -278,6 +278,7 @@
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
+        <div id="jingle_toast" class="toast" style="display: none;"><a href="#">请选择您的执业医院</a></div>
         <div id="jingle_loading_mask" style="opacity: 0; display: block;"></div>
         <section id="searchInput_section">
             <header class="">
@@ -340,8 +341,8 @@
                     </div>
                     <div id="pick-city-layer" class="w100">
                         <div>
-                            <p>热门城市</p>
-                            <ul class="hotCitiesList">
+                            <p id="hotCP">热门城市</p>
+                            <ul id="hotCList" class="hotCitiesList">
                                 <li>北京</li>
                                 <li>上海</li>
                                 <li>广州</li>
@@ -404,14 +405,22 @@
                                 echo CHtml::hiddenField("DoctorForm[hospital_id]", $model->hospital_id);
                                 echo CHtml::hiddenField("DoctorForm[category_id]", $model->category_id);
                                 ?>
-                                <input type="hidden" name="DoctorForm[hospital_name]"/>
-                                <input type="hidden" name="DoctorForm[cat_name]"/>
+                                <input type="hidden" name="DoctorForm[hospital_name]" value="<?php echo $model->hospital_name; ?>"/>
+                                <input type="hidden" name="DoctorForm[cat_name]" value="<?php echo $model->cat_name; ?>"/>
                                 <div class="grid">
                                     <div class="col-0 w80p pt10">
                                         执业医院
                                     </div>
                                     <div class="col-1">
-                                        <div id="hospital_name">选择您的执业医院</div>
+                                        <div id="hospital_name">
+                                            <?php
+                                            if ($model->hospital_name == '') {
+                                                echo '选择您的执业医院';
+                                            } else {
+                                                echo $model->hospital_name;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -419,7 +428,15 @@
                                         专业
                                     </div>
                                     <div class="col-1">
-                                        <div id="cat_name">选择您的专业</div>
+                                        <div id="cat_name">
+                                            <?php
+                                            if ($model->cat_name == '') {
+                                                echo '选择您的专业';
+                                            } else {
+                                                echo $model->cat_name;
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -500,6 +517,7 @@
                         //选择职业医院
                         $('#hospital_name').click(function () {
                             $('#search_section').css('display', 'block');
+                            mapInit();
                         });
                         $('#btn-back-search').click(function () {
                             $('#search_section').css('display', 'none');
@@ -516,6 +534,10 @@
                             }
                         });
                         $('#pick-city').click(function () {
+                            if ($('#pick-province>span').text()) {
+                                $('#hotCList').hide();
+                                $('#hotCP').hide();
+                            }
                             if ($('#pick-city-layer').css('display') == 'none') {
                                 $('#pick-city').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
                                 $('#pick-province-layer').css('display', 'none');
@@ -546,6 +568,7 @@
                             $('input[name="hospitalName"]').val('');
                             $('#searchHospital').html('');
                             $('#searchInput_section').css('display', 'block');
+                            $('input[name="hospitalName"]').focus();
                         });
                         //返回定位
                         $('#backHospital').click(function () {
@@ -578,7 +601,7 @@
                             $.ajax({
                                 url: '<?php echo $urlHospital; ?>?name=' + hospitalName,
                                 success: function (data) {
-                                    readyHospital(data)
+                                    readyHospital(data);
                                 }
                             });
                         }
@@ -612,29 +635,30 @@
                         }
                     });
 
-
                     var map, geolocation, geocoder;
-                    //加载地图，调用浏览器定位服务
-                    map = new AMap.Map('container', {
-                        resizeEnable: false
-                    });
-                    map.plugin('AMap.Geolocation', function () {
-                        geolocation = new AMap.Geolocation({
-                            enableHighAccuracy: true, //是否使用高精度定位，默认:true
-                            timeout: 10000, //超过10秒后停止定位，默认：无穷大
-                            buttonOffset: new AMap.Pixel(5, 10), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                            zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                            buttonPosition: 'RB'
+                    function mapInit() {
+                        //加载地图，调用浏览器定位服务
+                        map = new AMap.Map('container', {
+                            resizeEnable: false
                         });
-                        map.addControl(geolocation);
-                        geolocation.getCurrentPosition();
-                        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
-                        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
-                    });
-                    AMap.service('AMap.Geocoder', function () {//回调函数
-                        //TODO: 使用geocoder 对象完成相关功能
-                        geocoder = new AMap.Geocoder();
-                    })
+                        map.plugin('AMap.Geolocation', function () {
+                            geolocation = new AMap.Geolocation({
+                                enableHighAccuracy: true, //是否使用高精度定位，默认:true
+                                timeout: 10000, //超过10秒后停止定位，默认：无穷大
+                                buttonOffset: new AMap.Pixel(5, 10), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                                zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                                buttonPosition: 'RB'
+                            });
+                            map.addControl(geolocation);
+                            geolocation.getCurrentPosition();
+                            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+                            AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+                        });
+                        AMap.service('AMap.Geocoder', function () {//回调函数
+                            //TODO: 使用geocoder 对象完成相关功能
+                            geocoder = new AMap.Geocoder();
+                        })
+                    }
 
                     //解析定位结果
                     function onComplete(data) {
