@@ -20,6 +20,7 @@ $(function () {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
+        multi_selection: false,
         // downtoken_url: '/downtoken',
         // unique_names: true,
         // save_key: true,
@@ -33,6 +34,12 @@ $(function () {
         // },
         auto_start: true,
         log_level: 5,
+        filters : {
+            prevent_duplicates: true,
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}
+            ]
+        },
         init: {
             'FilesAdded': function (up, files) {
                 $('#submitBtn').removeClass('hide');
@@ -52,12 +59,16 @@ $(function () {
                 }
             },
             'UploadProgress': function (up, file) {
+
+                $('#jingle_loading.initLoading').show();
+                $('#jingle_loading_mask').show();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-
+                $('#jingle_loading.initLoading').hide();
+                $('#jingle_loading_mask').hide();
             },
             'FileUploaded': function (up, file, info) {
                 //单个文件上传成功所做的事情 
@@ -70,14 +81,11 @@ $(function () {
                 // var domain = up.getOption('domain');
                 // var res = parseJSON(info);
                 // var sourceLink = domain + res.key; 获取上传成功后的文件的Url
-
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
-                $('#uploadHeadImg').addClass('hide');
-                $('#showHeadImg').find('img').attr('src', imgUrl);
-                $('#showHeadImg').removeClass('hide');
+                $('#uploadHeadImg').find('img').attr('src', imgUrl);
                 $('input[name="BasicInfoForm[remote_domain]"]').val(domForm.find('#domain').val());
                 $('input[name="BasicInfoForm[remote_file_key]"]').val(infoJson.key);
             },
@@ -98,7 +106,6 @@ $(function () {
             }
         }
     });
-
     uploader.bind('FileUploaded', function () {
         //console.log('hello man,a file is uploaded');
     });
@@ -126,27 +133,18 @@ $(function () {
         $('#container').addClass('draging');
         e.stopPropagation();
     });
-
-
-
     $('#show_code').on('click', function () {
         $('#myModal-code').modal();
         $('pre code').each(function (i, e) {
             hljs.highlightBlock(e);
         });
     });
-
-
     $('body').on('click', 'table button.btn', function () {
         $(this).parents('tr').next().toggle();
     });
-
-
     $('#up_load').on('click', function () {
         uploader.start();
     });
-
-
     var getRotate = function (url) {
         if (!url) {
             return 0;
@@ -159,7 +157,6 @@ $(function () {
         }
         return 0;
     };
-
     $('#myModal-img .modal-body-footer').find('a').on('click', function () {
         var img = $('#myModal-img').find('.modal-body img');
         var key = img.data('key');
@@ -200,7 +197,6 @@ $(function () {
             var watermark = $(this).data('watermark');
             var imageView = $(this).data('imageview');
             var imageMogr = $(this).data('imagemogr');
-
             if (watermark) {
                 fopArr.push({
                     fop: 'watermark',
@@ -248,9 +244,7 @@ $(function () {
                 });
             }
         });
-
         var newUrl = Qiniu.pipeline(fopArr, key);
-
         var newImg = new Image();
         img.attr('src', 'images/loading.gif');
         newImg.onload = function () {
@@ -260,5 +254,4 @@ $(function () {
         newImg.src = newUrl;
         return false;
     });
-
 });
