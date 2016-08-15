@@ -34,14 +34,16 @@ $(function () {
         // },
         auto_start: true,
         log_level: 5,
-        filters : {
+        filters: {
             prevent_duplicates: true,
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}
+                {title: "Image files", extensions: "jpg,gif,png"}
             ]
         },
         init: {
             'FilesAdded': function (up, files) {
+                $('#jingle_loading.initLoading').show();
+                $('#jingle_loading_mask').show();
                 $('#submitBtn').removeClass('hide');
                 $('table').show();
                 $('#success').hide();
@@ -59,9 +61,6 @@ $(function () {
                 }
             },
             'UploadProgress': function (up, file) {
-
-                $('#jingle_loading.initLoading').show();
-                $('#jingle_loading_mask').show();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);

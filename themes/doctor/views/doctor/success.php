@@ -24,6 +24,7 @@
         h1{
             padding-bottom: 0px;
         }
+        .w180p{width:180px;}
     </style>
     <body>
         <div id="section_container">
@@ -33,6 +34,9 @@
                 </header>
                 <article class="active" data-scroll="true">
                     <div>
+                        <div class="text-center pt50">
+                            <img src="http://static.mingyizhudao.com/147124433831517" class="w180p">
+                        </div>
                         <div class="pt50 text-center font-s24">
                             感谢您的耐心填写
                         </div>

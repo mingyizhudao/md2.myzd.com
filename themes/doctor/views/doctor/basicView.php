@@ -294,7 +294,7 @@
                         if ($birthday) {
                             $('#datePicker').val($birthday);
                         }else{
-                            $('#datePicker').val('1995-01-01');
+                            $('#datePicker').val('1955-01-01');
                         }
                     });
                 </script>
