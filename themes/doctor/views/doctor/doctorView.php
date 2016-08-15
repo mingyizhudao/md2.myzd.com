@@ -250,6 +250,7 @@
             border: none!important;
             margin-top: 7px;
             background-color: #E0DFDE;
+            line-height: 30px;
         }
         .icon_clear {
             position: absolute;
