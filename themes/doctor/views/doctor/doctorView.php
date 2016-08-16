@@ -525,6 +525,7 @@
                         });
 
                         $('#pick-province').click(function () {
+                            $('#pick-city').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                             if ($('#pick-province-layer').css('display') == 'none') {
                                 $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
                                 $('#pick-city-layer').css('display', 'none');
@@ -535,6 +536,7 @@
                             }
                         });
                         $('#pick-city').click(function () {
+                            $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                             if ($('#pick-province>span').text()) {
                                 $('#hotCList').hide();
                                 $('#hotCP').hide();
@@ -556,6 +558,7 @@
                             $('#pick-city-layer').css('display', 'none');
                         });
                         $('.hotCitiesList>li').click(function () {
+                            $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                             var cityName = $(this).text();
                             $('#pick-province>span').text(cityName);
                             $('#pick-city>span').text(cityName);
@@ -667,7 +670,7 @@
                         geocoder.getAddress(lnglatXY, function (status, result) {
                             if (status === 'complete' && result.info === 'OK') {
                                 //获得了有效的地址信息: 城市province 编码adcode
-                                console.log(result.regeocode.addressComponent);
+                                //console.log(result.regeocode.addressComponent);
                                 var res = result.regeocode.addressComponent;
                                 var _city = res.city ? res.city : res.province;
                                 getHospitalList(_city);
@@ -689,7 +692,7 @@
                     }
 
                     function setProvince(pName) {
-                        console.log('pName', pName);
+                        //console.log('pName', pName);
                         $('#pick-province').find('span').text(pName);
                     }
 
@@ -700,7 +703,7 @@
                             type: 'get',
                             url: urlHospital + '?name=' + cityname,
                             'success': function (data) {
-                                console.log(data);
+                                //console.log(data);
                                 if (data.status === true || data.status === 'ok') {
                                     hospitalList = data.results.hospital;
                                     reflashHospitalList(hospitalList);
@@ -763,6 +766,7 @@
                         }
                         $('#pick-province-layer ul.stateList').html(innerHtml);
                         $('#pick-province-layer ul.stateList>li').click(function () {
+                            $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                             var stateId = $(this).attr('data-id');
                             var stateName = $(this).text();
                             $('#pick-province>span').text(stateName);
@@ -791,6 +795,7 @@
                         }
                         $('#pick-city-layer ul.cityList').html(innerHtml);
                         $('#pick-city-layer ul.cityList>li').click(function () {
+                            $('#pick-city').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
                             var cityname = $(this).text();
                             $('#pick-city>span').text(cityname);
                             getHospitalList(cityname);

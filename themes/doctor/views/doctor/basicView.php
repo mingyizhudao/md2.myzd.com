@@ -138,6 +138,9 @@
             line-height: 20px;
             margin: 0 5px;
         }
+        #datePicker{
+            background-color: #fff;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
