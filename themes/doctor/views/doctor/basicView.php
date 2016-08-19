@@ -194,7 +194,7 @@
                                                 if (isset($model->id)) {
                                                     echo '<img src="' . $model->remote_domain . $model->remote_file_key . '" class="w100p h100 br50"/>';
                                                 } else {
-                                                    echo '<img src="http://7xp8ky.com1.z0.glb.clouddn.com/147012383129870.jpg" class="w100p h100 br50"/>';
+                                                    echo '<img src="http://static.mingyizhudao.com/147159541679791" class="w100p h100 br50"/>';
                                                 }
                                                 ?>
                                             </span>
