@@ -24,6 +24,11 @@
         h1{
             padding-bottom: 0px;
         }
+        .w90p{width:90px;}
+        article{
+            background: url('http://static.mingyizhudao.com/147159553773750') no-repeat;
+            background-size: 100% 100%;
+        }
     </style>
     <body>
         <div id="section_container">
@@ -32,8 +37,11 @@
                     <h1 class="title">医生</h1>
                 </header>
                 <article class="active" data-scroll="true">
-                    <div>
-                        <div class="pt50 text-center font-s24">
+                    <div class="pt50">
+                        <div class="text-center pt50">
+                            <img src="http://static.mingyizhudao.com/14715956178660" class="w90p">
+                        </div>
+                        <div class="pt10 text-center font-s16">
                             感谢您的耐心填写
                         </div>
                     </div>

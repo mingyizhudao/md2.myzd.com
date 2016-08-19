@@ -138,6 +138,9 @@
             line-height: 20px;
             margin: 0 5px;
         }
+        #datePicker{
+            background-color: #fff;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -191,7 +194,7 @@
                                                 if (isset($model->id)) {
                                                     echo '<img src="' . $model->remote_domain . $model->remote_file_key . '" class="w100p h100 br50"/>';
                                                 } else {
-                                                    echo '<img src="http://7xp8ky.com1.z0.glb.clouddn.com/147012383129870.jpg" class="w100p h100 br50"/>';
+                                                    echo '<img src="http://static.mingyizhudao.com/147159541679791" class="w100p h100 br50"/>';
                                                 }
                                                 ?>
                                             </span>
@@ -294,7 +297,7 @@
                         if ($birthday) {
                             $('#datePicker').val($birthday);
                         }else{
-                            $('#datePicker').val('1995-01-01');
+                            $('#datePicker').val('1955-01-01');
                         }
                     });
                 </script>
