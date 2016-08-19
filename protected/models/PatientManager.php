@@ -209,6 +209,29 @@ class PatientManager {
         return $output;
     }
 
+    public function apiSaveDiseaseByPatient($values) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
+        $form = new PatientDiseaseForm();
+        $form->setAttributes($values, true);
+        if ($form->validate()) {
+            $data = $form->getSafeAttributes();
+            $attrs = array('id' => $data['id']);
+            unset($data['id']);
+            $patient = new PatientInfo();
+            $return = $patient::model()->updateAllByAttributes($data, $attrs);
+            if($return != 0) {
+                $output['status'] = 'ok';
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = $patient->getFirstErrors();
+            }
+        } else {
+            $output['errorMsg'] = $form->getFirstErrors();
+        }
+        
+        return $output;
+    }
+    
     public function apiSavePatientBooking($values, $user) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND, 'errorMsg' => '网络异常,请稍后尝试!');
         $patientId = null;
