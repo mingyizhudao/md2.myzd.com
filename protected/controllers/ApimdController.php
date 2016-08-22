@@ -155,6 +155,24 @@ class ApimdController extends Controller {
                 $apiService = new ApiViewBankCardList($user->id);
                 $output = $apiService->loadApiViewData();
                 break;
+            case 'searchDisease'://根据关键字查询疾病
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewDisease();
+                $apiService->getDiseaseByName($values['name'], $values['islike']);
+                $output = $apiService->loadApiViewData();
+                break;
+            case 'diseaseCategoryToSub'://二级疾病类型列表
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewDiseaseCategory();
+                $apiService->getDiseaseCategoryToSub();
+                $output = $apiService->loadApiViewData();
+                break;
+            case 'diseaseByCategoryId'://根据类型id获得疾病类表
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewDisease();
+                $apiService->getDiseaseByCategoryId($values['categoryid']);
+                $output = $apiService->loadApiViewData();
+                break;
             /*             * *************************crm调用接口**************************** */
             case 'orderunpaid':     //状态改变 新增服务费
                 $wxMgr = new WeixinManager();
@@ -171,10 +189,6 @@ class ApimdController extends Controller {
             case 'bookingtodoctor':     //订单关联上级医生
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
-                break;
-            case 'searchDisease'://根据关键字查询疾病
-                $disease = new DiseaseManager();
-                $output = $disease->getDiseaseByName($values['name'], $values['islike']);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));

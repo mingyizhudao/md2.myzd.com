@@ -8,6 +8,7 @@
  * @property integer $cat_id
  * @property string $cat_name
  * @property integer $sub_cat_id
+ * @property integer $is_common
  * @property string $sub_cat_name
  * @property string $description
  * @property string $date_created
@@ -31,13 +32,13 @@ class DiseaseCategory extends EActiveRecord {
         // will receive user inputs.
         return array(
             array('date_created', 'required'),
-            array('cat_id, sub_cat_id', 'numerical', 'integerOnly' => true),
+            array('cat_id, sub_cat_id, is_common', 'numerical', 'integerOnly' => true),
             array('cat_name, sub_cat_name', 'length', 'max' => 50),
             array('description', 'length', 'max' => 100),
             array('date_updated, date_deleted', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, cat_id, cat_name, sub_cat_id, sub_cat_name, description, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
+            array('id, cat_id, cat_name, sub_cat_id, is_common, sub_cat_name, description, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,6 +62,7 @@ class DiseaseCategory extends EActiveRecord {
             'cat_id' => 'Cat',
             'cat_name' => 'Cat Name',
             'sub_cat_id' => 'Sub Cat',
+            'is_common' => 'Is Common',
             'sub_cat_name' => 'Sub Cat Name',
             'description' => 'Description',
             'date_created' => 'Date Created',
@@ -90,6 +92,7 @@ class DiseaseCategory extends EActiveRecord {
         $criteria->compare('cat_id', $this->cat_id);
         $criteria->compare('cat_name', $this->cat_name, true);
         $criteria->compare('sub_cat_id', $this->sub_cat_id);
+        $criteria->compare('is_common', $this->is_common);
         $criteria->compare('sub_cat_name', $this->sub_cat_name, true);
         $criteria->compare('description', $this->description, true);
         $criteria->compare('date_created', $this->date_created, true);

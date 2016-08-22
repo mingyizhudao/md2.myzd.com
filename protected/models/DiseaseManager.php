@@ -1,7 +1,9 @@
 <?php
 
-class DiseaseManager {
-
+class DiseaseManager 
+{
+    const APP_VERSION = 7;
+    
     public function loadDiseaseById($id, $with = null) {
         return Disease::model()->getById($id, $with);
     }
@@ -10,6 +12,17 @@ class DiseaseManager {
     public function loadDiseaseCategoryList() {
         $models = DiseaseCategory::model()->getAllByInCondition('t.app_version', 7);
         return $models;
+    }
+    
+    public function getDiseaseByCategoryId($catId)
+    {
+        return Disease::model()->findAll(
+            array(
+                'select' =>array('id', 'name', 'category_id'),
+                'condition' => 'app_version = :app_version and category_id = :category_id',
+                'params' => array(':app_version' => self::APP_VERSION, ':category_id' => $catId),
+            )
+        );
     }
 
     /**
