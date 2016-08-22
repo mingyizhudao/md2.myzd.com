@@ -606,9 +606,26 @@ class DoctorController extends MobiledoctorController {
         ));
     }
     
+    //添加患者病例
     public function actionAddDisease()
     {
         $this->render('addDisease', array('id' => Yii::app()->session['addPatientId']));
+    }
+    
+    /**
+     * 病例搜索页
+     */
+    public function actionDiseaseSearch()
+    {
+        $this->render('diseaseSearch');
+    }
+    
+    /*
+     * 病例搜索无结果页
+     */
+    public function actionDiseaseNoResult()
+    {
+        $this->render('diseaseNoResult');
     }
 
     /**
