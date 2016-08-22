@@ -172,6 +172,10 @@ class ApimdController extends Controller {
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
                 break;
+            case 'searchDisease'://根据关键字查询疾病
+                $disease = new DiseaseManager();
+                $output = $disease->getDiseaseByName($values['name'], $values['islike']);
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
