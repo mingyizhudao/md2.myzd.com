@@ -605,6 +605,11 @@ class DoctorController extends MobiledoctorController {
             'registerFlag' => $registerFlag
         ));
     }
+    
+    public function actionAddDisease()
+    {
+        $this->render('addDisease', array('id' => Yii::app()->session['addPatientId']));
+    }
 
     /**
      * 异步登陆

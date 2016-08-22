@@ -199,6 +199,7 @@ class PatientManager {
             if ($patient->save()) {
                 $output['status'] = 'ok';
                 $output['errorMsg'] = 'success';
+                Yii::app()->session['addPatientId'] = $patient->getId();
                 $output['results'] = array('id' => $patient->getId());
             } else {
                 $output['errorMsg'] = $patient->getFirstErrors();
