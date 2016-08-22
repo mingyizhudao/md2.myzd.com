@@ -344,7 +344,6 @@ class ApimdController extends Controller {
                 $output = array('status' => 'no');
                 if (isset($post['patient'])) {
                     $values = $post['patient'];
-                    $values = $post;
                     $user = $this->userLoginRequired($values);
                     $patientDisease = new PatientManager();
                     $output = $patientDisease->apiSaveDiseaseByPatient($values);
