@@ -126,7 +126,7 @@ class DoctorController extends MobiledoctorController {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha',
-                    'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal', 'wxlogin'),
+                    'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal', 'wxlogin', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -134,7 +134,7 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -772,6 +772,48 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    //保存患者疾病信息
+    public function actionSavepatientdisease()
+    {
+        $output = array('status' => 'no');
+        if (isset($_POST['patient'])) {
+            $values = $_POST['patient'];
+            $patientDisease = new PatientManager();
+            $output = $patientDisease->apiSaveDiseaseByPatient($values);
+        } else {
+            $output['errors'] = 'miss data...';
+        }
+    
+        $this->renderJsonOutput($output);
+    }
+    
+    //根据关键字查询疾病
+    public function actionSearchDisease($name, $islike)
+    {
+        $apiService = new ApiViewDisease();
+        $apiService->getDiseaseByName($name, $islike);
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
+    //二级疾病类型列表
+    public function actionDiseaseCategoryToSub()
+    {
+        $apiService = new ApiViewDiseaseCategory();
+        $apiService->getDiseaseCategoryToSub();
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
+    //根据类型id获得疾病列表
+    public function actionDiseaseByCategoryId($categoryid)
+    {
+        $apiService = new ApiViewDisease();
+        $apiService->getDiseaseByCategoryId($categoryid);
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
     /*     * *************************微信调用接口**************************** */
 
     public function actionWxlogin($userid, $returnUrl) {
@@ -817,7 +859,7 @@ class DoctorController extends MobiledoctorController {
             'model' => $form
         ));
     }
-
+  
     protected function performAjaxValidation($model) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-form') {
             echo CActiveForm::validate($model);
