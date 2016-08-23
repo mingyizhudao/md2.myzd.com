@@ -24,6 +24,7 @@ class DiseaseCategoryManager
             $std = new stdClass();
             $std->id = $d['did'];
             $std->name = $d['name'];
+            $std->isCommon = $d['isCommon'];
             $result[$key]['diseaseName'] = $std;
         }
         
