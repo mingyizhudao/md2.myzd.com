@@ -621,7 +621,7 @@ class DoctorController extends MobiledoctorController {
     }
     
     /*
-     * 病例搜索无结果页
+     * 病例搜索结果页
      */
     public function actionDiseaseResult()
     {

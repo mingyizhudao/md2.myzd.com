@@ -123,7 +123,49 @@ class DoctorController extends WebsiteController {
         }
         $this->renderJsonOutput($output);
     }
+    
+    //保存患者疾病信息
+    public function actionSavepatientdisease()
+    {
+        $output = array('status' => 'no');
+        if (isset($_POST['patient'])) {
+            $values = $_POST['patient'];
+            $patientDisease = new PatientManager();
+            $output = $patientDisease->apiSaveDiseaseByPatient($values);
+        } else {
+            $output['errors'] = 'miss data...';
+        }
+        
+        $this->renderJsonOutput($output);
+    }
+    
+    //根据关键字查询疾病
+    public function actionSearchDisease($name, $islike)
+    {
+        $apiService = new ApiViewDisease();
+        $apiService->getDiseaseByName($name, $islike);
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
+    //二级疾病类型列表
+    public function actionDiseaseCategoryToSub()
+    {
+        $apiService = new ApiViewDiseaseCategory();
+        $apiService->getDiseaseCategoryToSub();
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
 
+    //根据类型id获得疾病列表
+    public function actionDiseaseByCategoryId($categoryid)
+    {
+        $apiService = new ApiViewDisease();
+        $apiService->getDiseaseByCategoryId($categoryid);
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
     public function actionSuccess() {
         $this->render('success');
     }

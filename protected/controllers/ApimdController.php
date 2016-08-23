@@ -167,7 +167,7 @@ class ApimdController extends Controller {
                 $apiService->getDiseaseCategoryToSub();
                 $output = $apiService->loadApiViewData();
                 break;
-            case 'diseaseByCategoryId'://根据类型id获得疾病类表
+            case 'diseaseByCategoryId'://根据类型id获得疾病列表
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewDisease();
                 $apiService->getDiseaseByCategoryId($values['categoryid']);
