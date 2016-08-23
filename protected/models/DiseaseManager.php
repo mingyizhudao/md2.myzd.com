@@ -16,13 +16,16 @@ class DiseaseManager
     
     public function getDiseaseByCategoryId($catId)
     {
-        return Disease::model()->findAll(
-            array(
-                'select' =>array('id', 'name', 'category_id'),
-                'condition' => 'app_version = :app_version and category_id = :category_id',
-                'params' => array(':app_version' => self::APP_VERSION, ':category_id' => $catId),
-            )
+        $oDbConnection = Yii::app()->db;
+        $oCommand = $oDbConnection->createCommand(
+            'SELECT id, name, category_id as categoryId FROM ' . Disease::model()->tableName().
+            ' where app_version = :app_version and category_id = :category_id'
         );
+        $appVersion = self::APP_VERSION;
+        $oCommand->bindParam(':app_version', $appVersion);
+        $oCommand->bindParam(':category_id', $catId);
+        
+        return $oCommand->queryAll();
     }
 
     /**
@@ -32,9 +35,29 @@ class DiseaseManager
      */
     public function getDiseaseByName($name, $islike = 0)
     {
-        $criteria = new CDbCriteria;
-        $criteria->select = 'id, name, category_id';
-        $islike == 1 ? $criteria->compare('name', $name, true) : $criteria->compare('name', $name);
-        return Disease::model()->findAll($criteria);
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
+        $form = new DiseaseSearchForm();
+        $form->setAttributes(array('name' => $name), true);
+        if ($form->validate()) {
+            $data = $form->getSafeAttributes();
+            $oDbConnection = Yii::app()->db;
+            $sql = 'SELECT id, name, category_id as categoryId FROM ' . Disease::model()->tableName().
+            ' where app_version = :app_version ';
+            $sql .= $islike == 1 ? 'and name like :name' : 'and name = :name';
+            $oCommand = $oDbConnection->createCommand($sql);
+            $appVersion = self::APP_VERSION;
+            $oCommand->bindParam(':app_version', $appVersion, PDO::PARAM_INT);
+            $likeName = "%" . $name . "%";
+            $islike == 1 ? $oCommand->bindParam(':name', $likeName, PDO::PARAM_STR) : $oCommand->bindParam(':name', $name, PDO::PARAM_STR);
+            
+            $output['status'] = 'ok';
+            $output['errorCode'] = 'success';
+            $output['results'] = $oCommand->queryAll();
+        }
+        else {
+            $output['errorMsg'] = $form->getFirstErrors();
+        }
+        
+        return $output;
     }
 }

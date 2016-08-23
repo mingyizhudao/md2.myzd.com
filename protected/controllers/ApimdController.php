@@ -158,19 +158,13 @@ class ApimdController extends Controller {
             case 'searchDisease'://根据关键字查询疾病
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewDisease();
-                $apiService->getDiseaseByName($values['name'], $values['islike']);
-                $output = $apiService->loadApiViewData();
+                $output = $apiService->getDiseaseByName($values['name'], $values['islike']);
+                $this->renderJsonOutput($output);
                 break;
-            case 'diseaseCategoryToSub'://二级疾病类型列表
+            case 'diseaseCategoryToSub'://二级疾病类型以及相对疾病列表
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewDiseaseCategory();
                 $apiService->getDiseaseCategoryToSub();
-                $output = $apiService->loadApiViewData();
-                break;
-            case 'diseaseByCategoryId'://根据类型id获得疾病列表
-                $user = $this->userLoginRequired($values);
-                $apiService = new ApiViewDisease();
-                $apiService->getDiseaseByCategoryId($values['categoryid']);
                 $output = $apiService->loadApiViewData();
                 break;
             /*             * *************************crm调用接口**************************** */

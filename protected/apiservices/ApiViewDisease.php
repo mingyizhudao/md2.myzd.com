@@ -21,14 +21,14 @@ class ApiViewDisease extends EApiViewService {
         $disMgr = new DiseaseManager();
         $navList = $disMgr->getDiseaseByName($name, $islike);
 
-        $this->setDiseaseCategory($navList);
+        return $navList;
     }
     
     public function getDiseaseByCategoryId($categoryid)
     {
         $disease = new DiseaseManager();
         $navList = $disease->getDiseaseByCategoryId($categoryid);
-        
+
         $this->setDiseaseCategory($navList);
     }
     
