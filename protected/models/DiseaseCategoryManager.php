@@ -8,7 +8,7 @@ class DiseaseCategoryManager
     {
         return DiseaseCategory::model()->findAll(
             array(
-                'select' =>array('id', 'sub_cat_name', 'is_common'),
+                'select' =>array('id', 'sub_cat_name'),
                 'condition' => 'app_version = :app_version',
                 'params' => array(':app_version' => self::APP_VERSION),
             )

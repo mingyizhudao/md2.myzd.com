@@ -126,7 +126,7 @@ class DoctorController extends MobiledoctorController {
         return array(
             array('allow', // allow all users to perform 'index' and 'view' actions
                 'actions' => array('register', 'ajaxRegister', 'mobileLogin', 'forgetPassword', 'ajaxForgetPassword', 'getCaptcha',
-                    'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal', 'wxlogin', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId'),
+                    'valiCaptcha', 'viewContractDoctors', 'ajaxLogin', 'viewCommonweal', 'wxlogin'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -134,7 +134,7 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
