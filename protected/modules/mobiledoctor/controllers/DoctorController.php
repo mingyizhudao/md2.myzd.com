@@ -210,6 +210,7 @@ class DoctorController extends MobiledoctorController {
     //获取科室分类
     public function actionAjaxDeptList() {
         $apiService = new ApiViewDiseaseCategory();
+        $apiService->loadDiseaseCategory();
         $output = $apiService->loadApiViewData();
         $this->renderJsonOutput($output);
     }

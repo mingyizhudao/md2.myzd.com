@@ -109,6 +109,7 @@ class PatientController extends MobiledoctorController {
                 if ($patient->save()) {
                     $output['status'] = 'ok';
                     $output['patient']['id'] = $patient->getId();
+                    Yii::app()->session['addPatientId'] = $output['patient']['id'];
                 } else {
                     $output['errors'] = $patient->getErrors();
                 }

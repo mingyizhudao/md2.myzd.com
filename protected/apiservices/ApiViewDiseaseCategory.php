@@ -6,7 +6,7 @@ class ApiViewDiseaseCategory extends EApiViewService {
     }
 
     protected function loadData() {
-       // $this->loadDiseaseCategory();
+       
     }
 
     protected function createOutput() {
@@ -49,7 +49,7 @@ class ApiViewDiseaseCategory extends EApiViewService {
         $diseaseCategory = new DiseaseCategoryManager();
         $navList = $diseaseCategory->getDiseaseCategoryToSub();
         
-        $this->setDiseaseCategory($navList);
+        $this->setDiseaseCategory(array_values($navList));
     }
     
     private function setDiseaseCategory($data){

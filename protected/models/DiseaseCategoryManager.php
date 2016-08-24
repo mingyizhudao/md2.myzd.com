@@ -35,7 +35,7 @@ class DiseaseCategoryManager
                 array_push($result[$d['dcid']]['diseaseName'], $std);
             }
         }
-        
+
         return $result;
     }
 }
