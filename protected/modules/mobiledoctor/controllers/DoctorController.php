@@ -800,8 +800,7 @@ class DoctorController extends MobiledoctorController {
     public function actionSearchDisease($name, $islike)
     {
         $apiService = new ApiViewDisease();
-        $apiService->getDiseaseByName($name, $islike);
-        $output = $apiService->loadApiViewData();
+        $output = $apiService->getDiseaseByName($name, $islike);
         $this->renderJsonOutput($output);
     }
     

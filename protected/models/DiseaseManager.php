@@ -44,12 +44,13 @@ class DiseaseManager
             $sql = 'SELECT id, name, category_id as categoryId FROM ' . Disease::model()->tableName().
             ' where app_version = :app_version ';
             $sql .= $islike == 1 ? 'and name like :name' : 'and name = :name';
+
             $oCommand = $oDbConnection->createCommand($sql);
             $appVersion = self::APP_VERSION;
             $oCommand->bindParam(':app_version', $appVersion, PDO::PARAM_INT);
-            $likeName = "%" . $name . "%";
-            $islike == 1 ? $oCommand->bindParam(':name', $likeName, PDO::PARAM_STR) : $oCommand->bindParam(':name', $name, PDO::PARAM_STR);
-            
+            $likeName = "%{$data['name']}%";
+            $islike == 1 ? $oCommand->bindParam(':name', $likeName) : $oCommand->bindParam(':name', $data['name'], PDO::PARAM_STR);
+
             $output['status'] = 'ok';
             $output['errorCode'] = 'success';
             $output['results'] = $oCommand->queryAll();
