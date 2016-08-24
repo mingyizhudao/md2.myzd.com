@@ -124,6 +124,7 @@ class PatientController extends MobiledoctorController {
 
     public function actionCreate() {
         $returnUrl = $this->getReturnUrl();
+        !empty($returnUrl) && Yii::app()->session['mobileDoctor_patientCreate_returnUrl'] = $returnUrl;
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         $teamDoctor = 0;

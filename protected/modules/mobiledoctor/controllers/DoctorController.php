@@ -609,8 +609,8 @@ class DoctorController extends MobiledoctorController {
     
     //添加患者病例
     public function actionAddDisease()
-    {
-        $this->render('addDisease', array('id' => Yii::app()->session['addPatientId']));
+    {echo 22;exit;
+        $this->render('addDisease', array('id' => Yii::app()->session['addPatientId'], 'returnUrl' => Yii::app()->session['mobileDoctor_patientCreate_returnUrl']));
     }
     
     /**
