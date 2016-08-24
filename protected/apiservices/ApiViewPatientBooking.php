@@ -47,6 +47,7 @@ class ApiViewPatientBooking extends EApiViewService {
         $patient = $model->getPatient();
         $data->patientId = $patient->getId();
         $data->patientName = $patient->getName();
+        $data->mobile = $patient->getMobile();
         $data->age = $patient->getAge();
         $data->ageMonth = $patient->getAgeMonth();
         $data->cityName = $patient->getCityName();
