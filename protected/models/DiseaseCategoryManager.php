@@ -9,7 +9,7 @@ class DiseaseCategoryManager
         
         $oDbConnection = Yii::app()->db;
         $oCommand = $oDbConnection->createCommand(
-            'SELECT d.id as did, dc.id as id, dc.sub_cat_name as subCatName, d.is_common as isCommon, d.name FROM ' . DiseaseCategory::model()->tableName() . ' as dc'.
+            'SELECT d.id as did, dc.id as id, d.category_id as dcid, dc.sub_cat_name as subCatName, d.is_common as isCommon, d.name FROM ' . DiseaseCategory::model()->tableName() . ' as dc'.
             ' join ' . Disease::model()->tableName() . ' as d on dc.id = d.category_id'.
             ' where dc.app_version = :app_version and d.app_version = :app_version'
         );
@@ -18,16 +18,23 @@ class DiseaseCategoryManager
         $data = $oCommand->queryAll();
         
         $result = array();
-        foreach ($data as $key => $d) {
-            $result[$key]['id'] = $d['id'];
-            $result[$key]['subCatName'] = $d['subCatName'];
+        $key = 0;
+        $temp = false;
+        
+        foreach ($data as $d) {
             $std = new stdClass();
             $std->id = $d['did'];
             $std->name = $d['name'];
             $std->isCommon = $d['isCommon'];
-            $result[$key]['diseaseName'] = $std;
+            if (key_exists($d['dcid'], $result)) {
+                array_push($result[$d['dcid']]['diseaseName'], $std);
+            } else {
+                $result[$d['dcid']]['id'] = $d['dcid'];
+                $result[$d['dcid']]['subCatName'] = $d['subCatName'];
+                $result[$d['dcid']]['diseaseName'] = array();
+                array_push($result[$d['dcid']]['diseaseName'], $std);
+            }
         }
-        
         
         return $result;
     }
