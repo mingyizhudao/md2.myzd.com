@@ -609,24 +609,32 @@ class DoctorController extends MobiledoctorController {
     
     //添加患者病例
     public function actionAddDisease()
-    {echo 22;exit;
+    {
         $this->render('addDisease', array('id' => Yii::app()->session['addPatientId'], 'returnUrl' => Yii::app()->session['mobileDoctor_patientCreate_returnUrl']));
     }
     
-    /**
-     * 病例搜索页
-     */
+    //病例搜索页
     public function actionDiseaseSearch()
     {
         $this->render('diseaseSearch');
     }
     
-    /*
-     * 病例搜索结果页
-     */
+    //病例搜索结果页
     public function actionDiseaseResult()
     {
         $this->render('diseaseResult');
+    }
+    
+    //医生搜索列表页
+    public function actionDoctorList()
+    {
+        $this->render('doctorList');
+    }
+    
+    //填写专家信息
+    public function actionInputDoctorInfo()
+    {
+        $this->render('inputDoctorInfo');
     }
 
     /**
