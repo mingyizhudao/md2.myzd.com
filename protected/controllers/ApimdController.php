@@ -161,6 +161,11 @@ class ApimdController extends Controller {
                 $output = $apiService->getDiseaseByName($values['name'], $values['islike']);
                 $this->renderJsonOutput($output);
                 break;
+            case 'searchDoctor'://根据关键字查询医生
+                $user = $this->userLoginRequired($values);
+                $api = new ApiViewSearchDoctor($values['name'], $values['islike']);
+                $output = $api->loadApiViewData();
+                break;
             case 'diseaseCategoryToSub'://二级疾病类型以及相对疾病列表
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewDiseaseCategory();
