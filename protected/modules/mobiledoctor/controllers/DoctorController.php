@@ -413,6 +413,7 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    //医生搜索
     public function actionAjaxSearchDoctor($name, $islike)
     {
         $api = new ApiViewSearchDoctor($name, $islike);
