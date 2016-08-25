@@ -1,6 +1,6 @@
 <?php
 
-class DiseaseSearchForm extends EFormModel {
+class DoctorSearchForm extends EFormModel {
 
     public $name;
 
@@ -16,7 +16,7 @@ class DiseaseSearchForm extends EFormModel {
         );
     }
 
-    public function initModel(PatientInfo $model = null) {
+    public function initModel(Doctor $model = null) {
         if (isset($model)) {
             $attributes = $model->getAttributes();
             // set safe attributes.
@@ -29,7 +29,7 @@ class DiseaseSearchForm extends EFormModel {
      */
     public function attributeLabels() {
         return array(
-            'name' => '疾病名',
+            'name' => '医生名',
         );
     }
 }

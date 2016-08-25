@@ -134,7 +134,7 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -413,6 +413,13 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    public function actionAjaxSearchDoctor($name, $islike)
+    {
+        $api = new ApiViewSearchDoctor($name, $islike);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
     //个人中心
     public function actionView() {
         // var_dump(Yii::app()->user->id);exit;

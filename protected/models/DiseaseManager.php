@@ -49,7 +49,7 @@ class DiseaseManager
             $appVersion = self::APP_VERSION;
             $oCommand->bindParam(':app_version', $appVersion, PDO::PARAM_INT);
             $likeName = "%{$data['name']}%";
-            $islike == 1 ? $oCommand->bindParam(':name', $likeName) : $oCommand->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $islike == 1 ? $oCommand->bindParam(':name', $likeName, PDO::PARAM_STR) : $oCommand->bindParam(':name', $data['name'], PDO::PARAM_STR);
 
             $output['status'] = 'ok';
             $output['errorCode'] = 'success';
