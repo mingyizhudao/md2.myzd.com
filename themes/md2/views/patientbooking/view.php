@@ -47,6 +47,10 @@ $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingI
                 <div class="col-1 w30">患者性别</div>
                 <div class="col-1 w70 text-right"><?php echo $booking->gender; ?></div>
             </div>
+            <div class="grid pad10 bb-gray">
+                <div class="col-1 w30">联系方式</div>
+                <div class="col-1 w70 text-right"><?php echo $booking->mobile; ?></div>
+            </div>
             <?php
             $yearly = $booking->age;
             $monthly = "";
