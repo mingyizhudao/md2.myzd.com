@@ -54,7 +54,7 @@ class ApiViewSearchDoctor extends EApiViewService
                 $data->description = $r->getDescription();
                 $result[] = $data;
             }
-            
+
             $this->results = $result;
 
         } else {
