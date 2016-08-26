@@ -29,7 +29,7 @@ class DiseaseCategoryManager
             if (key_exists($d['dcid'], $result)) {
                 array_push($result[$d['dcid']]['diseaseName'], $std);
             } else {
-                $result[$d['dcid']]['id'] = $d['dcid'];
+                $result[$d['dcid']]['id'] = $d['id'];
                 $result[$d['dcid']]['subCatName'] = $d['subCatName'];
                 $result[$d['dcid']]['diseaseName'] = array();
                 array_push($result[$d['dcid']]['diseaseName'], $std);
