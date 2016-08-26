@@ -45,13 +45,13 @@ class ApiViewSearchDoctor extends EApiViewService
                 $data = new stdClass();
                 $data->id = $r->getId();
                 $data->name = $r->getName();
-                $data->hospitalName = $r->getHospitalName();
+                $data->hpName = $r->getHospitalName();
                 $data->mTitle = $r->getMedicalTitle();
                 $data->aTitle = $r->getAcademicTitle();
                 $data->imageUrl = $r->getAbsUrlAvatar();
                 $data->hpDeptName = $r->getHpDeptName();
                 $data->isContracted = $r->getIsContracted();
-                $data->description = $r->getDescription();
+                $data->desc = $r->getDescription();
                 $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/contractdoctor/' . $r->getId());
                 $result[] = $data;
             }
