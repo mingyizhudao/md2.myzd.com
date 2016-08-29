@@ -1,4 +1,5 @@
 <?php
+$this->setPageTitle('疾病信息');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/addDisease.js', CClientScript::POS_END);
 $diseaseSearch = $this->createUrl('doctor/diseaseSearch');
 $diseaseName = Yii::app()->request->getQuery('diseaseName', '');
@@ -70,9 +71,9 @@ $addDisease = $this->createUrl('doctor/addDisease');
         });
         //清空疾病
         $('.icon-clear').click(function () {
-            var newUrl = '<?php echo $addDisease; ?>';
+            var newUrl = '<?php echo $addDisease; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>';
             history.pushState({}, '', newUrl);
-            location.href = '<?php echo $diseaseSearch; ?>';
+            location.href = '<?php echo $diseaseSearch; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>';
         });
     });
 </script>
