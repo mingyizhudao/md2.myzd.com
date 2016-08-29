@@ -43,14 +43,6 @@ $(function () {
             },
             'patient[city_id]': {
                 required: true
-            },
-            'patient[disease_name]': {
-                required: true,
-                maxlength: 50
-            },
-            'patient[disease_detail]': {
-                required: true,
-                maxlength: 1000
             }
         },
         messages: {
@@ -76,14 +68,6 @@ $(function () {
             },
             'patient[city_id]': {
                 required: "请选择城市"
-            },
-            'patient[disease_name]': {
-                required: "请输入疾病诊断",
-                maxlength: "疾病诊断最长为50字"
-            },
-            'patient[disease_detail]': {
-                required: "请输入病史描述",
-                maxlength: "病史描述最长为1000字"
             }
         },
 //        errorContainer: "div.error",
@@ -109,7 +93,7 @@ $(function () {
             success: function (data) {
                 //success.
                 if (data.status == 'ok') {
-                    returnUrl += '/addBackBtn/1?id=' + data.patient.id + '&returnUrl=' + $returnUrl;
+                    returnUrl += '?id=' + data.patient.id + '&returnUrl=' + $returnUrl;
                     if (type == 'update') {
                         J.showToast('修改成功', '', '1000');
                     } else {

@@ -1,9 +1,9 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patient.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patient.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/patient.min.1.0.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/patient.min.1.0.js', CClientScript::POS_END);
 /*
  * $model PatientInfoForm.
  */
@@ -12,7 +12,8 @@ $this->setPageTitle('创建患者');
 $urlSavePatient = $this->createUrl('patient/savePatient');
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmit = $this->createUrl('patient/ajaxCreate');
-$urlReturn = $this->createUrl('patient/uploadMRFile', array('type' => 'create'));
+//$urlReturn = $this->createUrl('patient/uploadMRFile', array('type' => 'create'));
+$urlReturn = $this->createUrl('doctor/addDisease');
 $currentUrl = $this->getCurrentRequestUrl();
 $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
@@ -46,7 +47,7 @@ $checkTeamDoctor = $teamDoctor;
                 </li>
                 <li>
                     <?php //echo CHtml::activeLabel($model, 'mobile'); ?>    
-                    <label for="PatientInfoForm_mobile">患者手机号码</label>
+                    <label for="PatientInfoForm_mobile">联系方式</label>
                     <?php echo $form->textField($model, 'mobile', array('name' => 'patient[mobile]', 'placeholder' => '请填写手机号码', 'maxlength' => 50)); ?>
                     <?php echo $form->error($model, 'mobile'); ?>
                     <div></div>
@@ -106,16 +107,6 @@ $checkTeamDoctor = $teamDoctor;
                     ));
                     ?>
                     <?php echo $form->error($model, 'city_id'); ?>    
-                </li>
-                <li>
-                    <?php echo CHtml::activeLabel($model, 'disease_name'); ?>                                            
-                    <?php echo $form->textField($model, 'disease_name', array('name' => 'patient[disease_name]', 'placeholder' => '请输入疾病诊断', 'maxlength' => 50)); ?>
-                    <?php echo $form->error($model, 'disease_name'); ?>   
-                </li>
-                <li>
-                    <?php echo CHtml::activeLabel($model, 'disease_detail'); ?>                                            
-                    <?php echo $form->textArea($model, 'disease_detail', array('name' => 'patient[disease_detail]', 'placeholder' => '请输入病史描述', 'maxlength' => 1000)); ?>
-                    <?php echo $form->error($model, 'disease_detail'); ?>           
                 </li>
                 <li>
                     <div class="text-center btn-none">
