@@ -115,7 +115,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     inf += '<li class="slide pt2 textOmitted">' + doctors[i] + '</li>';
                 }
             }
-            console.log(inf);
             $('#information .bxslider').html(inf);
             $('#information .bxslider').bxSlider({
                 mode: 'fade',
