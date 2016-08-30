@@ -9,7 +9,7 @@ class DiseaseCategoryManager
         
         $oDbConnection = Yii::app()->db;
         $oCommand = $oDbConnection->createCommand(
-            'SELECT d.id as did, dc.id as id, d.category_id as dcid, dc.sub_cat_name as subCatName, d.is_common as isCommon, d.name FROM ' . DiseaseCategory::model()->tableName() . ' as dc'.
+            'SELECT dc.cat_id as catId, dc.sub_cat_id as subCatId, d.id as did, dc.id as id, d.category_id as dcid, dc.sub_cat_name as subCatName, d.is_common as isCommon, d.name FROM ' . DiseaseCategory::model()->tableName() . ' as dc'.
             ' join ' . Disease::model()->tableName() . ' as d on dc.id = d.category_id'.
             ' where dc.app_version = :app_version and d.app_version = :app_version'
         );
@@ -30,6 +30,8 @@ class DiseaseCategoryManager
                 array_push($result[$d['dcid']]['diseaseName'], $std);
             } else {
                 $result[$d['dcid']]['id'] = $d['id'];
+                $result[$d['dcid']]['catId'] = $d['catId'];
+                $result[$d['dcid']]['subCatId'] = $d['subCatId'];
                 $result[$d['dcid']]['subCatName'] = $d['subCatName'];
                 $result[$d['dcid']]['diseaseName'] = array();
                 array_push($result[$d['dcid']]['diseaseName'], $std);
