@@ -152,14 +152,12 @@ $checkTeamDoctor = $teamDoctor;
                     return false;
                 }
             });
-            console.log(bool);
             $('select').each(function () {
                 if ($(this).val() == '') {
                     bool = false;
                     return false;
                 }
             });
-            console.log(bool);
             if (bool) {
                 $('#btnSubmit').removeAttr('disabled');
             } else {

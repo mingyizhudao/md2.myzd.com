@@ -40,15 +40,13 @@ $addDisease = $this->createUrl('doctor/addDisease');
             </div>
             <div>
                 <div class="selectDisease grid">
-                    <div class="col-1">
-                        <?php
-                        if ($diseaseName != '') {
-                            echo $diseaseName;
-                        } else {
-                            echo '点击选择患者的疾病';
-                        }
-                        ?>
-                    </div>
+                    <?php
+                    if ($diseaseName != '') {
+                        echo '<div class="col-1 color-black">' . $diseaseName . '</div>';
+                    } else {
+                        echo '<div class="col-1">点击选择患者的疾病</div>';
+                    }
+                    ?>
                     <div class="col-0 icon-clear <?php echo $diseaseName != '' ? '' : 'hide' ?>"></div>
                 </div>
             </div>
@@ -75,14 +73,12 @@ $addDisease = $this->createUrl('doctor/addDisease');
                     return false;
                 }
             });
-            console.log(bool);
             $('textarea').each(function () {
                 if ($(this).val() == '') {
                     bool = false;
                     return false;
                 }
             });
-            console.log(bool);
             if (bool) {
                 $('#btnSubmit').removeAttr('disabled');
             } else {

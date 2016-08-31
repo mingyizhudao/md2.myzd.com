@@ -97,7 +97,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectHospital == '') {
                                     echo '请选择医生所在医院';
                                 } else {
-                                    echo $expectHospital;
+                                    echo '<span class="color-black">' . $expectHospital . '</span>';
                                 }
                                 ?>
                             </div>
@@ -111,7 +111,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectDept == '') {
                                     echo '请选择医生所在科室';
                                 } else {
-                                    echo $expectDept;
+                                    echo '<span class="color-black">' . $expectDept . '</span>';
                                 }
                                 ?>
                             </div>
@@ -125,7 +125,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectDoctor == '') {
                                     echo '请输入医生姓名';
                                 } else {
-                                    echo $expectDoctor;
+                                    echo '<span class="color-black">' . $expectDoctor . '</span>';
                                 }
                                 ?>
                             </div>
@@ -196,14 +196,12 @@ $userDoctorCerts = $doctorCerts;
                     return false;
                 }
             });
-            console.log(bool);
             $('textarea').each(function () {
                 if ($(this).val() == '') {
                     bool = false;
                     return false;
                 }
             });
-            console.log(bool);
             if (bool) {
                 $('#btnSubmit').removeAttr('disabled');
             } else {

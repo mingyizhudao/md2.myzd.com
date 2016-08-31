@@ -42,7 +42,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
     <div class="grid w100">
         <div class="col-1 pl20">
             <i class="icon_search"></i>
-            <input class="icon_input" type="text" placeholder="您可以输入患者姓名，医生姓名">
+            <input class="icon_input" type="text" placeholder="您可以输入疾病名称">
             <a class="icon_clear hide"></a>
         </div>
         <a href="javascript" class="col-0 pl5 pr5 color-white" data-target="back">
@@ -61,9 +61,12 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
             var searchValue = $('input').val();
             if (Trim(searchValue) == '') {
                 $('.icon_clear').addClass('hide');
+                $('#searchDiseaseView').html('');
                 return false;
             } else if (searchValue.match(/[a-zA-Z]/g) != null) {
                 $('.icon_clear').removeClass('hide');
+                var innerHtml = '<ul class="list"><li class="selectDisease color-green" data-name="' + searchValue + '">使用"' + searchValue + '"为您想要的疾病名称.</li></ul>';
+                $('#searchDiseaseView').html(innerHtml);
                 return false;
             } else if (searchValue != '') {
                 $('.icon_clear').removeClass('hide');

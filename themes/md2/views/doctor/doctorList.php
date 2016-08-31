@@ -79,9 +79,16 @@ $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' =
             var searchValue = $('input').val();
             if (Trim(searchValue) == '') {
                 $('.icon_clear').addClass('hide');
+                $('#doctorList').html('');
                 return false;
             } else if (searchValue.match(/[a-zA-Z]/g) != null) {
                 $('.icon_clear').removeClass('hide');
+                var innerHtml = '<div class="pad20">' +
+                        '<a class="confirmDoctor" href="<?php echo $inputDoctorInfo; ?>/' + searchValue + '">' +
+                        '还没您想要的专家？直接填写>' +
+                        '</a>' +
+                        '</div>';
+                $('#doctorList').html(innerHtml);
                 return false;
             } else if (searchValue != '') {
                 $('.icon_clear').removeClass('hide');
