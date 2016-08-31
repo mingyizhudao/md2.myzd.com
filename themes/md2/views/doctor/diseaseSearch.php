@@ -21,6 +21,9 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
         overflow: hidden;
         text-align: left;
     }
+    .list>li{
+        padding: 10px;
+    }
 </style>
 <header class="bg-green">
     <div class="grid w100">

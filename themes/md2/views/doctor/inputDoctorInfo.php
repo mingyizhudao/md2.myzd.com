@@ -15,7 +15,7 @@ $doctorName = Yii::app()->request->getQuery('doctorName', '');
 <article class="active" data-scroll="true">
     <div class="pad10">
         <input type="hidden" name="expectDoctor" value="<?php echo $doctorName; ?>">
-        <div class="color-green pt20 pb20">请告诉我们您想预约的专家</div>
+        <div class="color-green pt20 pb20">请告诉我们您想预约的专家：</div>
         <div class="grid">
             <div class="col-0 pt7">所在医院：</div>
             <div class="col-1">

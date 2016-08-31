@@ -135,9 +135,9 @@ if ($source == 1) {
             var results = data.results;
             var innerHtml = '';
             if ('<?php echo $source; ?>' == 1) {
-                innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;">';
+                innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;" data-scroll="true">';
             } else {
-                innerHtml += '<div class="color-black" style="margin-top:49px;height:315px;">';
+                innerHtml += '<div class="color-black" style="margin-top:49px;height:315px;" data-scroll="true">';
             }
             innerHtml += '<ul class="list">';
             if (results.length > 0) {

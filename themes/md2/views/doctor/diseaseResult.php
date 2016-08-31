@@ -65,8 +65,10 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
                 return false;
             } else if (searchValue.match(/[a-zA-Z]/g) != null) {
                 $('.icon_clear').removeClass('hide');
-                var innerHtml = '<ul class="list"><li class="selectDisease color-green" data-name="' + searchValue + '">使用"' + searchValue + '"为您想要的疾病名称.</li></ul>';
+                var innerHtml = '<ul class="list"><li>没有找到该疾病</li><li class="selectDisease color-green" data-name="' + searchValue + '">使用"' + searchValue + '"为您想要的疾病名称.</li></ul>';
                 $('#searchDiseaseView').html(innerHtml);
+                //选择疾病
+                selectDisease()
                 return false;
             } else if (searchValue != '') {
                 $('.icon_clear').removeClass('hide');
@@ -108,6 +110,10 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
             }
             $('#searchDiseaseView').html(innerHtml);
             //选择疾病
+            selectDisease();
+        }
+
+        function selectDisease() {
             $('.selectDisease').click(function () {
                 var diseaseName = $(this).attr('data-name');
                 location.href = '<?php echo $addDisease; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>&diseaseName=' + diseaseName;
