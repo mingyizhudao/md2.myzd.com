@@ -150,15 +150,20 @@ $userDoctorCerts = $doctorCerts;
                 </div>
                 <?php echo $form->error($model, 'detail'); ?>                
             </div>
-            <div class="pt20 pb20">
-                <a id="btnSubmit" class="btn btn-yes btn-block">提交</a>
-            </div>
             <?php $this->endWidget(); ?>
+            <div class="pt20 pb20">
+                <button id="btnSubmit" class="btn btn-yes btn-block" disabled="disabled">提交</button>
+            </div>
         </div>
     </div>
 </article>
 <script>
     Zepto(function ($) {
+
+        document.addEventListener('input', function (e) {
+            checkInput();
+        });
+
         $('.selectExpect').click(function () {
             location.href = '<?php echo $urlViewContractDoctors; ?>';
         });
@@ -180,6 +185,30 @@ $userDoctorCerts = $doctorCerts;
                 $(this).removeClass('active');
             });
             $(this).addClass('active');
+            checkInput();
         });
+
+        function checkInput() {
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            $('textarea').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            if (bool) {
+                $('#btnSubmit').removeAttr('disabled');
+            } else {
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+        }
     });
 </script>

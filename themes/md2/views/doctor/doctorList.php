@@ -1,7 +1,7 @@
 <?php
 $pid = Yii::app()->request->getQuery('pid', '');
 $patientbookingCreate = $this->createUrl('patientbooking/create');
-$inputDoctorInfo = $this->createUrl('doctor/inputDoctorInfo', array('pid' => $pid));
+$inputDoctorInfo = $this->createUrl('doctor/inputDoctorInfo', array('pid' => $pid, 'doctorName' => ''));
 $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' => 1, 'name' => ''));
 ?>
 <style>
@@ -143,7 +143,7 @@ $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' =
                 }
             }
             innerHtml += '<div class="pad20">' +
-                    '<a class="confirmDoctor" href="<?php echo $inputDoctorInfo; ?>">' +
+                    '<a class="confirmDoctor" href="<?php echo $inputDoctorInfo; ?>/' + searchValue + '">' +
                     '还没您想要的专家？直接填写>' +
                     '</a>' +
                     '</div>';

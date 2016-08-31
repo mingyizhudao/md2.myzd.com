@@ -17,10 +17,10 @@ $profile = $profile;
 <article id="viewCommonweal_article" class="active" data-scroll="true">
     <div class="pageBg">
         <div>
-            <img src="http://static.mingyizhudao.com/146356505242989" class="w100">
+            <img src="http://static.mingyizhudao.com/147124030180342" class="w100">
         </div>
         <div class="pl10 pr10 color-black11 text-justify">
-            <div class="font-s18 color-brown2 bl2-brown pl10 font-w800">
+            <div class="font-s18 c-green bl2-green pl10 font-w800">
                 名医公益联盟是什么？
             </div>
             <div class="pt10">
@@ -29,14 +29,14 @@ $profile = $profile;
             <div>
                 作为国内最大的移动医疗手术平台，名医主刀每天都能接触到大量需要手术的患者，其中不少患者家境贫寒难以全部承担手术服务费用。名医主刀一直将“仁爱”视为核心文化，希望通过名医公益联盟，汇聚社会爱心力量，帮助贫困患者解决“好看病，看好病”的切实需求。
             </div>
-            <div class="font-s18 color-brown2 bl2-brown pl10 font-w800 mt10">
+            <div class="font-s18 c-green bl2-green pl10 font-w800 mt10">
                 如何预约公益联盟？
             </div>
             <div class="pt10">
-                您可以直接在线点击或拨打客服热线预约以下医生，名医助手会在1个工作日回访确认，并指导填写申请表格。 通过审核的申请者可以免支付专家会诊费。如有家庭条件特别困难的患者，可以申请“名医公益援助金”。通过审核的申请者可以获得5000-10000元的援助金。如患者本人因病暂无能力自行申请，需指定委托人填写。
+                您可以直接在线点击或拨打客服热线预约以下医生，名医助手会在1个工作日回访确认，并指导填写申请表格。 通过审核的申请者可以免支付专家会诊费。如有家庭条件特别困难的患者，可以申请“名医公益援助金”。通过审核的申请者可以获得5000-10000元的援助金。如患者本人因病暂无能力自行申请，需指定委托人填写。（客服回访确认后会单独发送表格）
             </div>
-            <div class="font-s18 color-brown2 bl2-brown pl10 font-w800 mt10">
-                捐赠手术的名医？
+            <div class="font-s18 c-green bl2-green pl10 font-w800 mt10">
+                捐赠手术的名医
             </div>
             <div id="doctorList">
                 <?php
@@ -55,7 +55,7 @@ $profile = $profile;
                                         </div>
                                         <div class="ml10 col-1 w75">
                                             <div class="grid">
-                                                <div class="col-0 font-s16"><?php echo $doctorList[$i]->name; ?></div>
+                                                <div class="col-0 font-s18 font-w800"><?php echo $doctorList[$i]->name; ?><span class="ml5 font-s16"><?php echo $doctorList[$i]->aTitle; ?></span></div>
                                             </div>
                                             <div class="color-black6"><?php echo $doctorList[$i]->hpDeptName; ?><span class="ml5"><?php echo $doctorList[$i]->mTitle; ?></span></div>
                                             <div class="color-black6"><?php echo $doctorList[$i]->hpName; ?></div>
@@ -102,8 +102,8 @@ $profile = $profile;
                 }
                 ?>
             </div>
-            <div class="font-s18 color-brown2 bl2-brown pl10 font-w800 mt10">
-                公益合作？
+            <div class="font-s18 c-green bl2-green pl10 font-w800 mt10">
+                公益合作
             </div>
             <div class="grid mt10">
                 <div class="col-1 w33 text-center">
