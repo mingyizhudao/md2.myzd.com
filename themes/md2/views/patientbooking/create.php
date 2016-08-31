@@ -97,7 +97,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectHospital == '') {
                                     echo '请选择医生所在医院';
                                 } else {
-                                    echo $expectHospital;
+                                    echo '<span class="color-black">' . $expectHospital . '</span>';
                                 }
                                 ?>
                             </div>
@@ -111,7 +111,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectDept == '') {
                                     echo '请选择医生所在科室';
                                 } else {
-                                    echo $expectDept;
+                                    echo '<span class="color-black">' . $expectDept . '</span>';
                                 }
                                 ?>
                             </div>
@@ -125,7 +125,7 @@ $userDoctorCerts = $doctorCerts;
                                 if ($expectDoctor == '') {
                                     echo '请输入医生姓名';
                                 } else {
-                                    echo $expectDoctor;
+                                    echo '<span class="color-black">' . $expectDoctor . '</span>';
                                 }
                                 ?>
                             </div>
@@ -150,15 +150,20 @@ $userDoctorCerts = $doctorCerts;
                 </div>
                 <?php echo $form->error($model, 'detail'); ?>                
             </div>
-            <div class="pt20 pb20">
-                <a id="btnSubmit" class="btn btn-yes btn-block">提交</a>
-            </div>
             <?php $this->endWidget(); ?>
+            <div class="pt20 pb20">
+                <button id="btnSubmit" class="btn btn-yes btn-block" disabled="disabled">提交</button>
+            </div>
         </div>
     </div>
 </article>
 <script>
     Zepto(function ($) {
+
+        document.addEventListener('input', function (e) {
+            checkInput();
+        });
+
         $('.selectExpect').click(function () {
             location.href = '<?php echo $urlViewContractDoctors; ?>';
         });
@@ -180,6 +185,28 @@ $userDoctorCerts = $doctorCerts;
                 $(this).removeClass('active');
             });
             $(this).addClass('active');
+            checkInput();
         });
+
+        function checkInput() {
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            $('textarea').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            if (bool) {
+                $('#btnSubmit').removeAttr('disabled');
+            } else {
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+        }
     });
 </script>

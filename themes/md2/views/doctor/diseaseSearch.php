@@ -32,7 +32,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
             </a>
         </div>
         <div class="col-1 pt7 pb7 pr20">
-            <div class="searchInput">您可以输入患者姓名，医生姓名</div>
+            <div class="searchInput">您可以输入疾病名称</div>
         </div>
     </div>
 </header>
