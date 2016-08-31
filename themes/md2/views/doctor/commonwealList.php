@@ -20,7 +20,7 @@ $urlViewDoctor = $this->createUrl('doctor/viewDoctor');
                                 </div>
                                 <div class="ml10 col-1 w75">
                                     <div class="grid">
-                                        <div class="col-0 font-s16"><?php echo $doctorList[$i]->name; ?></div>
+                                        <div class="col-0 font-s18 font-w800"><?php echo $doctorList[$i]->name; ?><span class="ml5 font-s16"><?php echo $doctorList[$i]->aTitle; ?></span></div>
                                     </div>
                                     <div class="color-black6"><?php echo $doctorList[$i]->hpDeptName; ?><span class="ml5"><?php echo $doctorList[$i]->mTitle; ?></span></div>
                                     <div class="color-black6"><?php echo $doctorList[$i]->hpName; ?></div>
