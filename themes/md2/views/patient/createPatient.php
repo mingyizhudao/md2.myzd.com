@@ -82,6 +82,7 @@ $checkTeamDoctor = $teamDoctor;
                             <div></div>
                         </div>
                     </div>
+                    <input type="hidden" id="checkGender">
                     <?php echo $form->error($model, 'gender'); ?>
                 </li>
                 <li>
@@ -108,17 +109,13 @@ $checkTeamDoctor = $teamDoctor;
                     ?>
                     <?php echo $form->error($model, 'city_id'); ?>    
                 </li>
-                <li>
-                    <div class="text-center btn-none">
-<!--                                <input type="button" id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center" value="下一步" />-->
-                        <a id="btnSubmit" class="btn-yes pl50 pr50 pt10 pb10 text-center">下一步</a>
-                    </div>
-                    <!--<input id="btnSubmit" class="" type="submit" name="yt0" value="提交">-->
-                </li>
             </ul>
             <?php
             $this->endWidget();
-            ?>           
+            ?>
+            <div class="pad20">
+                <button id="btnSubmit" class="btn btn-yes btn-block" disabled="disabled">下一步</button>
+            </div>
         </div>
     </div>
 </article>
@@ -139,6 +136,33 @@ $checkTeamDoctor = $teamDoctor;
                         location.href = "<?php echo $urlDoctorView; ?>";
                     });
         }
+        //按钮可操作
+        $('input[name="patient[gender]"]').click(function () {
+            $('#checkGender').val('ok');
+        });
+        document.addEventListener('input', function (e) {
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            $('select').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            if (bool) {
+                $('#btnSubmit').removeAttr('disabled');
+            } else {
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+        });
+
         //初始化年月下拉菜单
         initDateSelect();
         $("select").change(function () {

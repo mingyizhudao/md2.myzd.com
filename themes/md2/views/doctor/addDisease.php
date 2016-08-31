@@ -60,12 +60,35 @@ $addDisease = $this->createUrl('doctor/addDisease');
             </div>
         </form>
         <div>
-            <a href="javascript:;" id="btnSubmit" class="btn btn-block bg-green color-white">下一步</a>
+            <button id="btnSubmit" class="btn btn-yes btn-block" disabled="disabled">下一步</button>
         </div>
     </div>
 </article>
 <script>
     $(document).ready(function () {
+        //按钮操作
+        document.addEventListener('input', function (e) {
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            $('textarea').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            console.log(bool);
+            if (bool) {
+                $('#btnSubmit').removeAttr('disabled');
+            } else {
+                $('#btnSubmit').attr('disabled', 'disabled');
+            }
+        });
         $('.selectDisease').find('.col-1').click(function () {
             location.href = '<?php echo $diseaseSearch; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>';
         });
