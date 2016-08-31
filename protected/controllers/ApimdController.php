@@ -137,6 +137,7 @@ class ApimdController extends Controller {
                 break;
             case 'deptlist'://科室列表
                 $apiService = new ApiViewDiseaseCategory();
+                $apiService->loadDiseaseCategory();
                 $output = $apiService->loadApiViewData();
                 break;
             case 'contractdoctorlist'://签约医生列表
