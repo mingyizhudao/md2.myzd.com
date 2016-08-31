@@ -82,20 +82,30 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
                 for (var i = 0; i < results.length; i++) {
                     if (i == 0) {
                         innerDept += '<li class="deptChange bg-gray3" data-id="' + results[i].id + '">' + results[i].subCatName + '</li>';
-                        innerDisease += '<ul class="list diseaseList" data-dept="' + results[i].id + '">';
+                        innerDisease += '<div class="diseaseList" data-dept="' + results[i].id + '">';
                     } else {
                         innerDept += '<li class="deptChange" data-id="' + results[i].id + '">' + results[i].subCatName + '</li>';
-                        innerDisease += '<ul class="list diseaseList hide" data-dept="' + results[i].id + '">';
+                        innerDisease += '<div class="diseaseList hide" data-dept="' + results[i].id + '">';
                     }
                     var diseaseName = results[i].diseaseName;
                     if (diseaseName.length > 0) {
+                        //常见疾病
+                        var commonDisease = '<div class="bg-gray3 pad10">常见疾病</div><ul class="list">';
+                        var allDisease = '<div class="bg-gray3 pad10">全部</div><ul class="list">';
                         for (var j = 0; j < diseaseName.length; j++) {
-                            innerDisease += '<li class="selectDisease">' + diseaseName[j].name + '</li>';
+                            if (diseaseName[j].isCommon == 1) {
+                                commonDisease += '<li class="selectDisease">' + diseaseName[j].name + '</li>';
+                            }
+                            allDisease += '<li class="selectDisease">' + diseaseName[j].name + '</li>';
                         }
+                        commonDisease += '</ul>';
+                        allDisease += '</ul>';
+                        innerDisease += commonDisease;
+                        innerDisease += allDisease;
                     } else {
-                        innerDisease += '<li>暂无疾病</li>';
+                        innerDisease += '<ul class="class"><li>暂无疾病</li></ul>';
                     }
-                    innerDisease += '</ul>';
+                    innerDisease += '</div>';
                 }
             }
             $('#deptList').html(innerDept);

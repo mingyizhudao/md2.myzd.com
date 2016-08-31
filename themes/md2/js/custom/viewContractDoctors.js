@@ -117,25 +117,6 @@ function deptSelect() {
         showCloseBtn: false
     });
 
-    $('.aDept').click(function (e) {
-        e.preventDefault();
-        var dataDept = $(this).attr('data-dept');
-        $('.aDept').each(function () {
-            if (dataDept == $(this).attr('data-dept')) {
-                $(this).addClass('bg-white');
-            } else {
-                $(this).removeClass('bg-white');
-            }
-        });
-        $('.bDept').each(function () {
-            if (dataDept == $(this).attr('data-dept')) {
-                $(this).removeClass('hide');
-            } else {
-                $(this).addClass('hide');
-            }
-        });
-    });
-
     $('.cDept').click(function (e) {
         e.preventDefault();
         $deptId = $(this).attr('data-dept');
