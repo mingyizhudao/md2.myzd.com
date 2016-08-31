@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'jpush' => array($vendorDir . '/jpush/jpush/src'),
-    'igt' => array($vendorDir . '/getui/php'),
 );

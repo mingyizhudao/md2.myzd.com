@@ -22,65 +22,10 @@ class TestController extends WebsiteController {
     
     public function actionGetui()
     {
-        $igt = new \IGeTui(HOST,APPKEY,MASTERSECRET);
-        $template = $this->IGtNotificationTemplateDemo();
-        
-        //个推信息体
-        //基于应用消息体
-        $message = new \IGtAppMessage();
-        $message->set_isOffline(true);
-        $message->set_offlineExpireTime(3600*12*1000);//离线时间单位为毫秒，例，两个小时离线为3600*1000*2
-        $message->set_data($template);
-        $message->set_PushNetWorkType(0);//设置是否根据WIFI推送消息，1为wifi推送，0为不限制推送
-        $message->set_speed(100);// 设置群推接口的推送速度，单位为条/秒，例如填写100，则为100条/秒。仅对指定应用群推接口有效。
-        $message->set_appIdList(array(APPID));
-        $message->set_phoneTypeList(array('ANDROID','IOS'));
-        //$message->set_provinceList(array('浙江','上海','北京'));
-        $message->set_tagList(array('开心'));
-        $rep = $igt->pushMessageToApp($message);
-        var_dump($rep);
-        echo ("<br><br>");
+        require_once('./protected/sdk/getui/php/alias_demo.php');
+        exit;
     }
-
-    public function IGtNotificationTemplateDemo()
-    {
-        $template =  new \IGtNotificationTemplate();
-        $template->set_appId(APPID);                   //应用appid
-        $template->set_appkey(APPKEY);                 //应用appkey
-        $template->set_transmissionType(1);            //透传消息类型
-        $template->set_transmissionContent("测试离线");//透传内容
-        $template->set_title("个推");                  //通知栏标题
-        $template->set_text("个推最新版点击下载");     //通知栏内容
-        $template->set_logo("");                       //通知栏logo
-        $template->set_logoURL("");                    //通知栏logo链接
-        $template->set_isRing(true);                   //是否响铃
-        $template->set_isVibrate(true);                //是否震动
-        $template->set_isClearable(true);              //通知栏是否可清除
-        
-
-        // iOS推送需要设置的pushInfo字段(老方法不推荐使用)
-        //$template ->set_pushInfo($actionLocKey,$badge,$message,$sound,$payload,$locKey,$locArgs,$launchImage);
-        //$template ->set_pushInfo("test",1,"message","","","","","");
-        //iOS推送需要设置的pushInfo字段
-        //        $apn = new IGtAPNPayload();
-        //        $apn->alertMsg = "alertMsg";
-        //        $apn->badge = 11;
-        //        $apn->actionLocKey = "启动";
-        //        $apn->category = "ACTIONABLE";
-        //        $apn->contentAvailable = 1;
-        //        $apn->locKey = "通知栏内容";
-        //        $apn->title = "通知栏标题";
-        //        $apn->titleLocArgs = array("titleLocArgs");
-        //        $apn->titleLocKey = "通知栏标题";
-        //        $apn->body = "body";
-        //        $apn->customMsg = array("payload"=>"payload");
-        //        $apn->launchImage = "launchImage";
-        //        $apn->locArgs = array("locArgs");
-        //
-        //        $apn->sound=("test1.wav");;
-        //        $template->set_apnInfo($apn);
-        return $template;
-    }
+    
     public function actionUserlogin() {
         $url = $this->createAbsoluteUrl('api/create', array('model' => 'userlogin'));
         var_dump($url);

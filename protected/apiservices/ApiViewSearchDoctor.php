@@ -38,8 +38,8 @@ class ApiViewSearchDoctor extends EApiViewService
         if ($form->validate()) {
             $data = $form->getSafeAttributes();
             $doctorInfo = $this->islike == 1 ? 
-                Doctor::model()->findAll('name like :name', array(':name' => "%{$data['name']}%")) :
-                Doctor::model()->findAll('name = :name', array(':name' => $data['name']));
+                Doctor::model()->findAll('is_contracted = 1 and name like :name', array(':name' => "%{$data['name']}%")) :
+                Doctor::model()->findAll('is_contracted = 1 and name = :name', array(':name' => $data['name']));
             $result = array();
             foreach ($doctorInfo as $r) {
                 $data = new stdClass();

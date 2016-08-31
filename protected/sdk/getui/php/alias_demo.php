@@ -7,12 +7,13 @@ header("Content-Type: text/html; charset=utf-8");
 
 require_once(dirname(__FILE__) . '/' . 'IGt.Push.php');
 
-define('APPKEY','');
-define('APPID','');
-define('MASTERSECRET','');
+define('APPKEY','JVTsoqWjbu5sXfnG9Ilw47');
+define('APPID','MHqMHR0rScAj0GvRD06Im5');
+define('MASTERSECRET','wPzO5uzggO672DUccX8Oi1');
 define('CID','');
 define('DEVICETOKEN','');
-define('Alias','请输入别名');
+define('Alias',md5('md_15618294696'));
+define('ALIAS', md5('md_15618294696'));
 define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
 //define('CID2','请输入ClientID');
 
@@ -241,10 +242,34 @@ function IGtTransmissionTemplateDemo(){
         $template->set_appId(APPID);//应用appid
         $template->set_appkey(APPKEY);//应用appkey
         $template->set_transmissionType(1);//透传消息类型
-        $template->set_transmissionContent("测试离线");//透传内容
+        $template->set_transmissionContent('{ "iosVersion":[ "2.1.0" ], "adVersion":[ "2.2.1.0" ], "type":"web", "url":"http://md.mingyizhudao.com/mobiledoctor/order/view?refNo=PB16080414538001&os=android&header=0&footer=0&addBackBtn=0", "title":"订单支付", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540" } }}');//透传内容
 	//iOS推送需要设置的pushInfo字段
 	//$template ->set_pushInfo($actionLocKey,$badge,$message,$sound,$payload,$locKey,$locArgs,$launchImage);
 	//$template ->set_pushInfo("", 0, "", "", "", "", "", "");
+	
+        //ios
+        //       APN高级推送
+        $apn = new IGtAPNPayload();
+        $alertmsg=new DictionaryAlertMsg();
+        $alertmsg->body="body";
+        $alertmsg->actionLocKey="ActionLockey";
+        $alertmsg->locKey="LocKey";
+        $alertmsg->locArgs=array("locargs");
+        $alertmsg->launchImage="launchimage";
+        //        IOS8.2 支持
+        $alertmsg->title="水培喝水";
+        $alertmsg->titleLocKey="TitleLocKey";
+        $alertmsg->titleLocArgs=array("TitleLocArg");
+        
+        $apn->alertMsg=$alertmsg;
+        $apn->badge=1;
+        $apn->sound="";
+        $apn->add_customMsg("payload","阿波罗度上市");
+        //      $apn->contentAvailable=1;
+        $apn->category="ACTIONABLE";
+        $template->set_apnInfo($apn);
+        
+        
         return $template;
 }
 
