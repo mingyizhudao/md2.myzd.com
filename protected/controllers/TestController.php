@@ -25,7 +25,26 @@ class TestController extends WebsiteController {
         require_once('./protected/sdk/getui/php/alias_demo.php');
         exit;
     }
-    
+
+    /**
+     * 个推测试
+     */
+    public function actionMessage()
+    {
+        $android_client = new IGtAndroid();
+        $template = [
+            'title' => '名医主刀', //通知标题
+            'text' => '打开名医主刀官网', //通知内容
+        ];
+        $android_client->pushMessageToApp(2, $template);
+
+        //$android_client->setClientId($client_id);
+        //$android_client->pushMessageToSingle(0, $template);
+
+        //$android_client->setClientList($list);
+        //$android_client->pushMessageToList(0, $template);
+    }
+
     public function actionUserlogin() {
         $url = $this->createAbsoluteUrl('api/create', array('model' => 'userlogin'));
         var_dump($url);
