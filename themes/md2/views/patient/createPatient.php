@@ -139,8 +139,12 @@ $checkTeamDoctor = $teamDoctor;
         //按钮可操作
         $('input[name="patient[gender]"]').click(function () {
             $('#checkGender').val('ok');
+            checkInput();
         });
         document.addEventListener('input', function (e) {
+            checkInput();
+        });
+        function checkInput() {
             var bool = true;
             $('input').each(function () {
                 if ($(this).val() == '') {
@@ -161,7 +165,7 @@ $checkTeamDoctor = $teamDoctor;
             } else {
                 $('#btnSubmit').attr('disabled', 'disabled');
             }
-        });
+        }
 
         //初始化年月下拉菜单
         initDateSelect();
