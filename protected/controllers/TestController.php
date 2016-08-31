@@ -565,4 +565,20 @@ class TestController extends WebsiteController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 个推测试
+     */
+    public function actionMessage()
+    {
+        $android_client = new IGtAndroid();
+        $template = [];
+        $android_client->pushMessageToApp(2, $template);
+
+        //$android_client->setClientId($client_id);
+        //$android_client->pushMessageToSingle(0, $template);
+
+        //$android_client->setClientList($list);
+        //$android_client->pushMessageToList(0, $template);
+    }
+
 }
