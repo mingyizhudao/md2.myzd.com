@@ -16,12 +16,12 @@ define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
 //define('HOST','https://api.getui.com/apiex.htm');
                
 
-define('APPKEY','');
-define('APPID','');
-define('MASTERSECRET','');
+define('APPKEY','JVTsoqWjbu5sXfnG9Ilw47');
+define('APPID','MHqMHR0rScAj0GvRD06Im5');
+define('MASTERSECRET','wPzO5uzggO672DUccX8Oi1');
 define('CID','');
 define('DEVICETOKEN','');
-define('Alias','请输入别名');
+define('Alias',md5('md_15618294696'));
 //define('BEGINTIME','2015-03-06 13:18:00');
 //define('ENDTIME','2015-03-06 13:24:00');
 
@@ -33,7 +33,7 @@ define('Alias','请输入别名');
 
 //getUserTags();
 
-//pushMessageToSingle();
+pushMessageToSingle();
 
 //pushMessageToSingleBatch();
 
@@ -43,7 +43,7 @@ define('Alias','请输入别名');
 
 //pushMessageToList();
 
-pushMessageToApp();
+//pushMessageToApp();
 
 //pushAPN();
 
@@ -244,9 +244,9 @@ function pushMessageToSingle(){
     // 4.NotyPopLoadTemplate：通知弹框下载功能模板
 
 //    	$template = IGtNotyPopLoadTemplateDemo();
-//    	$template = IGtLinkTemplateDemo();
+    	$template = IGtLinkTemplateDemo();
 //    	$template = IGtNotificationTemplateDemo();
-    $template = IGtTransmissionTemplateDemo();
+//    $template = IGtTransmissionTemplateDemo();
 
     //个推信息体
     $message = new IGtSingleMessage();
@@ -258,8 +258,8 @@ function pushMessageToSingle(){
     //接收方
     $target = new IGtTarget();
     $target->set_appId(APPID);
-    $target->set_clientId(CID);
-//    $target->set_alias(Alias);
+    //$target->set_clientId(CID);
+    $target->set_alias(Alias);
 
 
     try {
@@ -375,7 +375,7 @@ function pushMessageToApp(){
 
     $appIdList=array(APPID);
     $phoneTypeList=array('ANDROID');
-    $provinceList=array('浙江');
+   // $provinceList=array('浙江');
     $tagList=array('haha');
     //用户属性
     //$age = array("0000", "0010");
@@ -433,7 +433,7 @@ function IGtLinkTemplateDemo(){
     $template ->set_appId(APPID);//应用appid
     $template ->set_appkey(APPKEY);//应用appkey
     $template ->set_title("请输入通知标题");//通知栏标题
-    $template ->set_text("请输入通知内容");//通知栏内容
+    $template ->set_text('{ "iosVersion":[ "2.1.0" ], "adVersion":[ "2.2.1.0" ], "type":"web", "url":"http://md.mingyizhudao.com/mobiledoctor/order/view?refNo=PB16080414538001&os=android&header=0&footer=0&addBackBtn=0", "title":"订单支付", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540" } }}');//通知栏内容
     $template ->set_logo("");//通知栏logo
     $template ->set_isRing(true);//是否响铃
     $template ->set_isVibrate(true);//是否震动
@@ -466,10 +466,10 @@ function IGtNotificationTemplateDemo(){
     $template->set_appId(APPID);//应用appid
     $template->set_appkey(APPKEY);//应用appkey
     $template->set_transmissionType(1);//透传消息类型
-    $template->set_transmissionContent("测试离线");//透传内容
+    $template->set_transmissionContent('{ "iosVersion":[ "2.1.0" ], "adVersion":[ "2.2.1.0" ], "type":"web", "url":"http://md.mingyizhudao.com/mobiledoctor/order/view?refNo=PB16080414538001&os=android&header=0&footer=0&addBackBtn=0", "title":"订单支付", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540" } }}');//透传内容
     $template->set_title("个推");//通知栏标题
     $template->set_text("个推最新版点击下载");//通知栏内容
-    $template->set_logo("http://wwww.igetui.com/logo.png");//通知栏logo
+    //$template->set_logo("http://wwww.igetui.com/logo.png");//通知栏logo
     $template->set_isRing(true);//是否响铃
     $template->set_isVibrate(true);//是否震动
     $template->set_isClearable(true);//通知栏是否可清除
@@ -500,7 +500,7 @@ function IGtTransmissionTemplateDemo(){
     $template->set_appId(APPID);//应用appid
     $template->set_appkey(APPKEY);//应用appkey
     $template->set_transmissionType(1);//透传消息类型
-    $template->set_transmissionContent("测试离线ddd");//透传内容
+    $template->set_transmissionContent('{ "iosVersion":[ "2.1.0" ], "adVersion":[ "2.2.1.0" ], "type":"web", "url":"http://md.mingyizhudao.com/mobiledoctor/order/view?refNo=PB16080414538001&os=android&header=0&footer=0&addBackBtn=0", "title":"订单支付", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540" } }}');//透传内容
     //$template->set_duration(BEGINTIME,ENDTIME); //设置ANDROID客户端在此时间区间内展示消息
     //APN简单推送
 //        $template = new IGtAPNTemplate();

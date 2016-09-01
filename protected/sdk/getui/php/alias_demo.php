@@ -17,9 +17,9 @@ define('ALIAS', md5('md_15618294696'));
 define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
 //define('CID2','请输入ClientID');
 
-//pushMessageToSingle();
+pushMessageToSingle();
 
-pushMessageToList();
+//pushMessageToList();
 
 //aliasBind();    //ClientID与别名绑定
 
@@ -249,25 +249,25 @@ function IGtTransmissionTemplateDemo(){
 	
         //ios
         //       APN高级推送
-        $apn = new IGtAPNPayload();
-        $alertmsg=new DictionaryAlertMsg();
-        $alertmsg->body="body";
-        $alertmsg->actionLocKey="ActionLockey";
-        $alertmsg->locKey="LocKey";
-        $alertmsg->locArgs=array("locargs");
-        $alertmsg->launchImage="launchimage";
-        //        IOS8.2 支持
-        $alertmsg->title="水培喝水";
-        $alertmsg->titleLocKey="TitleLocKey";
-        $alertmsg->titleLocArgs=array("TitleLocArg");
+//         $apn = new IGtAPNPayload();
+//         $alertmsg=new DictionaryAlertMsg();
+//         $alertmsg->body="body";
+//         $alertmsg->actionLocKey="ActionLockey";
+//         $alertmsg->locKey="LocKey";
+//         $alertmsg->locArgs=array("locargs");
+//         $alertmsg->launchImage="launchimage";
+//         //        IOS8.2 支持
+//         $alertmsg->title="水培喝水";
+//         $alertmsg->titleLocKey="TitleLocKey";
+//         $alertmsg->titleLocArgs=array("TitleLocArg");
         
-        $apn->alertMsg=$alertmsg;
-        $apn->badge=1;
-        $apn->sound="";
-        $apn->add_customMsg("payload","阿波罗度上市");
-        //      $apn->contentAvailable=1;
-        $apn->category="ACTIONABLE";
-        $template->set_apnInfo($apn);
+//         $apn->alertMsg=$alertmsg;
+//         $apn->badge=1;
+//         $apn->sound="";
+//         $apn->add_customMsg("payload","阿波罗度上市");
+//         //      $apn->contentAvailable=1;
+//         $apn->category="ACTIONABLE";
+//         $template->set_apnInfo($apn);
         
         
         return $template;
