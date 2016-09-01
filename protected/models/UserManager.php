@@ -208,7 +208,7 @@ class UserManager {
     /**
      * Login user.
      * @param UserLoginForm $form
-     * @return type 
+     * @return boolean
      */
     public function doLogin(UserLoginForm $form) {
         return ($form->validate() && $form->login());
@@ -216,8 +216,8 @@ class UserManager {
 
     /**
      * 手机用户登录
-     * @param UserCerifyCodeLoginForm $form
-     * @return type
+     * @param UserDoctorMobileLoginForm $form
+     * @return bool
      */
     public function mobileLogin(UserDoctorMobileLoginForm $form) {
         if ($form->validate()) {

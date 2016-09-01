@@ -6,5 +6,6 @@
 .project
 .htaccess
 index.php
+.idea/*
 /assets/
 /protected/config/main_md.php

@@ -236,10 +236,16 @@ class User extends EActiveRecord {
 
     /*     * ****** Accessors ******* */
 
+    /**
+     * @return userDoctorCert
+     */
     public function getUserDoctorCerts() {
         return $this->userDoctorCerts;
     }
 
+    /**
+     * @return userDoctorProfile
+     */
     public function getUserDoctorProfile() {
         return $this->userDoctorProfile;
     }

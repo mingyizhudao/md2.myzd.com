@@ -255,7 +255,7 @@ abstract class EActiveRecord extends CActiveRecord {
      *  Query model with relations, 'date_deleted' is null by default if not specified.
      * @param array $attrs
      * @param type $with array of model's relations.
-     * @return type 
+     * @return $this
      */
     public function getByAttributes(array $attrs, $with = null) {
         if (isset($attrs['date_deleted']) === false)
