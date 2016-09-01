@@ -1,4 +1,5 @@
 <?php
+$this->setPageTitle('选择疾病');
 $diseaseResult = $this->createUrl('doctor/diseaseResult');
 $addDisease = $this->createUrl('doctor/addDisease');
 $diseaseCategoryToSub = $this->createUrl('doctor/diseaseCategoryToSub');
@@ -6,26 +7,7 @@ $diseaseByCategoryId = $this->createUrl('doctor/diseaseByCategoryId', array('cat
 $id = Yii::app()->request->getQuery('id', '');
 $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
 ?>
-<style>
-    .w130p{width: 130px;}
-    .searchInput {
-        background: #fff url('http://static.mingyizhudao.com/146243645256928') no-repeat;
-        background-size: 15px 15px;
-        background-position: 7px 7px;
-        height: 30px;
-        border-radius: 5px;
-        padding: 0 10px 0 30px;
-        color: #a9a9a9;
-        line-height: 32px;
-        letter-spacing: 0;
-        overflow: hidden;
-        text-align: left;
-    }
-    .list>li{
-        padding: 10px;
-    }
-</style>
-<header class="bg-green">
+<header id="diseaseSearch_header" class="bg-green">
     <div class="grid w100">
         <div class="col-0 pl5 pr10">
             <a href="javascript:;" data-target="back">
@@ -39,7 +21,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
         </div>
     </div>
 </header>
-<article class="active">
+<article id="diseaseSearch_article" class="active">
     <div class="grid">
         <div class="scrollModular col-0 w130p br-gray text-center">
             <ul id="deptList" class="list">

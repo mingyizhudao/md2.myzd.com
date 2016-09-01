@@ -1,62 +1,11 @@
 <?php
+$this->setPageTitle('搜索医生');
 $pid = Yii::app()->request->getQuery('pid', '');
 $patientbookingCreate = $this->createUrl('patientbooking/create');
 $inputDoctorInfo = $this->createUrl('doctor/inputDoctorInfo', array('pid' => $pid, 'doctorName' => ''));
 $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' => 1, 'name' => ''));
 ?>
-<style>
-    .icon_search {
-        position: absolute;
-        left: 27px;
-        top: 9px;
-        width: 15px;
-        height: 25px;
-        background: url('http://static.mingyizhudao.com/146243645256928') no-repeat;
-        background-size: 15px 15px;
-        background-position: 0 5px;
-    }
-    .icon_input {
-        color: #000;
-        margin-bottom: 0;
-        border-radius: 5px!important;
-        -webkit-box-shadow: none!important;
-        box-shadow: none!important;
-        padding: 0 10px 0 30px!important;
-        height: 30px!important;
-        border: none!important;
-        margin-top: 7px;
-    }
-    .icon_clear {
-        position: absolute;
-        top: 9px;
-        right: 45px;
-        padding: 0 10px;
-        width: 35px;
-        height: 25px;
-        background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
-        background-size: 15px 15px;
-        background-position: 10px 5px;
-    }
-    .confirmDoctor{
-        border: 1px solid #A0A0A0;
-        color: #A0A0A0;
-        padding: 10px;
-        display: block!important;
-        width: 100%;
-        border-radius: 5px;
-        text-align: center;
-    }
-    article{
-        background-color: #F1F1F1;
-    }
-    .hosIcon {
-        color: #32c9c0;
-        border: 1px solid #32c9c0;
-        border-radius: 4px;
-        padding: 0 2px;
-    }
-</style>
-<header class="bg-green">
+<header class="searchHeader bg-green">
     <div class="grid w100">
         <div class="col-1 pl20">
             <i class="icon_search"></i>
@@ -68,7 +17,7 @@ $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' =
         </a>
     </div>
 </header>
-<article class="active" data-scroll="true">
+<article id="doctorList_article" class="active" data-scroll="true">
     <div id="doctorList">
 
     </div>

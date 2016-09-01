@@ -1,6 +1,6 @@
 <?php
 $this->setPageTitle('疾病信息');
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/addDisease.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/addDisease.min.1.0.js', CClientScript::POS_END);
 $diseaseSearch = $this->createUrl('doctor/diseaseSearch');
 $diseaseName = Yii::app()->request->getQuery('diseaseName', '');
 $diseaseId = Yii::app()->request->getQuery('diseaseId', '');
@@ -11,26 +11,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
 $urlReturn = $this->createUrl('patient/uploadMRFile', array('type' => 'create'));
 $addDisease = $this->createUrl('doctor/addDisease');
 ?>
-<style>
-    article{
-        background-color: #F1F1F1;
-    }
-    .selectDisease{
-        padding: 10px;
-        border: 1px solid #CCCCCC;
-        background-color: #fff;
-        border-radius: 3px;
-        color: #a9a9a9;
-    }
-    .icon-clear{
-        background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
-        background-size: 15px 15px;
-        background-position: 10px 5px;
-        width: 30px;
-        height: 25px;
-    }
-</style>
-<article class="active" data-scroll="true">
+<article id="addDisease_article" class="active" data-scroll="true">
     <div class="pad10">
         <form id="patient-form" data-url-action="<?php echo $savepatientdisease; ?>" data-url-return="<?php echo $urlReturn; ?>" data-source-return="<?php echo $sourceReturn; ?>">
             <input type="hidden" name="patient[id]" value="<?php echo $id; ?>">

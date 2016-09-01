@@ -1,8 +1,8 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patientBooking.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patientBooking.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.2.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -24,15 +24,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $real = $userDoctorProfile;
 $userDoctorCerts = $doctorCerts;
 ?>
-<style>
-    .selectExpect{
-        border: 1px solid #e7e7e7;
-        padding: 3px;
-        margin: 5px;
-        border-radius: 5px;
-        color: #999999;
-    }
-</style>
 <article id="patientBookingCreate_article" class="active" data-scroll="true">
     <div class="pad10">
         <div class="form-wrapper">
