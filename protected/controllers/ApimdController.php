@@ -157,7 +157,7 @@ class ApimdController extends Controller {
                 $output = $apiService->loadApiViewData();
                 break;
             case 'searchDisease'://根据关键字查询疾病
-                $user = $this->userLoginRequired($values);
+                //$user = $this->userLoginRequired($values);
                 $apiService = new ApiViewDisease();
                 $output = $apiService->getDiseaseByName($values['name'], $values['islike']);
                 $this->renderJsonOutput($output);

@@ -41,9 +41,9 @@ class DiseaseManager
         if ($form->validate()) {
             $data = $form->getSafeAttributes();
             $oDbConnection = Yii::app()->db;
-            $sql = 'SELECT id, name, category_id as categoryId FROM ' . Disease::model()->tableName().
-            ' where app_version = :app_version ';
-            $sql .= $islike == 1 ? 'and name like :name' : 'and name = :name';
+            $sql = 'SELECT disease.id, cdj.is_common as isCommon, name, dc.sub_cat_id as subCatId, dc.sub_cat_name as subCatName FROM ' . Disease::model()->tableName().
+            ',category_disease_join as cdj,disease_category as dc where cdj.sub_cat_id = dc.sub_cat_id and cdj.disease_id = disease.id and disease.app_version = :app_version ';
+            $sql .= $islike == 1 ? 'and disease.name like :name' : 'and disease.name = :name';
 
             $oCommand = $oDbConnection->createCommand($sql);
             $appVersion = self::APP_VERSION;
