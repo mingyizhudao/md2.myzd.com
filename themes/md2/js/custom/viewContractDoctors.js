@@ -6,7 +6,7 @@ $('#stateSelect').tap(function () {
     var source = $('article').attr('data-source');
     var innerPage = '<div id="findDoc_section">';
     if (source == 1) {
-        innerPage += '<header class="bg-green">' +
+        innerPage += '<header id="viewContractDoctors_article" class="bg-green">' +
                 '<div class="grid w100">' +
                 '<div class="col-0 pl5 pr10">' +
                 '<a href="javascript:;" data-target="back">' +
@@ -80,7 +80,7 @@ function deptSelect() {
     var source = $('article').attr('data-source');
     var innerPage = '<div id="findDoc_section">';
     if (source == 1) {
-        innerPage += '<header class="bg-green">' +
+        innerPage += '<header id="viewContractDoctors_article" class="bg-green">' +
                 '<div class="grid w100">' +
                 '<div class="col-0 pl5 pr10">' +
                 '<a href="javascript:;" data-target="back">' +

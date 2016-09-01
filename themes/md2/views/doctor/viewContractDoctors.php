@@ -1,6 +1,6 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.2.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.3.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('签约专家');
