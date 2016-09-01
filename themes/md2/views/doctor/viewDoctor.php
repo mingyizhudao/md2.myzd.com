@@ -1,8 +1,9 @@
 <?php
-$urlResImage = Yii::app()->theme->baseUrl . "/images/";
-$urlAddPatient = $this->createAbsoluteUrl('doctor/addPatient', array('id' => ''));
 $doctor = $data->results->doctor;
 $honour = $doctor->honour;
+$this->setPageTitle($doctor->name);
+$urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$urlAddPatient = $this->createAbsoluteUrl('doctor/addPatient', array('id' => ''));
 $this->show_footer = false;
 ?>
 <footer class="bg-white">

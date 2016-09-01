@@ -1,6 +1,6 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/viewContractDoctors.min.1.1.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.2.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('签约专家');
@@ -22,21 +22,6 @@ $urlSearchContractDoctors = $this->createUrl('doctor/doctorList', array('pid' =>
     #jingle_popup{
         text-align: inherit;
     }
-    .top84p{top: 84px!important;}
-    .searchInput {
-        background: #fff url('http://static.mingyizhudao.com/146243645256928') no-repeat;
-        background-size: 15px 15px;
-        background-position: 7px 7px;
-        height: 30px;
-        border-radius: 5px;
-        padding: 0 10px 0 30px;
-        color: #a9a9a9;
-        line-height: 32px;
-        letter-spacing: 0;
-        overflow: hidden;
-        text-align: left;
-        display: block!important;
-    }
 </style>
 <?php
 $navTop = 'top0p';
@@ -45,7 +30,7 @@ if ($source == 1) {
     $navTop = '';
     $articleTop = 'top84p';
     ?>
-    <header class="bg-green">
+    <header id="viewContractDoctors_article" class="bg-green">
         <div class="grid w100">
             <div class="col-0 pl5 pr10">
                 <a href="javascript:;" data-target="back">
@@ -135,9 +120,9 @@ if ($source == 1) {
             var results = data.results;
             var innerHtml = '';
             if ('<?php echo $source; ?>' == 1) {
-                innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;">';
+                innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;" data-scroll="true">';
             } else {
-                innerHtml += '<div class="color-black" style="margin-top:49px;height:315px;">';
+                innerHtml += '<div class="color-black" style="margin-top:49px;height:315px;" data-scroll="true">';
             }
             innerHtml += '<ul class="list">';
             if (results.length > 0) {

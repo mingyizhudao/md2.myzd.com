@@ -4,18 +4,13 @@ $patientbookingCreate = $this->createUrl('patientbooking/create');
 $pid = Yii::app()->request->getQuery('pid', '');
 $doctorName = Yii::app()->request->getQuery('doctorName', '');
 ?>
-<style>
-    article {
-        background-color: #F1F1F1;
-    }
-</style>
 <header class="bg-green">
     <h1 class="title">填写专家信息</h1>
 </header>
-<article class="active" data-scroll="true">
+<article id="inputDoctorInfo_article" class="active" data-scroll="true">
     <div class="pad10">
         <input type="hidden" name="expectDoctor" value="<?php echo $doctorName; ?>">
-        <div class="color-green pt20 pb20">请告诉我们您想预约的专家</div>
+        <div class="color-green pt20 pb20">请告诉我们您想预约的专家：</div>
         <div class="grid">
             <div class="col-0 pt7">所在医院：</div>
             <div class="col-1">
