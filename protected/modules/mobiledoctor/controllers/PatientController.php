@@ -4,6 +4,10 @@ class PatientController extends MobiledoctorController {
 
     private $patient;
 
+    /**
+     * @param CFilterChain $filterChain
+     * @throws CHttpException
+     */
     public function filterPatientContext($filterChain) {
         $patientId = null;
         if (isset($_GET['id'])) {
@@ -20,7 +24,7 @@ class PatientController extends MobiledoctorController {
 
     /**
      * @NOTE call this method after filterUserDoctorContext.
-     * @param type $filterChain
+     * @param CFilterChain $filterChain
      */
     public function filterPatientCreatorContext($filterChain) {
         $patientId = null;
@@ -37,6 +41,10 @@ class PatientController extends MobiledoctorController {
         $filterChain->run();
     }
 
+    /**
+     * 检查用户是否已登录
+     * @param CFilterChain $filterChain
+     */
     public function filterUserContext($filterChain) {
         $user = $this->loadUser();
         if (is_null($user)) {
@@ -85,6 +93,9 @@ class PatientController extends MobiledoctorController {
         );
     }
 
+    /**
+     * 病人用户创建
+     */
     public function actionAjaxCreate() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
@@ -109,6 +120,7 @@ class PatientController extends MobiledoctorController {
                 if ($patient->save()) {
                     $output['status'] = 'ok';
                     $output['patient']['id'] = $patient->getId();
+                    Yii::app()->session['addPatientId'] = $output['patient']['id'];
                 } else {
                     $output['errors'] = $patient->getErrors();
                 }
@@ -121,8 +133,14 @@ class PatientController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 病人信息创建界面
+     */
     public function actionCreate() {
         $returnUrl = $this->getReturnUrl();
+        if(!empty($returnUrl)) {
+            Yii::app()->session['mobileDoctor_patientCreate_returnUrl'] = $returnUrl;
+        }
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         $teamDoctor = 0;
@@ -142,7 +160,11 @@ class PatientController extends MobiledoctorController {
         ));
     }
 
-    //病人疾病信息更新加载
+    /**
+     * 病人疾病信息更新加载
+     * @param $id
+     * @throws CHttpException
+     */
     public function actionUpdatePatientMR($id) {
         $patient = $this->loadPatientInfoById($id);
         $form = new PatientInfoForm();
@@ -154,6 +176,7 @@ class PatientController extends MobiledoctorController {
 
     /**
      * 病人用户补全图片 type为是创建还是修改 返回不同的页面
+     * @param $id
      */
     public function actionUploadMRFile($id) {
         $returnUrl = $this->getReturnUrl($this->createUrl('patientbooking/create'));
@@ -170,7 +193,7 @@ class PatientController extends MobiledoctorController {
 
     /**
      * 进入上传出院小结页面
-     * @param type $id
+     * @param int $id
      */
     public function actionUploadDAFile($id) {
         $returnUrl = $this->getReturnUrl($this->createUrl('order/orderView'));
@@ -185,11 +208,19 @@ class PatientController extends MobiledoctorController {
         ));
     }
 
-    //展示上传小结页面
+    /**
+     * 展示上传小结页面
+     */
     public function actionViewDaFile() {
         $this->render('viewDaFile');
     }
 
+    /**
+     * 通过病人id获取病人实例
+     * @param $id
+     * @return array|mixed|null
+     * @throws CHttpException
+     */
     private function loadPatientInfoById($id) {
         if ($this->patient === null) {
             $this->patient = PatientInfo::model()->getById($id);
@@ -199,6 +230,13 @@ class PatientController extends MobiledoctorController {
         return $this->patient;
     }
 
+    /**
+     * 通过病人id和医生id获取病人实例
+     * @param int $id patient_id
+     * @param int $creatorId doctor_id
+     * @return PatientInfo
+     * @throws CHttpException
+     */
     private function loadPatientInfoByIdAndCreatorId($id, $creatorId) {
         if (is_null($this->patient)) {
             $this->patient = PatientInfo::model()->getByIdAndCreatorId($id, $creatorId);
@@ -209,7 +247,10 @@ class PatientController extends MobiledoctorController {
         return $this->patient;
     }
 
-    //异步删除患者病历图片
+    /**
+     * 异步删除患者病历图片
+     * @param int $id 患者id
+     */
     public function actionDelectPatientMRFile($id) {
         $userId = $this->getCurrentUserId();
         $userMgr = new UserManager();
@@ -217,15 +258,21 @@ class PatientController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //异步加载病人病历图片
-    public function actionPatientMRFiles($id) {
-        $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewFilesOfPatient($id, $userId);
-        $output = $apisvc->loadApiViewData(true);
-        $this->renderJsonOutput($output);
-    }
+//    /**
+//     * 异步加载病人病历图片
+//     * @param int $id patient_id
+//     */
+//    public function actionPatientMRFiles($id) {
+//        $userId = $this->getCurrentUserId();
+//        $apisvc = new ApiViewFilesOfPatient($id, $userId);
+//        $output = $apisvc->loadApiViewData(true);
+//        $this->renderJsonOutput($output);
+//    }
 
-    //我的患者列表信息查询
+    /**
+     * 我的患者列表信息查询
+     * @param int $page
+     */
     public function actionList($page = 1) {
         $user = $this->loadUser();
         $userId = $user->getId();
@@ -238,51 +285,65 @@ class PatientController extends MobiledoctorController {
                 }
             }
         }
-        $pagesize = 100;
+        $page_size = 100;
         //service层
-        $apisvc = new ApiViewDoctorPatientList($userId, $pagesize, $page);
+        $apiSvc = new ApiViewDoctorPatientList($userId, $page_size, $page);
         //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData();
+        $output = $apiSvc->loadApiViewData();
 
-        $dataCount = $apisvc->loadCount();
+        $dataCount = $apiSvc->loadCount();
         $this->render('list', array(
             'data' => $output, 'dataCount' => $dataCount, 'teamDoctor' => $teamDoctor
         ));
     }
 
-    //进入搜索页面
+    /**
+     * 进入搜索页面
+     */
     public function actionSearchView() {
         $this->render('searchView');
     }
 
-    //ajax查询
+    /**
+     * ajax查询
+     * @param $name
+     */
     public function actionAjaxSearch($name) {
         $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewPatientSearch($userId, $name);
-        $output = $apisvc->loadApiViewData(true);
+        $apiSvc = new ApiViewPatientSearch($userId, $name);
+        $output = $apiSvc->loadApiViewData(true);
         $this->renderJsonOutput($output);
     }
 
-    //我的患者详情
+    /**
+     * 我的患者详情
+     * @param $id
+     */
     public function actionView($id) {
         $userId = $this->getCurrentUserId();
         //service层
-        $apisvc = new ApiViewDoctorPatientInfo($id, $userId);
+        $apiSvc = new ApiViewDoctorPatientInfo($id, $userId);
         //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData();
+        $output = $apiSvc->loadApiViewData();
         $this->render('view', array(
             'data' => $output
         ));
     }
 
-    //修改已创建的患者图片信息添加任务提示
+    /**
+     * 修改已创建的患者图片信息添加任务提示
+     * @param $id
+     */
     public function actionAjaxTask($id) {
         $apiRequest = new ApiRequestUrl();
         $remote_url = $apiRequest->getUrlPatientMrTask() . "?id={$id}";
         $this->send_get($remote_url);
     }
 
-    //上传出院小结完成生成task
+    /**
+     * 上传出院小结完成生成task
+     * @param $id
+     */
     public function actionAjaxDrTask($id) {
         //微信推送
         $wxMgr = new WeixinManager();

@@ -22,9 +22,16 @@ $(function () {
     btnSubmit.click(function () {
         $('.noTravelType').remove();
         var travelType = $('input[name="booking[travel_type]"]').attr('value');
-        //console.log(travelType);
+        //就诊意向
         if (travelType == '') {
             $('#travel_type').after('<div class="noTravelType">请选择就诊意向</div>');
+            return false;
+        }
+        //意向医生
+        var expected_doctor = $('input[name="booking[expected_doctor]"]').val();
+        if (expected_doctor == '') {
+            $('#expectedInfo').after('<div class="noTravelType">请填写您想预约的主刀医生</div>');
+            return false;
         }
         var bool = validator.form();
         if (bool) {
@@ -85,6 +92,7 @@ $(function () {
             success: function (data) {
                 //success.
                 if (data.status == 'ok') {
+                    sessionStorage.removeItem('intention');
                     if ($realName == 0) {
                         J.customConfirm('就诊信息提交成功',
                                 '<div class="mt10 mb10">请您填写个人信息并通过实名认证，以便进行后续操作。</div>',

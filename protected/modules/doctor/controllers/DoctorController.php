@@ -123,7 +123,7 @@ class DoctorController extends WebsiteController {
         }
         $this->renderJsonOutput($output);
     }
-
+    
     public function actionSuccess() {
         $this->render('success');
     }

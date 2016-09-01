@@ -6,7 +6,7 @@ class ApiViewDiseaseCategory extends EApiViewService {
     }
 
     protected function loadData() {
-        $this->loadDiseaseCategory();
+       
     }
 
     protected function createOutput() {
@@ -23,26 +23,37 @@ class ApiViewDiseaseCategory extends EApiViewService {
         $disMgr = new DiseaseManager();
         $models = $disMgr->loadDiseaseCategoryList();
         $navList = array();
-        foreach ($models as $model) {
-            $data = new stdClass();
-            $data->id = $model->getCategoryId();
+        foreach ($models as $key => $model) {
+//             $data = new stdClass();
+//             $data->id = $model->getCategoryId();
 
-            $data->name = $model->getCategoryName();
-            // sub group.
-            $subGroup = new stdClass();
-            $subGroup->id = $model->getSubCategoryId();
-            $subGroup->name = $model->getSubCategoryName();
+//             $data->name = $model->getCategoryName();
+//             // sub group.
+//             $subGroup = new stdClass();
+//             $subGroup->id = $model->getSubCategoryId();
+//             $subGroup->name = $model->getSubCategoryName();
 
-            if (isset($navList[$data->id])) {
-                $navList[$data->id]->subCat[] = $subGroup;
-            } else {
+//             if (isset($navList[$data->id])) {
+//                 $navList[$data->id]->subCat[] = $subGroup;
+//             } else {
 
-                $navList[$data->id] = $data;
-                $navList[$data->id]->subCat[] = $subGroup;
-            }
+//                 $navList[$data->id] = $data;
+//                 $navList[$data->id]->subCat[] = $subGroup;
+//             }
+            $navList[$key]['id'] = $model->getSubCategoryId();
+            $navList[$key]['name'] = $model->getSubCategoryName();
         }
         $this->setDiseaseCategory(array_values($navList));
     }
+    
+    public function getDiseaseCategoryToSub()
+    {
+        $diseaseCategory = new DiseaseCategoryManager();
+        $navList = $diseaseCategory->getDiseaseCategoryToSub();
+        
+        $this->setDiseaseCategory(array_values($navList));
+    }
+    
     private function setDiseaseCategory($data){
         $this->results = $data;
     }

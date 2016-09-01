@@ -137,6 +137,7 @@ class ApimdController extends Controller {
                 break;
             case 'deptlist'://科室列表
                 $apiService = new ApiViewDiseaseCategory();
+                $apiService->loadDiseaseCategory();
                 $output = $apiService->loadApiViewData();
                 break;
             case 'contractdoctorlist'://签约医生列表
@@ -153,6 +154,23 @@ class ApimdController extends Controller {
             case 'bankcardlist'://我的银行卡列表
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewBankCardList($user->id);
+                $output = $apiService->loadApiViewData();
+                break;
+            case 'searchDisease'://根据关键字查询疾病
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewDisease();
+                $output = $apiService->getDiseaseByName($values['name'], $values['islike']);
+                $this->renderJsonOutput($output);
+                break;
+            case 'searchDoctor'://根据关键字查询医生
+                $user = $this->userLoginRequired($values);
+                $api = new ApiViewSearchDoctor($values['name'], $values['islike']);
+                $output = $api->loadApiViewData();
+                break;
+            case 'diseaseCategoryToSub'://二级疾病类型以及相对疾病列表
+                $user = $this->userLoginRequired($values);
+                $apiService = new ApiViewDiseaseCategory();
+                $apiService->getDiseaseCategoryToSub();
                 $output = $apiService->loadApiViewData();
                 break;
             /*             * *************************crm调用接口**************************** */
@@ -338,6 +356,15 @@ class ApimdController extends Controller {
                     $user = $this->userLoginRequired($values);
                     $patientMgr = new PatientManager();
                     $output = $patientMgr->apiSavePatient($values, $user->id);
+                }
+                break;
+            case 'savePatientDisease'://保存患者疾病信息
+                $output = array('status' => 'no');
+                if (isset($post['patient'])) {
+                    $values = $post['patient'];
+                    $user = $this->userLoginRequired($values);
+                    $patientDisease = new PatientManager();
+                    $output = $patientDisease->apiSaveDiseaseByPatient($values);
                 }
                 break;
             case 'savepatientbooking'://创建病人订单

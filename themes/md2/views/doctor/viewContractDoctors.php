@@ -1,11 +1,14 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/viewContractDoctors.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.2.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('签约专家');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $state = Yii::app()->request->getQuery('state', '');
+$source = Yii::app()->request->getQuery('source', 0);
+$pid = Yii::app()->request->getQuery('pid', '');
+$patientbookingCreate = $this->createUrl('patientbooking/create');
 $disease_sub_category = Yii::app()->request->getQuery('disease_sub_category', '');
 $page = Yii::app()->request->getQuery('page', '');
 $urlAjaxContractDoctor = $this->createUrl('doctor/ajaxContractDoctor');
@@ -13,13 +16,38 @@ $urlViewContractDoctors = $this->createUrl('doctor/viewContractDoctors');
 $urlState = $this->createUrl('doctor/ajaxStateList');
 $urlDept = $this->createUrl('doctor/ajaxDeptList');
 $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
+$urlSearchContractDoctors = $this->createUrl('doctor/doctorList', array('pid' => $pid));
 ?>
 <style>
     #jingle_popup{
         text-align: inherit;
     }
 </style>
-<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">
+<?php
+$navTop = 'top0p';
+$articleTop = 'top50p';
+if ($source == 1) {
+    $navTop = '';
+    $articleTop = 'top84p';
+    ?>
+    <header id="viewContractDoctors_article" class="bg-green">
+        <div class="grid w100">
+            <div class="col-0 pl5 pr10">
+                <a href="javascript:;" data-target="back">
+                    <div class="pl5">
+                        <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                    </div>
+                </a>
+            </div>
+            <div class="col-1 pt7 pb7 pr20">
+                <a href="<?php echo $urlSearchContractDoctors; ?>" class="searchInput">搜索您想要的医生</a>
+            </div>
+        </div>
+    </header>
+    <?php
+}
+?>
+<nav id="contractDoctors_nav" class="header-secondary bg-white <?php echo $navTop; ?>">
     <div class="grid w100 font-s16 color-black6">
         <div id="stateSelect" class="col-1 w50 br-gray bb-gray grid middle grayImg">
             <span id="stateTitle" data-dept="">全部</span><img src="http://static.mingyizhudao.com/146968503801292">
@@ -29,7 +57,7 @@ $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
         </div>
     </div>
 </nav>
-<article id="contractDoctors_article" class="active top50p" data-scroll="true">
+<article id="contractDoctors_article" class="active <?php echo $articleTop; ?>" data-scroll="true" data-source="<?php echo $source; ?>">
     <div id="docPage">
 
     </div>
@@ -45,7 +73,11 @@ $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
         $requestViewContractDoctors = '<?php echo $urlViewContractDoctors; ?>';
 
         //预约页面
-        $requestDoctorView = '<?php echo $urlDoctorView; ?>';
+        if ('<?php echo $source ?>' == 1) {
+            $doctorTrigger = '<?php echo $patientbookingCreate; ?>/pid/' + '<?php echo $pid; ?>';
+        } else {
+            $doctorTrigger = '<?php echo $urlDoctorView; ?>';
+        }
 
         $condition = new Array();
         $condition["state"] = '<?php echo $state ?>';
@@ -86,44 +118,32 @@ $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
 
         function readyDept(data) {
             var results = data.results;
-            var innerHtml = '<div class="grid color-black" style="margin-top:49px;height:315px;">' +
-                    '<div id="highDept" class="col-1 w50" data-scroll="true" style="height:315px;width: 50%;">' +
-                    '<ul class="list">';
+            var innerHtml = '';
+            if ('<?php echo $source; ?>' == 1) {
+                innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;" data-scroll="true">';
+            } else {
+                innerHtml += '<div class="color-black" style="margin-top:49px;height:315px;" data-scroll="true">';
+            }
+            innerHtml += '<ul class="list">';
             if (results.length > 0) {
                 for (var i = 0; i < results.length; i++) {
-                    //第一个为白色
-                    if (i == 0) {
-                        innerHtml += '<li class="aDept bg-white" data-dept="' + results[i].id + '">' + results[i].name + '</li>';
-                    } else {
-                        innerHtml += '<li class="aDept" data-dept="' + results[i].id + '">' + results[i].name + '</li>';
-                    }
-                }
-                innerHtml += '</ul></div><div id="secondDept" class="col-1 w50" data-scroll="true" data- style="height:315px;">'
-                for (var i = 0; i < results.length; i++) {
-                    var subCat = results[i].subCat;
-                    //第一个不隐藏
-                    if (i == 0) {
-                        innerHtml += '<ul class="bDept list" data-dept="' + results[i].id + '">';
-                    } else {
-                        innerHtml += '<ul class="bDept list hide" data-dept="' + results[i].id + '">';
-                    }
-                    if (subCat.length > 0) {
-                        for (var j = 0; j < subCat.length; j++) {
-                            innerHtml += '<li class="cDept" data-dept="' + subCat[j].id + '">' + subCat[j].name + '</li>';
-                        }
-                    }
-                    innerHtml += '</ul>';
+                    innerHtml += '<li class="cDept" data-dept="' + results[i].id + '">' + results[i].name + '</li>';
                 }
             }
-            innerHtml += '</div></div>';
+            innerHtml += '</ul></div></div>';
             return innerHtml;
         }
 
         function readyState(data) {
             var stateList = data.results.stateList;
-            var innerHtml = '<div data-scroll="true" style="height:315px;margin-top:49px;"><ul class="list">'
+            var innerHtml = '';
+            if ('<?php echo $source; ?>' == 1) {
+                innerHtml += '<div data-scroll="true" style="height:315px;margin-top:93px;">';
+            } else {
+                innerHtml += '<div data-scroll="true" style="height:315px;margin-top:49px;">';
+            }
+            innerHtml += '<ul class="list">'
                     + '<li class="state" data-state="">全部</li>';
-            //console.log(stateList(1));
             for (var s in stateList) {
                 innerHtml += '<li class="state" data-state="' + s + '">' + stateList[s] + '</li>';
             }

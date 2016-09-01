@@ -440,14 +440,14 @@ header{
 #doctorView_article .myPatients{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 15px 0px 15px;
+    margin: 0px 15px 0px 5px;
     width: 28px;
     background-position-y: 1px;
 }
 #doctorView_article .receivedBooking{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 0px 10px;
     width: 19px;
     background-position-y: 1px;
     background-position-x: -60px;
@@ -455,7 +455,7 @@ header{
 #doctorView_article .userbankIcon {
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 0px 10px;
     width: 18px;
     background-position-y: 1px;
     background-position-x: -43px;
@@ -463,7 +463,7 @@ header{
 #doctorView_article .consultingAgreement{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 0px 10px;
     width: 18px;
     background-position-y: 1px;
     background-position-x: -79px;
@@ -471,7 +471,7 @@ header{
 #doctorView_article .signDoctor{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 21px 0px 21px;
+    margin: 0px 21px 0px 11px;
     width: 16px;
     background-position-y: 1px;
     background-position-x: -101px;
@@ -479,7 +479,7 @@ header{
 #doctorView_article .customerService{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 0px 10px;
     width: 18px;
     background-position-y: 1px;
     background-position-x: -115px;
@@ -487,7 +487,7 @@ header{
 #doctorView_article .inviteExperts{
     background: url('http://static.mingyizhudao.com/146882826904486') no-repeat;
     background-size: 158px 25px;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 20px 0px 10px;
     width: 18px;
     background-position-y: 1px;
     background-position-x: -134px;
@@ -522,6 +522,13 @@ header{
     border: none!important;
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
+}
+#patientBookingCreate_article .selectExpect{
+    border: 1px solid #e7e7e7;
+    padding: 3px;
+    margin: 5px;
+    border-radius: 5px;
+    color: #999999;
 }
 
 /*登录*/
@@ -1025,17 +1032,17 @@ body #viewCommonweal_article{
     overflow: hidden;
 }
 #viewCommonweal_article .moreDoctor{
-    background: url('http://static.mingyizhudao.com/146639530454214') no-repeat;
+    background: url('http://static.mingyizhudao.com/147260867166620') no-repeat;
     background-size: 100% 100%;
     text-align: center;
     display: block!important;
     width: 100%;
     padding: 10px!important;
     font-size: 16px;
-    color: #823122;
+    color: #00b48b;
 }
 #viewCommonweal_article .joinMygy{
-    background: url('http://static.mingyizhudao.com/146356505247898') no-repeat;
+    background: url('http://static.mingyizhudao.com/147260867119625') no-repeat;
     background-size: 100% 100%;
     text-align: center;
     display: block!important;
@@ -1043,6 +1050,12 @@ body #viewCommonweal_article{
     padding: 10px!important;
     font-size: 16px;
     color: #fff;
+}
+#viewCommonweal_article .bl2-green{
+    border-left: 2px solid #00b48b;
+}
+#viewCommonweal_article .c-green {
+    color: #00b48b!important;
 }
 #commonwealList_article .pageBg{
     background: url('http://static.mingyizhudao.com/146356500101290') no-repeat;
@@ -1246,4 +1259,110 @@ body #viewCommonweal_article{
 }
 #updateDAFileIos_article .button:disabled, button:disabled, .button.disabled, button.disabled{
     background-color: #e3e3e3!important;
+}
+
+#addDisease_article{
+    background-color: #F1F1F1;
+}
+#addDisease_article .selectDisease{
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+    background-color: #fff;
+    border-radius: 3px;
+    color: #a9a9a9;
+}
+#addDisease_article .icon-clear{
+    background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
+    background-size: 15px 15px;
+    background-position: 10px 5px;
+    width: 30px;
+    height: 25px;
+}
+
+.searchHeader .icon_search {
+    position: absolute;
+    left: 27px;
+    top: 9px;
+    width: 15px;
+    height: 25px;
+    background: url('http://static.mingyizhudao.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 0 5px;
+}
+.searchHeader .icon_input {
+    color: #000;
+    margin-bottom: 0;
+    border-radius: 5px!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    padding: 0 10px 0 30px!important;
+    height: 30px!important;
+    border: none!important;
+    margin-top: 7px;
+}
+.searchHeader .icon_clear {
+    position: absolute;
+    top: 9px;
+    right: 45px;
+    padding: 0 10px;
+    width: 35px;
+    height: 25px;
+    background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
+    background-size: 15px 15px;
+    background-position: 10px 5px;
+}
+
+#diseaseSearch_header .searchInput {
+    background: #fff url('http://static.mingyizhudao.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 7px 7px;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px 0 30px;
+    color: #a9a9a9;
+    line-height: 32px;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-align: left;
+}
+#diseaseSearch_article .list>li{
+    padding: 10px;
+}
+
+#doctorList_article .confirmDoctor{
+    border: 1px solid #A0A0A0;
+    color: #A0A0A0;
+    padding: 10px;
+    display: block!important;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+}
+#doctorList_article{
+    background-color: #F1F1F1;
+}
+#doctorList_article .hosIcon {
+    color: #32c9c0;
+    border: 1px solid #32c9c0;
+    border-radius: 4px;
+    padding: 0 2px;
+}
+
+#inputDoctorInfo_article {
+    background-color: #F1F1F1;
+}
+
+#viewContractDoctors_article .searchInput {
+    background: #fff url('http://static.mingyizhudao.com/146243645256928') no-repeat;
+    background-size: 15px 15px;
+    background-position: 7px 7px;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px 0 30px;
+    color: #a9a9a9;
+    line-height: 32px;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-align: left;
+    display: block!important;
 }

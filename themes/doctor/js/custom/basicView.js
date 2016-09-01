@@ -60,6 +60,7 @@ $(function () {
                 isMobile: '请填写正确的手机号码'
             },
             'BasicInfoForm[email]': {
+                email: '请输入正确的电子邮箱'
             }
         },
         errorElement: "div",

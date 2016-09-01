@@ -27,6 +27,38 @@ jQuery(function () {
         }
     });
     btnSubmit.click(function () {
+        if ($('input[name="DoctorForm[hospital_name]"]').val() == '') {
+            $('#jingle_toast').find('a').text('请选择您的执业医院');
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                $('#jingle_toast').hide();
+            }, 1500);
+            return;
+        }
+        if ($('input[name="DoctorForm[cat_name]"]').val() == '') {
+            $('#jingle_toast').find('a').text('请选择您的专业');
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                $('#jingle_toast').hide();
+            }, 1500);
+            return;
+        }
+        if ($('#onselect2').val() == '') {
+            $('#jingle_toast').find('a').text('请选择您的医疗职称');
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                $('#jingle_toast').hide();
+            }, 1500);
+            return;
+        }
+        if ($('#onselect1').val() == '') {
+            $('#jingle_toast').find('a').text('请选择您的教学职称');
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                $('#jingle_toast').hide();
+            }, 1500);
+            return;
+        }
         var bool = validator.form();
         if (bool) {
             formAjaxSubmit();

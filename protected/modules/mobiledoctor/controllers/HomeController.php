@@ -15,6 +15,9 @@ class HomeController extends MobiledoctorController {
         );
     }
 
+    /**
+     * 默认
+     */
     public function actionIndex() {
         $this->redirect(Yii::app()->user->loginUrl);
         /*

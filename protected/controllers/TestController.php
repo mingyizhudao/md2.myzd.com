@@ -8,14 +8,42 @@ class TestController extends WebsiteController {
         $client = new \JPush('c15e1ac0a68a4ae48509992d', '6e84eaae55ac654eae2de204', $config['logPath']);
         $result = $client->push()
             ->setPlatform(array('ios', 'android'))
-            ->addAllAudience()
+            //->addAlias(md5('md_15618294696'))//android
+            ->addAlias('md15670794261')//ios
+            //->addAllAudience('all')//ios
             ->setNotificationAlert('Hi, JPush')
-            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array('data' => '{"type":"app","url":"nil","title":"您的订单尚未上传小结","ad":{"classname":"com.shoushuzhitongche.app.view.order.OrderDetailsActivity","param":{"jpush":"jpush","key1":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}'))
-            ->addIosNotification("Hi, iOS notification", 'iOS sound', '+1', true, 'iOS category', array('data' => '{"iosVersion":["2.1.1"],"type":"app","isNeedLogin":"1","url":"nil","title":"您的订单尚未上传小结","ios":{"classname":"OrderDetailsViewController","param":{"isSelectDoctor":"1","serActionUrl":"http://mdapi.mingyizhudao.com/apimd/orderinfo/1210"}}}'))
+            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array('data' => '{"iosVersion":[ "2.1.0" ], "adVersion":[ "2.1.2.0" ], "type":"app", "url":"https://m.baidu.com/", "title":"百度", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}'))
+            ->addIosNotification("Hi, iOS notification", 'iOS sound', '+1', true, 'iOS category', array('data' => '{"iosVersion":["2.1.0"],"type":"app","isNeedLogin":"1","url":"nil","title":"测试","ios":{"classname":"OrderMainViewController","param":{"isSelectDoctor":"0"}}}'))
             ->setMessage("msg content", 'msg title', 'type', array("key1"=>"value1", "key2"=>"value2"))
-            //->setOptions(100000, 3600, null, false)
+            ->setOptions(null, null, null, true)
             ->send();
         echo 'Result=' . json_encode($result);exit;
+    }
+    
+    public function actionGetui()
+    {
+        //require_once('./protected/sdk/getui/php/alias_demo.php');
+        require_once('./protected/sdk/getui/php/demo.php');
+        exit;
+    }
+
+    /**
+     * 个推测试
+     */
+    public function actionMessage()
+    {
+        $android_client = new IGtAndroid();
+        $template = [
+            'title' => '名医主刀', //通知标题
+            'text' => '打开名医主刀官网', //通知内容
+        ];
+        $android_client->pushMessageToApp(2, $template);
+
+        //$android_client->setClientId($client_id);
+        //$android_client->pushMessageToSingle(0, $template);
+
+        //$android_client->setClientList($list);
+        //$android_client->pushMessageToList(0, $template);
     }
 
     public function actionUserlogin() {

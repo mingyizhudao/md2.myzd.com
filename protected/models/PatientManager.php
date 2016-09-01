@@ -105,7 +105,15 @@ class PatientManager {
         return PatientBooking::model()->findAll($criteria);
     }
 
-    //查询创建者的预约详情
+    /**
+     * 查询创建者的预约详情
+     * @param $id
+     * @param $creatorId
+     * @param null $attributes
+     * @param null $with
+     * @param null $options
+     * @return PatientBooking
+     */
     public function loadPatientBookingByIdAndCreatorId($id, $creatorId, $attributes = null, $with = null, $options = null) {
         if (is_null($attributes)) {
             $attributes = '*';
@@ -199,6 +207,7 @@ class PatientManager {
             if ($patient->save()) {
                 $output['status'] = 'ok';
                 $output['errorMsg'] = 'success';
+                Yii::app()->session['addPatientId'] = $patient->getId();
                 $output['results'] = array('id' => $patient->getId());
             } else {
                 $output['errorMsg'] = $patient->getFirstErrors();
@@ -209,6 +218,29 @@ class PatientManager {
         return $output;
     }
 
+    public function apiSaveDiseaseByPatient($values) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
+        $form = new PatientDiseaseForm();
+        $form->setAttributes($values, true);
+        if ($form->validate()) {
+            $data = $form->getSafeAttributes();
+            $attrs = array('id' => $data['id']);
+            unset($data['id']);
+            $patient = new PatientInfo();
+            $return = $patient::model()->updateAllByAttributes($data, $attrs);
+            if($return != 0) {
+                $output['status'] = 'ok';
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = $patient->getFirstErrors();
+            }
+        } else {
+            $output['errorMsg'] = $form->getFirstErrors();
+        }
+        
+        return $output;
+    }
+    
     public function apiSavePatientBooking($values, $user) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND, 'errorMsg' => '网络异常,请稍后尝试!');
         $patientId = null;

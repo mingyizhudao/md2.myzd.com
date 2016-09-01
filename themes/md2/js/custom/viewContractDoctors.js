@@ -3,9 +3,28 @@ $('#stateSelect').tap(function () {
     var deptId = $('#deptTitle').attr('data-dept');
     var stateName = $('#stateTitle').html();
     var stateId = $('#stateTitle').attr('data-state');
-    var innerPage = '<div id="findDoc_section">' +
-            '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
-            '<div class="grid w100 color-black font-s16 color-black6">' +
+    var source = $('article').attr('data-source');
+    var innerPage = '<div id="findDoc_section">';
+    if (source == 1) {
+        innerPage += '<header class="bg-green">' +
+                '<div class="grid w100">' +
+                '<div class="col-0 pl5 pr10">' +
+                '<a href="javascript:;" data-target="back">' +
+                '<div class="pl5">' +
+                '<img src="http://static.mingyizhudao.com/146968435878253" class="w11p">' +
+                '</div>' +
+                '</a>' +
+                '</div>' +
+                '<div class="col-1 pt7 pb7 pr20">' +
+                '<div class="searchInput">搜索您想要的医生</div>' +
+                '</div>' +
+                '</div>' +
+                '</header>' +
+                '<nav id="contractDoctors_nav" class="header-secondary bg-white">';
+    } else {
+        innerPage += '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">';
+    }
+    innerPage += '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
             '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
@@ -58,9 +77,28 @@ function deptSelect() {
     var deptId = $('#deptTitle').attr('data-dept');
     var stateName = $('#stateTitle').html();
     var stateId = $('#stateTitle').attr('data-state');
-    var innerPage = '<div id="findDoc_section">' +
-            '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">' +
-            '<div class="grid w100 color-black font-s16 color-black6">' +
+    var source = $('article').attr('data-source');
+    var innerPage = '<div id="findDoc_section">';
+    if (source == 1) {
+        innerPage += '<header class="bg-green">' +
+                '<div class="grid w100">' +
+                '<div class="col-0 pl5 pr10">' +
+                '<a href="javascript:;" data-target="back">' +
+                '<div class="pl5">' +
+                '<img src="http://static.mingyizhudao.com/146968435878253" class="w11p">' +
+                '</div>' +
+                '</a>' +
+                '</div>' +
+                '<div class="col-1 pt7 pb7 pr20">' +
+                '<div class="searchInput">搜索您想要的医生</div>' +
+                '</div>' +
+                '</div>' +
+                '</header>' +
+                '<nav id="contractDoctors_nav" class="header-secondary bg-white">';
+    } else {
+        innerPage += '<nav id="contractDoctors_nav" class="header-secondary bg-white top0p">';
+    }
+    innerPage += '<div class="grid w100 color-black font-s16 color-black6">' +
             '<div id="stateSelect" data-target="closePopup" class="col-1 w50 br-gray bb-gray grid middle grayImg">' +
             '<span id="stateTitle" data-state="' + stateId + '">' + stateName + '</span><img src="http://static.mingyizhudao.com/146967446765433">' +
             '</div>' +
@@ -77,25 +115,6 @@ function deptSelect() {
         html: innerPage,
         pos: 'top',
         showCloseBtn: false
-    });
-
-    $('.aDept').click(function (e) {
-        e.preventDefault();
-        var dataDept = $(this).attr('data-dept');
-        $('.aDept').each(function () {
-            if (dataDept == $(this).attr('data-dept')) {
-                $(this).addClass('bg-white');
-            } else {
-                $(this).removeClass('bg-white');
-            }
-        });
-        $('.bDept').each(function () {
-            if (dataDept == $(this).attr('data-dept')) {
-                $(this).removeClass('hide');
-            } else {
-                $(this).addClass('hide');
-            }
-        });
     });
 
     $('.cDept').click(function (e) {
@@ -124,6 +143,7 @@ function deptSelect() {
 //医生页面
 function readyDoc(data) {
     var results = data.results;
+    var source = $('article').attr('data-source');
     var innerHtml = '';
     if (results) {
         if (results.length > 0) {
@@ -131,8 +151,15 @@ function readyDoc(data) {
                 var btGray = i == 0 ? '' : 'bt-gray2';
                 var hp_dept_desc = (results[i].desc == '' || results[i].desc == null) ? '暂无信息' : results[i].desc;
                 hp_dept_desc = hp_dept_desc.length > 40 ? hp_dept_desc.substr(0, 40) + '...' : hp_dept_desc;
-                innerHtml += '<div><div class="bb10-gray"></div>' +
-                        '<a href="' + $requestDoctorView + '/' + results[i].id + '/addBackBtn/1" data-target="link">' +
+                innerHtml += '<div><div class="bb10-gray"></div>';
+                //根据source判断页面来源：0查看签约专家，1选择就诊医生
+                var selectDoctor = '';
+                if (source == 1) {
+                    selectDoctor = $doctorTrigger + '/expectHospital/' + results[i].hpName + '/expectDept/' + results[i].hpDeptName + '/expectDoctor/' + results[i].name;
+                } else {
+                    selectDoctor = $doctorTrigger + '/' + results[i].id;
+                }
+                innerHtml += '<a href="' + selectDoctor + '" data-target="link">' +
                         '<div class="grid pl15 pr15 pt10 pb10 ' + btGray + '">' +
                         '<div class="col-1 w25">' +
                         '<div class="w60p h60p br50 overflow-h"><img class="imgDoc" src="' + results[i].imageUrl + '"></div>';
