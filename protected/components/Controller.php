@@ -50,7 +50,8 @@ abstract class Controller extends CController {
 
     /**
      * Protected method to load the associated User model class from login session.
-     * @return object the User data model based on the primary key stored in session.
+     * @param null $with
+     * @return user object the User data model based on the primary key stored in session.
      */
     public function loadUser($with = null) {
         if (is_null($this->current_user)) {

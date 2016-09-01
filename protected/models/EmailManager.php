@@ -36,8 +36,8 @@ class EmailManager {
 
     /**
      *  医生修改其擅长病情 发送邮件提醒
-     * @param type $model
-     * @return type
+     * @param stdClass $model
+     * @return int
      */
     public function sendEmailDoctorUpateContract($model) {
         $view = 'doctorContract';
@@ -67,7 +67,8 @@ class EmailManager {
 
     /**
      * 上传医生证明后 发送电邮
-     * @param type $model
+     * @param $model
+     * @return int
      */
     public function sendEmailDoctorUploadCert($model) {
         $data = new stdClass();

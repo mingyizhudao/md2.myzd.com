@@ -12,7 +12,7 @@ $urlPatientBookingList = $this->createUrl('patientBooking/list', array('addBackB
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlPatientBookingAjaxList = $this->createUrl('patientBooking/ajaxList', array('status' => $status));
-$urlPatientBookingAjaxCancell = $this->createUrl('patientBooking/ajaxCancell', array('id' => ''));
+$urlPatientBookingAjaxCancel = $this->createUrl('patientBooking/ajaxCancel', array('id' => ''));
 $urlPatientBookingSearchView = $this->createUrl('patientBooking/searchView', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
@@ -276,7 +276,7 @@ $checkTeamDoctor = $teamDoctor;
                     J.hideMask();
                     J.showMask();
                     $.ajax({
-                        url: '<?php echo $urlPatientBookingAjaxCancell; ?>/' + id,
+                        url: '<?php echo $urlPatientBookingAjaxCancel; ?>/' + id,
                         success: function (data) {
                             J.hideMask();
                             if (data.status == 'ok') {
