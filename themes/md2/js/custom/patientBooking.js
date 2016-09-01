@@ -92,6 +92,7 @@ $(function () {
             success: function (data) {
                 //success.
                 if (data.status == 'ok') {
+                    sessionStorage.removeItem('intention');
                     if ($realName == 0) {
                         J.customConfirm('就诊信息提交成功',
                                 '<div class="mt10 mb10">请您填写个人信息并通过实名认证，以便进行后续操作。</div>',
