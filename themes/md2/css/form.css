@@ -1,7 +1,4 @@
 /*form*/
-.form-mobile{
-
-}
 .form-mobile .form-group{
     display:block;
 }
@@ -72,6 +69,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 /*边距*/
 .top0p{top:0px!important;}
 .top50p{top:50px!important;}
+.top84p{top: 84px!important;}
 .mt-12 {margin-top: -12px;}
 .mt1{margin-top:1px;}
 .mt3{margin-top:3px;}
@@ -260,6 +258,7 @@ body {-webkit-overflow-scrolling: touch;overflow-scrolling: touch;}
 .w95p{width:95px!important;}
 .w100p{width:100px!important;}
 .w110p{width:110px!important;}
+.w130p{width:130px!important;}
 .w140p{width:140px!important;}
 .w170p {width: 170px;}
 .h5p{height:5px!important;}
