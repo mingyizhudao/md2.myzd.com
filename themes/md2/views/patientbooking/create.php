@@ -2,7 +2,7 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patientBooking.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.2.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.3.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -154,7 +154,6 @@ $userDoctorCerts = $doctorCerts;
         document.addEventListener('input', function (e) {
             checkInput();
         });
-
         $('.selectExpect').click(function () {
             location.href = '<?php echo $urlViewContractDoctors; ?>';
         });
@@ -167,10 +166,11 @@ $userDoctorCerts = $doctorCerts;
         $urlRealName = '<?php echo $urlRealName; ?>';
         $userDoctorCerts = '<?php echo $userDoctorCerts; ?>'
         $userDoctorUploadCert = '<?php echo $urlDoctorUploadCert; ?>';
-        $('.intention').tap(function (e) {
+        $('.intention').click(function (e) {
             e.preventDefault();
             $('.noTravelType').remove();
             var travelType = $(this).attr('data-travel');
+            sessionStorage.setItem('intention', travelType);
             $('input[name = "booking[travel_type]"]').attr('value', travelType);
             $('.intention').each(function () {
                 $(this).removeClass('active');
@@ -178,7 +178,15 @@ $userDoctorCerts = $doctorCerts;
             $(this).addClass('active');
             checkInput();
         });
-
+        //初始化就诊方式
+        var intention = sessionStorage.getItem('intention');
+        if (intention != null) {
+            $('.intention').each(function () {
+                if ($(this).attr('data-travel') == intention) {
+                    $(this).trigger('click');
+                }
+            });
+        }
         function checkInput() {
             var bool = true;
             $('input').each(function () {
