@@ -5,6 +5,10 @@ class PatientbookingController extends MobiledoctorController {
     private $model; // PatientBooking model.
     private $patient;   // PatientInfo model.
 
+    /**
+     * @param CFilterChain $filterChain
+     * @throws CHttpException
+     */
     public function filterPatientBookingContext($filterChain) {
         $bookingId = null;
         if (isset($_GET['id'])) {
@@ -18,7 +22,7 @@ class PatientbookingController extends MobiledoctorController {
 
     /**
      * @NOTE call this method after filterUserDoctorContext.
-     * @param type $filterChain
+     * @param CFilterChain $filterChain
      */
     public function filterPatientCreatorContext($filterChain) {
         $patientId = null;
@@ -34,6 +38,9 @@ class PatientbookingController extends MobiledoctorController {
         $filterChain->run();
     }
 
+    /**
+     * @param CFilterChain $filterChain
+     */
     public function filterUserContext($filterChain) {
         $user = $this->loadUser();
         if (is_null($user)) {
@@ -80,8 +87,11 @@ class PatientbookingController extends MobiledoctorController {
         );
     }
 
-    //订单取消
-    public function actionAjaxCancell($id) {
+    /**
+     * 订单取消
+     * @param int $id
+     */
+    public function actionAjaxCancel($id) {
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
         $patientMgr = new PatientManager();
@@ -100,7 +110,13 @@ class PatientbookingController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //异步提交上级医生反馈
+    /**
+     * 异步提交上级医生反馈
+     * @param int $id 订单id
+     * @param $type
+     * @param $accept
+     * @param $opinion
+     */
     public function actionAjaxDoctorOpinion($id, $type, $accept, $opinion) {
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
@@ -130,6 +146,10 @@ class PatientbookingController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 订单详情视图
+     * @param $id
+     */
     public function actionView($id) {
         $userId = $this->getCurrentUserId();
         $apiSvc = new ApiViewPatientBooking($id, $userId);
@@ -139,15 +159,19 @@ class PatientbookingController extends MobiledoctorController {
         ));
     }
 
-    //各类订单数量
+    /**
+     * 各类订单数量
+     */
     public function actionAjaxBookingNum() {
-        $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewBookingCount($userId);
-        $output = $apisvc->loadApiViewData();
+        $user_id = $this->getCurrentUserId();
+        $api_svc = new ApiViewBookingCount($user_id);
+        $output = $api_svc->loadApiViewData();
         $this->renderJsonOutput($output);
     }
 
-    //查询创建者的签约信息
+    /**
+     * 查询创建者的签约信息
+     */
     public function actionList() {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
@@ -164,41 +188,58 @@ class PatientbookingController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 订单列表
+     * @param int $page
+     * @param int $status
+     */
     public function actionAjaxList($page = 1, $status = 0) {
         $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewPatientBookingListV2($userId, $status, null, 200, $page);
+        $api_svc = new ApiViewPatientBookingListV2($userId, $status, null, 200, $page);
         //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData(true);
+        $output = $api_svc->loadApiViewData(true);
         $this->renderJsonOutput($output);
     }
 
-    //订单搜索页面
+    /**
+     * 订单搜索页面
+     */
     public function actionSearchView() {
         $this->render('searchView');
     }
 
-    //查询结果集
+    /**
+     * 查询结果集
+     * @param $name
+     */
     public function actionAjaxSearch($name) {
         $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewPatientBookingListV2($userId, 0, $name);
+        $api_svc = new ApiViewPatientBookingListV2($userId, 0, $name);
         //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData(true);
+        $output = $api_svc->loadApiViewData(true);
         $this->renderJsonOutput($output);
     }
 
-    //查询预约该医生的预约列表
+    /**
+     * 查询预约该医生的预约列表
+     * @param int $page
+     */
     public function actionDoctorPatientBookingList($page = 1) {
-        $pagesize = 100;
+        $page_size = 100;
         $doctorId = $this->getCurrentUserId();
-        $apisvc = new ApiViewPatientBookingListForDoctor($doctorId, $pagesize, $page);
+        $api_svc = new ApiViewPatientBookingListForDoctor($doctorId, $page_size, $page);
         //调用父类方法将数据返回
-        $output = $apisvc->loadApiViewData();
+        $output = $api_svc->loadApiViewData();
         $this->render('doctorPatientBookingList', array(
             'data' => $output
         ));
     }
 
-    //查询该医生的预约详情
+    /**
+     * 查询该医生的预约详情
+     * @param $id
+     * @param int $type
+     */
     public function actionDoctorPatientBooking($id, $type = StatCode::TRANS_TYPE_PB) {
         $doctorId = $this->getCurrentUserId();
         $apiSvc = new ApiViewPatientBookingForDoctor($id, $doctorId, $type);
@@ -208,7 +249,11 @@ class PatientbookingController extends MobiledoctorController {
         ));
     }
 
-    //下级医生确认手术完成
+    /**
+     * 下级医生确认手术完成
+     * @param $id
+     * @throws CDbException
+     */
     public function actionAjaxOperation($id) {
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
@@ -230,6 +275,9 @@ class PatientbookingController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 订单创建页面
+     */
     public function actionCreate() {
         $user = $this->getCurrentUser();
         $doctorProfile = $user->getUserDoctorProfile();
@@ -260,6 +308,9 @@ class PatientbookingController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 创建接口
+     */
     public function actionAjaxCreate() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
@@ -322,6 +373,10 @@ class PatientbookingController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 发送短信给订单创建者
+     * @param PatientBooking $patientBooking
+     */
     public function sendSmsToCreator($patientBooking) {
         $user = $this->getCurrentUser();
         $mobile = $user->getUsername();
@@ -339,6 +394,12 @@ class PatientbookingController extends MobiledoctorController {
         $smsMgr->sendSmsBookingSubmit($mobile, $data);
     }
 
+    /**
+     * 订单实例
+     * @param $id
+     * @return PatientBooking
+     * @throws CHttpException
+     */
     public function loadModel($id) {
         if (is_null($this->model)) {
             $this->model = PatientBooking::model()->getById($id);
@@ -349,6 +410,13 @@ class PatientbookingController extends MobiledoctorController {
         return $this->model;
     }
 
+    /**
+     * 病人信息
+     * @param $id
+     * @param $creatorId
+     * @return PatientInfo
+     * @throws CHttpException
+     */
     private function loadPatientInfoByIdAndCreatorId($id, $creatorId) {
         if (is_null($this->patient)) {
             $this->patient = PatientInfo::model()->getByIdAndCreatorId($id, $creatorId);

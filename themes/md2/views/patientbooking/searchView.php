@@ -1,7 +1,7 @@
 <?php
 $this->setPageTitle('订单搜索');
 $ajaxSearch = $this->createUrl('patientBooking/ajaxSearch', array('name' => ''));
-$urlPatientBookingAjaxCancell = $this->createUrl('patientBooking/ajaxCancell', array('id' => ''));
+$urlPatientBookingAjaxCancel = $this->createUrl('patientBooking/ajaxCancel', array('id' => ''));
 $searchValue = Yii::app()->request->getQuery('searchValue', '');
 $urlSearchView = $this->createUrl('patientBooking/searchView');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
@@ -159,7 +159,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     J.hideMask();
                     J.showMask();
                     $.ajax({
-                        url: '<?php echo $urlPatientBookingAjaxCancell; ?>/' + id,
+                        url: '<?php echo $urlPatientBookingAjaxCancel; ?>/' + id,
                         success: function (data) {
                             J.hideMask();
                             if (data.status == 'ok') {

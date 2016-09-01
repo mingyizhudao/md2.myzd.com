@@ -105,7 +105,15 @@ class PatientManager {
         return PatientBooking::model()->findAll($criteria);
     }
 
-    //查询创建者的预约详情
+    /**
+     * 查询创建者的预约详情
+     * @param $id
+     * @param $creatorId
+     * @param null $attributes
+     * @param null $with
+     * @param null $options
+     * @return PatientBooking
+     */
     public function loadPatientBookingByIdAndCreatorId($id, $creatorId, $attributes = null, $with = null, $options = null) {
         if (is_null($attributes)) {
             $attributes = '*';

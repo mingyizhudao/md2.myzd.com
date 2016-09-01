@@ -358,7 +358,7 @@ class ApimdController extends Controller {
                     $output = $patientMgr->apiSavePatient($values, $user->id);
                 }
                 break;
-            case 'savepatientdisease'://保存患者疾病信息
+            case 'savePatientDisease'://保存患者疾病信息
                 $output = array('status' => 'no');
                 if (isset($post['patient'])) {
                     $values = $post['patient'];
