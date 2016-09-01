@@ -22,7 +22,7 @@ class TestController extends WebsiteController {
     
     public function actionGetui()
     {
-        require_once('./protected/sdk/getui/php/alias_demo.php');
+        //require_once('./protected/sdk/getui/php/alias_demo.php');
         require_once('./protected/sdk/getui/php/demo.php');
         exit;
     }
