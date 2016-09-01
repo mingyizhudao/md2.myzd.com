@@ -8,12 +8,12 @@
  */
 header("Content-Type: text/html; charset=utf-8");
 
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/IGt.Push.php');
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/igetui/IGt.AppMessage.php');
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/igetui/IGt.APNPayload.php');
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/igetui/template/IGt.BaseTemplate.php');
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/IGt.Batch.php');
-require_once(dirname(__FILE__).'/../extensions/iget-ui-sdk/igetui/utils/AppConditions.php');
+require_once(dirname(__FILE__).'/../sdk/getui/IGt.Push.php');
+require_once(dirname(__FILE__).'/../sdk/getui/igetui/IGt.AppMessage.php');
+require_once(dirname(__FILE__).'/../sdk/getui/igetui/IGt.APNPayload.php');
+require_once(dirname(__FILE__).'/../sdk/getui/igetui/template/IGt.BaseTemplate.php');
+require_once(dirname(__FILE__).'/../sdk/getui/IGt.Batch.php');
+require_once(dirname(__FILE__).'/../sdk/getui/igetui/utils/AppConditions.php');
 
 //http的域名
 define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
