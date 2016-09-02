@@ -314,6 +314,7 @@ class PatientbookingController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
+        var_dump($post['booking']);exit;
         if (isset($post['booking'])) {
             $values = $post['booking'];
             $patientId = null;
