@@ -13,8 +13,8 @@ class IGtAndroid extends IGtFactory
 
     //点击通知打开应用默认模板
     private $igt_notify_template = [
-        'app_id' => APPID,
-        'app_key' => APPKEY,
+        'app_id' => AD_APPID,
+        'app_key' => AD_APPKEY,
         'transmission_type' => 1, //4b
         'transmission_content' => '名医主刀',
         'title' => '名医主刀', //40字
@@ -30,8 +30,8 @@ class IGtAndroid extends IGtFactory
 
     //点击通知打开网页默认模板
     private $igt_link_template = [
-        'app_id' => APPID, //设定接收的应用
-        'app_key' => APPKEY, //用于鉴定身份是否合法
+        'app_id' => AD_APPID, //设定接收的应用
+        'app_key' => AD_APPKEY, //用于鉴定身份是否合法
         'title' => '名医主刀', //通知标题
         'text' => '打开名医主刀官网', //通知内容
         'logo' => '', //通知图标，包含后缀
@@ -73,8 +73,8 @@ class IGtAndroid extends IGtFactory
 
     //透传消息默认模板
     private $igt_trans_template = [
-        'app_id' => APPID,
-        'app_key' => APPKEY,
+        'app_id' => AD_APPID,
+        'app_key' => AD_APPKEY,
         'transmission_type' => 1, //4b 收到消息是否立即启动应用，1为立即启动，2则广播等待客户端自启动
         'transmission_content' => '名医主刀', //透传内容，不支持转义字符
         'duration' => '', //消息展示时间(格式yyyy-MM-dd HH:mm:ss)
@@ -91,7 +91,7 @@ class IGtAndroid extends IGtFactory
     {
         $this->pushMessage($type, $template);
 
-        $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
+        $igt = new IGeTui(HOST, AD_APPKEY, AD_MASTERSECRET);
 
         $method = $this->demo_name[$type];
         $igt_template = $this->$method();
@@ -103,7 +103,7 @@ class IGtAndroid extends IGtFactory
         $message->set_PushNetWorkType(0);//设置是否根据WIFI推送消息，2为4G/3G/2G，1为wifi推送，0为不限制推送
         //接收方
         $target = new IGtTarget();
-        $target->set_appId(APPID);
+        $target->set_appId(AD_APPID);
         $target->set_clientId($this->client_id);
         //$target->set_alias(Alias);
 
@@ -131,7 +131,7 @@ class IGtAndroid extends IGtFactory
     {
         $this->pushMessage($type, $template);
         putenv("needDetails=true");
-        $igt = new IGeTui(HOST,APPKEY,MASTERSECRET);
+        $igt = new IGeTui(HOST,AD_APPKEY,AD_MASTERSECRET);
         //消息模版：
         // LinkTemplate:通知打开链接功能模板
         $method = $this->demo_name[$type];
@@ -148,7 +148,7 @@ class IGtAndroid extends IGtFactory
         $targetList = [];
         foreach($this->client_id_list as $item) {
             $target = new IGtTarget();
-            $target->set_appId(APPID);
+            $target->set_appId(AD_APPID);
             $target->set_clientId($item);
             $targetList[] = $target;
         }
@@ -191,8 +191,8 @@ class IGtAndroid extends IGtFactory
     public function IGtLinkTemplateDemo()
     {
         $link_template =  new IGtLinkTemplate();
-        $link_template->set_appId(APPID);                  //应用appid
-        $link_template->set_appkey(APPKEY);                //应用appkey
+        $link_template->set_appId(AD_APPID);                  //应用appid
+        $link_template->set_appkey(AD_APPKEY);                //应用appkey
         $link_template->set_title($this->current_template['title']);       //通知栏标题
         $link_template->set_text($this->current_template['text']);        //通知栏内容
         $link_template->set_logo($this->current_template['logo']);                       //通知栏logo
@@ -217,8 +217,8 @@ class IGtAndroid extends IGtFactory
     {
         $pop_template = new IGtNotyPopLoadTemplate();
 
-        $pop_template->set_appId(APPID);                      //应用appid
-        $pop_template->set_appkey(APPKEY);                    //应用appkey
+        $pop_template->set_appId(AD_APPID);                      //应用appid
+        $pop_template->set_appkey(AD_APPKEY);                    //应用appkey
         //通知栏
         $pop_template->set_notyTitle($this->current_template['noty_title']);                 //通知栏标题
         $pop_template->set_notyContent($this->current_template['noty_content']); //通知栏内容
@@ -253,9 +253,9 @@ class IGtAndroid extends IGtFactory
     {
         $trans_template =  new IGtTransmissionTemplate();
         //应用appid
-        $trans_template->set_appId(APPID);
+        $trans_template->set_appId(AD_APPID);
         //应用appkey
-        $trans_template->set_appkey(APPKEY);
+        $trans_template->set_appkey(AD_APPKEY);
         //透传消息类型
         $trans_template->set_transmissionType(1);
         //透传内容

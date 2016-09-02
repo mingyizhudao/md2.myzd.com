@@ -35,13 +35,13 @@ class IGtIOS extends IGtFactory
      */
     public function pushMessageToSingle($type=0, $template=[])
     {
-        $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
+        $igt = new IGeTui(HOST, IOS_APPKEY, IOS_MASTERSECRET);
         $method = $this->demo_name[$type];
         $igt_template = $this->$method();
         $message = new IGtSingleMessage();
         $message->set_data($igt_template);
 
-        $response = $igt->pushAPNMessageToSingle(APPID, $this->device_token, $message);
+        $response = $igt->pushAPNMessageToSingle(IOS_APPID, $this->device_token, $message);
         if(isset($response['result']) && $response['result'] == 'ok'){
             echo '推送成功';
         } else {
@@ -56,7 +56,7 @@ class IGtIOS extends IGtFactory
      */
     public function pushMessageToList($type=0, $template=[])
     {
-        $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
+        $igt = new IGeTui(HOST, IOS_APPKEY, IOS_MASTERSECRET);
         //多个用户推送接口
         putenv("needDetails=true");
 
@@ -65,9 +65,9 @@ class IGtIOS extends IGtFactory
         $igt_template = $this->$method();
         $list_message->set_data($igt_template);
 
-        $contentId = $igt->getAPNContentId(APPID, $list_message);
+        $contentId = $igt->getAPNContentId(IOS_APPID, $list_message);
         //$deviceTokenList = array("3337de7aa297065657c087a041d28b3c90c9ed51bdc37c58e8d13ced523f5f5f");
-        $response = $igt->pushAPNMessageToList(APPID, $contentId, $this->device_token_list);
+        $response = $igt->pushAPNMessageToList(IOS_APPID, $contentId, $this->device_token_list);
         if(isset($response['result']) && $response['result'] == 'ok'){
             echo '推送成功';
         } else {
@@ -106,14 +106,18 @@ class IGtIOS extends IGtFactory
     public function IGtTransmissionTemplateDemo()
     {
         $trans_template = new IGtTransmissionTemplate();
-
-        $trans_template->set_appId(APPID);//应用appid
-        $trans_template->set_appkey(APPKEY);//应用appkey
+        //在线用这个就可以了
+        $trans_template->set_appId(IOS_APPID);//应用appid
+        $trans_template->set_appkey(IOS_APPKEY);//应用appkey
         $trans_template->set_transmissionType(1);//透传消息类型
-        $trans_template->set_transmissionContent("测试离线ddd");//透传内容
+        $trans_template->set_transmissionContent("在线ddd");//透传内容
         //$template->set_duration(BEGINTIME,ENDTIME); //设置ANDROID客户端在此时间区间内展示消息
 
+        //离线需要下面的内容
+        //老方法
+        //$trans_template ->set_pushInfo("test",1,"message","","","","","");
         $apn = $this->getAPNPayLoad();
+        //新方法
         $trans_template->set_apnInfo($apn);
 
         return $trans_template;
@@ -129,8 +133,18 @@ class IGtIOS extends IGtFactory
 
     public function getAPNPayLoad()
     {
-        //APN高级推送
         $apn = new IGtAPNPayload();
+        //apn简单模式
+//        $alert_msg = new SimpleAlertMsg();
+//        $alert_msg->alertMsg = "名医主刀 offline";
+//        $apn->alertMsg = $alert_msg;
+////        $apn->badge=2;
+//        $apn->sound = "";
+//        //$apn->add_customMsg("payload",'{\"iosVersion\":[\"2.2.0\"],\"type\":\"app\",\"isNeedLogin\":\"1\",\"url\":\"nil\",\"title\":\"测试\",\"ios\":{\"classname\":\"OrderMainViewController\",\"param\":{\"isSelectDoctor\":\"0\"}}}\"}');
+//        $apn->add_customMsg("payload",'hellllll');
+//        $apn->contentAvailable = 1;
+//        $apn->category = "ACTIONABLE";
+        //APN高级推送
         $alertMsg = new DictionaryAlertMsg();
         $alertMsg->body = $this->current_template['alert_body'];
         $alertMsg->actionLocKey = $this->current_template['alert_action_loc_key'];
