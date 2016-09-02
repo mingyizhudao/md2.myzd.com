@@ -20,18 +20,24 @@ define('HOST','http://sdk.open.api.igexin.com/apiex.htm');
 
 
 //定义常量, appId、appKey、masterSecret 采用本文档 "第二步 获取访问凭证 "中获得的应用配置
-define('APPKEY','g3whVDUGTd5g5aprwRWXe3');
-define('APPID','s2hw98XtfX6sH6msNNTvL2');
-define('MASTERSECRET','LdKMlaXGKj8r2c3u1axPq9');
-define('APPSECRET', 'ANxDjR8hjA7DhuM8ExEAG8');
-define('Alias', '请输入您的Alias'); //别名推送方式
+define('AD_APPKEY','g3whVDUGTd5g5aprwRWXe3');
+define('AD_APPID','s2hw98XtfX6sH6msNNTvL2');
+define('AD_MASTERSECRET','LdKMlaXGKj8r2c3u1axPq9');
+define('AD_APPSECRET', 'ANxDjR8hjA7DhuM8ExEAG8');
+define('AD_Alias', '请输入您的Alias'); //别名推送方式
+
+define('IOS_APPKEY','JVTsoqWjbu5sXfnG9Ilw47');
+define('IOS_APPID','MHqMHR0rScAj0GvRD06Im5');
+define('IOS_MASTERSECRET','wPzO5uzggO672DUccX8Oi1');
+define('IOS_APPSECRET', 'b5Tpsak6XgAAKK5HPtzOZ8');
+define('IOS_Alias', '请输入您的Alias'); //别名推送方式
 
 const IGT_TRANS = 0;
 const IGT_NOTIFY = 1;
 const IGT_LINK = 2;
 const IGT_LOAD = 3;
 
-abstract class IGtFactory
+class IGtFactory
 {
     private $current_igt_type = 0; //现在使用的通知类型
     public $current_template = [];//使用的通知模板
@@ -54,9 +60,19 @@ abstract class IGtFactory
         3 => 'IGtNotyPopLoadTemplateDemo'
     ];
 
-    abstract public function pushMessageToSingle($type=0,$template=[]);
-    abstract public function pushMessageToList($type=0,$template=[]);
-    abstract public function setTemplate($template);
+    /**
+     * @param $type
+     * @return IGtAndroid|IGtFactory|IGtIOS
+     */
+    public static function instance($type)
+    {
+        if($type == 'android') {
+            return new IGtAndroid();
+        } elseif($type == 'IOS') {
+            return new IGtIOS();
+        }
+        return new self();
+    }
 
     /**
      * @param int $type 推送消息类型，0:透传消息 1:点击打开应用消息 2:点击打开网页消息 3:点击下载 默认0
@@ -73,7 +89,6 @@ abstract class IGtFactory
         }
     }
 
-
     /**
      * 一般消息推送(应用群组)
      * @param int $type
@@ -84,7 +99,7 @@ abstract class IGtFactory
         // TODO: Implement pushMessage() method.
         $this->pushMessage($type, $template);
 
-        $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
+        $igt = new IGeTui(HOST, AD_APPKEY, AD_MASTERSECRET);
         //定义透传模板，设置透传内容和收到消息是否立即启动应用
         $method = $this->demo_name[$type];
         $igt_template = $this->$method();
@@ -96,7 +111,7 @@ abstract class IGtFactory
 
         $message->set_pushNetWorkType(0); //设置是否根据WIFI推送消息，1为wifi推送，0为不限制推送
 
-        $appIdList = array(APPID); //发送目标app列表
+        $appIdList = array(AD_APPID); //发送目标app列表
         $phoneTypeList = array('ANDROID', 'IOS');
         //$provinceList = $this->province_list;
         //$tagList = array('hello');

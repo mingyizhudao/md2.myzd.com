@@ -29,21 +29,28 @@ class TestController extends WebsiteController {
 
     /**
      * 个推测试
+     * @param $data
      */
-    public function actionMessage()
+    public function actionMessage($data)
     {
-        $android_client = new IGtAndroid();
+        $client = '';
+        $title = isset($data['title']) ? $data['title'] : '名医主刀';
+        $message = isset($data['message']) ? $data['message'] : '推送消息';
+        $param = isset($data['param']) ? $data['param'] : '接收参数';
+
         $template = [
-            'title' => '名医主刀', //通知标题
-            'text' => '打开名医主刀官网', //通知内容
+            'transmission_content' => $title,
+            'alert_title' => $title,
+            'alert_title_loc_key' => $title,
+            'alert_loc_key' => $message,
+            'apn_custom_msg' => $param
         ];
-        $android_client->pushMessageToApp(2, $template);
-
-        //$android_client->setClientId($client_id);
-        //$android_client->pushMessageToSingle(0, $template);
-
-        //$android_client->setClientList($list);
-        //$android_client->pushMessageToList(0, $template);
+        if($this->isUserAgentIOS()) {
+            $client = new IGtIOS();
+        } else{
+            $client = new IGtAndroid();
+        }
+        $client->pushMessageToApp(0, $template);
     }
 
     public function actionUserlogin() {
