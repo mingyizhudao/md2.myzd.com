@@ -31,7 +31,7 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
         <meta http-equiv="pragma" content="no-cache">
         <title>订单</title>
         <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/common.min.1.0.css">
-        <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/custom.min.1.1.css">
+        <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/md2/custom.min.1.3.css">
         <script type="text/javascript" src="http://static.mingyizhudao.com/zepto.min.1.0.js"></script>
         <link rel="stylesheet" type="text/css" href="http://static.mingyizhudao.com/pinus.1.0.css">
         <script type="text/javascript" src="http://myzd.oss-cn-hangzhou.aliyuncs.com/static/web/js/jquery-1.9.1.min.js"></script>
