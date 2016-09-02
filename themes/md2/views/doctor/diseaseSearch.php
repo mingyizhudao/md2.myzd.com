@@ -77,15 +77,20 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
                         //常见疾病
                         var commonDisease = '<div class="bg-gray3 pad10">常见疾病</div><ul class="list">';
                         var allDisease = '<div class="bg-gray3 pad10">全部</div><ul class="list">';
+                        //是否含有常见疾病
+                        var bool = false;
                         for (var j = 0; j < diseaseName.length; j++) {
                             if (diseaseName[j].isCommon == 1) {
+                                bool = true;
                                 commonDisease += '<li class="selectDisease">' + diseaseName[j].name + '</li>';
                             }
                             allDisease += '<li class="selectDisease">' + diseaseName[j].name + '</li>';
                         }
                         commonDisease += '</ul>';
                         allDisease += '</ul>';
-                        innerDisease += commonDisease;
+                        if (bool) {
+                            innerDisease += commonDisease;
+                        }
                         innerDisease += allDisease;
                     } else {
                         innerDisease += '<ul class="class"><li>暂无疾病</li></ul>';
