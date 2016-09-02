@@ -99,7 +99,7 @@ class IGtFactory
         // TODO: Implement pushMessage() method.
         $this->pushMessage($type, $template);
 
-        $igt = new IGeTui(HOST, APPKEY, MASTERSECRET);
+        $igt = new IGeTui(HOST, AD_APPKEY, AD_MASTERSECRET);
         //定义透传模板，设置透传内容和收到消息是否立即启动应用
         $method = $this->demo_name[$type];
         $igt_template = $this->$method();
@@ -111,7 +111,7 @@ class IGtFactory
 
         $message->set_pushNetWorkType(0); //设置是否根据WIFI推送消息，1为wifi推送，0为不限制推送
 
-        $appIdList = array(APPID); //发送目标app列表
+        $appIdList = array(AD_APPID); //发送目标app列表
         $phoneTypeList = array('ANDROID', 'IOS');
         //$provinceList = $this->province_list;
         //$tagList = array('hello');

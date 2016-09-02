@@ -110,7 +110,7 @@ class IGtIOS extends IGtFactory
         $trans_template->set_appId(IOS_APPID);//应用appid
         $trans_template->set_appkey(IOS_APPKEY);//应用appkey
         $trans_template->set_transmissionType(1);//透传消息类型
-        $trans_template->set_transmissionContent("在线ddd");//透传内容
+        $trans_template->set_transmissionContent($this->current_template['transmission_content']);//透传内容
         //$template->set_duration(BEGINTIME,ENDTIME); //设置ANDROID客户端在此时间区间内展示消息
 
         //离线需要下面的内容
