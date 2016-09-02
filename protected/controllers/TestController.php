@@ -29,18 +29,26 @@ class TestController extends WebsiteController {
 
     /**
      * 个推测试
+     * @param $data
      */
-    public function actionMessage()
+    public function actionMessage($data)
     {
         $client = '';
+        $title = isset($data['title']) ? $data['title'] : '名医主刀';
+        $message = isset($data['message']) ? $data['message'] : '推送消息';
+        $param = isset($data['param']) ? $data['param'] : '接收参数';
+
+        $template = [
+            'transmission_content' => $title,
+            'alert_title' => $title,
+            'alert_title_loc_key' => $title,
+            'alert_loc_key' => $message,
+            'apn_custom_msg' => $param
+        ];
         if($this->isUserAgentIOS()) {
             $client = new IGtIOS();
-            $template = [];
-        } elseif($this->isUserAgentAndroid()) {
-            $client = new IGtAndroid();
-            $template = [];
         } else{
-            return;
+            $client = new IGtAndroid();
         }
         $client->pushMessageToApp(0, $template);
     }
