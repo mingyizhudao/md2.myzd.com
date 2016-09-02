@@ -10,6 +10,7 @@ $urlUploadMRFile = $this->createUrl('patient/uploadMRFile', array('id' => $booki
 $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $booking->patientId . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $booking->patientId));
 $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingId' => $booking->id, 'refNo' => ''));
 ?>
+
 <article id="patientBookingView_article" class="active" data-scroll="true">
     <div class="pad10">
         <div class="border-gray bg-white br8">
