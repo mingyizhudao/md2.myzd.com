@@ -7,7 +7,7 @@ class CoreRasConfig extends EActiveRecord {
      * @return string the associated database table name
      */
     public function getDbConnection() {
-        return Yii::app()->db2;
+        return Yii::app()->dbkey;
     }
 
     public function tableName() {
