@@ -134,7 +134,8 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
+                    'questionnaire', 'ajaxQuestionnaire'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -1006,4 +1007,56 @@ class DoctorController extends MobiledoctorController {
         }
     }
 
+    /**
+     * 问卷调查页面
+     */
+    public function actionQuestionnaire()
+    {
+        $user_id = $this->getCurrentUserId();
+        $doctorMgr = new MDDoctorManager();
+        $hz_model = $doctorMgr->loadUserDoctorHuizhenByUserId($user_id);
+        $hz_form = new DoctorHuizhenForm();
+        $hz_form->initModel($hz_model);
+
+        $zz_model = $doctorMgr->loadUserDoctorZhuanzhenById($user_id);
+        $zz_form = new DoctorZhuanzhenForm();
+        $zz_form->initModel($zz_model);
+        $this->render("questionnaire", array(
+            'hz_model' => $hz_form,
+            'zz_model' => $zz_form
+        ));
+    }
+
+    /**
+     * 问卷提交
+     */
+    public function actionAjaxQuestionnaire()
+    {
+        $post = $this->decryptInput();
+        $userId = $this->getCurrentUserId();
+        $user = $this->loadUser();
+        //专家签约
+        $doctorProfile = $user->getUserDoctorProfile();
+        $doctorMgr = new MDDoctorManager();
+        $doctorMgr->doctorContract($doctorProfile);
+        $output = array('status' => 'no');
+        //会诊信息
+        if (isset($post['DoctorHuiZhenForm'])) {
+            $values = $post['DoctorHuiZhenForm'];
+            $values['user_id'] = $userId;
+            $output['hz'] = $doctorMgr->createOrUpdateDoctorHuizhen($values);
+        } elseif (isset($post['DoctorHuiZhenForm']['dis_join']) && $post['DoctorHuiZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
+            $output['hz'] = $doctorMgr->disJoinHuizhen($userId);
+        }
+
+        //转诊信息
+        if (isset($post['DoctorZhuanZhenForm'])) {
+            $values = $post['DoctorZhuanzhenForm'];
+            $values['user_id'] = $userId;
+            $output['zz'] = $doctorMgr->createOrUpdateDoctorZhuanzhen($values);
+        } elseif (isset($post['DoctorZhuanZhenForm']['dis_join']) && $post['DoctorZhuanZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
+            $output['zz'] = $doctorMgr->disJoinZhuanzhen($userId);
+        }
+        $this->renderJsonOutput($output);
+    }
 }
