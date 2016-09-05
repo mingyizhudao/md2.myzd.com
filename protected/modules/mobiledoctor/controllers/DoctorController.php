@@ -36,7 +36,7 @@ class DoctorController extends MobiledoctorController {
 
     /**
      * @NOTE call this method after filterUserDoctorContext.
-     * @param type $filterChain
+     * @param CFilterChain $filterChain
      */
     public function filterPatientCreatorContext($filterChain) {
         $patientId = null;
@@ -55,23 +55,23 @@ class DoctorController extends MobiledoctorController {
 
     /**
      * @NOTE call this method after filterUserDoctorContext.
-     * @param type $filterChain
+     * @param CFilterChain $filterChain
      */
     public function filterPatientMRCreatorContext($filterChain) {
-        $mrid = null;
+        $mr_id = null;
         if (isset($_GET['mrid'])) {
-            $mrid = $_GET['mrid'];
+            $mr_id = $_GET['mrid'];
         } elseif (isset($_POST['patientbooking']['mrid'])) {
-            $mrid = $_POST['patientbooking']['mrid'];
+            $mr_id = $_POST['patientbooking']['mrid'];
         }
         $user = $this->loadUser();
-        $this->loadPatientMRByIdAndCreatorId($mrid, $user->getId());
+        $this->loadPatientMRByIdAndCreatorId($mr_id, $user->getId());
         $filterChain->run();
     }
 
     /**
      * 修改医生信息
-     * @param type $filterChain
+     * @param CFilterChain $filterChain
      */
     public function filterUserDoctorVerified($filterChain) {
         $user = $this->loadUser();
@@ -134,7 +134,7 @@ class DoctorController extends MobiledoctorController {
                     'addPatient', 'view',
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
-                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView'),
+                    'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -143,7 +143,9 @@ class DoctorController extends MobiledoctorController {
         );
     }
 
-    //公益视图
+    /**
+     * 公益视图
+     */
     public function actionViewCommonweal() {
         $user = $this->getCurrentUser();
         $doctorProfile = $user->getUserDoctorProfile();
@@ -160,7 +162,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //公益列表
+    /**
+     * 公益列表
+     */
     public function actionCommonwealList() {
         $apiService = new ApiViewCommonwealDoctors();
         $output = $apiService->loadApiViewData();
@@ -169,7 +173,10 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //加入名医公益
+    /**
+     * 加入名医公益
+     * @throws CDbException
+     */
     public function actionAjaxJoinCommonweal() {
         $output = array('status' => 'no');
         $user = $this->getCurrentUser();
@@ -187,12 +194,16 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //签约医生列表
+    /**
+     * 签约医生列表
+     */
     public function actionViewContractDoctors() {
         $this->render("viewContractDoctors");
     }
 
-    //获取签约医生
+    /**
+     * 获取签约医生
+     */
     public function actionAjaxContractDoctor() {
         $values = $_GET;
         $apiService = new ApiViewDoctorSearch($values);
@@ -200,21 +211,29 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //获取城市列表
+    /**
+     * 获取城市列表
+     */
     public function actionAjaxStateList() {
         $city = new ApiViewState();
         $output = $city->loadApiViewData();
         $this->renderJsonOutput($output);
     }
 
-    //获取科室分类
+    /**
+     * 获取科室分类
+     */
     public function actionAjaxDeptList() {
         $apiService = new ApiViewDiseaseCategory();
+        $apiService->loadDiseaseCategory();
         $output = $apiService->loadApiViewData();
         $this->renderJsonOutput($output);
     }
 
-    //获取医生信息
+    /**
+     * 获取医生信息
+     * @param $id
+     */
     public function actionViewDoctor($id) {
         $apiService = new ApiViewDoctor($id);
         $output = $apiService->loadApiViewData();
@@ -223,7 +242,10 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //添加患者
+    /**
+     * 添加患者
+     * @param $id
+     */
     public function actionAddPatient($id) {
         $apiService = new ApiViewDoctor($id);
         $doctor = $apiService->loadApiViewData();
@@ -238,7 +260,11 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //跳转至就诊意向页面
+    /**
+     * 跳转至就诊意向页面
+     * @param $doctorId
+     * @param $patientId
+     */
     public function actionCreatePatientBooking($doctorId, $patientId) {
         $userId = $this->getCurrentUserId();
         $apiService = new ApiViewBookingContractDoctor($patientId, $userId, $doctorId);
@@ -290,16 +316,23 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //进入医生问卷调查页面
+    /**
+     * 进入医生问卷调查页面
+     */
     public function actionContract() {
         $this->render("contract");
     }
 
+    /**
+     * doctorView
+     */
     public function actionDrView() {
         $this->render("drView");
     }
 
-    //医生查看自己能接受病人的转诊信息
+    /**
+     * 医生查看自己能接受病人的转诊信息
+     */
     public function actionAjaxViewDoctorZz() {
         $userId = $this->getCurrentUserId();
         $apiSvc = new ApiViewDoctorZz($userId);
@@ -307,7 +340,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //进入保存或修改医生转诊信息的页面
+    /**
+     * 进入保存或修改医生转诊信息的页面
+     */
     public function actionCreateDoctorZz() {
         $userId = $this->getCurrentUserId();
         $doctorMgr = new MDDoctorManager();
@@ -319,7 +354,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //保存或修改医生接受病人转诊信息
+    /**
+     * 保存或修改医生接受病人转诊信息
+     */
     public function actionAjaxDoctorZz() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
@@ -340,7 +377,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //医生查看自己接受的会诊信息
+    /**
+     * 医生查看自己接受的会诊信息
+     */
     public function actionAjaxViewDoctorHz() {
         $userId = $this->getCurrentUserId();
         $apiSvc = new ApiViewDoctorHz($userId);
@@ -349,7 +388,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //进入保存或修改医生会诊 信息的页面
+    /**
+     * 进入保存或修改医生会诊 信息的页面
+     */
     public function actionCreateDoctorHz() {
         $userId = $this->getCurrentUserId();
         $doctorMgr = new MDDoctorManager();
@@ -361,7 +402,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //保存或修改医生会诊信息
+    /**
+     * 保存或修改医生会诊信息
+     */
     public function actionAjaxDoctorHz() {
         $post = $this->decryptInput();
         $userId = $this->getCurrentUserId();
@@ -382,6 +425,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    /**
+     * 账户
+     */
     public function actionAccount() {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
@@ -399,20 +445,40 @@ class DoctorController extends MobiledoctorController {
                 $verified = 1;
             }
         }
-        $this->render('account', array('userDoctorProfile' => $userDoctorProfile, 'verified' => $verified, 'doctorCerts' => $doctorCerts));
+        $this->render('account', array(
+            'userDoctorProfile' => $userDoctorProfile,
+            'verified' => $verified,
+            'doctorCerts' => $doctorCerts
+        ));
     }
 
-    //医生信息查询
+    /**
+     * 医生信息查询
+     */
     public function actionDoctorInfo() {
         $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewDoctorInfo($userId);
-        $output = $apisvc->loadApiViewData();
+        $api_svc = new ApiViewDoctorInfo($userId);
+        $output = $api_svc->loadApiViewData();
         $this->render('doctorInfo', array(
             'data' => $output
         ));
     }
 
-    //个人中心
+    /**
+     * 医生搜索
+     * @param $name
+     * @param $islike
+     */
+    public function actionAjaxSearchDoctor($name, $islike)
+    {
+        $api = new ApiViewSearchDoctor($name, $islike);
+        $output = $api->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    /**
+     * 个人中心
+     */
     public function actionView() {
         // var_dump(Yii::app()->user->id);exit;
         $user = $this->loadUser();  // User model
@@ -423,7 +489,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //个人中心
+    /**
+     * 个人中心
+     */
     public function actionUserView() {
         // var_dump(Yii::app()->user->id);exit;
         $user = $this->loadUser();  // User model
@@ -434,6 +502,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 预约
+     */
     public function actionAjaxContract() {
         $post = $this->$this->decryptInput();
         //需要发送电邮的数据
@@ -470,7 +541,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //上传成功页面跳转
+    /**
+     * 上传成功页面跳转
+     */
     public function actionToSuccess() {
         $this->render('_success');
     }
@@ -486,6 +559,9 @@ class DoctorController extends MobiledoctorController {
         $this->send_get($url);
     }
 
+    /**
+     * 简介接口
+     */
     public function actionAjaxProfile() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
@@ -503,10 +579,10 @@ class DoctorController extends MobiledoctorController {
             $user = $this->loadUser();
             $userId = $user->getId();
             $doctorProfile = $user->getUserDoctorProfile();
-            $isupdate = true;
+            $is_update = true;
             if (is_null($doctorProfile)) {
                 $doctorProfile = new UserDoctorProfile();
-                $isupdate = false;
+                $is_update = false;
             }
             $attributes = $form->getSafeAttributes();
             $doctorProfile->setAttributes($attributes, true);
@@ -521,7 +597,7 @@ class DoctorController extends MobiledoctorController {
                 $doctorProfile->city_name = $city->getName();
             }
             if ($doctorProfile->save()) {
-                if ($isupdate) {
+                if ($is_update) {
                     $this->createTaskProfile($userId);
                 }
                 $output['status'] = 'ok';
@@ -537,7 +613,10 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //修改医生认证信息添加task
+    /**
+     * 修改医生认证信息添加task
+     * @param $userId
+     */
     public function createTaskProfile($userId) {
         $type = StatCode::TASK_DOCTOR_PROFILE_UPDATE;
         $apiRequest = new ApiRequestUrl();
@@ -545,7 +624,11 @@ class DoctorController extends MobiledoctorController {
         $this->send_get($remote_url);
     }
 
-    //1 为注册页面跳转 2为名医公益跳转
+    /**
+     * 简介
+     * 1 为注册页面跳转 2为名医公益跳转
+     * @param int $register
+     */
     public function actionProfile($register = 0) {
         $returnUrl = $this->getReturnUrl($this->createUrl('doctor/view'));
         $user = $this->loadUser();
@@ -576,6 +659,9 @@ class DoctorController extends MobiledoctorController {
         $this->redirect(array('patient/create'));
     }
 
+    /**
+     * 退出登录
+     */
     public function actionLogout() {
         Yii::app()->user->logout();
         //$this->redirect(Yii::app()->user->loginUrl);
@@ -591,19 +677,62 @@ class DoctorController extends MobiledoctorController {
         if (isset($user)) {
             $this->redirect(array('view'));
         }
-        $smsform = new UserDoctorMobileLoginForm();
-        $pawform = new UserLoginForm();
-        $smsform->role = StatCode::USER_ROLE_DOCTOR;
-        $pawform->role = StatCode::USER_ROLE_DOCTOR;
+        $sms_form = new UserDoctorMobileLoginForm();
+        $paw_form = new UserLoginForm();
+        $sms_form->role = StatCode::USER_ROLE_DOCTOR;
+        $paw_form->role = StatCode::USER_ROLE_DOCTOR;
         $returnUrl = $this->getReturnUrl($this->createUrl('doctor/view'));
         //失败 则返回登录页面
         $this->render("mobileLogin", array(
-            'model' => $smsform,
-            'pawModel' => $pawform,
+            'model' => $sms_form,
+            'pawModel' => $paw_form,
             'returnUrl' => $returnUrl,
             'loginType' => $loginType,
             'registerFlag' => $registerFlag
         ));
+    }
+
+    /**
+     * 添加患者病例
+     */
+    public function actionAddDisease()
+    {
+        $this->render('addDisease', array(
+            'id' => Yii::app()->session['addPatientId'],
+            'returnUrl' => Yii::app()->session['mobileDoctor_patientCreate_returnUrl']
+        ));
+    }
+
+    /**
+     * 病例搜索页
+     */
+    public function actionDiseaseSearch()
+    {
+        $this->render('diseaseSearch');
+    }
+
+    /**
+     * 病例搜索结果页
+     */
+    public function actionDiseaseResult()
+    {
+        $this->render('diseaseResult');
+    }
+
+    /**
+     * 医生搜索列表页
+     */
+    public function actionDoctorList()
+    {
+        $this->render('doctorList');
+    }
+
+    /**
+     * 填写专家信息
+     */
+    public function actionInputDoctorInfo()
+    {
+        $this->render('inputDoctorInfo');
     }
 
     /**
@@ -612,34 +741,37 @@ class DoctorController extends MobiledoctorController {
     public function actionAjaxLogin() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
+        $sms_form = $paw_form = '';
         if (isset($post['UserDoctorMobileLoginForm'])) {
             $loginType = 'sms';
-            $smsform = new UserDoctorMobileLoginForm();
+            $sms_form = new UserDoctorMobileLoginForm();
             $values = $post['UserDoctorMobileLoginForm'];
-            $smsform->setAttributes($values, true);
-            $smsform->role = StatCode::USER_ROLE_DOCTOR;
-            $smsform->autoRegister = false;
+            $sms_form->setAttributes($values, true);
+            $sms_form->role = StatCode::USER_ROLE_DOCTOR;
+            $sms_form->autoRegister = false;
             $userMgr = new UserManager();
-            $isSuccess = $userMgr->mobileLogin($smsform);
+            $isSuccess = $userMgr->mobileLogin($sms_form);
         } else if (isset($post['UserLoginForm'])) {
             $loginType = 'paw';
-            $pawform = new UserLoginForm();
+            $paw_form = new UserLoginForm();
             $values = $post['UserLoginForm'];
-            $pawform->setAttributes($values, true);
-            $pawform->role = StatCode::USER_ROLE_DOCTOR;
-            $pawform->rememberMe = true;
+            $paw_form->setAttributes($values, true);
+            $paw_form->role = StatCode::USER_ROLE_DOCTOR;
+            $paw_form->rememberMe = true;
             $userMgr = new UserManager();
-            $isSuccess = $userMgr->doLogin($pawform);
+            $isSuccess = $userMgr->doLogin($paw_form);
         } else {
+            $loginType = '';
             $output['errors'] = 'no data..';
+            $isSuccess = false;
         }
         if ($isSuccess) {
             $output['status'] = 'ok';
         } else {
             if ($loginType == 'sms') {
-                $output['errors'] = $smsform->getErrors();
+                $output['errors'] = $sms_form->getErrors();
             } else {
-                $output['errors'] = $pawform->getErrors();
+                $output['errors'] = $paw_form->getErrors();
             }
             $output['loginType'] = $loginType;
         }
@@ -683,7 +815,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //医生注册并自动登录
+    /**
+     * 医生注册并自动登录
+     */
     public function actionRegister() {
         $userRole = User::ROLE_DOCTOR;
         $form = new UserRegisterForm();
@@ -694,6 +828,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 医生注册
+     */
     public function actionAjaxRegister() {
         $post = $this->decryptInput();
         $userRole = User::ROLE_DOCTOR;
@@ -714,7 +851,9 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //进入忘记密码页面
+    /**
+     * 进入忘记密码页面
+     */
     public function actionForgetPassword() {
         $form = new ForgetPasswordForm();
         $this->render('forgetPassword', array(
@@ -722,7 +861,9 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
-    //忘记密码功能
+    /**
+     * 忘记密码功能
+     */
     public function actionAjaxForgetPassword() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
@@ -750,8 +891,63 @@ class DoctorController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    /*     * *************************微信调用接口**************************** */
+    /**
+     * 保存患者疾病信息
+     */
+    public function actionSavePatientDisease()
+    {
+        $output = array('status' => 'no');
+        if (isset($_POST['patient'])) {
+            $values = $_POST['patient'];
+            $patientDisease = new PatientManager();
+            $output = $patientDisease->apiSaveDiseaseByPatient($values);
+        } else {
+            $output['errors'] = 'miss data...';
+        }
+    
+        $this->renderJsonOutput($output);
+    }
 
+    /**
+     * 根据关键字查询疾病
+     * @param $name
+     * @param $islike
+     */
+    public function actionSearchDisease($name, $islike)
+    {
+        $apiService = new ApiViewDisease();
+        $output = $apiService->getDiseaseByName($name, $islike);
+        $this->renderJsonOutput($output);
+    }
+
+    /**
+     * 二级疾病类型列表
+     */
+    public function actionDiseaseCategoryToSub()
+    {
+        $apiService = new ApiViewDiseaseCategory();
+        $apiService->getDiseaseCategoryToSub();
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    /**
+     * 根据类型id获得疾病列表
+     * @param int $categoryid
+     */
+    public function actionDiseaseByCategoryId($categoryid)
+    {
+        $apiService = new ApiViewDisease();
+        $apiService->getDiseaseByCategoryId($categoryid);
+        $output = $apiService->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+
+    /**
+     * 微信调用接口
+     * @param $userid
+     * @param $returnUrl
+     */
     public function actionWxlogin($userid, $returnUrl) {
         $userMgr = new UserManager();
         $output = $userMgr->wxlogin($userid);
@@ -760,6 +956,9 @@ class DoctorController extends MobiledoctorController {
         //$this->renderJsonOutput($output);
     }
 
+    /**
+     * 修改密码
+     */
     public function actionChangePassword() {
         $post = $this->$this->decryptInput();
         $user = $this->getCurrentUser();
@@ -796,6 +995,10 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 验证
+     * @param User $model
+     */
     protected function performAjaxValidation($model) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'user-form') {
             echo CActiveForm::validate($model);

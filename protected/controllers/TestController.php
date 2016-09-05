@@ -1,6 +1,57 @@
 <?php
 
 class TestController extends WebsiteController {
+    
+    public function actionJiguang() 
+    {
+        $config = Yii::app()->params->itemAt('jPush');
+        $client = new \JPush('c15e1ac0a68a4ae48509992d', '6e84eaae55ac654eae2de204', $config['logPath']);
+        $result = $client->push()
+            ->setPlatform(array('ios', 'android'))
+            //->addAlias(md5('md_15618294696'))//android
+            ->addAlias('md15670794261')//ios
+            //->addAllAudience('all')//ios
+            ->setNotificationAlert('Hi, JPush')
+            ->addAndroidNotification('Hi, android notification', 'notification title', 1, array('data' => '{"iosVersion":[ "2.1.0" ], "adVersion":[ "2.1.2.0" ], "type":"app", "url":"https://m.baidu.com/", "title":"百度", "isNeedLogin":"0", "ad":{ "classname":"com.shoushuzhitongche.app.view.receive.ReceiveInviteActivity", "param":{ "jpush":"jpush", "parm_action_url":"http://mdapi.mingyizhudao.com/apimd/orderinfo/27540"}}}'))
+            ->addIosNotification("Hi, iOS notification", 'iOS sound', '+1', true, 'iOS category', array('data' => '{"iosVersion":["2.1.0"],"type":"app","isNeedLogin":"1","url":"nil","title":"测试","ios":{"classname":"OrderMainViewController","param":{"isSelectDoctor":"0"}}}'))
+            ->setMessage("msg content", 'msg title', 'type', array("key1"=>"value1", "key2"=>"value2"))
+            ->setOptions(null, null, null, true)
+            ->send();
+        echo 'Result=' . json_encode($result);exit;
+    }
+    
+    public function actionGetui()
+    {
+        //require_once('./protected/sdk/getui/php/alias_demo.php');
+        require_once('./protected/sdk/getui/php/demo.php');
+        exit;
+    }
+
+    /**
+     * 个推测试
+     * @param $data
+     */
+    public function actionMessage($data)
+    {
+        $client = '';
+        $title = isset($data['title']) ? $data['title'] : '名医主刀';
+        $message = isset($data['message']) ? $data['message'] : '推送消息';
+        $param = isset($data['param']) ? $data['param'] : '接收参数';
+
+        $template = [
+            'transmission_content' => $title,
+            'alert_title' => $title,
+            'alert_title_loc_key' => $title,
+            'alert_loc_key' => $message,
+            'apn_custom_msg' => $param
+        ];
+        if($this->isUserAgentIOS()) {
+            $client = new IGtIOS();
+        } else{
+            $client = new IGtAndroid();
+        }
+        $client->pushMessageToApp(0, $template);
+    }
 
     public function actionUserlogin() {
         $url = $this->createAbsoluteUrl('api/create', array('model' => 'userlogin'));

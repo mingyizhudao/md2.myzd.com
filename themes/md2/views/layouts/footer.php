@@ -32,7 +32,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             </a>
         </li>
         <li class="w25" data-active="create_footer">
-            <a href="">
+            <a href="<?php echo $urlCreatePatient; ?>">
                 <div class="grid">
                     <div class="col-1"></div>
                     <div class="col-0">
