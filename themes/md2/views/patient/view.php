@@ -95,7 +95,8 @@ if ($addBooking == 1) {
             $(this).hide();
         });
         $('#patientBookingCreate').tap(function () {
-            location.href = '<?php echo $urlPatientBookingCreate; ?>'
+            sessionStorage.removeItem('intention');
+            location.href = '<?php echo $urlPatientBookingCreate; ?>';
         });
     });
     function ajaxPatientFiles() {

@@ -26,7 +26,7 @@ class PatientInfoForm extends EFormModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('creator_id, name, birth_year, birth_month , gender, mobile, country_id, state_id, city_id, disease_name, disease_detail', 'required'),
+            array('creator_id, name, birth_year, birth_month , gender, mobile, country_id, state_id, city_id', 'required'),
             array('creator_id, gender, birth_year, birth_month ,country_id, state_id, city_id', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 50),
             array('mobile', 'length', 'max' => 11),

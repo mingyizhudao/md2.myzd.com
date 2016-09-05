@@ -71,6 +71,7 @@ class ApiViewDoctorPatientList extends EApiViewService {
             $data->mobile = $model->getMobile();
             $data->diseaseName = $model->getDiseaseName();
             $data->dateUpdated = $model->getDateUpdated('m月d日');
+            $data->patientCreated = $model->getPatientCreated();
             $booking = $model->getBookings();
             if (arrayNotEmpty($booking)) {
                 $data->bookingId = $booking[0]->getId();

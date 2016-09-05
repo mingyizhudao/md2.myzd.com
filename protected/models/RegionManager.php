@@ -162,6 +162,12 @@ class RegionManager {
         return RegionState::model()->getById($id);
     }
 
+    /**
+     * @param $id
+     * @param null $attributes
+     * @param null $with
+     * @return RegionCity
+     */
     public function loadRegionCityById($id, $attributes = null, $with = null) {
         return RegionCity::model()->getById($id);
     }

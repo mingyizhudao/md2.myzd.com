@@ -33,12 +33,15 @@ class OrderController extends MobiledoctorController {
     /**
      * In order to compromize wx-pub-pay(微信支付), if client browser is weixin webview, redirect to domain/weixin/pay.php.
      * So $order data will be saved in session at here.
-     * @param type $refNo
+     * @throws CHttpException
      */
     public function actionView() {
         $refNo = Yii::app()->request->getParam('refNo');
         if (empty($refNo)) {
             $refNo = Yii::app()->request->getParam('refno');
+        }
+        if (empty($refNo)) {
+            throw new CHttpException(404, 'The requested page does not exist.');
         }
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();

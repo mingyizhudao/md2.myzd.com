@@ -3,7 +3,7 @@
 class DBKeyActiveRecord extends EActiveRecord {
 
     public function getDbConnection() {
-        return Yii::app()->dbkey;
+        return Yii::app()->db2;
     }
 
 }

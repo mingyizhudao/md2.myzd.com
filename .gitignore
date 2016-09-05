@@ -1,2 +1,12 @@
 /nbproject/private/
 .idea/*
+/yii/
+/.settings/
+/protected/runtime/
+.buildpath
+.project
+.htaccess
+index.php
+.idea/*
+/assets/
+/protected/config/main_md.php
