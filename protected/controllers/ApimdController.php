@@ -409,7 +409,7 @@ class ApimdController extends Controller {
                     $doctorMgr->doctorContract($doctorProfile);
                 }
                 break;
-            case 'questionnaire'://问卷页面
+            case 'questionnaire'://问卷调查
                 if(isset($post['questionnaire'])) {
                     $hz_values = $post['questionnaire']['hz'];
                     $zz_values = $post['questionnaire']['zz'];
