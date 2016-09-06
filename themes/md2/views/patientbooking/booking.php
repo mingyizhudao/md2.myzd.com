@@ -8,6 +8,7 @@ $this->setPageID('pBookingInfo');
 $this->setPageTitle('预约详情');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlPatientFiles = $this->createUrl('patient/patientMRFiles', array('mrId' => $data->booking->mrid));
+
 ?>
 
 <div id="<?php echo $this->getPageID(); ?>" class="dr-view wheat" data-role="page" data-title="<?php echo $this->getPageTitle(); ?>" data-add-back-btn="true" data-back-btn-text="返回">

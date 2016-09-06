@@ -1,6 +1,5 @@
 <?php
 $doctor = $data->results->doctor;
-// var_dump($doctor);die;
 $honour = $doctor->honour;
 $this->setPageTitle($doctor->name);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
@@ -19,7 +18,7 @@ $this->show_footer = false;
            <div class="grid pt20">
                <div class="col-0">
                    <div class="imgDiv ml20">
-                        <img class="imgDoc" src="http://static.mingyizhudao.com/147305557964568">
+                        <img class="imgDoc" src="<?php echo $doctor->imageUrl;?>">
                     </div>
                </div>
                <div class="col-1 ml20 mb20">
