@@ -8,6 +8,7 @@ $doctor = $doctorInfo->results->doctor;
 $noBookingList = $patientList->results->noBookingList;
 $id = Yii::app()->request->getQuery('id', '');
 $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBtn' => 1));
+$this->show_footer = false;
 ?>
 <header id="addPatient_header" class="bg-green">
     <nav class="left">
