@@ -59,7 +59,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
                     <div class="grid font-type">
                         <div class="col-0 w20 myPatients"></div>
                         <div class="col-0 w80">
-                            草稿箱
+                            未处理患者
                         </div>
                     </div>
                 </a>

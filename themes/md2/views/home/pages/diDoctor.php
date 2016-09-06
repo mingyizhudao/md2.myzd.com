@@ -2,9 +2,10 @@
 $this->setPageTitle('滴滴医生');
 $source = Yii::app()->request->getQuery('app', 1);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 ?>
 <article id="diDoctor_article" class="active" data-scroll="true">
     <div class="pl10 pr10 text-justify">

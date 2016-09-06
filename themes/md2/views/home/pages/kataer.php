@@ -2,9 +2,10 @@
 $this->setPageTitle('卡塔尔王子中国寻医记');
 $source = Yii::app()->request->getQuery('app', 1);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 ?>
 <article id="kataer_article" class="active" data-scroll="true">
     <div class="font-s14">

@@ -23,6 +23,7 @@ $expectDoctor = Yii::app()->request->getQuery('expectDoctor', '');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $real = $userDoctorProfile;
 $userDoctorCerts = $doctorCerts;
+$this->show_footer=false;
 ?>
 <article id="patientBookingCreate_article" class="active" data-scroll="true">
     <div class="pad10">

@@ -7,6 +7,7 @@ $urlVerifyKey = $this->createUrl('userbank/verifyKey');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlSmsCode = $this->createUrl('userbank/smsCode', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer=false;
 ?>
 <article id="viewInputKey_article" class="active pwd_article" data-scroll="true">
     <div class="pad10">
