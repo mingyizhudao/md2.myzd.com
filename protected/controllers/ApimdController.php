@@ -190,6 +190,20 @@ class ApimdController extends Controller {
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
                 break;
+            case 'questionnaire':
+                if(isset($post['questionnaire'])) {
+                    $hz_values = $post['questionnaire']['hz'];
+                    $zz_values = $post['questionnaire']['zz'];
+                    $user = $this->userLoginRequired($post['questionnaire']);
+                    $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
+                    $doctorMgr = new MDDoctorManager();
+                    $output = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
+                    $output = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
+                    //专家签约
+                    $doctorProfile = $user->getUserDoctorProfile();
+                    $doctorMgr->doctorContract($doctorProfile);
+                }
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
