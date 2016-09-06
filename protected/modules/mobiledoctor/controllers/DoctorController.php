@@ -321,7 +321,11 @@ class DoctorController extends MobiledoctorController {
      * 进入医生问卷调查页面
      */
     public function actionContract() {
-        $this->render("contract");
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
+
+        $this->render("contract", array('isContracted' => $isContracted));
     }
 
     /**
