@@ -321,18 +321,18 @@ class DoctorController extends MobiledoctorController {
      * 进入医生问卷调查页面
      */
     public function actionContract() {
-        $user = $this->loadUser();
-        $doctorProfile = $user->getUserDoctorProfile();
-        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
-        $isContracted === true && $this->redirect(array('doctor/drView'));
-        
-        $this->render("contract", array('isContracted' => $isContracted));
+        $this->render("contract");
     }
 
     /**
      * doctorView
      */
     public function actionDrView() {
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
+        $isContracted === false && $this->redirect(array('doctor/contract'));
+        
         $this->render("drView");
     }
 
@@ -367,6 +367,7 @@ class DoctorController extends MobiledoctorController {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
+
         if (isset($post['DoctorZhuanzhenForm'])) {
             $values = $post['DoctorZhuanzhenForm'];
             $values['user_id'] = $userId;
@@ -381,7 +382,7 @@ class DoctorController extends MobiledoctorController {
             $output = $doctorMgr->disJoinZhuanzhen($userId);
         }
         //$this->renderJsonOutput($output);
-        
+
         return $output;
     }
 
@@ -430,8 +431,8 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinHuizhen($userId);
         }
-        $this->renderJsonOutput($output);
-        //return $output;
+        //$this->renderJsonOutput($output);
+        return $output;
     }
 
     /**
@@ -1042,36 +1043,24 @@ class DoctorController extends MobiledoctorController {
     {
         $hzResutl = $this->actionAjaxDoctorHz();
         $zzResutl = $this->actionAjaxDoctorZz();
-        $output = array('status' => 'no');
+        $output = new stdClass();
+        $output->status = 'ok';
+        $output->errorMsg = 'success';
+        $output->errorCode = 0;
         
-        if ($hzResutl['status'] == 'ok' && $zzResutl['status'] == 'ok') {
-            $output['status'] = 'ok';
+        if ($hzResutl['status'] == 'no') {
+            if (isset($hzResutl['errorMsg'])) {
+                $output->status = 'no';
+                $output->errorMsg = $hzResutl['errorMsg'];
+            }
         }
-//         $post = $this->decryptInput();
-//         $userId = $this->getCurrentUserId();
-//         $user = $this->loadUser();
-//         //专家签约
-//         $doctorProfile = $user->getUserDoctorProfile();
-//         $doctorMgr = new MDDoctorManager();
-//         $doctorMgr->doctorContract($doctorProfile);
-//         $output = array('status' => 'no');
-//         //会诊信息
-//         if (isset($post['DoctorHuiZhenForm'])) {
-//             $values = $post['DoctorHuiZhenForm'];
-//             $values['user_id'] = $userId;
-//             $output['hz'] = $doctorMgr->createOrUpdateDoctorHuizhen($values);
-//         } elseif (isset($post['DoctorHuiZhenForm']['dis_join']) && $post['DoctorHuiZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-//             $output['hz'] = $doctorMgr->disJoinHuizhen($userId);
-//         }
+        elseif ($zzResutl['status'] == 'no') {
+            if (isset($zzResutl['errorMsg'])) {
+                $output->status = 'no';
+                $output->errorMsg = $zzResutl['errorMsg'];
+            }
+        }
 
-//         //转诊信息
-//         if (isset($post['DoctorZhuanZhenForm'])) {
-//             $values = $post['DoctorZhuanzhenForm'];
-//             $values['user_id'] = $userId;
-//             $output['zz'] = $doctorMgr->createOrUpdateDoctorZhuanzhen($values);
-//         } elseif (isset($post['DoctorZhuanZhenForm']['dis_join']) && $post['DoctorZhuanZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-//             $output['zz'] = $doctorMgr->disJoinZhuanzhen($userId);
-//         }
-//         $this->renderJsonOutput($output);
+        $this->renderJsonOutput($output);
     }
 }
