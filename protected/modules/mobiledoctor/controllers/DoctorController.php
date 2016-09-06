@@ -323,7 +323,10 @@ class DoctorController extends MobiledoctorController {
     public function actionContract() {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
-        $this->render("contract", array('isContracted' => empty($doctorProfile->date_contracted) ? false : true));
+        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
+        $isContracted === true && $this->redirect(array('doctor/drView'));
+        
+        $this->render("contract", array('isContracted' => $isContracted));
     }
 
     /**
@@ -426,8 +429,8 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinHuizhen($userId);
         }
-        //$this->renderJsonOutput($output);
-        return $output;
+        $this->renderJsonOutput($output);
+        //return $output;
     }
 
     /**
@@ -1022,7 +1025,7 @@ class DoctorController extends MobiledoctorController {
         $hz_form = new DoctorHuizhenForm();
         $hz_form->initModel($hz_model);
 
-        $zz_model = $doctorMgr->loadUserDoctorHuizhenByUserId($user_id);
+        $zz_model = $doctorMgr->loadUserDoctorZhuanzhenByUserId($user_id);
         $zz_form = new DoctorZhuanzhenForm();
         $zz_form->initModel($zz_model);
         $this->render("questionnaire", array(
@@ -1036,33 +1039,34 @@ class DoctorController extends MobiledoctorController {
      */
     public function actionAjaxQuestionnaire()
     {
-//         $hzResutl = $this->actionAjaxDoctorHz();
-//         $zzResutl = $this->actionAjaxDoctorZz();
-        $post = $this->decryptInput();
-        $userId = $this->getCurrentUserId();
-        $user = $this->loadUser();
-        //专家签约
-        $doctorProfile = $user->getUserDoctorProfile();
-        $doctorMgr = new MDDoctorManager();
-        $doctorMgr->doctorContract($doctorProfile);
-        $output = array('status' => 'no');
-        //会诊信息
-        if (isset($post['DoctorHuiZhenForm'])) {
-            $values = $post['DoctorHuiZhenForm'];
-            $values['user_id'] = $userId;
-            $output['hz'] = $doctorMgr->createOrUpdateDoctorHuizhen($values);
-        } elseif (isset($post['DoctorHuiZhenForm']['dis_join']) && $post['DoctorHuiZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-            $output['hz'] = $doctorMgr->disJoinHuizhen($userId);
-        }
+        $hzResutl = $this->actionAjaxDoctorHz();
+        $zzResutl = $this->actionAjaxDoctorZz();
+        var_dump($hzResutl);exit;
+//         $post = $this->decryptInput();
+//         $userId = $this->getCurrentUserId();
+//         $user = $this->loadUser();
+//         //专家签约
+//         $doctorProfile = $user->getUserDoctorProfile();
+//         $doctorMgr = new MDDoctorManager();
+//         $doctorMgr->doctorContract($doctorProfile);
+//         $output = array('status' => 'no');
+//         //会诊信息
+//         if (isset($post['DoctorHuiZhenForm'])) {
+//             $values = $post['DoctorHuiZhenForm'];
+//             $values['user_id'] = $userId;
+//             $output['hz'] = $doctorMgr->createOrUpdateDoctorHuizhen($values);
+//         } elseif (isset($post['DoctorHuiZhenForm']['dis_join']) && $post['DoctorHuiZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
+//             $output['hz'] = $doctorMgr->disJoinHuizhen($userId);
+//         }
 
-        //转诊信息
-        if (isset($post['DoctorZhuanZhenForm'])) {
-            $values = $post['DoctorZhuanzhenForm'];
-            $values['user_id'] = $userId;
-            $output['zz'] = $doctorMgr->createOrUpdateDoctorZhuanzhen($values);
-        } elseif (isset($post['DoctorZhuanZhenForm']['dis_join']) && $post['DoctorZhuanZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-            $output['zz'] = $doctorMgr->disJoinZhuanzhen($userId);
-        }
-        $this->renderJsonOutput($output);
+//         //转诊信息
+//         if (isset($post['DoctorZhuanZhenForm'])) {
+//             $values = $post['DoctorZhuanzhenForm'];
+//             $values['user_id'] = $userId;
+//             $output['zz'] = $doctorMgr->createOrUpdateDoctorZhuanzhen($values);
+//         } elseif (isset($post['DoctorZhuanZhenForm']['dis_join']) && $post['DoctorZhuanZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
+//             $output['zz'] = $doctorMgr->disJoinZhuanzhen($userId);
+//         }
+//         $this->renderJsonOutput($output);
     }
 }
