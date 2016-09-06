@@ -321,7 +321,7 @@ class DoctorController extends MobiledoctorController {
      * 进入医生问卷调查页面
      */
     public function actionContract() {
-        $this->render("contract");
+        $this->render("contract", array('isQuestionnaireOk' => Yii::app()->session['isQuestionnaireOk']));
     }
 
     /**
@@ -1012,6 +1012,7 @@ class DoctorController extends MobiledoctorController {
      */
     public function actionQuestionnaire()
     {
+        Yii::app()->session['isQuestionnaireOk'] = true;
         $user_id = $this->getCurrentUserId();
         $doctorMgr = new MDDoctorManager();
         $hz_model = $doctorMgr->loadUserDoctorHuizhenByUserId($user_id);

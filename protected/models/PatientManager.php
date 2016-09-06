@@ -206,6 +206,7 @@ class PatientManager {
             $patient->city_name = $regionCity->getName();
             if ($patient->save()) {
                 $output['status'] = 'ok';
+                $output['errorCode'] = 0;
                 $output['errorMsg'] = 'success';
                 Yii::app()->session['addPatientId'] = $patient->getId();
                 $output['results'] = array('id' => $patient->getId());
