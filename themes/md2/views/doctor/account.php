@@ -14,6 +14,7 @@ $urlLogout = $this->createUrl('doctor/logout');
 $userProfile = $userDoctorProfile;
 $userVerified = $verified;
 $userDoctorCerts = $doctorCerts;
+$this->show_footer=false;
 ?>
 <article class="active" data-scroll="true">
     <div class="">

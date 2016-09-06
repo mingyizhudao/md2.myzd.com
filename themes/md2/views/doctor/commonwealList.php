@@ -1,6 +1,7 @@
 <?php
 $this->setPageTitle('公益医生');
 $urlViewDoctor = $this->createUrl('doctor/viewDoctor');
+$this->show_footer=false;
 ?>
 <article id="commonwealList_article" class="active" data-scroll="true">
     <div class="pageBg">
