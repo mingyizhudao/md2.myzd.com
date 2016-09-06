@@ -381,6 +381,7 @@ class DoctorController extends MobiledoctorController {
             $output = $doctorMgr->disJoinZhuanzhen($userId);
         }
         //$this->renderJsonOutput($output);
+        
         return $output;
     }
 
@@ -1041,7 +1042,11 @@ class DoctorController extends MobiledoctorController {
     {
         $hzResutl = $this->actionAjaxDoctorHz();
         $zzResutl = $this->actionAjaxDoctorZz();
-        var_dump($hzResutl);exit;
+        $output = array('status' => 'no');
+        
+        if ($hzResutl['status'] == 'ok' && $zzResutl['status'] == 'ok') {
+            $output['status'] = 'ok';
+        }
 //         $post = $this->decryptInput();
 //         $userId = $this->getCurrentUserId();
 //         $user = $this->loadUser();
