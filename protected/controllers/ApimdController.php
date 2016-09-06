@@ -141,7 +141,6 @@ class ApimdController extends Controller {
                 $output = $apiService->loadApiViewData();
                 break;
             case 'contractdoctorlist'://签约医生列表
-                echo 111;exit;
                 $apiService = new ApiViewDoctorSearch($values);
                 $output = $apiService->loadApiViewData();
                 break;
