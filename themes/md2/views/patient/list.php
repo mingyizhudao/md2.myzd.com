@@ -58,9 +58,7 @@ $this->show_footer = false;
 </footer> -->
 <article id="patientList_article h-color" class="active" data-scroll="true"style="background-color: #e1e1e1;">
 
-        
-        
-        <div class="noBookingList  mt50 ">
+        <div class="noBookingList  mt50 mb50">
             <?php
             if ($noBookingList) {
                 for ($i = 0; $i < count($noBookingList); $i++) {
