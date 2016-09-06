@@ -44,6 +44,7 @@ if (isset($output['id'])) {
 }
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer=false;
 ?>
 <article id="a1" class="active" data-scroll="true">
     <div class="form-wrapper mt10">

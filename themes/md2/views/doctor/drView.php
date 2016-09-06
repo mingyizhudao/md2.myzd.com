@@ -12,6 +12,7 @@ $urlAjaxViewDoctorZz = $this->createUrl("doctor/ajaxViewDoctorZz");
 $urlDoctorHzSubmit = $this->createUrl('doctor/ajaxDoctorHz');
 $urlDoctorZzSubmit = $this->createUrl('doctor/ajaxDoctorZz');
 $urlDoctorView = $this->createUrl('doctor/view');
+$this->show_footer=false;
 ?>
 <article id="sign" class="active" data-scroll="true">
     <div class="color-black6">

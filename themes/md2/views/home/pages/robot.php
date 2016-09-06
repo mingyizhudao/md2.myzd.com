@@ -2,9 +2,10 @@
 $this->setPageTitle('达芬奇机器人');
 $source = Yii::app()->request->getQuery('app', 1);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 ?>
 <article id="robot_article" class="active" data-scroll="true">
     <div class="pl10 pr10 text-justify">

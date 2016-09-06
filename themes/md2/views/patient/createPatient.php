@@ -19,6 +19,7 @@ $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
 $checkTeamDoctor = $teamDoctor;
+$this->show_footer = false;
 ?>
 <article class="active" data-scroll="true">
     <div class="ml10 mr10 mb20">

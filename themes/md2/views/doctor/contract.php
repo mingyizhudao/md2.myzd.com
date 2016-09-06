@@ -7,6 +7,7 @@ $this->setPageTitle('专家签约');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlDoctorDrView = $this->createUrl('doctor/drView', array('addBackBtn' => 1));
+$this->show_footer=false;
 ?>
 <article id="terms_article" class="active" data-scroll="true">
     <div id="terms" class="terms">

@@ -6,9 +6,10 @@ $urlCommonwealList = $this->createUrl('doctor/commonwealList', array('addBackBtn
 $urlAjaxJoinCommonweal = $this->createUrl('doctor/ajaxJoinCommonweal');
 $urlProfile = $this->createUrl('doctor/profile', array('register' => 2));
 $this->setPageTitle('名医公益行');
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 if ($source == 0) {
     $urlCommonwealList = $this->createUrl('doctor/commonwealList', array('header' => '0', 'addBackBtn' => 1));
 }
