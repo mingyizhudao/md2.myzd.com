@@ -10,6 +10,7 @@ $urlReturn = $this->createUrl('order/view');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $doctor = $data->results->doctor;
 $patient = $data->results->patient;
+$this->show_footer=false;
 ?>
 <article id="createPatientBooking_article" class="active" data-scroll="true">
     <div class="pl10 pr10">

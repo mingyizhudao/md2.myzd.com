@@ -16,6 +16,7 @@ $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlReturn = $returnUrl;
+$this->show_footer=false;
 ?>
 <article id="a1" class="active" data-scroll="true">
     <div class="pb20">
