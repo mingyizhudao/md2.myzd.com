@@ -409,6 +409,20 @@ class ApimdController extends Controller {
                     $doctorMgr->doctorContract($doctorProfile);
                 }
                 break;
+            case 'questionnaire'://问卷页面
+                if(isset($post['questionnaire'])) {
+                    $hz_values = $post['questionnaire']['hz'];
+                    $zz_values = $post['questionnaire']['zz'];
+                    $user = $this->userLoginRequired($post['questionnaire']);
+                    $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
+                    $doctorMgr = new MDDoctorManager();
+                    $output = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
+                    $output = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
+                    //专家签约
+                    $doctorProfile = $user->getUserDoctorProfile();
+                    $doctorMgr->doctorContract($doctorProfile);
+                }
+                break;
             case 'notjoinzz'://不参加医生转诊
                 if (isset($post['notjoinzz'])) {
                     $values = $post['notjoinzz'];
