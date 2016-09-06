@@ -377,7 +377,8 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinZhuanzhen($userId);
         }
-        $this->renderJsonOutput($output);
+        //$this->renderJsonOutput($output);
+        return $output;
     }
 
     /**
@@ -425,7 +426,8 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinHuizhen($userId);
         }
-        $this->renderJsonOutput($output);
+        //$this->renderJsonOutput($output);
+        return $output;
     }
 
     /**
@@ -1020,7 +1022,7 @@ class DoctorController extends MobiledoctorController {
         $hz_form = new DoctorHuizhenForm();
         $hz_form->initModel($hz_model);
 
-        $zz_model = $doctorMgr->loadUserDoctorZhuanzhenById($user_id);
+        $zz_model = $doctorMgr->loadUserDoctorHuizhenByUserId($user_id);
         $zz_form = new DoctorZhuanzhenForm();
         $zz_form->initModel($zz_model);
         $this->render("questionnaire", array(
@@ -1030,10 +1032,12 @@ class DoctorController extends MobiledoctorController {
     }
 
     /**
-     * 问卷提交
+     * 问卷提交和修改
      */
     public function actionAjaxQuestionnaire()
     {
+//         $hzResutl = $this->actionAjaxDoctorHz();
+//         $zzResutl = $this->actionAjaxDoctorZz();
         $post = $this->decryptInput();
         $userId = $this->getCurrentUserId();
         $user = $this->loadUser();
