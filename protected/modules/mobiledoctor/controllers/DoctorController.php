@@ -135,7 +135,7 @@ class DoctorController extends MobiledoctorController {
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
                     'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
-                    'questionnaire', 'ajaxQuestionnaire'),
+                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -1044,27 +1044,54 @@ class DoctorController extends MobiledoctorController {
      * 问卷提交和修改
      */
     public function actionAjaxQuestionnaire()
-    {
-        $hzResutl = $this->actionAjaxDoctorHz();
-        $zzResutl = $this->actionAjaxDoctorZz();
+    {   
+        $hzResult = $this->actionAjaxDoctorHz();
+        $zzResult = $this->actionAjaxDoctorZz();
         $output = new stdClass();
         $output->status = 'ok';
         $output->errorMsg = 'success';
         $output->errorCode = 0;
         
-        if ($hzResutl['status'] == 'no') {
-            if (isset($hzResutl['errorMsg'])) {
+        if ($hzResult['status'] == 'no') {
+            if (isset($hzResult['errorMsg'])) {
                 $output->status = 'no';
-                $output->errorMsg = $hzResutl['errorMsg'];
+                $output->errorMsg = $hzResult['errorMsg'];
             }
         }
-        elseif ($zzResutl['status'] == 'no') {
-            if (isset($zzResutl['errorMsg'])) {
+        elseif ($zzResult['status'] == 'no') {
+            if (isset($zzResult['errorMsg'])) {
                 $output->status = 'no';
-                $output->errorMsg = $zzResutl['errorMsg'];
+                $output->errorMsg = $zzResult['errorMsg'];
             }
         }
 
+        $this->renderJsonOutput($output);
+    }
+    
+    /**
+     * 成为签约医生
+     */
+    public function actionAjaxDoctorContract()
+    {
+        $output = new stdClass();
+        $output->status = 'no';
+        $output->errorMsg = '';
+        $output->errorCode = '500';
+        
+        $doctorMgr = new MDDoctorManager();
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $result = $doctorMgr->doctorContract($doctorProfile);
+        
+        if ($result === true) {
+            $output->status = 'ok';
+            $output->errorMsg = 'success';
+            $output->errorCode = 0;
+        }
+        elseif ($result == 2) {
+            $output->errorMsg = '已经签约过了';
+        }
+        
         $this->renderJsonOutput($output);
     }
 }
