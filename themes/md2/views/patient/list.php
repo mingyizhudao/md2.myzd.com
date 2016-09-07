@@ -19,26 +19,11 @@ $this->show_footer = false;
 ?>
 <style>
  .b-white{border: 1px solid #e1e1e1;border-radius: 5px;}
- .header-secondary{top:0px;}
  .bb-g1{border-bottom: 1px solid #e1e1e1;}
 </style>
-<!-- <header class="bg-green">
-    <nav class="left">
-        <a href="<?php echo $urlDoctorView; ?>" data-target="link">
-            <div class="pl5">
-                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
-            </div>
-        </a>
-    </nav>
-    <h1 class="title">未处理患者</h1>
-    <nav class="right">
-        <a class="header-user" data-target="link" data-icon="user" href="<?php echo $urlDoctorView ?>">
-            <i class="icon user"></i>
-        </a>
-    </nav>
-</header> -->
+
 <div style="background:#e1e1e1;">
-<nav id="patientList_nav" class="header-secondary">
+<nav id="patientList_nav" class="header-secondary top0p">
     <div class="w100 pl10 pr10">
         <a href="<?php echo $urlSearchView; ?>">
             <div class="searchDiv grid">
@@ -53,9 +38,7 @@ $this->show_footer = false;
     </div>
 </nav>
 </div>
-<!-- <footer class='bg-white'>
-    <button id='patientCreate' class="btn btn-block bg-green">创建新患者</button>
-</footer> -->
+
 <article id="patientList_article h-color" class="active" data-scroll="true"style="background-color: #e1e1e1;">
 
         <div class="noBookingList  mt50 mb50">
@@ -91,7 +74,7 @@ $this->show_footer = false;
                                         <?php echo $patientInfo->name; ?>
                                     </div>
                                     <div class="p10">
-                                        <?php echo $patientInfo->gender; ?> &nbsp;|&nbsp; <?php echo $yearlyText . $monthly; ?> &nbsp;|&nbsp; <?php echo $patientInfo->cityName; ?>
+                                        <?php echo $patientInfo->gender; ?> &nbsp; <?php echo $yearlyText . $monthly; ?> &nbsp; <?php echo $patientInfo->cityName; ?>
                                     </div>
                                     <div class="pl10 ">
                                         <?php echo $patientInfo->diseaseName; ?>
