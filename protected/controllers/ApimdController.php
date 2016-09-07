@@ -178,10 +178,10 @@ class ApimdController extends Controller {
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->unPaid($values['bookingid']);
                 break;
-            case 'certdrdotice':     //出院小结审核结果通知
-                $wxMgr = new WeixinManager();
-                $output = $wxMgr->drNotice($values['bookingid']);
-                break;
+//             case 'certdrdotice':     //出院小结审核结果通知
+//                 $wxMgr = new WeixinManager();
+//                 $output = $wxMgr->drNotice($values['bookingid']);
+//                 break;
             case 'profilenotice':     //医生信息审核
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->profileNotice($values['userid'], $values['type']);
