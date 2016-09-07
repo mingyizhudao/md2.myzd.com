@@ -16,14 +16,14 @@
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
-        $urlAjaxSubCat = $this->createUrl('doctor/ajaxSubCat', array('id' => 6));
-        $urlAjaxSurgery = $this->createUrl('doctor/ajaxSurgery', array('id' => 6));
+        $urlId = $model->id;
+        $urlAjaxSubCat = $this->createUrl('doctor/ajaxSubCat', array('id' => $urlId));
+        $urlAjaxSurgery = $this->createUrl('doctor/ajaxSurgery', array('id' => $urlId));
         $urlAjaxMajor = $this->createUrl('doctor/ajaxMajor', array('id' => $model->id));
         $urlSuccess = $this->createUrl('doctor/success');
         $urlDoctorView = $this->createUrl('doctor/doctorView', array('id' => $model->id));
         $urlAjaxSearchSub = $this->createUrl('doctor/ajaxSearchSub');
         $urlAjaxSearchSurgery = $this->createUrl('doctor/ajaxSearchSurgery');
-        $urlId = $model->id;
         $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         ?>
     </head>
@@ -169,35 +169,37 @@
             line-height: 20px;
             margin: 0 5px;
         }
-        .selectLi .col-0{
+        .selectLi .selectBtn{
             width: 26px;
+            height: 26px;
             border: 1px solid #969696;
             margin-right: 10px;
             border-radius: 50%;
             text-align: center;
         }
-        .selectLi.foreFront .col-0{
+        .selectLi.foreFront .selectBtn{
             border: 1px solid #fff;
             background-color: #F5595A;
             color: #fff;
         }
-        .selectLi.behind .col-0{
+        .selectLi.behind .selectBtn{
             border: 1px solid #fff;
             background-color: #19aea6;
         }
-        .operationLi .col-0{
+        .operationLi .selectBtn{
             width: 26px;
+            height: 26px;
             border: 1px solid #969696;
             margin-right: 10px;
             border-radius: 50%;
             text-align: center;
         }
-        .operationLi.foreFront .col-0{
+        .operationLi.foreFront .selectBtn{
             border: 1px solid #fff;
             background-color: #F5595A;
             color: #fff;
         }
-        .operationLi.behind .col-0{
+        .operationLi.behind .selectBtn{
             border: 1px solid #fff;
             background-color: #19aea6;
         }
@@ -431,7 +433,8 @@
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
                             var diseaseLi = '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + diseaseList[j].diseaseName +
                                     '</div>' +
@@ -532,7 +535,7 @@
                         $(this).removeClass('foreFront');
                         $(this).removeClass('behind');
                         $(this).removeAttr('data-active');
-                        $(this).find('.col-0').html('');
+                        $(this).find('.selectBtn').html('');
                     });
                     for (var i = 0; i < dataArray.length; i++) {
                         var dataActive = dataArray[i];
@@ -541,10 +544,10 @@
                                 $(this).attr('data-active', 1);
                                 $(this).attr('data-id', i + 1);
                                 if (i < 3) {
-                                    $(this).find('.col-0').html(i + 1);
+                                    $(this).find('.selectBtn').html(i + 1);
                                     $(this).addClass('foreFront');
                                 } else {
-                                    $(this).find('.col-0').html('');
+                                    $(this).find('.selectBtn').html('');
                                     $(this).addClass('behind');
                                 }
                             }
@@ -675,7 +678,8 @@
                     if (diseaseList.length > 0) {
                         for (var i = 0; i < diseaseList.length; i++) {
                             innerList += '<li class="selectLi grid" data-num="' + diseaseList[i].diseaseId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + diseaseList[i].diseaseName +
                                     '</div>' +
@@ -737,7 +741,8 @@
                         operationSurgeryList += '<ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
                         for (var j = 0; j < surgeryList.length; j++) {
                             operationSurgeryList += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + surgeryList[j].surgeryName +
                                     '</div>' +
@@ -822,10 +827,10 @@
                     operationId = num;
                     if (num < 4) {
                         $(this).addClass('foreFront');
-                        $(this).find('.col-0').html(num);
+                        $(this).find('.selectBtn').html(num);
                     } else {
                         $(this).addClass('behind');
-                        $(this).find('.col-0').html('');
+                        $(this).find('.selectBtn').html('');
                     }
                 } else {
                     operationId = $(this).attr('data-id');
@@ -981,13 +986,13 @@
                 $(this).removeClass('foreFront');
                 $(this).removeClass('behind');
                 $(this).removeAttr('data-active');
-                $(this).find('.col-0').html('');
+                $(this).find('.selectBtn').html('');
             });
             $('#five li').each(function () {
                 $(this).removeClass('foreFront');
                 $(this).removeClass('behind');
                 $(this).removeAttr('data-active');
-                $(this).find('.col-0').html('');
+                $(this).find('.selectBtn').html('');
             });
             for (var i = 0; i < operationArray.length; i++) {
                 var dataActive = operationArray[i].id;
@@ -996,10 +1001,10 @@
                         $(this).attr('data-active', 1);
                         $(this).attr('data-id', i + 1);
                         if (i < 3) {
-                            $(this).find('.col-0').html(i + 1);
+                            $(this).find('.selectBtn').html(i + 1);
                             $(this).addClass('foreFront');
                         } else {
-                            $(this).find('.col-0').html('');
+                            $(this).find('.selectBtn').html('');
                             $(this).addClass('behind');
                         }
                     }
@@ -1009,10 +1014,10 @@
                         $(this).attr('data-active', 1);
                         $(this).attr('data-id', i + 1);
                         if (i < 3) {
-                            $(this).find('.col-0').html(i + 1);
+                            $(this).find('.selectBtn').html(i + 1);
                             $(this).addClass('foreFront');
                         } else {
-                            $(this).find('.col-0').html('');
+                            $(this).find('.selectBtn').html('');
                             $(this).addClass('behind');
                         }
                     }
@@ -1155,7 +1160,8 @@
                     if (surgeryList.length > 0) {
                         for (var i = 0; i < surgeryList.length; i++) {
                             innerList += '<li class="operationLi grid" data-num="' + surgeryList[i].surgeryId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + surgeryList[i].surgeryName +
                                     '</div>' +

@@ -275,6 +275,11 @@
             height: 43px;
             padding: 10px 0px;
             border-bottom: 1px solid #d4d4d4!important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
         }
     </style>
     <body>
