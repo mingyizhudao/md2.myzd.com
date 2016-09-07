@@ -3,10 +3,9 @@
  * $model DoctorForm.
  */
 $this->setPageID('pMyBooking');
-$this->setPageTitle('发出预约');
+$this->setPageTitle('未处理患者');
 $hasBookingList = $data->results->hasBookingList;
 $noBookingList = $data->results->noBookingList;
- // var_dump($noBookingList);die;
 $urlCreatePatient = $this->createUrl('patient/create', array('addBackBtn' => 1, 'status' => 0));
 $currentUrl = $this->getCurrentRequestUrl();
 $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
@@ -17,80 +16,71 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
 $this->show_footer = false;
 ?>
-<style>
- .b-white{border: 1px solid #e1e1e1;border-radius: 5px;}
- .bb-g1{border-bottom: 1px solid #e1e1e1;}
-</style>
+<div>
+    <nav id="patientList_nav" class="header-secondary top0p">
+        <div class="w100 pl10 pr10">
+            <a href="<?php echo $urlSearchView; ?>">
+                <div class="searchDiv grid">
+                    <div class="col-0 searchIcon">
 
-<div style="background:#e1e1e1;">
-<nav id="patientList_nav" class="header-secondary top0p">
-    <div class="w100 pl10 pr10">
-        <a href="<?php echo $urlSearchView; ?>">
-            <div class="searchDiv grid">
-                <div class="col-0 searchIcon">
-
+                    </div>
+                    <div class="col-1 text-left">
+                        搜索
+                    </div>
                 </div>
-                <div class="col-1 text-left">
-                    搜索
-                </div>
-            </div>
-        </a>
-    </div>
-</nav>
-</div>
-
-<article id="patientList_article h-color" class="active" data-scroll="true"style="background-color: #e1e1e1;">
-
-        <div class="noBookingList  mt50 mb50">
-            <?php
-            if ($noBookingList) {
-                for ($i = 0; $i < count($noBookingList); $i++) {
-                    $patientInfo = $noBookingList[$i];
-                    $yearly = $patientInfo->age;
-                    $yearlyText = '';
-                    $monthly = "";
-                    
-                    if ($yearly == 0 && $patientInfo->ageMonth > 0) {
-                        $yearlyText = '';
-                        $monthly = $patientInfo->ageMonth . '个月';
-                    } else if ($yearly <= 5 && $patientInfo->ageMonth > 0) {
-                        $yearlyText = $yearly . '岁';
-                        $monthly = $patientInfo->ageMonth . '个月';
-                    } else if ($yearly > 5 && $patientInfo->ageMonth > 0) {
-                        $yearly++;
-                        $yearlyText = $yearly . '岁';
-                    } else {
-                        $yearlyText = $yearly . '岁';
-                    }
-                    ?>
-                   
-                        <div class="">
-                            <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBackBtn' => 1)); ?>" class="color-000" data-target="link">
-                                    <div class="mt10 ml10 mr10 bg-white b-white">
-                                    <div class="pt10 pl10  pb10 bb-g1">
-                                       创建时间:<?php echo $patientInfo->dateUpdated; ?>
-                                    </div>
-                                    <div class="pl10 mt5">
-                                        <?php echo $patientInfo->name; ?>
-                                    </div>
-                                    <div class="p10">
-                                        <?php echo $patientInfo->gender; ?> &nbsp; <?php echo $yearlyText . $monthly; ?> &nbsp; <?php echo $patientInfo->cityName; ?>
-                                    </div>
-                                    <div class="pl10 ">
-                                        <?php echo $patientInfo->diseaseName; ?>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                   
-                    <?php
-                }
-            } else {
-                echo '<p class="text-center">暂无病人信息</p>';
-            }
-            ?>
+            </a>
         </div>
-   
+    </nav>
+</div>
+<article id="patientList_article" class="active" data-scroll="true"style="background-color: #e1e1e1;">
+    <div class="noBookingList  mt50 mb50">
+        <?php
+        if ($noBookingList) {
+            for ($i = 0; $i < count($noBookingList); $i++) {
+                $patientInfo = $noBookingList[$i];
+                $yearly = $patientInfo->age;
+                $yearlyText = '';
+                $monthly = "";
+                if ($yearly == 0 && $patientInfo->ageMonth > 0) {
+                    $yearlyText = '';
+                    $monthly = $patientInfo->ageMonth . '个月';
+                } else if ($yearly <= 5 && $patientInfo->ageMonth > 0) {
+                    $yearlyText = $yearly . '岁';
+                    $monthly = $patientInfo->ageMonth . '个月';
+                } else if ($yearly > 5 && $patientInfo->ageMonth > 0) {
+                    $yearly++;
+                    $yearlyText = $yearly . '岁';
+                } else {
+                    $yearlyText = $yearly . '岁';
+                }
+                ?>
+                <div class="">
+                    <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBackBtn' => 1)); ?>" class="color-000" data-target="link">
+                        <div class="mt10 ml10 mr10 bg-white b-white">
+                            <div class="pt10 pl10  pb10 bb-g1">
+                                <span class="mr5">创建时间:</span><?php echo $patientInfo->dateUpdated; ?>
+                            </div>
+                            <div class="pl10 mt5">
+                                <?php echo $patientInfo->name; ?>
+                            </div>
+                            <div class="p10">
+                                <?php echo $patientInfo->gender; ?>
+                                <span class="ml5"><?php echo $yearlyText . $monthly; ?></span>
+                                <span class="ml5"><?php echo $patientInfo->cityName; ?></span>
+                            </div>
+                            <div class="pl10 pb10">
+                                <?php echo $patientInfo->diseaseName; ?>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <?php
+            }
+        } else {
+            echo '<p class="text-center">暂无病人信息</p>';
+        }
+        ?>
+    </div>
 </article>
 <script>
     $(document).ready(function () {
