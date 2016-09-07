@@ -411,16 +411,32 @@ class ApimdController extends Controller {
                 break;
             case 'questionnaire'://问卷调查
                 if(isset($post['questionnaire'])) {
-                    $hz_values = $post['questionnaire']['hz'];
-                    $zz_values = $post['questionnaire']['zz'];
                     $user = $this->userLoginRequired($post['questionnaire']);
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
                     $doctorMgr = new MDDoctorManager();
-                    $output = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
-                    $output = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
+                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
+                    
+                    $output = new stdClass();
+                    $output->status = 'ok';
+                    $output->errorMsg = 'success';
+                    $output->errorCode = 0;
+                    
+                    if ($hzResult['status'] == 'no') {
+                        if (isset($hzResult['errorMsg'])) {
+                            $output->status = 'no';
+                            $output->errorMsg = $hzResult['errorMsg'];
+                        }
+                    }
+                    elseif ($zzResult['status'] == 'no') {
+                        if (isset($zzResult['errorMsg'])) {
+                            $output->status = 'no';
+                            $output->errorMsg = $zzResult['errorMsg'];
+                        }
+                    }
                 }
                 break;
             case 'notjoinzz'://不参加医生转诊
