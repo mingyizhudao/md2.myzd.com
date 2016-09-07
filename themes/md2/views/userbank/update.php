@@ -9,6 +9,7 @@ $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete', array('id' => ''));
+$this->show_footer = false;
 ?>
 <header id='userBankUpdate_header' class="bg-green">
     <nav class="left">

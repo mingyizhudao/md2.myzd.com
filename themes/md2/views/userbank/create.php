@@ -8,6 +8,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
+$this->show_footer = false;
 ?>
 <article id="userbankCreate_article" class="active userbank_article" data-scroll="true">
     <div class="pt10">

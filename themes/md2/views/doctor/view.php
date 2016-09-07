@@ -11,6 +11,7 @@ $urlDoctorPatientBookingList = $this->createUrl('patientbooking/doctorPatientBoo
 $urlDoctorAccount = $this->createUrl('doctor/account', array('addBackBtn' => 1));
 $urlDoctorInfo = $this->createUrl('doctor/doctorInfo', array('addBackBtn' => 1));
 $urlDoctorContract = $this->createUrl('doctor/contract', array('addBackBtn' => 1));
+$urlDrView = $this->createUrl('doctor/drView', array('addBackBtn' => 1));
 $urlDoctorDrView = $this->createUrl('doctor/drView', array('addBackBtn' => 1));
 $urlDoctorProfile = $this->createUrl('doctor/profile', array('addBackBtn' => 1));
 $urlDoctorTerms = $this->createUrl('doctor/doctorTerms', array('addBackBtn' => 1));
@@ -234,7 +235,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
         });
 
         $('#term').tap(function () {
-            location.href = '<?php echo $urlDoctorContract; ?>';
+            location.href = '<?php echo $urlDrView; ?>';
         });
 
         $('#userbankViewInputKey').tap(function () {
