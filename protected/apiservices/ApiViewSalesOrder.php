@@ -53,6 +53,7 @@ class ApiViewSalesOrder extends EApiViewService {
         $data->finalAmount = $model->getFinalAmount();
         $data->isPaid = $model->getIsPaid(false);
         $data->orderType = $model->getOrderType();
+        //$data->isInvalid = (time() - $model->getDateInvalid()) > 0 ? true : false;
         //判断值
         $this->bkId = $model->getBkId();
         $this->bkType = $model->getBkType();
