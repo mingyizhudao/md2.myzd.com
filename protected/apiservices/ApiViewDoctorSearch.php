@@ -51,7 +51,6 @@ class ApiViewDoctorSearch extends EApiViewService {
             else {
                 $this->output->results = $this->doctors;
             }
-
         }
     }
 
