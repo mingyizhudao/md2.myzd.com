@@ -287,8 +287,7 @@
                         <div>
                             <div id="major" class="bg-silvery">
                                 <div id="subCurrentSelection" class="pad10 text-center bb-gray">
-                                    <span>全部亚专业</span>
-                                    <img src="http://static.mingyizhudao.com/147080773889815" class="ml10 w11p">
+                                    <span></span>
                                 </div>
                                 <ul class="majorList">
 
@@ -352,8 +351,7 @@
                         <div>
                             <div id="operationMajor" class="bg-silvery">
                                 <div id="operationSubSpecialty" class="pad10 text-center bb-gray">
-                                    <span>全部亚专业</span>
-                                    <img src="http://static.mingyizhudao.com/147080773889815" class="ml10 w11p">
+                                    <span></span>
                                 </div>
                                 <ul class="operationMajorList">
 
@@ -421,14 +419,13 @@
             $('#one').removeClass('hide');
         });
         function readySubSpecialty(data) {
-            var innerHtml = '';
             var diseaseHtml = '';
+            var subCatName = '';
             var subcatList = data.results.subcatList;
             if (subcatList.length > 0) {
-                innerHtml += '<li class="changeSubSpecialty" data-id="all">全部亚专业</li>';
                 for (var i = 0; i < subcatList.length; i++) {
-                    innerHtml += '<li class="changeSubSpecialty" data-i="' + i + '" data-id="' + subcatList[i].subCatId + '">' + subcatList[i].subCatName + '</li>';
                     var diseaseList = subcatList[i].diseaseList;
+                    subCatName = subcatList[i].subCatName;
                     diseaseHtml += '<ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
@@ -445,37 +442,9 @@
                     diseaseHtml += '</ul>';
                 }
             }
-            $('.majorList').html(innerHtml);
+            $('#subCurrentSelection').find('span').text(subCatName);
             $('#diseaseUl').html(diseaseHtml);
             diseaseSelected();
-            //展开亚专业列表
-            $('#subCurrentSelection').click(function () {
-                if ($('.majorList').hasClass('hide')) {
-                    $('.majorList').removeClass('hide');
-                    $('#subCurrentSelection').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
-                } else {
-                    $('.majorList').addClass('hide');
-                    $('#subCurrentSelection').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
-                }
-            });
-            $('.changeSubSpecialty').click(function () {
-                var dataId = $(this).attr('data-id');
-                var subName = $(this).text();
-                $('.subSpecialtyList').addClass('hide');
-                //选择全部
-                if (dataId == 'all') {
-                    $('.subSpecialtyList').removeClass('hide');
-                } else {
-                    $('.subSpecialtyList').each(function () {
-                        if ($(this).attr('data-subcatid') == dataId) {
-                            $(this).removeClass('hide');
-                            return false;
-                        }
-                    });
-                }
-                $('#subCurrentSelection').find('span').text(subName);
-                $('.majorList').addClass('hide');
-            });
             diseaseData = false;
             J.hideMask();
 
@@ -729,13 +698,12 @@
         });
 
         function readyOperation(data) {
-            var innerHtml = '';
             var operationSurgeryList = '';
             var subcatList = data.results.subcatList;
+            var subCatName = '';
             if (subcatList.length > 0) {
-                innerHtml += '<li class="changeOperationSub" data-id="all">全部亚专业</li>';
                 for (var i = 0; i < subcatList.length; i++) {
-                    innerHtml += '<li class="changeOperationSub" data-id="' + subcatList[i].subCatId + '">' + subcatList[i].subCatName + '</li>';
+                    subCatName = subcatList[i].subCatName;
                     var surgeryList = subcatList[i].surgeryList;
                     if (surgeryList.length > 0) {
                         operationSurgeryList += '<ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
@@ -752,36 +720,10 @@
                     }
                 }
             }
-            $('.operationMajorList').html(innerHtml);
+
+            $('#operationSubSpecialty').find('span').text(subCatName);
             $('#operationListSelected').html(operationSurgeryList);
             operationSelected(1);
-            $('#operationSubSpecialty').click(function () {
-                if ($('.operationMajorList').hasClass('hide')) {
-                    $('.operationMajorList').removeClass('hide');
-                    $('#operationSubSpecialty').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
-                } else {
-                    $('.operationMajorList').addClass('hide');
-                    $('#operationSubSpecialty').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
-                }
-            });
-            $('.changeOperationSub').click(function () {
-                var dataId = $(this).attr('data-id');
-                var subName = $(this).text();
-                $('.operationUl').addClass('hide');
-                //选择全部
-                if (dataId == 'all') {
-                    $('.operationUl').removeClass('hide');
-                } else {
-                    $('.operationUl').each(function () {
-                        if ($(this).attr('data-subcatid') == dataId) {
-                            $(this).removeClass('hide');
-                            return false;
-                        }
-                    });
-                }
-                $('#operationSubSpecialty').find('span').text(subName);
-                $('.operationMajorList').addClass('hide');
-            });
             operationData = false;
             J.hideMask();
         }
