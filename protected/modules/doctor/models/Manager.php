@@ -42,7 +42,7 @@ class Manager {
             try {
                 $diseaseList = $values['diseaseList'];
                 foreach ($diseaseList as $v) {
-                    $diseaseDoctorJoin = new NewDiseaseDoctorJoin();
+                    $diseaseDoctorJoin = new DiseaseDoctorJoin();
                     $diseaseDoctorJoin->disease_id = $v;
                     $diseaseDoctorJoin->doctor_id = $doctorId;
                     $diseaseDoctorJoin->save();
@@ -84,7 +84,7 @@ class Manager {
             $sublist = $this->getSubIdForList($doctor->diseaseCategory);
             $criteria->addInCondition('t.category_id', $sublist);
         }
-        return NewDisease::model()->findAll($criteria);
+        return Disease::model()->findAll($criteria);
     }
 
     public function searchSurgery($id, $name) {
