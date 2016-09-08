@@ -207,6 +207,7 @@ class DoctorController extends MobiledoctorController {
      */
     public function actionAjaxContractDoctor() {
         $values = $_GET;
+        $values['api'] = 3;
         $apiService = new ApiViewDoctorSearch($values);
         $output = $apiService->loadApiViewData();
         $this->renderJsonOutput($output);
