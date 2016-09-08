@@ -109,10 +109,7 @@ class ApimdController extends Controller {
                 break;
             case 'bookinglist'://我的订单
                 $user = $this->userLoginRequired($values);
-                if (isset($values['api']) && $values['api'] == 3) {
-                    $apisvc = new ApiViewPatientBookingListV3($user->id, $values['status']);
-                    $output = $apisvc->loadApiViewData(true);
-                } elseif (isset($values['api']) && $values['api'] == 2) {
+                if (isset($values['api']) && $values['api'] == 2) {
                     $apisvc = new ApiViewPatientBookingListV2($user->id, $values['status']);
                     $output = $apisvc->loadApiViewData(true);
                 } else {

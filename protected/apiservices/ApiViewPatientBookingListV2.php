@@ -52,7 +52,7 @@ class ApiViewPatientBookingListV2 extends EApiViewService {
     //调用model层方法
     private function loadPatientBookings() {
         $attributes = null;
-        $with = array('pbPatient' => array('patientDAFiles','patientBookings'));
+        $with = array('pbPatient' => array('patientDAFiles'));
         $options = array('limit' => $this->pagesize, 'offset' => (($this->page - 1) * $this->pagesize), 'order' => 't.date_updated DESC');
         if (strIsEmpty($this->name)) {
             $models = $this->patientMgr->loadAllPatientBookingByCreatorId($this->creatorId, $this->status, $attributes, $with, $options);
@@ -68,25 +68,22 @@ class ApiViewPatientBookingListV2 extends EApiViewService {
     //查询到的数据过滤
     private function setPatientBookings(array $models) {
         foreach ($models as $model) {
-            $booking = $model->patientBookings;
-            if (arrayNotEmpty($booking) === false) {
-                $data = new stdClass();
-                $data->id = $model->getId();
-                $data->refNo = $model->getRefNo();
-                $data->status = $model->getStatus(false);
-                $data->statusText = $model->getStatus();
-                $data->doctorName = strIsEmpty($model->getExpectedDoctor()) ? "暂无" : $model->getExpectedDoctor();
-                $data->hospital = strIsEmpty($model->getExpectedHospital()) ? "暂无" : $model->getExpectedHospital();
-                $patientInfo = $model->getPatient();
-                $data->patientName = $patientInfo->getName();
-                $files = $patientInfo->patientDAFiles;
-                $data->hasFile = 0;
-                if (arrayNotEmpty($files)) {
-                    $data->hasFile = 1;
-                }
-                $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/orderinfo/' . $model->getId());
-                $this->patientBookings[] = $data;
-            } 
+            $data = new stdClass();
+            $data->id = $model->getId();
+            $data->refNo = $model->getRefNo();
+            $data->status = $model->getStatus(false);
+            $data->statusText = $model->getStatus();
+            $data->doctorName = strIsEmpty($model->getExpectedDoctor()) ? "暂无" : $model->getExpectedDoctor();
+            $data->hospital = strIsEmpty($model->getExpectedHospital()) ? "暂无" : $model->getExpectedHospital();
+            $patientInfo = $model->getPatient();
+            $data->patientName = $patientInfo->getName();
+            $files = $patientInfo->patientDAFiles;
+            $data->hasFile = 0;
+            if (arrayNotEmpty($files)) {
+                $data->hasFile = 1;
+            }
+            $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/orderinfo/' . $model->getId());
+            $this->patientBookings[] = $data;
         }
     }
 
