@@ -67,7 +67,7 @@ class IndustrialInfoForm extends EFormModel {
 
     public function loadOptionsSubcat() {
         if (is_null($this->options_subcat)) {
-            $this->options_subcat = CHtml::listData(DiseaseCategory::model()->loadAllCatSub(), 'cat_id', 'cat_name');
+            $this->options_subcat = CHtml::listData(DiseaseCategory::model()->loadAllCatSub(), 'sub_cat_id', 'sub_cat_name');
         }
         return $this->options_subcat;
     }
