@@ -59,7 +59,7 @@ class NewDoctor extends EActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'diseaseCategory' => array(self::HAS_MANY, 'NewDiseaseCategory', '', 'on' => 't.category_id = diseaseCategory.cat_id and diseaseCategory.app_version=8'),
+            'diseaseCategory' => array(self::HAS_MANY, 'CategoryDiseaseJoin', '', 'on' => 't.category_id = diseaseCategory.sub_cat_id'),
         );
     }
 
