@@ -37,7 +37,7 @@ class ApiViewSurgery extends EApiViewService {
 
     private function loadSurgerys() {
         $with = array('surgeryJoin' => array('surgery'));
-        $models = NewDiseaseCategory::model()->loadAllSubCatByCatId($this->catid, $with);
+        $models = DiseaseCategory::model()->loadAllSubCatByCatId($this->catid, $with);
         if (arrayNotEmpty($models)) {
             $this->setSurgerys($models);
         }
@@ -57,6 +57,7 @@ class ApiViewSurgery extends EApiViewService {
                         $dis = new stdClass();
                         $dis->surgeryId = $s->id;
                         $dis->surgeryName = $s->name;
+                        $dis->isCommon = $v->is_common;
                         $surgery[] = $dis;
                     }
                 }

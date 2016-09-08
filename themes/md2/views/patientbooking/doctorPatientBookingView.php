@@ -14,6 +14,7 @@ if ($booking->bkType == 1) {
 $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingId' => $booking->id, 'refNo' => ''));
 $urlAjaxDoctorOpinion = $this->createUrl('patientBooking/ajaxDoctorOpinion');
 $urlDoctorView = $this->createUrl('doctor/view');
+$this->show_footer=false;
 ?>
 <article id="patientBookingView" class="active" data-scroll="true">
     <div class="">

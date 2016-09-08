@@ -51,6 +51,10 @@ class IndustrialInfoForm extends EFormModel {
         $this->loadOptionsSubcat();
     }
 
+    /**
+     * 临床职称
+     * @return array
+     */
     public function loadOptionsClinicalTitle() {
         if (is_null($this->options_c_title)) {
             $this->options_c_title = StatCode::getOptionsClinicalTitle();
@@ -58,6 +62,10 @@ class IndustrialInfoForm extends EFormModel {
         return $this->options_c_title;
     }
 
+    /**
+     * 学术职称
+     * @return array
+     */
     public function loadOptionsAcademicTitle() {
         if (is_null($this->options_a_title)) {
             $this->options_a_title = StatCode::getOptionsAcademicTitle();
@@ -67,7 +75,7 @@ class IndustrialInfoForm extends EFormModel {
 
     public function loadOptionsSubcat() {
         if (is_null($this->options_subcat)) {
-            $this->options_subcat = CHtml::listData(NewDiseaseCategory::model()->loadAllCatSub(), 'cat_id', 'cat_name');
+            $this->options_subcat = CHtml::listData(DiseaseCategory::model()->loadAllCatSub(), 'sub_cat_id', 'sub_cat_name');
         }
         return $this->options_subcat;
     }

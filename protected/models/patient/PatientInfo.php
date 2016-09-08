@@ -211,6 +211,10 @@ class PatientInfo extends EActiveRecord {
         $date = new DateTime($this->date_created);
         return $date->format($format);
     }
+    
+    public function getPatientCreated($format = 'Y-m-d H:i:s') {
+        return PatientInfo::getDateCreated($format);
+    }
 
     public function getName() {
         return $this->name;

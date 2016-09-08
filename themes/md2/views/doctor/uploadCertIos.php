@@ -17,6 +17,7 @@ $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
+$this->show_footer=false;
 
 if (isset($output['id'])) {
     $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));

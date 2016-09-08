@@ -19,11 +19,7 @@
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-        // Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorCenter.js', CClientScript::POS_END);
-        // Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorView.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js?ts=' . time(), CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js?ts=' . time(), CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/jquery.formvalidate.min.1.1.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorView.js?ts=' . time(), CClientScript::POS_END);
         ?>
     </head>
@@ -275,6 +271,11 @@
             height: 43px;
             padding: 10px 0px;
             border-bottom: 1px solid #d4d4d4!important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
         }
     </style>
     <body>
@@ -286,7 +287,7 @@
                 <div class="w100 pl10 pr10 grid">
                     <div class="col-1">
                         <i class="icon_search"></i>
-                        <input class="icon_input" name="hospitalName" type="text" placeholder="搜索疾病名称">
+                        <input class="icon_input" name="hospitalName" type="text" placeholder="搜索医院名称">
                             <a class="icon_clear hide"></a>
                     </div>
                     <div id="backHospital" class="col-0 pl10 color-black">
@@ -313,7 +314,7 @@
                         </a>
                     </div>
                     <div class="col-1 pt7 pb7 pr10">
-                        <div class="searchInput">请输入医生或医院名称</div>
+                        <div class="searchInput">请输入医院名称</div>
                     </div>
                 </div>
             </header>
@@ -448,10 +449,11 @@
                                         <!-- <input type="text" class="" placeholder="选择您的医疗职称"> -->
                                         <select id="onselect2">
                                             <option value=""></option>
-                                            <option value="0">主任医师</option>
-                                            <option value="1">副主任医师</option>
-                                            <option value="2">主治医师</option>
-                                            <option value="3">住院医师</option>
+                                            <?php
+                                            foreach (($model->options_c_title) as $key => $value) {
+                                                echo '<option value="' . $key . '">' . $value . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -464,10 +466,11 @@
                                         <!-- <label id="select1"> 选择您的医疗职称</label> -->
                                         <select id="onselect1">
                                             <option value=""></option>
-                                            <option value="0">教授</option>
-                                            <option value="1">副教授</option>
-                                            <option value="2">讲师</option>
-                                            <option value="3">助教</option>
+                                            <?php
+                                            foreach (($model->options_a_title) as $key => $value) {
+                                                echo '<option value="' . $key . '">' . $value . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                 </div>
@@ -480,27 +483,19 @@
                 </article>
                 <script>
                     $(document).ready(function () {
+                        var optionsSubcat = '<?php echo json_encode($model->options_subcat); ?>';
+                        optionsSubcat = JSON.parse(optionsSubcat);
                         $('#jingle_loading.initLoading').remove();
                         $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
                         //选择专业
                         $('#cat_name').click(function () {
                             var innerHtml = '<div id="major-layer" style="height:400px;" data-scroll="true">' +
-                                    '<ul class="list">' +
-                                    '<li data-id="1">普通外科</li>' +
-                                    '<li data-id="2">骨科</li>' +
-                                    '<li data-id="3">泌尿外科</li>' +
-                                    '<li data-id="4">胸外科</li>' +
-                                    '<li data-id="5">心脏大血管外科</li>' +
-                                    '<li data-id="6">神经外科</li>' +
-                                    '<li data-id="7">整形外科</li>' +
-                                    '<li data-id="8">妇科</li>' +
-                                    '<li data-id="9">小儿外科</li>' +
-                                    '<li data-id="10">眼科</li>' +
-                                    '<li data-id="11">耳鼻咽喉外科</li>' +
-                                    '<li data-id="12">口腔额面外科</li>' +
-                                    '<li data-id="13">介入科</li>' +
-                                    '</ul></div>';
+                                    '<ul class="list">';
+                            for (var options in optionsSubcat) {
+                                innerHtml += '<li data-id="' + options + '">' + optionsSubcat[options] + '</li>';
+                            }
+                            innerHtml += '</ul></div>';
                             J.popup({
                                 html: innerHtml,
                                 pos: 'center'
@@ -637,8 +632,8 @@
                         function Trim(str) {
                             return str.replace(/(^\s*)|(\s*$)/g, "");
                         }
-                    });
-
+                    }
+                    );
                     var map, geolocation, geocoder;
                     function mapInit() {
                         //加载地图，调用浏览器定位服务

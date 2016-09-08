@@ -17,9 +17,8 @@
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js?ts=' . time(), CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js?ts=' . time(), CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/custom.min.1.0.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/jquery.formvalidate.min.1.1.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/basicView.js?ts=' . time(), CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorCenter.js?ts=' . time(), CClientScript::POS_END);
         $urlQiniuAjaxDrToken = $this->createUrl('doctor/ajaxDrToken');
@@ -175,7 +174,7 @@
                         <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com/"/>
                         <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>"/>
                         <input type="hidden" name="BasicInfoForm[id]" value="<?php echo $model->id; ?>"/>
-                        <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender; ?>"/>
+                        <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender == null ? '0' : $model->gender; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_domain]" value="<?php echo $model->remote_domain; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_file_key]" value="<?php echo $model->remote_file_key; ?>"/>
                         <div class="nav-crumbs">
@@ -293,10 +292,10 @@
                             $('input[name="BasicInfoForm[gender]"]').val($(this).attr('data-gender'));
                         });
                         //设置日期选择默认日期
-                        $birthday= '<?php echo $model->birthday?>'
+                        $birthday = '<?php echo $model->birthday ?>'
                         if ($birthday) {
                             $('#datePicker').val($birthday);
-                        }else{
+                        } else {
                             $('#datePicker').val('1955-01-01');
                         }
                     });

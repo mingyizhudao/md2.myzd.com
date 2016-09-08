@@ -53,6 +53,7 @@ if (isset($output['id'])) {
 }
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+
 ?>
 <article id="" class="active android_article" data-scroll="true">
     <div class="mt20">

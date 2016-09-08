@@ -2,9 +2,10 @@
 $this->setPageTitle('福布斯亚洲年轻领袖榜单');
 $source = Yii::app()->request->getQuery('app', 1);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 ?>
 <article id="forbes_article" class="active" data-scroll="true">
     <div class="text-justify">

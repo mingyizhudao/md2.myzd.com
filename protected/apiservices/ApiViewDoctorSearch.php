@@ -7,10 +7,13 @@ class ApiViewDoctorSearch extends EApiViewService {
     private $pageSize = 12;
     private $doctorSearch;  // DoctorSearch model.
     private $doctors;
+    private $hospital;
     private $doctorCount;     // count no. of Doctors.
+    private $api = false;
 
     public function __construct($searchInputs) {
         parent::__construct();
+        isset($searchInputs['api']) && $this->api = $searchInputs['api'];
         $this->searchInputs = $searchInputs;
         $this->getCount = isset($searchInputs['getcount']) && $searchInputs['getcount'] == 1 ? true : false;
         $this->searchInputs['pagesize'] = isset($searchInputs['pagesize']) && $searchInputs['pagesize'] > 0 ? $searchInputs['pagesize'] : $this->pageSize;
@@ -28,13 +31,26 @@ class ApiViewDoctorSearch extends EApiViewService {
 
     protected function createOutput() {
         if (is_null($this->output)) {
-            $this->output = array(
-                'status' => self::RESPONSE_OK,
-                'errorCode' => 0,
-                'dataNum' => $this->doctorCount,
-                'errorMsg' => 'success',
-                'results' => $this->doctors,
-            );
+//             $this->output = array(
+//                 'status' => self::RESPONSE_OK,
+//                 'errorCode' => 0,
+//                 'dataNum' => $this->doctorCount,
+//                 'errorMsg' => 'success',
+//                 'results' => $this->doctors,
+//             );
+            $this->output = new stdClass();
+            $this->output->status = self::RESPONSE_OK;
+            $this->output->errorCode = 0;
+            $this->output->dataNum = $this->doctorCount;
+            $this->output->errorMsg = 'success';
+            if ($this->api == 3) {
+                $this->output->results = new stdClass();
+                $this->output->results->doctors = $this->doctors;
+                $this->output->results->hospital = $this->hospital;
+            }
+            else {
+                $this->output->results = $this->doctors;
+            }
         }
     }
 
@@ -48,12 +64,16 @@ class ApiViewDoctorSearch extends EApiViewService {
     }
 
     private function setDoctors(array $models) {
+        $this->hospital = array();
         foreach ($models as $model) {
+            $this->hospital[$model->getHospitalId()] = $model->getHospitalName();
+            
             $data = new stdClass();
             $data->id = $model->getId();
             $data->name = $model->getName();
             $data->mTitle = $model->getMedicalTitle();
             $data->aTitle = $model->getAcademicTitle();
+            $data->hpId = $model->getHospitalId();
             $data->hpName = $model->getHospitalName();
             $data->hpDeptName = $model->getHpDeptName();
             $data->desc = $model->getDescription();
@@ -63,6 +83,7 @@ class ApiViewDoctorSearch extends EApiViewService {
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/contractdoctor/' . $model->getId());
             $this->doctors[] = $data;
         }
+        ksort($this->hospital);
     }
 
     private function loadDoctorCount() {

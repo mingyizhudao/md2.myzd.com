@@ -6,6 +6,7 @@ $diseaseCategoryToSub = $this->createUrl('doctor/diseaseCategoryToSub');
 $diseaseByCategoryId = $this->createUrl('doctor/diseaseByCategoryId', array('categoryid' => ''));
 $id = Yii::app()->request->getQuery('id', '');
 $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
+$this->show_footer=false;
 ?>
 <header id="diseaseSearch_header" class="bg-green">
     <div class="grid w100">

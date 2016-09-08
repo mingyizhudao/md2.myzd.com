@@ -25,7 +25,7 @@ class ApiViewSubCat extends EApiViewService {
     }
 
     private function loadSubcats() {
-        $models = NewDiseaseCategory::model()->loadAllSubCatByCatId($this->catid, array('diseaseJoin' => array('disease')));
+        $models = DiseaseCategory::model()->loadAllSubCatByCatId($this->catid, array('diseaseJoin' => array('disease')));
         if (arrayNotEmpty($models)) {
             $this->setSubcat($models);
         }
@@ -45,6 +45,7 @@ class ApiViewSubCat extends EApiViewService {
                         $dis = new stdClass();
                         $dis->diseaseId = $d->id;
                         $dis->diseaseName = $d->name;
+                        $dis->isCommon = $v->is_common;
                         $diseases[] = $dis;
                     }
                 }

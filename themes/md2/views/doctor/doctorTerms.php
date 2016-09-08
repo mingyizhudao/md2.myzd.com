@@ -8,6 +8,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlAjaxDoctorTerms = $this->createUrl('doctor/ajaxDoctorTerms');
 $urlReturn = $returnUrl;
+$this->show_footer=false;
 ?>
 <article id="terms_article" class="active" data-scroll="true">
     <div id="terms" class="terms">

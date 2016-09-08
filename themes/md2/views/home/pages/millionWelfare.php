@@ -2,9 +2,10 @@
 $this->setPageTitle('百万公益冬日暖阳');
 $source = Yii::app()->request->getQuery('app', 1);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-if ($source == 1) {
-    $this->show_footer = false;
-}
+// if ($source == 1) {
+//     $this->show_footer = false;
+// }
+$this->show_footer = false;
 ?>
 <article id="millionWelfare_article" class="active" data-scroll="true">
     <div class="font-s14">

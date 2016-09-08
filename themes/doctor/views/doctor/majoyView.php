@@ -16,14 +16,14 @@
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
-        $urlAjaxSubCat = $this->createUrl('doctor/ajaxSubCat', array('id' => 6));
-        $urlAjaxSurgery = $this->createUrl('doctor/ajaxSurgery', array('id' => 6));
+        $urlId = $model->id;
+        $urlAjaxSubCat = $this->createUrl('doctor/ajaxSubCat', array('id' => $urlId));
+        $urlAjaxSurgery = $this->createUrl('doctor/ajaxSurgery', array('id' => $urlId));
         $urlAjaxMajor = $this->createUrl('doctor/ajaxMajor', array('id' => $model->id));
         $urlSuccess = $this->createUrl('doctor/success');
         $urlDoctorView = $this->createUrl('doctor/doctorView', array('id' => $model->id));
         $urlAjaxSearchSub = $this->createUrl('doctor/ajaxSearchSub');
         $urlAjaxSearchSurgery = $this->createUrl('doctor/ajaxSearchSurgery');
-        $urlId = $model->id;
         $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         ?>
     </head>
@@ -169,35 +169,37 @@
             line-height: 20px;
             margin: 0 5px;
         }
-        .selectLi .col-0{
+        .selectLi .selectBtn{
             width: 26px;
+            height: 26px;
             border: 1px solid #969696;
             margin-right: 10px;
             border-radius: 50%;
             text-align: center;
         }
-        .selectLi.foreFront .col-0{
+        .selectLi.foreFront .selectBtn{
             border: 1px solid #fff;
             background-color: #F5595A;
             color: #fff;
         }
-        .selectLi.behind .col-0{
+        .selectLi.behind .selectBtn{
             border: 1px solid #fff;
             background-color: #19aea6;
         }
-        .operationLi .col-0{
+        .operationLi .selectBtn{
             width: 26px;
+            height: 26px;
             border: 1px solid #969696;
             margin-right: 10px;
             border-radius: 50%;
             text-align: center;
         }
-        .operationLi.foreFront .col-0{
+        .operationLi.foreFront .selectBtn{
             border: 1px solid #fff;
             background-color: #F5595A;
             color: #fff;
         }
-        .operationLi.behind .col-0{
+        .operationLi.behind .selectBtn{
             border: 1px solid #fff;
             background-color: #19aea6;
         }
@@ -285,8 +287,7 @@
                         <div>
                             <div id="major" class="bg-silvery">
                                 <div id="subCurrentSelection" class="pad10 text-center bb-gray">
-                                    <span>全部亚专业</span>
-                                    <img src="http://static.mingyizhudao.com/147080773889815" class="ml10 w11p">
+                                    <span></span>
                                 </div>
                                 <ul class="majorList">
 
@@ -350,8 +351,7 @@
                         <div>
                             <div id="operationMajor" class="bg-silvery">
                                 <div id="operationSubSpecialty" class="pad10 text-center bb-gray">
-                                    <span>全部亚专业</span>
-                                    <img src="http://static.mingyizhudao.com/147080773889815" class="ml10 w11p">
+                                    <span></span>
                                 </div>
                                 <ul class="operationMajorList">
 
@@ -419,60 +419,58 @@
             $('#one').removeClass('hide');
         });
         function readySubSpecialty(data) {
-            var innerHtml = '';
             var diseaseHtml = '';
+            var commonDisease = '';
+            var allDisease = '';
+            var commonBool = false;
+            var subCatName = '';
             var subcatList = data.results.subcatList;
             if (subcatList.length > 0) {
-                innerHtml += '<li class="changeSubSpecialty" data-id="all">全部亚专业</li>';
                 for (var i = 0; i < subcatList.length; i++) {
-                    innerHtml += '<li class="changeSubSpecialty" data-i="' + i + '" data-id="' + subcatList[i].subCatId + '">' + subcatList[i].subCatName + '</li>';
                     var diseaseList = subcatList[i].diseaseList;
-                    diseaseHtml += '<ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
+                    subCatName = subcatList[i].subCatName;
+                    commonDisease += '<div class="pad10 bg-gray3">常见疾病</div><ul class="list">';
+                    allDisease += '<div class="pad10 bg-gray3">全部</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
-                            var diseaseLi = '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
-                                    '<div class="col-0">' +
-                                    '</div>' +
-                                    '<div class="col-1">' + diseaseList[j].diseaseName +
-                                    '</div>' +
-                                    '</li>';
-                            diseaseHtml += diseaseLi;
+                            if (diseaseList[j].isCommon == 1) {
+                                commonBool = true;
+                                commonDisease += '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                                allDisease += '<li class="selectLi grid" data-repeat="1" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                            } else {
+                                allDisease += '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                            }
                         }
                     }
-                    diseaseHtml += '</ul>';
+                    commonDisease += '</ul>';
+                    allDisease += '</ul>';
+                    if (commonBool) {
+                        diseaseHtml += commonDisease;
+                    }
+                    diseaseHtml += allDisease;
                 }
             }
-            $('.majorList').html(innerHtml);
+            $('#subCurrentSelection').find('span').text(subCatName);
             $('#diseaseUl').html(diseaseHtml);
             diseaseSelected();
-            //展开亚专业列表
-            $('#subCurrentSelection').click(function () {
-                if ($('.majorList').hasClass('hide')) {
-                    $('.majorList').removeClass('hide');
-                    $('#subCurrentSelection').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
-                } else {
-                    $('.majorList').addClass('hide');
-                    $('#subCurrentSelection').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
-                }
-            });
-            $('.changeSubSpecialty').click(function () {
-                var dataId = $(this).attr('data-id');
-                var subName = $(this).text();
-                $('.subSpecialtyList').addClass('hide');
-                //选择全部
-                if (dataId == 'all') {
-                    $('.subSpecialtyList').removeClass('hide');
-                } else {
-                    $('.subSpecialtyList').each(function () {
-                        if ($(this).attr('data-subcatid') == dataId) {
-                            $(this).removeClass('hide');
-                            return false;
-                        }
-                    });
-                }
-                $('#subCurrentSelection').find('span').text(subName);
-                $('.majorList').addClass('hide');
-            });
             diseaseData = false;
             J.hideMask();
 
@@ -532,7 +530,7 @@
                         $(this).removeClass('foreFront');
                         $(this).removeClass('behind');
                         $(this).removeAttr('data-active');
-                        $(this).find('.col-0').html('');
+                        $(this).find('.selectBtn').html('');
                     });
                     for (var i = 0; i < dataArray.length; i++) {
                         var dataActive = dataArray[i];
@@ -541,10 +539,10 @@
                                 $(this).attr('data-active', 1);
                                 $(this).attr('data-id', i + 1);
                                 if (i < 3) {
-                                    $(this).find('.col-0').html(i + 1);
+                                    $(this).find('.selectBtn').html(i + 1);
                                     $(this).addClass('foreFront');
                                 } else {
-                                    $(this).find('.col-0').html('');
+                                    $(this).find('.selectBtn').html('');
                                     $(this).addClass('behind');
                                 }
                             }
@@ -580,8 +578,11 @@
                         var dataTerm = dataArray[dataNum - 1];
                         $('.selectLi').each(function () {
                             var liNum = $(this).attr('data-num');
-                            if (dataTerm == liNum) {
-                                $(this).trigger('click');
+                            var repeat = $(this).attr('data-repeat');
+                            if (repeat != 1) {
+                                if (dataTerm == liNum) {
+                                    $(this).trigger('click');
+                                }
                             }
                         });
                     });
@@ -624,9 +625,12 @@
                 var dataTerm = dataArray[dataNum];
                 $('.selectLi').each(function () {
                     var liNum = $(this).attr('data-num');
-                    if (dataTerm == liNum) {
-                        $(this).trigger('click');
-                        readySelectDisease();
+                    var repeat = $(this).attr('data-repeat');
+                    if (repeat != 1) {
+                        if (dataTerm == liNum) {
+                            $(this).trigger('click');
+                            readySelectDisease();
+                        }
                     }
                 });
             });
@@ -675,7 +679,8 @@
                     if (diseaseList.length > 0) {
                         for (var i = 0; i < diseaseList.length; i++) {
                             innerList += '<li class="selectLi grid" data-num="' + diseaseList[i].diseaseId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + diseaseList[i].diseaseName +
                                     '</div>' +
@@ -725,58 +730,50 @@
         });
 
         function readyOperation(data) {
-            var innerHtml = '';
             var operationSurgeryList = '';
+            var commonOperation = '';
+            var commonBool = '';
+            var allOperation = '';
             var subcatList = data.results.subcatList;
+            var subCatName = '';
             if (subcatList.length > 0) {
-                innerHtml += '<li class="changeOperationSub" data-id="all">全部亚专业</li>';
                 for (var i = 0; i < subcatList.length; i++) {
-                    innerHtml += '<li class="changeOperationSub" data-id="' + subcatList[i].subCatId + '">' + subcatList[i].subCatName + '</li>';
+                    subCatName = subcatList[i].subCatName;
                     var surgeryList = subcatList[i].surgeryList;
                     if (surgeryList.length > 0) {
-                        operationSurgeryList += '<ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
+                        commonOperation += '<div class="pad10 bg-gray3">常见术式</div><ul class="list">';
+                        allOperation += '<div class="pad10 bg-gray3">全部</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
                         for (var j = 0; j < surgeryList.length; j++) {
-                            operationSurgeryList += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
-                                    '<div class="col-0">' +
+                            if (surgeryList[j].isCommon == 1) {
+                                commonBool = true;
+                                commonOperation += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + surgeryList[j].surgeryName +
+                                        '</div>' +
+                                        '</li>';
+                            }
+                            allOperation += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + surgeryList[j].surgeryName +
                                     '</div>' +
                                     '</li>';
                         }
-                        operationSurgeryList += '</ul>';
+                        commonOperation += '</ul>';
+                        allOperation += '</ul>';
                     }
+                    if (commonBool) {
+                        operationSurgeryList += commonOperation;
+                    }
+                    operationSurgeryList += allOperation;
                 }
             }
-            $('.operationMajorList').html(innerHtml);
+            $('#operationSubSpecialty').find('span').text(subCatName);
             $('#operationListSelected').html(operationSurgeryList);
             operationSelected(1);
-            $('#operationSubSpecialty').click(function () {
-                if ($('.operationMajorList').hasClass('hide')) {
-                    $('.operationMajorList').removeClass('hide');
-                    $('#operationSubSpecialty').find('img').attr('src', 'http://static.mingyizhudao.com/147080773889815');
-                } else {
-                    $('.operationMajorList').addClass('hide');
-                    $('#operationSubSpecialty').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
-                }
-            });
-            $('.changeOperationSub').click(function () {
-                var dataId = $(this).attr('data-id');
-                var subName = $(this).text();
-                $('.operationUl').addClass('hide');
-                //选择全部
-                if (dataId == 'all') {
-                    $('.operationUl').removeClass('hide');
-                } else {
-                    $('.operationUl').each(function () {
-                        if ($(this).attr('data-subcatid') == dataId) {
-                            $(this).removeClass('hide');
-                            return false;
-                        }
-                    });
-                }
-                $('#operationSubSpecialty').find('span').text(subName);
-                $('.operationMajorList').addClass('hide');
-            });
             operationData = false;
             J.hideMask();
         }
@@ -822,10 +819,10 @@
                     operationId = num;
                     if (num < 4) {
                         $(this).addClass('foreFront');
-                        $(this).find('.col-0').html(num);
+                        $(this).find('.selectBtn').html(num);
                     } else {
                         $(this).addClass('behind');
-                        $(this).find('.col-0').html('');
+                        $(this).find('.selectBtn').html('');
                     }
                 } else {
                     operationId = $(this).attr('data-id');
@@ -981,13 +978,13 @@
                 $(this).removeClass('foreFront');
                 $(this).removeClass('behind');
                 $(this).removeAttr('data-active');
-                $(this).find('.col-0').html('');
+                $(this).find('.selectBtn').html('');
             });
             $('#five li').each(function () {
                 $(this).removeClass('foreFront');
                 $(this).removeClass('behind');
                 $(this).removeAttr('data-active');
-                $(this).find('.col-0').html('');
+                $(this).find('.selectBtn').html('');
             });
             for (var i = 0; i < operationArray.length; i++) {
                 var dataActive = operationArray[i].id;
@@ -996,10 +993,10 @@
                         $(this).attr('data-active', 1);
                         $(this).attr('data-id', i + 1);
                         if (i < 3) {
-                            $(this).find('.col-0').html(i + 1);
+                            $(this).find('.selectBtn').html(i + 1);
                             $(this).addClass('foreFront');
                         } else {
-                            $(this).find('.col-0').html('');
+                            $(this).find('.selectBtn').html('');
                             $(this).addClass('behind');
                         }
                     }
@@ -1009,10 +1006,10 @@
                         $(this).attr('data-active', 1);
                         $(this).attr('data-id', i + 1);
                         if (i < 3) {
-                            $(this).find('.col-0').html(i + 1);
+                            $(this).find('.selectBtn').html(i + 1);
                             $(this).addClass('foreFront');
                         } else {
-                            $(this).find('.col-0').html('');
+                            $(this).find('.selectBtn').html('');
                             $(this).addClass('behind');
                         }
                     }
@@ -1155,7 +1152,8 @@
                     if (surgeryList.length > 0) {
                         for (var i = 0; i < surgeryList.length; i++) {
                             innerList += '<li class="operationLi grid" data-num="' + surgeryList[i].surgeryId + '">' +
-                                    '<div class="col-0">' +
+                                    '<div class="col-0 grid middle">' +
+                                    '<div class="selectBtn"></div>' +
                                     '</div>' +
                                     '<div class="col-1">' + surgeryList[i].surgeryName +
                                     '</div>' +
