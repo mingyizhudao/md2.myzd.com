@@ -55,7 +55,7 @@ class ApiViewPatientBookingListV3 extends EApiViewService {
         $with = array('pbPatient' => array('patientDAFiles'));
         $options = array('limit' => $this->pagesize, 'offset' => (($this->page - 1) * $this->pagesize), 'order' => 't.date_updated DESC');
         if (strIsEmpty($this->name)) {
-            $models = $this->patientMgr->loadAllPatientBookingByCreatorId($this->creatorId, $this->status, $attributes, $with, $options);
+            $models = $this->patientMgr->loadAllPatientBookingByCreatorIdV3($this->creatorId, $this->status, array(''), $attributes, $with, $options);
         } else {
             $models = $this->patientMgr->loadAllPatientBookingByCreatorIdAndName($this->creatorId, $this->name, $with);
         }
