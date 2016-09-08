@@ -195,7 +195,8 @@ class PatientbookingController extends MobiledoctorController {
      */
     public function actionAjaxList($page = 1, $status = 0) {
         $userId = $this->getCurrentUserId();
-        $api_svc = new ApiViewPatientBookingListV2($userId, $status, null, 200, $page);
+        $api_svc = new ApiViewDoctorPatientList($userId, 100, $page);
+        //$api_svc = new ApiViewPatientBookingListV2($userId, $status, null, 200, $page);
         //调用父类方法将数据返回
         $output = $api_svc->loadApiViewData(true);
         $this->renderJsonOutput($output);
