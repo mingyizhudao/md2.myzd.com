@@ -92,7 +92,7 @@ class SalesOrder extends EActiveRecord {
             array('total_amount, discount_amount, final_amount', 'length', 'max' => 10),
             array('currency', 'length', 'max' => 3),
             array('patient_adress, disease_detail', 'length', 'max' => 200),
-            array('date_closed, date_created, date_updated, date_deleted', 'safe'),
+            array('date_closed, date_created, date_updated, date_deleted, date_invalid', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, ref_no, user_id, bk_ref_no, bk_id, bk_type, crm_no, subject, description, ping_id, order_type, is_paid, date_open, date_closed, created_by, total_amount, discount_percent, discount_amount, final_amount, currency, bd_code, patient_name, patient_mobile, patient_age, patient_identity, patient_state, patient_city, patient_adress, disease_name, disease_detail, expected_doctor_name, expected_hospital_name, expected_hp_dept_name, creator_doctor_name, creator_hospital_name, creator_dept_name, final_doctor_name, final_doctor_hospital, final_time, customer_request, customer_intention, customer_type, customer_diversion, customer_agent, travel_type, admin_user_name, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
@@ -475,6 +475,10 @@ class SalesOrder extends EActiveRecord {
         $this->ping_id = $v;
     }
 
+    public function getDateInvalid() {
+        return $this->date_invalid;
+    }
+    
     public function getDateClose($format = self::DB_FORMAT_DATETIME) {
         $date = new DateTime($this->date_closed);
         if ($date === false) {
