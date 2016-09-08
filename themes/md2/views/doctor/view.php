@@ -104,7 +104,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
                     <div class="grid font-type">
                         <div class="col-0 w20 signDoctor"></div>
                         <div class="col-0 w80">
-                            成为签约主刀专家
+                            成为签约专家
                             <?php
                             if ($isContractDoctor) {
                                 echo '<span class="signIcon">已同意</span>';
