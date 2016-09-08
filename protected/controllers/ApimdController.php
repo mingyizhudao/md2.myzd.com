@@ -103,7 +103,8 @@ class ApimdController extends Controller {
                 break;
             case 'serachpatients'://患者查询
                 $user = $this->userLoginRequired($values);
-                $apisvc = new ApiViewPatientSearch($user->id, $values['name']);
+                $api = isset($values['api']) ? $values['api'] : false;
+                $apisvc = new ApiViewPatientSearch($user->id, $values['name'], $api);
                 $output = $apisvc->loadApiViewData(true);
                 $this->renderJsonOutput($output);
                 break;

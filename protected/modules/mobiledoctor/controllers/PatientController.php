@@ -310,7 +310,7 @@ class PatientController extends MobiledoctorController {
      */
     public function actionAjaxSearch($name) {
         $userId = $this->getCurrentUserId();
-        $apiSvc = new ApiViewPatientSearch($userId, $name);
+        $apiSvc = new ApiViewPatientSearch($userId, $name, 3);
         $output = $apiSvc->loadApiViewData(true);
         $this->renderJsonOutput($output);
     }
