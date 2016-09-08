@@ -6,6 +6,7 @@ $this->setPageID('pMyBooking');
 $this->setPageTitle('收到的预约');
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer=false;
 ?>
 <header class="bg-green">
     <nav class="left">

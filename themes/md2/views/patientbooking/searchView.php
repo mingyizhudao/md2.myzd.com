@@ -5,6 +5,7 @@ $urlPatientBookingAjaxCancel = $this->createUrl('patientBooking/ajaxCancel', arr
 $searchValue = Yii::app()->request->getQuery('searchValue', '');
 $urlSearchView = $this->createUrl('patientBooking/searchView');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer=false;
 ?>
 <header id="searchListView_header" class="bg-green search">
     <div class="grid w100">

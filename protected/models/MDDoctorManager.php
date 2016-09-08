@@ -123,12 +123,16 @@ class MDDoctorManager {
      * @param UserDoctorProfile $model
      */
     public function doctorContract(UserDoctorProfile $model) {
+        $result = false;
         if (isset($model)) {
+            $result = 2;
             if (is_null($model->date_contracted)) {
                 $model->date_contracted = date('Y-m-d H:i:s');
-                $model->update(array('date_contracted'));
+                $result = $model->update(array('date_contracted'));
             }
         }
+        
+        return $result;
     }
 
     /*     * ***************************************app所用方法******************************************************************** */

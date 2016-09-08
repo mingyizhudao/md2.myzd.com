@@ -2,6 +2,7 @@
 $this->setPageTitle('搜索');
 $urlAjaxSearch = $this->createUrl('patient/ajaxSearch');
 $urlPatientView = $this->createUrl('patient/view', array('id' => ''));
+$this->show_footer=false;
 ?>
 <nav id="patientSearchView_nav" class="header-secondary">
     <div class="w100 pl10 pr10 grid">

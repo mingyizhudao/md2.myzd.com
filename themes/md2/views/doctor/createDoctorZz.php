@@ -11,6 +11,7 @@ $this->setPageTitle('接受病人转诊');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlSubmit = $this->createUrl('doctor/ajaxDoctorZz');
 $urlReturn = $this->createUrl('doctor/drView');
+$this->show_footer=false;
 ?>
 <style>
     .formTip{color: #bbbbbb;font-size: 12px;}

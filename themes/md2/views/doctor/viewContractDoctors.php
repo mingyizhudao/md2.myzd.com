@@ -1,7 +1,7 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.3.js', CClientScript::POS_END);
-?>
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.5.js', CClientScript::POS_END);
+?>                                        
 <?php
 $this->setPageTitle('签约专家');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
@@ -17,6 +17,7 @@ $urlState = $this->createUrl('doctor/ajaxStateList');
 $urlDept = $this->createUrl('doctor/ajaxDeptList');
 $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
 $urlSearchContractDoctors = $this->createUrl('doctor/doctorList', array('pid' => $pid));
+$this->show_footer = false;
 ?>
 <style>
     #jingle_popup{
@@ -49,11 +50,14 @@ if ($source == 1) {
 ?>
 <nav id="contractDoctors_nav" class="header-secondary bg-white <?php echo $navTop; ?>">
     <div class="grid w100 font-s16 color-black6">
-        <div id="stateSelect" class="col-1 w50 br-gray bb-gray grid middle grayImg">
-            <span id="stateTitle" data-dept="">全部</span><img src="http://static.mingyizhudao.com/146968503801292">
+        <div id="deptSelect" class="col-1 w33 br-gray bb-gray grid middle grayImg">
+            <span id="deptTitle" data-dept="">专业</span><img src="http://static.mingyizhudao.com/147323378222999">
         </div>
-        <div id="deptSelect" class="col-1 w50 bb-gray grid middle grayImg">
-            <span id="deptTitle" data-disease="">科室</span><img src="http://static.mingyizhudao.com/146968503801292">
+        <div id="stateSelect" class="col-1 w33 br-gray bb-gray grid middle grayImg">
+            <span id="stateTitle" data-state="">地区</span><img src="http://static.mingyizhudao.com/147323378222999">
+        </div>
+         <div id="hospitalSelect" class="col-1 w33 bb-gray grid middle grayImg">
+            <span id="hospitalTitle" data-hospital="">医院</span><img src="http://static.mingyizhudao.com/147323378222999">
         </div>
     </div>
 </nav>
@@ -80,6 +84,7 @@ if ($source == 1) {
         }
 
         $condition = new Array();
+        $condition["hospital"]='';
         $condition["state"] = '<?php echo $state ?>';
         $condition["disease_sub_category"] = '<?php echo $disease_sub_category; ?>';
         $condition["page"] = '<?php echo $page == '' ? 1 : $page; ?>';
@@ -90,6 +95,7 @@ if ($source == 1) {
             url: urlAjaxLoadDoctor,
             success: function (data) {
                 readyDoc(data);
+                $hospital=data.results.hospital;
             }
         });
 
@@ -104,17 +110,21 @@ if ($source == 1) {
         });
 
         //ajax异步加载地区
-        $stateHtml = ''
+        $stateHtml = '';
         var requestState = '<?php echo $urlState; ?>';
         $.ajax({
             url: requestState,
             success: function (data) {
+
                 $stateHtml = readyState(data);
             },
             error: function (data) {
                 console.log(data);
             }
         });
+        //ajax 异步加载医院
+         // $hospital='';
+        
 
         function readyDept(data) {
             var results = data.results;

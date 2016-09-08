@@ -25,7 +25,7 @@ class ApiViewSubCat extends EApiViewService {
     }
 
     private function loadSubcats() {
-        $models = NewDiseaseCategory::model()->loadAllSubCatByCatId($this->catid, array('diseaseJoin' => array('disease')));
+        $models = DiseaseCategory::model()->loadAllSubCatByCatId($this->catid, array('diseaseJoin' => array('disease')));
         if (arrayNotEmpty($models)) {
             $this->setSubcat($models);
         }

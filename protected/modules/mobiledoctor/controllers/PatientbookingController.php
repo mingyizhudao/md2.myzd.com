@@ -78,7 +78,7 @@ class PatientbookingController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('view', 'create', 'ajaxCreate', 'update', 'list', 'doctorPatientBookingList', 'doctorPatientBooking',
-                    'ajaxDoctorOpinion', 'ajaxBookingNum', 'ajaxOperation', 'ajaxCancell', 'ajaxList', 'searchView', 'ajaxSearch'),
+                    'ajaxDoctorOpinion', 'ajaxBookingNum', 'ajaxOperation', 'ajaxCancel', 'ajaxList', 'searchView', 'ajaxSearch'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users

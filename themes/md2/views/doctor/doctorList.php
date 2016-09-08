@@ -4,6 +4,7 @@ $pid = Yii::app()->request->getQuery('pid', '');
 $patientbookingCreate = $this->createUrl('patientbooking/create');
 $inputDoctorInfo = $this->createUrl('doctor/inputDoctorInfo', array('pid' => $pid, 'doctorName' => ''));
 $ajaxSearchDoctor = $this->createUrl('doctor/ajaxSearchDoctor', array('islike' => 1, 'name' => ''));
+$this->show_footer=false;
 ?>
 <header class="searchHeader bg-green">
     <div class="grid w100">

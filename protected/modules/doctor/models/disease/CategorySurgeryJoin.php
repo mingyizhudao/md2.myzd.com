@@ -44,7 +44,7 @@ class CategorySurgeryJoin extends EActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'surgery' => array(self::BELONGS_TO, 'Surgery', 'surgery_id', 'on' => 'surgery.app_version = 8'),
+            'surgery' => array(self::BELONGS_TO, 'Surgery', 'surgery_id'),
         );
     }
 
