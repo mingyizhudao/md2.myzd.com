@@ -51,6 +51,7 @@ class Disease extends EActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+             'diseasejoin' => array(self::HAS_MANY, 'CategoryDiseaseJoin', 'disease_id'),
         );
     }
 

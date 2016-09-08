@@ -57,6 +57,7 @@ class ApiViewSurgery extends EApiViewService {
                         $dis = new stdClass();
                         $dis->surgeryId = $s->id;
                         $dis->surgeryName = $s->name;
+                        $dis->isCommon = $v->is_common;
                         $surgery[] = $dis;
                     }
                 }
