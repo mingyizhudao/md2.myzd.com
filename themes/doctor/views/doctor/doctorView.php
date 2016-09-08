@@ -287,7 +287,7 @@
                 <div class="w100 pl10 pr10 grid">
                     <div class="col-1">
                         <i class="icon_search"></i>
-                        <input class="icon_input" name="hospitalName" type="text" placeholder="搜索疾病名称">
+                        <input class="icon_input" name="hospitalName" type="text" placeholder="搜索医院名称">
                             <a class="icon_clear hide"></a>
                     </div>
                     <div id="backHospital" class="col-0 pl10 color-black">
@@ -314,7 +314,7 @@
                         </a>
                     </div>
                     <div class="col-1 pt7 pb7 pr10">
-                        <div class="searchInput">请输入医生或医院名称</div>
+                        <div class="searchInput">请输入医院名称</div>
                     </div>
                 </div>
             </header>
