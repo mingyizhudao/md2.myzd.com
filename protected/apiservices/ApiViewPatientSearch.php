@@ -57,8 +57,8 @@ class ApiViewPatientSearch extends EApiViewService {
 
     //查询到的数据过滤
     private function setPatientList(array $models) {
-        if(arrayNotEmpty($models->patientBookings) === false) {
-            foreach ($models as $model) {
+        foreach ($models as $model) {
+            if(arrayNotEmpty($model->patientBookings) === false) {
                 $data = new stdClass();
                 $data->id = $model->getId();
                 $data->name = $model->getName();
@@ -71,8 +71,8 @@ class ApiViewPatientSearch extends EApiViewService {
                 $data->dateUpdated = $model->getDateUpdated('m月d日');
                 $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
                 $this->patients[] = $data;
-            } 
-        }
+            }
+        } 
     }
 
 }
