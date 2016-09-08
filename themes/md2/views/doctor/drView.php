@@ -7,56 +7,59 @@ $this->setPageTitle('专家签约');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlCreateDoctorHz = $this->createUrl("doctor/createDoctorHz", array('addBackBtn' => 1));
 $urlCreateDoctorZz = $this->createUrl("doctor/createDoctorZz", array('addBackBtn' => 1));
+$urlQuestionnaire = $this->createUrl('doctor/questionnaire');
 $urlAjaxViewDoctorHz = $this->createUrl("doctor/ajaxViewDoctorHz");
 $urlAjaxViewDoctorZz = $this->createUrl("doctor/ajaxViewDoctorZz");
 $urlDoctorHzSubmit = $this->createUrl('doctor/ajaxDoctorHz');
 $urlDoctorZzSubmit = $this->createUrl('doctor/ajaxDoctorZz');
 $urlDoctorView = $this->createUrl('doctor/view');
+$urlDoctorContract = $this->createUrl('doctor/contract', array('addBackBtn' => 1));
+$this->show_footer = false;
 ?>
-<article id="sign" class="active" data-scroll="true">
-    <div class="color-black6">
-        <div class="grid mt15">
-            <div class="col-1 grid b-gray-r1">
-                <div class="col-1"></div>
-                <div class="col-0 w50">
-                    <a href="<?php echo $urlCreateDoctorHz; ?>" data-target="link">
-                        <img src="http://static.mingyizhudao.com/146968468782635">
+<header id="drView_header" class="bg-green">
+    <nav class="left">
+        <a href="<?php echo $urlDoctorView; ?>" data-target="link">
+            <div class="pl5">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+            </div>
+        </a>
+    </nav>
+    <h1 class="title">签约成功</h1>
+    <nav class="right">
+        <a href="<?php echo $urlDoctorContract; ?>">
+            服务协议
+        </a>
+    </nav>
+</header>
+<article id="drView_article" class="active bg-gray3" data-scroll="true">
+    <div class="color-black6 pt10 pl10 pr10 pb50">
+        <div>感谢您成为名医主刀签约专家!</div>
+        <div>后期我们会为您推荐符合您要求的患者。</div>
+        <div class="bg-white br5 mt20">
+            <div class="grid pad10 bb-gray">
+                <div class="col-1 doctorIcon">接受转诊病人</div>
+                <div class="col-0">
+                    <a href="<?php echo $urlQuestionnaire; ?>" class="modifyBtn">
+                        修改
                     </a>
                 </div>
-                <div class="col-1"></div>
             </div>
-            <div class="col-1 grid">
-                <div class="col-1"></div>
-                <div class="col-0 w50">
-                    <a href="<?php echo $urlCreateDoctorZz; ?>" data-target="link">
-                        <img src="http://static.mingyizhudao.com/146968472411429">
+            <div class="pad10 zhuanzhenInfo">
+
+            </div>
+        </div>
+        <div class="bg-white br5 mt20">
+            <div class="grid pad10 bb-gray">
+                <div class="col-1 doctorIcon">去外地会诊</div>
+                <div class="col-0">
+                    <a href="<?php echo $urlQuestionnaire; ?>" class="modifyBtn">
+                        修改
                     </a>
                 </div>
-                <div class="col-1"></div>
             </div>
-        </div>
-        <div class="grid font-s18">
-            <div class="col-0 w50 grid pt5 b-gray-r1">
-                <div class="col-1"></div>
-                <div class="col-0 mt11 line-h1e">
-                    去外地会诊
-                </div>
-                <div class="col-1"></div>
-            </div>
-            <div class="col-0 w50 grid pt5">
-                <div class="col-1"></div>
-                <div class="col-0 mt11 line-h1e">
-                    接受病人转诊
-                </div>
-                <div class="col-1"></div>
-            </div>
-        </div>
-        <div class="mt10 ml15 mr15" style="border-bottom:1px solid #dddddd;"></div>
-        <div class="ml30 mr30 mt15 font-s16 huizhenInfo">
+            <div class="pad10 huizhenInfo">
 
-        </div>
-        <div class="ml30 mr30 mt12 mb10 font-s16 zhuanzhenInfo">
-
+            </div>
         </div>
     </div>
 </article>
@@ -132,11 +135,7 @@ $urlDoctorView = $this->createUrl('doctor/view');
     //设置会诊html
     function setDoctorHzInfo(userDoctorHz) {
         if (userDoctorHz && userDoctorHz.is_join != 0) {
-            var infoHtml = '<div class="grid b-green-b1">' +
-                    '<div class="col-0 w50 bgImgGreen pl13 pt2"><i>去外地会诊</i></div>' +
-                    '<div class="col-0 w50 text-right color-yellow1 pt2"><i class="huizhen">暂不参与</i></div>' +
-                    '</div>' +
-                    '<div class="font-s14">';
+            var infoHtml = '<div class="font-s14">';
             var prep_days = '';
             var travel_duration = travelDurationToString(userDoctorHz.travel_duration);
             var weeks = weeksToString(userDoctorHz.week_days);
@@ -146,26 +145,24 @@ $urlDoctorView = $this->createUrl('doctor/view');
             var freq_destination = userDoctorHz.freq_destination == '' ? '暂无信息' : userDoctorHz.freq_destination;
             var destination_req = userDoctorHz.destination_req == '' ? '暂无信息' : userDoctorHz.destination_req;
             var min_no_surgery = userDoctorHz.min_no_surgery == null ? '暂无信息' : userDoctorHz.min_no_surgery;
-            infoHtml += '<div class="mt15"><span class="color-black3">外出会诊台数:</span>' + min_no_surgery + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">时间成本要求:</span>' + travel_duration + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">方便会诊时间:</span>' + weeks + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">愿意会诊病例:</span>' + patients_prefer + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">每台咨询费区间:</span>' + fee_min + '元 - ' + fee_max + '元</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">常去地区或医院:</span>' + freq_destination + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">对手术地点/要求条件:</span>' + destination_req + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">外出会诊台数：</span>' + min_no_surgery + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">时间成本要求：</span>' + travel_duration + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">方便会诊时间：</span>' + weeks + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">愿意会诊病例：</span>' + patients_prefer + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">每台咨询费区间：</span>' + fee_min + '元 - ' + fee_max + '元</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">常去地区或医院：</span>' + freq_destination + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">对手术地点/要求条件：</span>' + destination_req + '</div>';
             infoHtml += '</div>';
             $(".huizhenInfo").html(infoHtml);
+        } else {
+            $('.huizhenInfo').html('<div class="text-center">暂不接受</div>');
         }
     }
 
     //设置转诊html
     function setDoctorZzInfo(userDoctorZz) {
         if (userDoctorZz && userDoctorZz.is_join != 0) {
-            var infoHtml = '<div class="grid b-green-b1">' +
-                    '<div class="col-0 w50 bgImgGreen pl5 pt2"><i>接受病人转诊</i></div>' +
-                    '<div class="col-0 w50 text-right color-yellow1 pt2"><i class="zhuanzhen">暂不参与</i></div>' +
-                    '</div>' +
-                    '<div class="font-s14">';
+            var infoHtml = '<div class="font-s14">';
             var fee = '';
             if (userDoctorZz.fee == null) {
                 fee = '暂无信息';
@@ -176,11 +173,13 @@ $urlDoctorView = $this->createUrl('doctor/view');
             }
             var preferredPatient = userDoctorZz.preferredPatient == '' ? '暂无信息' : userDoctorZz.preferredPatient;
             var prep_days = userDoctorZz.prep_days == '' ? '暂无信息' : userDoctorZz.prep_days;
-            infoHtml += '<div class="mt15"><span class="color-black3">转诊费:</span>' + fee + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">对转诊病例的要求:</span>' + preferredPatient + '</div>';
-            infoHtml += '<div class="mt5"><span class="color-black3">最快安排床位时间:</span>' + prep_days + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">转诊费：</span>' + fee + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">对转诊病例的要求：</span>' + preferredPatient + '</div>';
+            infoHtml += '<div class="mt5"><span class="color-gray">最快安排床位时间：</span>' + prep_days + '</div>';
             infoHtml += '</div>';
             $('.zhuanzhenInfo').html(infoHtml);
+        } else {
+            $('.zhuanzhenInfo').html('<div class="text-center">暂不接受</div>');
         }
     }
 
@@ -278,4 +277,3 @@ $urlDoctorView = $this->createUrl('doctor/view');
     }
 </script>
 </div>
-

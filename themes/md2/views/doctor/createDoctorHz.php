@@ -11,6 +11,7 @@ $this->setPageTitle('去外地会诊');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlSubmit = $this->createUrl('doctor/ajaxDoctorHz');
 $urlReturn = $this->createUrl('doctor/drView');
+$this->show_footer=false;
 ?>
 <style>
     .formTip{color: #bbbbbb;font-size: 12px;}

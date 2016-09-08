@@ -17,6 +17,7 @@ $urlState = $this->createUrl('doctor/ajaxStateList');
 $urlDept = $this->createUrl('doctor/ajaxDeptList');
 $urlDoctorView = $this->createUrl('doctor/viewDoctor', array('id' => ''));
 $urlSearchContractDoctors = $this->createUrl('doctor/doctorList', array('pid' => $pid));
+$this->show_footer = false;
 ?>
 <style>
     #jingle_popup{

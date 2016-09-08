@@ -10,6 +10,7 @@ $id = Yii::app()->request->getQuery('id', '');
 $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
 $urlReturn = $this->createUrl('patient/uploadMRFile', array('type' => 'create'));
 $addDisease = $this->createUrl('doctor/addDisease');
+$this->show_footer = false;
 ?>
 <article id="addDisease_article" class="active" data-scroll="true">
     <div class="pad10">

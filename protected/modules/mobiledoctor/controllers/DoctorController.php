@@ -135,7 +135,7 @@ class DoctorController extends MobiledoctorController {
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
                     'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
-                    'questionnaire', 'ajaxQuestionnaire'),
+                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -321,13 +321,22 @@ class DoctorController extends MobiledoctorController {
      * 进入医生问卷调查页面
      */
     public function actionContract() {
-        $this->render("contract", array('isQuestionnaireOk' => Yii::app()->session['isQuestionnaireOk']));
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
+
+        $this->render("contract", array('isContracted' => $isContracted));
     }
 
     /**
      * doctorView
      */
     public function actionDrView() {
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $isContracted = empty($doctorProfile->date_contracted) ? false : true;
+        $isContracted === false && $this->redirect(array('doctor/contract'));
+        
         $this->render("drView");
     }
 
@@ -362,6 +371,7 @@ class DoctorController extends MobiledoctorController {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
         $userId = $this->getCurrentUserId();
+
         if (isset($post['DoctorZhuanzhenForm'])) {
             $values = $post['DoctorZhuanzhenForm'];
             $values['user_id'] = $userId;
@@ -375,7 +385,9 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinZhuanzhen($userId);
         }
-        $this->renderJsonOutput($output);
+        //$this->renderJsonOutput($output);
+
+        return $output;
     }
 
     /**
@@ -423,7 +435,8 @@ class DoctorController extends MobiledoctorController {
             $doctorMgr = new MDDoctorManager();
             $output = $doctorMgr->disJoinHuizhen($userId);
         }
-        $this->renderJsonOutput($output);
+        //$this->renderJsonOutput($output);
+        return $output;
     }
 
     /**
@@ -1012,14 +1025,13 @@ class DoctorController extends MobiledoctorController {
      */
     public function actionQuestionnaire()
     {
-        Yii::app()->session['isQuestionnaireOk'] = true;
         $user_id = $this->getCurrentUserId();
         $doctorMgr = new MDDoctorManager();
         $hz_model = $doctorMgr->loadUserDoctorHuizhenByUserId($user_id);
         $hz_form = new DoctorHuizhenForm();
         $hz_form->initModel($hz_model);
 
-        $zz_model = $doctorMgr->loadUserDoctorZhuanzhenById($user_id);
+        $zz_model = $doctorMgr->loadUserDoctorZhuanzhenByUserId($user_id);
         $zz_form = new DoctorZhuanzhenForm();
         $zz_form->initModel($zz_model);
         $this->render("questionnaire", array(
@@ -1029,35 +1041,57 @@ class DoctorController extends MobiledoctorController {
     }
 
     /**
-     * 问卷提交
+     * 问卷提交和修改
      */
     public function actionAjaxQuestionnaire()
-    {
-        $post = $this->decryptInput();
-        $userId = $this->getCurrentUserId();
-        $user = $this->loadUser();
-        //专家签约
-        $doctorProfile = $user->getUserDoctorProfile();
-        $doctorMgr = new MDDoctorManager();
-        $doctorMgr->doctorContract($doctorProfile);
-        $output = array('status' => 'no');
-        //会诊信息
-        if (isset($post['DoctorHuiZhenForm'])) {
-            $values = $post['DoctorHuiZhenForm'];
-            $values['user_id'] = $userId;
-            $output['hz'] = $doctorMgr->createOrUpdateDoctorHuizhen($values);
-        } elseif (isset($post['DoctorHuiZhenForm']['dis_join']) && $post['DoctorHuiZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-            $output['hz'] = $doctorMgr->disJoinHuizhen($userId);
+    {   
+        $hzResult = $this->actionAjaxDoctorHz();
+        $zzResult = $this->actionAjaxDoctorZz();
+        $output = new stdClass();
+        $output->status = 'ok';
+        $output->errorMsg = 'success';
+        $output->errorCode = 0;
+        
+        if ($hzResult['status'] == 'no') {
+            if (isset($hzResult['errorMsg'])) {
+                $output->status = 'no';
+                $output->errorMsg = $hzResult['errorMsg'];
+            }
+        }
+        elseif ($zzResult['status'] == 'no') {
+            if (isset($zzResult['errorMsg'])) {
+                $output->status = 'no';
+                $output->errorMsg = $zzResult['errorMsg'];
+            }
         }
 
-        //转诊信息
-        if (isset($post['DoctorZhuanZhenForm'])) {
-            $values = $post['DoctorZhuanzhenForm'];
-            $values['user_id'] = $userId;
-            $output['zz'] = $doctorMgr->createOrUpdateDoctorZhuanzhen($values);
-        } elseif (isset($post['DoctorZhuanZhenForm']['dis_join']) && $post['DoctorZhuanZhenForm']['dis_join'] == UserDoctorZhuanzhen::ISNOT_JOIN) {
-            $output['zz'] = $doctorMgr->disJoinZhuanzhen($userId);
+        $this->renderJsonOutput($output);
+    }
+    
+    /**
+     * 成为签约医生
+     */
+    public function actionAjaxDoctorContract()
+    {
+        $output = new stdClass();
+        $output->status = 'no';
+        $output->errorMsg = '';
+        $output->errorCode = '500';
+        
+        $doctorMgr = new MDDoctorManager();
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $result = $doctorMgr->doctorContract($doctorProfile);
+        
+        if ($result === true) {
+            $output->status = 'ok';
+            $output->errorMsg = 'success';
+            $output->errorCode = 0;
         }
+        elseif ($result == 2) {
+            $output->errorMsg = '已经签约过了';
+        }
+        
         $this->renderJsonOutput($output);
     }
 }
