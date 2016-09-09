@@ -64,9 +64,9 @@ class ApiViewDoctorSearch extends EApiViewService {
     }
 
     private function setDoctors(array $models) {
-        $this->hospital = array();
+        $hospital = array();
         foreach ($models as $model) {
-            $this->hospital[$model->getHospitalId()] = $model->getHospitalName();
+            $hospital[$model->getHospitalId()] = $model->getHospitalName();
             
             $data = new stdClass();
             $data->id = $model->getId();
@@ -83,7 +83,14 @@ class ApiViewDoctorSearch extends EApiViewService {
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/contractdoctor/' . $model->getId());
             $this->doctors[] = $data;
         }
-        ksort($this->hospital);
+        ksort($hospital);
+        
+        foreach ($hospital as $id => $h) {
+            $data = new stdClass();
+            $data->id = $id;
+            $data->name = $h;
+            $this->hospital[] = $data;
+        }
     }
 
     private function loadDoctorCount() {
