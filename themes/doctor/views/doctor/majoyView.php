@@ -59,11 +59,6 @@
         .bg-silvery{
             background-color: #F9F8F8;
         }
-        #major{
-            position: fixed;
-            width: 100%;
-            z-index: 99;
-        }
         .majorList li{
             padding: 10px;
             text-align: center;
@@ -118,11 +113,6 @@
         }
         footer.hide~article{
             bottom: 0px;
-        }
-        #operationMajor {
-            position: fixed;
-            width: 100%;
-            z-index: 99;
         }
         .btn-back{
             height: 40px;
@@ -285,7 +275,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="major" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="subCurrentSelection" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -293,7 +283,7 @@
 
                                 </ul>
                             </div>
-                            <div id="diseaseUl" class="pt44">
+                            <div id="diseaseUl" class="">
 
                             </div>
                         </div>
@@ -349,7 +339,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="operationMajor" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="operationSubSpecialty" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -357,7 +347,7 @@
 
                                 </ul>
                             </div>
-                            <div id="operationListSelected" class="pt44">
+                            <div id="operationListSelected" class="">
 
                             </div>
                         </div>
@@ -1181,7 +1171,7 @@
             $.ajax({
                 type: 'post',
                 url: '<?php echo $urlAjaxMajor; ?>',
-                data: {'MajorForm[id]': 6, 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
+                data: {'MajorForm[id]': '<?php echo $urlId; ?>', 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
                 success: function (data) {
                     if (data.status = 'ok') {
                         location.href = '<?php echo $urlSuccess; ?>';
