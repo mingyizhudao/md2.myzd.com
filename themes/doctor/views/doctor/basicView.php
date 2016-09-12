@@ -140,6 +140,7 @@
         #datePicker{
             background-color: #fff;
         }
+        input[type="date"]::-webkit-clear-button { display:none }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
