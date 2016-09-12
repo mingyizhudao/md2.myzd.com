@@ -188,6 +188,7 @@
                         <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender == null ? '0' : $model->gender; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_domain]" value="<?php echo $model->remote_domain; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_file_key]" value="<?php echo $model->remote_file_key; ?>"/>
+                        <input type="hidden" name="BasicInfoForm[email]" id="formEmail" value=""/>
                         <div class="nav-crumbs">
                             <span>1</span>
                             个人信息
@@ -278,6 +279,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php $this->endWidget(); ?>
                         <div class="inputBorder">
                             <div class="grid">
                                 <div class="col-0 w80p pt7">
@@ -288,7 +290,6 @@
                                 </div>
                             </div>
                         </div>
-                        <?php $this->endWidget(); ?>
                     </div>
                 </article>
                 <script>
