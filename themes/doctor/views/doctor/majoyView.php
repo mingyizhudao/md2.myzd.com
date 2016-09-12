@@ -731,7 +731,22 @@
             operationNameArray.splice(0, operationNameArray.length);
             if (operationResultArray.length > 0) {
                 for (var i = 0; i < operationResultArray.length; i++) {
-                    operationArray.push(operationResultArray[i]);
+                    var operationObject = new Object();
+                    operationObject.id = '';
+                    operationObject.method = new Array();
+                    operationObject.num = new Array();
+                    operationObject.id = operationResultArray[i].id;
+                    if (operationResultArray[i].method.length > 0) {
+                        for (var j = 0; j < operationResultArray[i].method.length; j++) {
+                            operationObject.method.push(operationResultArray[i].method[j]);
+                        }
+                    }
+                    if (operationResultArray[i].num.length > 0) {
+                        for (var j = 0; j < operationResultArray[i].num.length; j++) {
+                            operationObject.num.push(operationResultArray[i].num[j]);
+                        }
+                    }
+                    operationArray.push(operationObject);
                 }
             }
             if (operationNameResultArray.length > 0) {
@@ -1137,7 +1152,22 @@
             operationNameResultArray.splice(0, operationNameResultArray.length);
             if (operationArray.length > 0) {
                 for (var i = 0; i < operationArray.length; i++) {
-                    operationResultArray.push(operationArray[i]);
+                    var operationObject = new Object();
+                    operationObject.id = '';
+                    operationObject.method = new Array();
+                    operationObject.num = new Array();
+                    operationObject.id = operationArray[i].id;
+                    if (operationArray[i].method.length > 0) {
+                        for (var j = 0; j < operationArray[i].method.length; j++) {
+                            operationObject.method.push(operationArray[i].method[j]);
+                        }
+                    }
+                    if (operationArray[i].num.length > 0) {
+                        for (var j = 0; j < operationArray[i].num.length; j++) {
+                            operationObject.num.push(operationArray[i].num[j]);
+                        }
+                    }
+                    operationResultArray.push(operationObject);
                 }
             }
             if (operationNameArray.length > 0) {
