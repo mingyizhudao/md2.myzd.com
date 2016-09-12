@@ -20,7 +20,7 @@ $(function () {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
-//        multi_selection: false,
+        multi_selection: false,
         // downtoken_url: '/downtoken',
         // unique_names: true,
         // save_key: true,
