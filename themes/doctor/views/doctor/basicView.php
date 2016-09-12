@@ -14,7 +14,7 @@
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.0.css');
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/custom.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/custom.min.1.0.js', CClientScript::POS_END);

@@ -14,7 +14,7 @@
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.0.css');
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/custom.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         $urlId = $model->id;
         $urlAjaxSubCat = $this->createUrl('doctor/ajaxSubCat', array('id' => $urlId));
@@ -400,11 +400,6 @@
                 });
             }
         });
-        //返回
-        $('#diseasePage').click(function () {
-            $('#two').addClass('hide');
-            $('#one').removeClass('hide');
-        });
         function readySubSpecialty(data) {
             var diseaseHtml = '';
             var commonDisease = '';
@@ -509,46 +504,6 @@
                     nameArray.splice(numData - 1, 1);
                     rePainting();
                 }
-                //重绘选项
-                function rePainting() {
-                    $('li').each(function () {
-                        $(this).removeClass('foreFront');
-                        $(this).removeClass('behind');
-                        $(this).removeAttr('data-active');
-                        $(this).find('.selectBtn').html('');
-                    });
-                    for (var i = 0; i < dataArray.length; i++) {
-                        var dataActive = dataArray[i];
-                        $('li').each(function () {
-                            if ($(this).attr('data-num') == dataActive) {
-                                $(this).attr('data-active', 1);
-                                $(this).attr('data-id', i + 1);
-                                if (i < 3) {
-                                    $(this).find('.selectBtn').html(i + 1);
-                                    $(this).addClass('foreFront');
-                                } else {
-                                    $(this).find('.selectBtn').html('');
-                                    $(this).addClass('behind');
-                                }
-                            }
-                        });
-                    }
-                    //专业切换添加标记
-                    $('.changeSubSpecialty').removeClass('color-green');
-                    $('li').each(function () {
-                        if ($(this).attr('data-active') == 1) {
-                            var selectId = $(this).parent('ul').attr('data-subcatid');
-                            $('.changeSubSpecialty').each(function () {
-                                if ($(this).attr('data-id') == 'all') {
-                                    $(this).addClass('color-green');
-                                }
-                                if ($(this).attr('data-id') == selectId) {
-                                    $(this).addClass('color-green');
-                                }
-                            });
-                        }
-                    });
-                }
                 if (nameArray.length > 0) {
                     var innerSpan = '';
                     nameArray.reverse();
@@ -621,6 +576,53 @@
             });
         }
 
+        //返回
+        $('#diseasePage').click(function () {
+            $('#two').addClass('hide');
+            $('#one').removeClass('hide');
+            $('#confirmDisease').trigger('click');
+        });
+
+        //重绘选项
+        function rePainting() {
+            $('#diseaseUl li').each(function () {
+                $(this).removeClass('foreFront');
+                $(this).removeClass('behind');
+                $(this).removeAttr('data-active');
+                $(this).find('.selectBtn').html('');
+            });
+            for (var i = 0; i < dataArray.length; i++) {
+                var dataActive = dataArray[i];
+                $('#diseaseUl li').each(function () {
+                    if ($(this).attr('data-num') == dataActive) {
+                        $(this).attr('data-active', 1);
+                        $(this).attr('data-id', i + 1);
+                        if (i < 3) {
+                            $(this).find('.selectBtn').html(i + 1);
+                            $(this).addClass('foreFront');
+                        } else {
+                            $(this).find('.selectBtn').html('');
+                            $(this).addClass('behind');
+                        }
+                    }
+                });
+            }
+            //专业切换添加标记
+            $('.changeSubSpecialty').removeClass('color-green');
+            $('#diseaseUl li').each(function () {
+                if ($(this).attr('data-active') == 1) {
+                    var selectId = $(this).parent('ul').attr('data-subcatid');
+                    $('.changeSubSpecialty').each(function () {
+                        if ($(this).attr('data-id') == 'all') {
+                            $(this).addClass('color-green');
+                        }
+                        if ($(this).attr('data-id') == selectId) {
+                            $(this).addClass('color-green');
+                        }
+                    });
+                }
+            });
+        }
         //搜索疾病
         $('#searchDisease').click(function () {
             $('#two').addClass('hide');
@@ -714,6 +716,7 @@
             $('#four').addClass('hide');
             $('#three').addClass('hide');
             $('#one').removeClass('hide');
+            $('#confirmOperation').trigger('click');
         });
 
         function readyOperation(data) {
@@ -1022,7 +1025,7 @@
 
             //专业切换添加标记
             $('.changeOperationSub').removeClass('color-green');
-            $('li').each(function () {
+            $('#operationListSelected li').each(function () {
                 if ($(this).attr('data-active') == 1) {
                     var selectId = $(this).parent('ul').attr('data-subcatid');
                     $('.changeOperationSub').each(function () {
