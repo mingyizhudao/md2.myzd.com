@@ -13,14 +13,14 @@ $(function () {
         browse_button: 'pickfiles',
         container: 'container',
         drop_element: 'container',
-        max_file_size: '20mb',
+        max_file_size: '100mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
-//        multi_selection: false,
+        multi_selection: false,
         // downtoken_url: '/downtoken',
         // unique_names: true,
         // save_key: true,
@@ -42,7 +42,6 @@ $(function () {
         },
         init: {
             'FilesAdded': function (up, files) {
-                alert('FilesAdded');
                 $('#jingle_loading.initLoading').show();
                 $('#jingle_loading_mask').show();
                 $('#submitBtn').removeClass('hide');
@@ -55,7 +54,6 @@ $(function () {
                 });
             },
             'BeforeUpload': function (up, file) {
-                alert('BeforeUpload');
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
@@ -63,18 +61,15 @@ $(function () {
                 }
             },
             'UploadProgress': function (up, file) {
-                alert('UploadProgress');
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-                alert('UploadComplete');
                 $('#jingle_loading.initLoading').hide();
                 $('#jingle_loading_mask').hide();
             },
             'FileUploaded': function (up, file, info) {
-                alert('FileUploaded');
                 //单个文件上传成功所做的事情 
                 // 其中 info 是文件上传成功后，服务端返回的json，形式如
                 // {
@@ -94,7 +89,6 @@ $(function () {
                 $('input[name="BasicInfoForm[remote_file_key]"]').val(infoJson.key);
             },
             'Error': function (up, err, errTip) {
-                alert('err:' + JSON.stringify(err) + '///errTip:' + errTip);
                 returnResult = false;
                 console.log('错误信息' + errTip);
                 $('table').show();
