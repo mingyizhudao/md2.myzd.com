@@ -627,7 +627,7 @@
         $('#searchDisease').click(function () {
             $('#two').addClass('hide');
             $('#three').removeClass('hide');
-            $('input[name="searchName"]').trigger('click');
+            $('input[name="searchName"]').focus();
         });
         //返回
         $('#backDisease').click(function () {
@@ -1118,6 +1118,7 @@
             $('#three').addClass('hide');
             $('#operation_footer').addClass('hide');
             $('#five').removeClass('hide');
+            $('input[name="operationName"]').focus();
         });
         //返回
         $('#backOperation').click(function () {
