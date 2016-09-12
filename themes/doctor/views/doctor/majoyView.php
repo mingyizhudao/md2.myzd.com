@@ -262,7 +262,7 @@
                     </header>
                     <footer id="span_footer" class="bg-white hide">
                         <div class="grid w100">
-                            <div id="spanList" class="col-1" style="overflow: hidden;padding-top: 13px;">
+                            <div id="spanList" class="col-1" style="overflow: auto;padding-top: 13px;height: 50px;">
 
                             </div>
                             <div id="confirmDisease" class="col-0" style="border-left: 1px solid #C8C8C8;width: 70px;text-align: center;padding-top: 12px;color: #137EFF;">
@@ -326,7 +326,7 @@
                     </header>
                     <footer id="operation_footer" class="bg-white hide">
                         <div class="grid w100">
-                            <div id="operationList" class="col-1" style="overflow: hidden;padding-top: 13px;">
+                            <div id="operationList" class="col-1" style="overflow: auto;padding-top: 13px;height:50px;">
 
                             </div>
                             <div id="confirmOperation" class="col-0" style="border-left: 1px solid #C8C8C8;width: 70px;text-align: center;padding-top: 12px;color: #137EFF;">
