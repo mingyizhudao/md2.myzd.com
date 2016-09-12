@@ -149,8 +149,6 @@
             display: none;
         }
         input[type="date"]::-ms-clear {
-            width: 0;
-            height: 0;
             display: none;
         }
         ::-webkit-search-cancel-button {
