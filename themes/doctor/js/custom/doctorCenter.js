@@ -37,7 +37,7 @@ $(function () {
         filters: {
             prevent_duplicates: true,
             mime_types: [
-                {title: "Image files", extensions: "jpg,gif,png"}
+                {title: "Image files", extensions: "bmp,jpg,gif,png,jpeg"}
             ]
         },
         init: {
