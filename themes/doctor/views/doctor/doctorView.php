@@ -505,7 +505,9 @@
                         //选择职业医院
                         $('#hospital_name').click(function () {
                             $('#search_section').css('display', 'block');
-                            mapInit();
+                            if ($('#pick-city>span').text() == '选择城市') {
+                                mapInit();
+                            }
                         });
                         $('#btn-back-search').click(function () {
                             $('#search_section').css('display', 'none');
