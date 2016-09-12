@@ -757,6 +757,8 @@
             operationId = operationResultArray.length;
             if (operationId != 0) {
                 selectOver(1);
+            } else {
+                selectOver(3);
             }
             $('#one').addClass('hide');
             $('#four').removeClass('hide');
@@ -1047,9 +1049,11 @@
         }
 
         function selectOver(pageType) {
-            if (operationArray[operationId - 1].method.length == 0) {
-                operationArray.splice(operationId - 1, 1);
-                operationNameArray.splice(operationId - 1, 1);
+            if (pageType != 3) {
+                if (operationArray[operationId - 1].method.length == 0) {
+                    operationArray.splice(operationId - 1, 1);
+                    operationNameArray.splice(operationId - 1, 1);
+                }
             }
             J.hideMask();
             //根据选择情况，重新绘制列表框
