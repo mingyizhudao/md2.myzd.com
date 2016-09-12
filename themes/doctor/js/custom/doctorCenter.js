@@ -94,7 +94,7 @@ $(function () {
                 $('input[name="BasicInfoForm[remote_file_key]"]').val(infoJson.key);
             },
             'Error': function (up, err, errTip) {
-                alert('Error');
+                alert('错误信息' + errTip);
                 returnResult = false;
                 console.log('错误信息' + errTip);
                 $('table').show();
