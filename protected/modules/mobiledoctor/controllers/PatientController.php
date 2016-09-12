@@ -84,7 +84,7 @@ class PatientController extends MobiledoctorController {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('ajaxTask', 'ajaxDrTask', 'view', 'createPatientMR', 'updatePatientMR', 'createBooking', 'ajaxCreate',
                     'ajaxCreatePatientMR', 'ajaxUploadMRFile', 'delectPatientMRFile', 'patientMRFiles', 'uploadMRFile', 'searchView',
-                    'ajaxSearch', 'uploadDAFile', 'viewDaFile'),
+                    'ajaxSearch', 'uploadDAFile', 'viewDaFile', 'ajaxDeleteDoctorPatient'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -298,6 +298,17 @@ class PatientController extends MobiledoctorController {
     }
 
     /**
+     * 根据ids逻辑删除患者
+     */
+    public function actionAjaxDeleteDoctorPatient()
+    {
+        $patientIds = $_POST['patient_ids'];
+        $apiSvc = new ApiViewDeletePatientByIds($patientIds);
+        $output = $apiSvc->loadApiViewData();
+        $this->renderJsonOutput($output);
+    }
+    
+    /**
      * 进入搜索页面
      */
     public function actionSearchView() {
@@ -310,7 +321,7 @@ class PatientController extends MobiledoctorController {
      */
     public function actionAjaxSearch($name) {
         $userId = $this->getCurrentUserId();
-        $apiSvc = new ApiViewPatientSearch($userId, $name);
+        $apiSvc = new ApiViewPatientSearch($userId, $name, 3);
         $output = $apiSvc->loadApiViewData(true);
         $this->renderJsonOutput($output);
     }

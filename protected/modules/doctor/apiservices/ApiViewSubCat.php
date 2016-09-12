@@ -45,6 +45,7 @@ class ApiViewSubCat extends EApiViewService {
                         $dis = new stdClass();
                         $dis->diseaseId = $d->id;
                         $dis->diseaseName = $d->name;
+                        $dis->isCommon = $v->is_common;
                         $diseases[] = $dis;
                     }
                 }

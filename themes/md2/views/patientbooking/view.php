@@ -11,6 +11,7 @@ $urlPatientMRFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . 
 $urlPayOrder = $this->createUrl('order/view', array('addBackBtn' => 1, 'bookingId' => $booking->id, 'refNo' => ''));
 $this->show_footer=false;
 ?>
+
 <article id="patientBookingView_article" class="active" data-scroll="true">
     <div class="pad10">
         <div class="border-gray bg-white br8">

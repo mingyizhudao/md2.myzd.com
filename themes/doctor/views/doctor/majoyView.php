@@ -59,11 +59,6 @@
         .bg-silvery{
             background-color: #F9F8F8;
         }
-        #major{
-            position: fixed;
-            width: 100%;
-            z-index: 99;
-        }
         .majorList li{
             padding: 10px;
             text-align: center;
@@ -118,11 +113,6 @@
         }
         footer.hide~article{
             bottom: 0px;
-        }
-        #operationMajor {
-            position: fixed;
-            width: 100%;
-            z-index: 99;
         }
         .btn-back{
             height: 40px;
@@ -285,7 +275,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="major" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="subCurrentSelection" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -293,7 +283,7 @@
 
                                 </ul>
                             </div>
-                            <div id="diseaseUl" class="pt44">
+                            <div id="diseaseUl" class="">
 
                             </div>
                         </div>
@@ -349,7 +339,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="operationMajor" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="operationSubSpecialty" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -357,7 +347,7 @@
 
                                 </ul>
                             </div>
-                            <div id="operationListSelected" class="pt44">
+                            <div id="operationListSelected" class="">
 
                             </div>
                         </div>
@@ -420,26 +410,52 @@
         });
         function readySubSpecialty(data) {
             var diseaseHtml = '';
+            var commonDisease = '';
+            var allDisease = '';
+            var commonBool = false;
             var subCatName = '';
             var subcatList = data.results.subcatList;
             if (subcatList.length > 0) {
                 for (var i = 0; i < subcatList.length; i++) {
                     var diseaseList = subcatList[i].diseaseList;
                     subCatName = subcatList[i].subCatName;
-                    diseaseHtml += '<ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
+                    commonDisease += '<div class="pad10 bg-gray3">常见疾病</div><ul class="list">';
+                    allDisease += '<div class="pad10 bg-gray3">全部</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
-                            var diseaseLi = '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
-                                    '<div class="col-0 grid middle">' +
-                                    '<div class="selectBtn"></div>' +
-                                    '</div>' +
-                                    '<div class="col-1">' + diseaseList[j].diseaseName +
-                                    '</div>' +
-                                    '</li>';
-                            diseaseHtml += diseaseLi;
+                            if (diseaseList[j].isCommon == 1) {
+                                commonBool = true;
+                                commonDisease += '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                                allDisease += '<li class="selectLi grid" data-repeat="1" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                            } else {
+                                allDisease += '<li class="selectLi grid" data-num="' + diseaseList[j].diseaseId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + diseaseList[j].diseaseName +
+                                        '</div>' +
+                                        '</li>';
+                            }
                         }
                     }
-                    diseaseHtml += '</ul>';
+                    commonDisease += '</ul>';
+                    allDisease += '</ul>';
+                    if (commonBool) {
+                        diseaseHtml += commonDisease;
+                    }
+                    diseaseHtml += allDisease;
                 }
             }
             $('#subCurrentSelection').find('span').text(subCatName);
@@ -552,8 +568,11 @@
                         var dataTerm = dataArray[dataNum - 1];
                         $('.selectLi').each(function () {
                             var liNum = $(this).attr('data-num');
-                            if (dataTerm == liNum) {
-                                $(this).trigger('click');
+                            var repeat = $(this).attr('data-repeat');
+                            if (repeat != 1) {
+                                if (dataTerm == liNum) {
+                                    $(this).trigger('click');
+                                }
                             }
                         });
                     });
@@ -596,9 +615,12 @@
                 var dataTerm = dataArray[dataNum];
                 $('.selectLi').each(function () {
                     var liNum = $(this).attr('data-num');
-                    if (dataTerm == liNum) {
-                        $(this).trigger('click');
-                        readySelectDisease();
+                    var repeat = $(this).attr('data-repeat');
+                    if (repeat != 1) {
+                        if (dataTerm == liNum) {
+                            $(this).trigger('click');
+                            readySelectDisease();
+                        }
                     }
                 });
             });
@@ -699,6 +721,9 @@
 
         function readyOperation(data) {
             var operationSurgeryList = '';
+            var commonOperation = '';
+            var commonBool = '';
+            var allOperation = '';
             var subcatList = data.results.subcatList;
             var subCatName = '';
             if (subcatList.length > 0) {
@@ -706,9 +731,20 @@
                     subCatName = subcatList[i].subCatName;
                     var surgeryList = subcatList[i].surgeryList;
                     if (surgeryList.length > 0) {
-                        operationSurgeryList += '<ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
+                        commonOperation += '<div class="pad10 bg-gray3">常见术式</div><ul class="list">';
+                        allOperation += '<div class="pad10 bg-gray3">全部</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
                         for (var j = 0; j < surgeryList.length; j++) {
-                            operationSurgeryList += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
+                            if (surgeryList[j].isCommon == 1) {
+                                commonBool = true;
+                                commonOperation += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
+                                        '<div class="col-0 grid middle">' +
+                                        '<div class="selectBtn"></div>' +
+                                        '</div>' +
+                                        '<div class="col-1">' + surgeryList[j].surgeryName +
+                                        '</div>' +
+                                        '</li>';
+                            }
+                            allOperation += '<li class="operationLi grid" data-num="' + surgeryList[j].surgeryId + '">' +
                                     '<div class="col-0 grid middle">' +
                                     '<div class="selectBtn"></div>' +
                                     '</div>' +
@@ -716,11 +752,15 @@
                                     '</div>' +
                                     '</li>';
                         }
-                        operationSurgeryList += '</ul>';
+                        commonOperation += '</ul>';
+                        allOperation += '</ul>';
                     }
+                    if (commonBool) {
+                        operationSurgeryList += commonOperation;
+                    }
+                    operationSurgeryList += allOperation;
                 }
             }
-
             $('#operationSubSpecialty').find('span').text(subCatName);
             $('#operationListSelected').html(operationSurgeryList);
             operationSelected(1);
@@ -1131,7 +1171,7 @@
             $.ajax({
                 type: 'post',
                 url: '<?php echo $urlAjaxMajor; ?>',
-                data: {'MajorForm[id]': 6, 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
+                data: {'MajorForm[id]': '<?php echo $urlId; ?>', 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
                 success: function (data) {
                     if (data.status = 'ok') {
                         location.href = '<?php echo $urlSuccess; ?>';

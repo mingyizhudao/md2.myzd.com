@@ -124,14 +124,15 @@ class DiseaseCategory extends EActiveRecord {
 
     public function loadAllCatSub() {
         $criteria = new CDbCriteria();
-        $criteria->select = 'cat_id,cat_name';
+        $criteria->select = 't.sub_cat_id,t.sub_cat_name';
         $criteria->distinct = true;
-        $criteria->addCondition("app_version=8");
+        $criteria->addCondition("t.app_version =8");
+        $criteria->addCondition("t.date_deleted is null");
         return $this->findAll($criteria);
     }
 
     public function loadAllSubCatByCatId($catId, $with = null) {
-        return $this->getAllByAttributes(array('cat_id' => $catId, 'app_version' => 8), $with);
+        return $this->getAllByAttributes(array('t.sub_cat_id' => $catId, 't.app_version' => 8), $with);
     }
 
 }

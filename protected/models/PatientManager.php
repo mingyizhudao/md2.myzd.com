@@ -94,6 +94,14 @@ class PatientManager {
         }
         return PatientBooking::model()->getAllByCreatorId($creatorId, $status, $attributes, $with, $options);
     }
+    
+    //查询创建者预约列表V3
+    public function loadAllPatientBookingByCreatorIdV3($creatorId, $status, $parma= null, $attributes = null, $with = null, $options = null) {
+        if (is_null($attributes)) {
+            $attributes = '*';
+        }
+        return PatientBooking::model()->getAllByCreatorId($creatorId, $status, $parma, $attributes, $with, $options);
+    }
 
     public function loadAllPatientBookingByCreatorIdAndName($creatorId, $name, $with) {
         $criteria = new CDbCriteria();

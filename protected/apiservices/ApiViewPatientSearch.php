@@ -17,10 +17,12 @@ class ApiViewPatientSearch extends EApiViewService {
     private $patientMgr;
     private $patients;
     private $name;
+    private $api = false;
 
     //初始化类的时候将参数注入
-    public function __construct($createorId, $name) {
+    public function __construct($createorId, $name, $api) {
         parent::__construct();
+        $this->api = $api;
         $this->name = $name;
         $this->createorId = $createorId;
         $this->patientMgr = new PatientManager();
@@ -47,6 +49,7 @@ class ApiViewPatientSearch extends EApiViewService {
         $criteria->compare('t.creator_id', $this->createorId);
         $criteria->addSearchCondition('t.name', $this->name);
         $criteria->addCondition('t.date_deleted is NULL');
+        $criteria->with = array('patientBookings');
         $models = PatientInfo::model()->findAll($criteria);
         if (arrayNotEmpty($models)) {
             $this->setPatientList($models);
@@ -57,19 +60,37 @@ class ApiViewPatientSearch extends EApiViewService {
     //查询到的数据过滤
     private function setPatientList(array $models) {
         foreach ($models as $model) {
-            $data = new stdClass();
-            $data->id = $model->getId();
-            $data->name = $model->getName();
-            $data->age = $model->getAge();
-            $data->ageMonth = $model->getAgeMonth();
-            $data->cityName = $model->getCityName();
-            $data->gender = $model->getGender();
-            $data->mobile = $model->getMobile();
-            $data->diseaseName = $model->getDiseaseName();
-            $data->dateUpdated = $model->getDateUpdated('m月d日');
-            $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
-            $this->patients[] = $data;
-        }
+            if($this->api == 3) {
+                if(arrayNotEmpty($model->patientBookings) === false) {
+                    $data = new stdClass();
+                    $data->id = $model->getId();
+                    $data->name = $model->getName();
+                    $data->age = $model->getAge();
+                    $data->ageMonth = $model->getAgeMonth();
+                    $data->cityName = $model->getCityName();
+                    $data->gender = $model->getGender();
+                    $data->mobile = $model->getMobile();
+                    $data->diseaseName = $model->getDiseaseName();
+                    $data->dateUpdated = $model->getDateUpdated('m月d日');
+                    $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
+                    $this->patients[] = $data;
+                }
+            }
+            else {
+                $data = new stdClass();
+                $data->id = $model->getId();
+                $data->name = $model->getName();
+                $data->age = $model->getAge();
+                $data->ageMonth = $model->getAgeMonth();
+                $data->cityName = $model->getCityName();
+                $data->gender = $model->getGender();
+                $data->mobile = $model->getMobile();
+                $data->diseaseName = $model->getDiseaseName();
+                $data->dateUpdated = $model->getDateUpdated('m月d日');
+                $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
+                $this->patients[] = $data;
+            }
+        } 
     }
 
 }

@@ -61,40 +61,36 @@ class Manager {
                 $output['status'] = 'ok';
                 $output['id'] = $doctorId;
             } catch (CDbException $e) {
-                $output['errors'] = '网络连接异常';
+                $output['errors'] = $e->getMessage();
                 $dbTran->rollback();
-                throw new CHttpException($e->getMessage());
+              
             } catch (CException $e) {
                 $output['errors'] = '网络连接异常';
                 $dbTran->rollback();
-                Yii::log("database table new_disease_doctor_join jdbc: " . $e->getMessage(), CLogger::LEVEL_ERROR, __METHOD__);
-                throw new CHttpException($e->getMessage());
             }
         } else {
             $output['errors'] = 'miss data..';
         }
+        
         return $output;
     }
 
     public function searchSubcat($id, $name) {
-        $doctor = NewDoctor::model()->getById($id, array('diseaseCategory'));
+        $doctor = NewDoctor::model()->getById($id);
         $criteria = new CDbCriteria;
+        $criteria->with = array('diseasejoin');
         $criteria->addSearchCondition('t.name', $name);
-        if (arrayNotEmpty($doctor->diseaseCategory)) {
-            $sublist = $this->getSubIdForList($doctor->diseaseCategory);
-            $criteria->addInCondition('t.category_id', $sublist);
-        }
+        $criteria->compare('diseasejoin.sub_cat_id', $doctor->category_id);
+        $criteria->compare('t.app_version', 8);
         return Disease::model()->findAll($criteria);
     }
 
     public function searchSurgery($id, $name) {
-        $doctor = NewDoctor::model()->getById($id, array('diseaseCategory'));
+        $doctor = NewDoctor::model()->getById($id);
         $criteria = new CDbCriteria;
+        $criteria->with = array('surgeryjoin');
         $criteria->addSearchCondition('t.name', $name);
-        if (arrayNotEmpty($doctor->diseaseCategory)) {
-            $sublist = $this->getSubIdForList($doctor->diseaseCategory);
-            $criteria->addInCondition('t.category_id', $sublist);
-        }
+        $criteria->compare('surgeryjoin.sub_cat_id', $doctor->category_id);
         return Surgery::model()->findAll($criteria);
     }
 

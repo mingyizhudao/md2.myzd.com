@@ -9,9 +9,11 @@ class ApiViewDoctorSearch extends EApiViewService {
     private $doctors;
     private $hospital;
     private $doctorCount;     // count no. of Doctors.
+    private $api = false;
 
     public function __construct($searchInputs) {
         parent::__construct();
+        isset($searchInputs['api']) && $this->api = $searchInputs['api'];
         $this->searchInputs = $searchInputs;
         $this->getCount = isset($searchInputs['getcount']) && $searchInputs['getcount'] == 1 ? true : false;
         $this->searchInputs['pagesize'] = isset($searchInputs['pagesize']) && $searchInputs['pagesize'] > 0 ? $searchInputs['pagesize'] : $this->pageSize;
@@ -41,9 +43,14 @@ class ApiViewDoctorSearch extends EApiViewService {
             $this->output->errorCode = 0;
             $this->output->dataNum = $this->doctorCount;
             $this->output->errorMsg = 'success';
-            $this->output->results = new stdClass();
-            $this->output->results->doctors = $this->doctors;
-            $this->output->results->hospital = $this->hospital;
+            if ($this->api == 3) {
+                $this->output->results = new stdClass();
+                $this->output->results->doctors = $this->doctors;
+                $this->output->results->hospital = $this->hospital;
+            }
+            else {
+                $this->output->results = $this->doctors;
+            }
         }
     }
 
@@ -57,9 +64,9 @@ class ApiViewDoctorSearch extends EApiViewService {
     }
 
     private function setDoctors(array $models) {
-        $this->hospital = array();
+        $hospital = array();
         foreach ($models as $model) {
-            $this->hospital[$model->getHospitalId()] = $model->getHospitalName();
+            $hospital[$model->getHospitalId()] = $model->getHospitalName();
             
             $data = new stdClass();
             $data->id = $model->getId();
@@ -76,7 +83,14 @@ class ApiViewDoctorSearch extends EApiViewService {
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/contractdoctor/' . $model->getId());
             $this->doctors[] = $data;
         }
-        ksort($this->hospital);
+        ksort($hospital);
+        
+        foreach ($hospital as $id => $h) {
+            $data = new stdClass();
+            $data->id = $id;
+            $data->name = $h;
+            $this->hospital[] = $data;
+        }
     }
 
     private function loadDoctorCount() {

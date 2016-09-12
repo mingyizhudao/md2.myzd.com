@@ -2,7 +2,7 @@
 $this->setPageTitle('搜索');
 $urlAjaxSearch = $this->createUrl('patient/ajaxSearch');
 $urlPatientView = $this->createUrl('patient/view', array('id' => ''));
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
 <nav id="patientSearchView_nav" class="header-secondary">
     <div class="w100 pl10 pr10 grid">
@@ -25,6 +25,7 @@ $this->show_footer=false;
             if (searchName == '') {
                 J.showToast('请输入患者姓名', '', '1000');
             } else {
+                J.showMask();
                 $.ajax({
                     url: '<?php echo $urlAjaxSearch; ?>?name=' + searchName,
                     success: function (data) {
@@ -32,6 +33,9 @@ $this->show_footer=false;
                         var returnData = do_decrypt(structureData, privkey);
                         returnData = analysis_data(returnData);
                         readyPage(returnData);
+                    },
+                    error: function () {
+                        J.hideMask();
                     }
                 });
             }
@@ -74,6 +78,7 @@ $this->show_footer=false;
             }
             html += '</div>';
             $('#searchView_article').html(html);
+            J.hideMask();
         }
     });
 </script>
