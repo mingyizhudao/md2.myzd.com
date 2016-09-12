@@ -3,7 +3,7 @@
  * $model DoctorForm.
  */
 $this->setPageID('pPersonalCenter');
-$this->setPageTitle('个人信息');
+$this->setPageTitle('基本信息');
 $urlDoctorProfile = $this->createUrl('doctor/profile', array('addBackBtn' => 1));
 $doctorInfo = $data->results->doctorInfo;
 $this->show_footer=false;
