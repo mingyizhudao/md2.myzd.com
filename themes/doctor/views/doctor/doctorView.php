@@ -367,9 +367,6 @@
 
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
-                <header class="bg-green">
-                    <h1 class="title">医生</h1>
-                </header>
                 <footer id="doctorSubmitBtn" class="bg-green color-white">
                     <div class="text-center">
                         继续填写手术信息
@@ -417,7 +414,7 @@
                                         <div id="hospital_name">
                                             <?php
                                             if ($model->hospital_name == '') {
-                                                echo '选择您的执业医院';
+                                                echo '<span class="color-gray">选择您的执业医院</span>';
                                             } else {
                                                 echo $model->hospital_name;
                                             }
@@ -433,7 +430,7 @@
                                         <div id="cat_name">
                                             <?php
                                             if ($model->cat_name == '') {
-                                                echo '选择您的专业';
+                                                echo '<span class="color-gray">选择您的专业</span>';
                                             } else {
                                                 echo $model->cat_name;
                                             }
@@ -446,15 +443,13 @@
                                         医疗职称
                                     </div>
                                     <div class="col-1">
-                                        <!-- <input type="text" class="" placeholder="选择您的医疗职称"> -->
-                                        <select id="onselect2">
-                                            <option value=""></option>
-                                            <?php
-                                            foreach (($model->options_c_title) as $key => $value) {
-                                                echo '<option value="' . $key . '">' . $value . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <?php
+                                        echo $form->dropDownList($model, 'clinic_title', $model->loadOptionsClinicalTitle(), array(
+                                            'name' => 'DoctorForm[clinic_title]',
+                                            'prompt' => '选择您的医疗职称',
+                                            'class' => '',
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="grid">
@@ -462,16 +457,13 @@
                                         教学职称
                                     </div>
                                     <div class="col-1">
-                                        <!-- <input type="text" id="" class="" placeholder="选择您的教学职称"> -->
-                                        <!-- <label id="select1"> 选择您的医疗职称</label> -->
-                                        <select id="onselect1">
-                                            <option value=""></option>
-                                            <?php
-                                            foreach (($model->options_a_title) as $key => $value) {
-                                                echo '<option value="' . $key . '">' . $value . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <?php
+                                        echo $form->dropDownList($model, 'academic_title', $model->loadOptionsAcademicTitle(), array(
+                                            'name' => 'DoctorForm[academic_title]',
+                                            'prompt' => '选择您的教学职称',
+                                            'class' => '',
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                                 <?php

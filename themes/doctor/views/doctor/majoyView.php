@@ -203,9 +203,6 @@
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
                 <div id="one" class="">
-                    <header class="bg-green">
-                        <h1 class="title">医生</h1>
-                    </header>
                     <footer class="bg-white">
                         <div id="complete" class="w100 bg-green color-white text-center">
                             <div>填写完成</div>
@@ -420,7 +417,7 @@
                     var diseaseList = subcatList[i].diseaseList;
                     subCatName = subcatList[i].subCatName;
                     commonDisease += '<div class="pad10 bg-gray3">常见疾病</div><ul class="list">';
-                    allDisease += '<div class="pad10 bg-gray3">全部</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
+                    allDisease += '<div class="pad10 bg-gray3">全部疾病</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
                             if (diseaseList[j].isCommon == 1) {
@@ -464,19 +461,17 @@
             diseaseData = false;
             J.hideMask();
 
-            alert('请根据您对手术的擅长程度按顺序选择');
-
-//            J.customConfirm('',
-//                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
-//                    '<a id="closeLogout" class="w100">我知道了</a>',
-//                    '',
-//                    function () {
-//                    },
-//                    function () {
-//                    });
-//            $('#closeLogout').click(function () {
-//                J.closePopup();
-//            });
+            J.customConfirm('',
+                    '<div class="mt10 mb10">请根据您对疾病的擅长程度按顺序选择</div>',
+                    '<a id="closeLogout" class="w100">我知道了</a>',
+                    '',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#closeLogout').click(function () {
+                J.closePopup();
+            });
         }
 
         //选择疾病
@@ -630,11 +625,13 @@
         $('#searchDisease').click(function () {
             $('#two').addClass('hide');
             $('#three').removeClass('hide');
+            $('input[name="searchName"]').trigger('click');
         });
         //返回
         $('#backDisease').click(function () {
             $('#three').addClass('hide');
             $('#two').removeClass('hide');
+            $('#three').find('.icon_clear').trigger('click');
         });
         //搜索
         $('input[name="searchName"]').on('input', function (e) {
@@ -732,7 +729,7 @@
                     var surgeryList = subcatList[i].surgeryList;
                     if (surgeryList.length > 0) {
                         commonOperation += '<div class="pad10 bg-gray3">常见术式</div><ul class="list">';
-                        allOperation += '<div class="pad10 bg-gray3">全部</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
+                        allOperation += '<div class="pad10 bg-gray3">全部术式</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
                         for (var j = 0; j < surgeryList.length; j++) {
                             if (surgeryList[j].isCommon == 1) {
                                 commonBool = true;
@@ -766,6 +763,17 @@
             operationSelected(1);
             operationData = false;
             J.hideMask();
+            J.customConfirm('',
+                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
+                    '<a id="closeLogout" class="w100">我知道了</a>',
+                    '',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#closeLogout').click(function () {
+                J.closePopup();
+            });
         }
 
         //选择手术、当前id
@@ -852,7 +860,7 @@
                         '开放' +
                         '</li>' +
                         '<li class="grid methodLi ' + methodActiveTwo + '" data-id="2">' +
-                        '控镜' +
+                        '腔镜' +
                         '</li>' +
                         '<li class="grid methodLi ' + methodActiveThree + '" data-id="3">' +
                         '机器人' +
@@ -878,14 +886,20 @@
                             var innerHtml = '<div>' +
                                     '<div class="pad10 bg-green color-white">完成手术例数</div>' +
                                     '<ul class="list">' +
-                                    '<li class="grid numLi" data-num="10,20">' +
-                                    '10-20' +
+                                    '<li class="grid numLi" data-num="0,100">' +
+                                    '0-100' +
                                     '</li>' +
-                                    '<li class="grid numLi" data-num="20,50">' +
-                                    '20-50' +
+                                    '<li class="grid numLi" data-num="100,500">' +
+                                    '100-500' +
                                     '</li>' +
-                                    '<li class="grid numLi" data-num="50,100">' +
-                                    '50-100' +
+                                    '<li class="grid numLi" data-num="500,1000">' +
+                                    '500-1000' +
+                                    '</li>' +
+                                    '<li class="grid numLi" data-num="1000,2000">' +
+                                    '1000-2000' +
+                                    '</li>' +
+                                    '<li class="grid numLi" data-num="2000,∞">' +
+                                    '>2000' +
                                     '</li>' +
                                     '</ul>' +
                                     '</div>';
@@ -920,7 +934,7 @@
                                         '开放' +
                                         '</li>' +
                                         '<li class="grid methodLi ' + methodTwo + '" data-id="2">' +
-                                        '控镜' +
+                                        '腔镜' +
                                         '</li>' +
                                         '<li class="grid methodLi ' + methodThree + '" data-id="3">' +
                                         '机器人' +
@@ -1106,6 +1120,7 @@
         $('#backOperation').click(function () {
             $('#five').addClass('hide');
             $('#four').removeClass('hide');
+            $('#five').find('.icon_clear').trigger('click');
         });
 
         //搜索
