@@ -17,11 +17,9 @@ $(function () {
             }, 1500);
             return;
         }
-        if ($('input[name="BasicInfoForm[email]"]').val() == '') {
-            $('input[name="BasicInfoForm[email]"]').val(' ');
-        }
         var bool = validator.form();
         if (bool) {
+            $('#formEmail').val($('#BasicInfoForm_email').val());
             formAjaxSubmit();
         }
     });
