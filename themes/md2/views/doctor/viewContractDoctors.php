@@ -107,8 +107,7 @@ if ($source == 1) {
         $.ajax({
             url: requestState,
             success: function (data) {
-                 console.log('b',data);
-                $stateHtml = readyState(data);
+               $stateHtml = readyState(data);
             },
             error: function (data) {
                 console.log(data);
@@ -125,8 +124,7 @@ if ($source == 1) {
         $.ajax({
             url: urlloadDiseaseCategory,
             success: function (data) {
-                console.log('a',data);
-                $deptHtml = readyDept(data);
+               $deptHtml = readyDept(data);
             }
         });
 
