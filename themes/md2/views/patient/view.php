@@ -7,36 +7,40 @@ $this->setPageTitle('患者详情');
 $user = $this->loadUser();
 $patientInfo = $data->results->patientInfo;
 $addBooking = Yii::app()->request->getQuery('addBooking', '1');
+$id = Yii::app()->request->getQuery('id', '');
+$urlSubmit = $this->createUrl('doctor/addDisease');
 $urlUpdatePatientMR = $this->createUrl('patient/updatePatientMR', array('id' => $patientInfo->id, 'addBackBtn' => 1));
 $urlUploadMRFile = $this->createUrl('patient/uploadMRFile', array('id' => $patientInfo->id, 'type' => 'update', 'addBackBtn' => 1));
 $urlPatientFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientInfo->id . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientInfo->id ? $patientInfo->id : 0));
 $urlPatientBookingCreate = $this->createUrl('patientbooking/create', array('pid' => $patientInfo->id, 'addBackBtn' => 1));
 $this->show_footer = false;
 ?>
+<style>
+     .bb1-gray{border-bottom: 10px solid #dfdfdf;}
+     .font-hs1{color: #B8B8B8;}
+     #jingle_popup{top:0px!important;}
+     .dv>img{height: 27px!important;}
+     .word-wrap{word-wrap:break-word;}
+</style>
 <?php
 if ($addBooking == 1) {
     ?>
     <footer class='bg-white'>
-        <button id='patientBookingCreate' class="btn btn-block bg-green">创建就诊信息</button>
+        <button id='patientBookingCreate' class="btn btn-block bg-green">继续创建</button>
     </footer>
 <?php }
 ?>
-<article id="patientView_article" class="active" data-scroll="true">
-    <div class="pad10">
-        <div class="border-gray bg-white br8 mb20">
-            <div class="grid pl10 pr10 pt5 pb5 color-green bb-gray">
-                <div class="col-1">患者资料</div>
-                <div class="col-0">
-                    <img src="http://static.mingyizhudao.com/146364052256387" class="w24p">
-                </div>
-            </div>
-            <div class="grid pad10 bb-gray">
+<article  class="active" data-scroll="true">
+    <div class="pt10 pb10">
+        <div class=" bg-white  mb20">
+            
+            <div class="grid pb10 pl20 pr20 bb-gray">
                 <div class="col-1 w30">患者姓名</div>
                 <div class="col-1 w70 text-right"><?php echo $patientInfo->name; ?></div>
             </div>
             <div class="grid pad10 bb-gray">
-                <div class="col-1 w30">联系方式</div>
-                <div class="col-1 w70 text-right"><?php echo $patientInfo->mobile; ?></div>
+                <div class="col-1 pl10 w30">联系方式</div>
+                <div class="col-1 pr10 w70 text-right"><?php echo $patientInfo->mobile; ?></div>
             </div>
             <?php
             $yearly = $patientInfo->age;
@@ -56,31 +60,40 @@ if ($addBooking == 1) {
             }
             ?>
             <div class="grid pad10 bb-gray">
-                <div class="col-1 w30">患者年龄</div>
-                <div class="col-1 w70 text-right"><?php echo $yearlyText . $monthly; ?></div>
+                <div class="col-1 pl10 w30">患者年龄</div>
+                <div class="col-1 pr10 w70 text-right"><?php echo $yearlyText . $monthly; ?></div>
+            </div>
+            <div class="grid pad10 bb1-gray">
+                <div class="col-1 pl10 w30">所在城市</div>
+                <div class="col-1 w70 pr10 text-right"><?php echo $patientInfo->cityName; ?></div>
             </div>
             <div class="grid pad10 bb-gray">
-                <div class="col-1 w30">所在城市</div>
-                <div class="col-1 w70 text-right"><?php echo $patientInfo->cityName; ?></div>
-            </div>
-            <div class="grid pad10 bb-gray">
-                <div class="col-1 w30">疾病名称</div>
-                <div class="col-1 w70 text-right"><?php echo $patientInfo->diseaseName; ?></div>
-            </div>
-            <div class="pad10 bb-gray">
-                <div>疾病描述</div>
-                <div class="mt5"><?php echo $patientInfo->diseaseDetail; ?></div>
+                <div class="col-1 w30 pl10">疾病名称</div>
+                <!-- <div class="col-1 w70 text-right"><?php echo $patientInfo->diseaseName; ?></div> -->
+                 <?php if($patientInfo->diseaseDetail==''){?>
+                <div class="col-1 w70 pr10 text-right font-hs1">未选择</div>
+                <?php }else{?>
+                <div class="col-1 w70 pr10 text-right "><?php echo $patientInfo->diseaseName; ?></div>
+                <?php }?>
             </div>
             <div class="pad10 bb-gray">
-                <div>影像资料</div>
-                <div class="imglist">
-                </div>
+                
+                <?php if($patientInfo->diseaseDetail==''){?>
+                <div class="text-center  font-hs1 ">暂没填写疾病描述</div>
+               <?php }else{?>
+               <div class="mt5 pl10 font-hs1 word-wrap"><?php echo $patientInfo->diseaseDetail; ?></div>
+               <?php }?>
             </div>
-            <div>
+            <div class="pad10">
+              <div class=" pl10 pr10 imglist ">
+              </div>
+            </div>
+            
+            <!-- <div>
                 <a href="<?php echo $urlUploadMRFile; ?>" data-target="link">
                     <div class="color-green pad5 text-center">点击编辑</div>
                 </a>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -96,19 +109,33 @@ if ($addBooking == 1) {
         });
         $('#patientBookingCreate').tap(function () {
             sessionStorage.removeItem('intention');
-            location.href = '<?php echo $urlPatientBookingCreate; ?>';
+            var diseaseName='<?php echo $patientInfo->diseaseName?>';
+            var diseaseDetail='<?php echo $patientInfo->diseaseDetail?>';
+            if(diseaseDetail==''&&diseaseName==''){
+              location.href = '<?php echo $urlSubmit.'?id='.$id; ?>'+'&returnUrl';
+           }
+            else if(_imgfiles==''){
+                location.href = '<?php echo $urlUploadMRFile ; ?>';
+              }
+            else {
+               location.href = '<?php echo $urlPatientBookingCreate; ?>';
+            }
         });
     });
     function ajaxPatientFiles() {
         urlPatientFiles = "<?php echo $urlPatientFiles; ?>";
+        
         $.ajax({
             url: urlPatientFiles,
             success: function (data) {
+              
                 setImgHtml(data.results.files);
             }
         });
     }
+    var _imgfiles = '';
     function setImgHtml(imgfiles) {
+        _imgfiles = imgfiles;
         var innerHtml = '';
         var uiBlock = '';
         if (imgfiles && imgfiles.length > 0) {
@@ -126,7 +153,16 @@ if ($addBooking == 1) {
             }
         } else {
             var url = $('.imgUrl').attr('href');
-            innerHtml += '<div class="pad10 color-red1">暂未上传该患者的影像资料</div>';
+            innerHtml +='<div class="grid">'+
+                    '<div class="col-0 pad10 dv"style="width:20%;border:1px dashed #bbb;">'+
+                      '<img src="http://static.mingyizhudao.com/147365088158978">' + 
+                    '</div>'+
+                    '<div class="col-1 font-hs1">'+
+                       '<div>暂无影像资料</div>'+
+                        '<div>您可以在提交后在订单详情里补充</div>'+
+                    '</div>'+
+                '</div>';
+                    
         }
         $(".imglist").html(innerHtml);
         $('.btn_alert').tap(function () {

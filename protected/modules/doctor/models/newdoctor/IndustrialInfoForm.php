@@ -79,7 +79,6 @@ class IndustrialInfoForm extends EFormModel {
             StatCode::DR_A_TITLE_PROF_ASSOC => '副教授',
             '3'=>'讲师',
             '4'=>'助教',
-            StatCode::DR_A_TITLE_NONE => '无',
         );
     }
 
