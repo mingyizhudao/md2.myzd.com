@@ -1,7 +1,7 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.5.js', CClientScript::POS_END);
-?>                                        
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.7.js', CClientScript::POS_END);
+?>                                                                               
 <?php
 $this->setPageTitle('签约专家');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
@@ -23,6 +23,7 @@ $this->show_footer = false;
     #jingle_popup{
         text-align: inherit;
     }
+    .activeIcon{background: url('http://static.mingyizhudao.com/146729114401744') no-repeat;background-size: 3px 21px;background-position-y:15px; }
 </style>
 <?php
 $navTop = 'top0p';
@@ -99,23 +100,14 @@ if ($source == 1) {
             }
         });
 
-        //ajax异步加载科室
-        $deptHtml = '';
-        var urlloadDiseaseCategory = '<?php echo $urlDept; ?>';
-        $.ajax({
-            url: urlloadDiseaseCategory,
-            success: function (data) {
-                $deptHtml = readyDept(data);
-            }
-        });
-
+        
         //ajax异步加载地区
         $stateHtml = '';
         var requestState = '<?php echo $urlState; ?>';
         $.ajax({
             url: requestState,
             success: function (data) {
-
+                 console.log('b',data);
                 $stateHtml = readyState(data);
             },
             error: function (data) {
@@ -125,9 +117,23 @@ if ($source == 1) {
         //ajax 异步加载医院
          // $hospital='';
         
+           $deptId='';
+           deptId='';
+        //ajax异步加载科室
+        $deptHtml = '';
+        var urlloadDiseaseCategory = '<?php echo $urlDept; ?>';
+        $.ajax({
+            url: urlloadDiseaseCategory,
+            success: function (data) {
+                console.log('a',data);
+                $deptHtml = readyDept(data);
+            }
+        });
 
-        function readyDept(data) {
+         function readyDept(data) {
             var results = data.results;
+
+            
             var innerHtml = '';
             if ('<?php echo $source; ?>' == 1) {
                 innerHtml += '<div class="color-black" style="margin-top:93px;height:315px;" data-scroll="true">';
@@ -136,13 +142,19 @@ if ($source == 1) {
             }
             innerHtml += '<ul class="list">';
             if (results.length > 0) {
+                var deptId = $('#deptTitle').attr('data-dept');
+                
                 for (var i = 0; i < results.length; i++) {
+                    // if(deptId==results[i].id){
+                    //   innerHtml += '<li class="cDept activeIcon" data-dept="' + results[i].id + '">' + results[i].name + '</li>';   
+                    // }
                     innerHtml += '<li class="cDept" data-dept="' + results[i].id + '">' + results[i].name + '</li>';
                 }
             }
             innerHtml += '</ul></div></div>';
             return innerHtml;
         }
+
 
         function readyState(data) {
             var stateList = data.results.stateList;
@@ -155,7 +167,13 @@ if ($source == 1) {
             innerHtml += '<ul class="list">'
                     + '<li class="state" data-state="">全部</li>';
             for (var s in stateList) {
+                var stateId = $('#stateTitle').attr('data-state');
+               // if(stateId==stateList[s]){
+               //  innerHtml += '<li class="state activeIcon" data-state="' + s + '">' + stateList[s] + '</li>';
+               // }else{
                 innerHtml += '<li class="state" data-state="' + s + '">' + stateList[s] + '</li>';
+               // }
+                
             }
             innerHtml += '</ul></div>';
             return innerHtml;
