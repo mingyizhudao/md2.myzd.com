@@ -507,6 +507,13 @@ class ApimdController extends Controller {
                     $output = $userMgr->ApiCreateCard($values);
                 }
                 break;
+            case 'deletedoctorpatient'://根据ids逻辑删除患者
+                if (isset($post['patient_ids'])) {
+                    $user = $this->userLoginRequired($post);
+                    $apiSvc = new ApiViewDeletePatientByIds($post['patient_ids']);
+                    $output = $apiSvc->loadApiViewData();
+                }
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();

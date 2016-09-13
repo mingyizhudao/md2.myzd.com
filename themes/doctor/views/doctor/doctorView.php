@@ -357,7 +357,7 @@
                     </div>
                 </div>
                 <div class="p10">
-                    <h5>全国医院列表</h5>
+                    <h5>医院列表</h5>
                     <ul id="hospital-list" class="hospital-list">
                         <li>搜索中...</li> 
                     </ul>
@@ -447,7 +447,7 @@
                                         echo $form->dropDownList($model, 'clinic_title', $model->loadOptionsClinicalTitle(), array(
                                             'name' => 'DoctorForm[clinic_title]',
                                             'prompt' => '选择您的医疗职称',
-                                            'class' => '',
+                                            'class' => $model->clinic_title == null ? 'color-gray' : '',
                                         ));
                                         ?>
                                     </div>
@@ -461,7 +461,7 @@
                                         echo $form->dropDownList($model, 'academic_title', $model->loadOptionsAcademicTitle(), array(
                                             'name' => 'DoctorForm[academic_title]',
                                             'prompt' => '选择您的教学职称',
-                                            'class' => '',
+                                            'class' => $model->academic_title == null ? 'color-gray' : '',
                                         ));
                                         ?>
                                     </div>
@@ -480,6 +480,15 @@
                         $('#jingle_loading.initLoading').remove();
                         $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
+                        //select默认灰色、选中黑色
+                        $('select').change(function () {
+                            var optionValue = $(this).val();
+                            if (optionValue == $(this).find('option:first').val()) {
+                                $(this).addClass('color-gray');
+                            } else {
+                                $(this).removeClass('color-gray');
+                            }
+                        });
                         //选择专业
                         $('#cat_name').click(function () {
                             var innerHtml = '<div id="major-layer" style="height:400px;" data-scroll="true">' +
@@ -672,8 +681,8 @@
                                 var _city = res.city ? res.city : res.province;
                                 getHospitalList(_city);
 //                                setCity(_city == '上海市' ? '上海' : _city);
-//                                setProvince(res.province);
-                                setCity(_city);
+                                setProvince(res.province.substr(0, _city.length - 1));
+                                setCity(_city.substr(0, _city.length - 1));
                             } else {
                                 //获取地址失败
                             }
@@ -699,7 +708,7 @@
                         var urlHospital = "<?php echo $urlHospital; ?>";
                         $.ajax({
                             type: 'get',
-                            url: urlHospital + '?name=' + cityname,
+                            url: urlHospital + '?cityname=' + cityname,
                             'success': function (data) {
                                 //console.log(data);
                                 if (data.status === true || data.status === 'ok') {
