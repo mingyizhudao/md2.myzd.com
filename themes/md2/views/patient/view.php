@@ -17,16 +17,15 @@ $this->show_footer = false;
 ?>
 <style>
      .bb1-gray{border-bottom: 10px solid #dfdfdf;}
-     .bgzhao{background: url("http://static.mingyizhudao.com/147365088158978") no-repeat;background-size: 37px 27px ;width: 40px;
-             position: relative;background-position: 11px 20px;}
-    .font-hs1{color: #B8B8B8;}
-    #jingle_popup{top:0px!important;}
+     .font-hs1{color: #B8B8B8;}
+     #jingle_popup{top:0px!important;}
+     .dv img{height: 27px!important;}
 </style>
 <?php
 if ($addBooking == 1) {
     ?>
     <footer class='bg-white'>
-        <button id='patientBookingCreate' class="btn btn-block bg-green">创建就诊信息</button>
+        <button id='patientBookingCreate' class="btn btn-block bg-green">继续创建</button>
     </footer>
 <?php }
 ?>
@@ -86,7 +85,7 @@ if ($addBooking == 1) {
             </div>
             <div class="pad10">
               <div class=" pl10 pr10 imglist ">
-             </div>
+              </div>
             </div>
             
             <!-- <div>
@@ -154,13 +153,16 @@ if ($addBooking == 1) {
         } else {
             var url = $('.imgUrl').attr('href');
             innerHtml +='<div class="grid">'+
-                        '<div class="col-0 bgzhao "style="border:1px dashed #bbb;width:20%;">'+
-                        '</div>'+
-                        '<div class="col-1 font-hs1">'+
-                            '<div>暂无影像资料</div>'+
-                            '<div>您可以在提交后在订单详情里补充</div>'+
-                        '</div>'+
-                    '</div>';
+                    '<div class="col-0"style="width:20%;border:1px dashed #bbb;">'+
+                        '<div class=" pad10 dv">'+
+                            '<img src="http://static.mingyizhudao.com/147365088158978">'+
+                        '</div> '+ 
+                    '</div>'+
+                    '<div class="col-1 font-hs1">'+
+                       '<div>暂无影像资料</div>'+
+                        '<div>您可以在提交后在订单详情里补充</div>'+
+                    '</div>'+
+                '</div>';
                     
         }
         $(".imglist").html(innerHtml);
