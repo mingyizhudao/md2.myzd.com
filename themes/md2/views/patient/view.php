@@ -19,7 +19,8 @@ $this->show_footer = false;
      .bb1-gray{border-bottom: 10px solid #dfdfdf;}
      .font-hs1{color: #B8B8B8;}
      #jingle_popup{top:0px!important;}
-     .dv img{height: 27px!important;}
+     .dv>img{height: 27px!important;}
+     .word-wrap{word-wrap:break-word;}
 </style>
 <?php
 if ($addBooking == 1) {
@@ -78,9 +79,9 @@ if ($addBooking == 1) {
             <div class="pad10 bb-gray">
                 
                 <?php if($patientInfo->diseaseDetail==''){?>
-                <div class="text-center  font-hs1">暂没填写疾病描述</div>
+                <div class="text-center  font-hs1 ">暂没填写疾病描述</div>
                <?php }else{?>
-               <div class="mt5 pl10 font-hs1 pr10"><?php echo $patientInfo->diseaseDetail; ?></div>
+               <div class="mt5 pl10 font-hs1 word-wrap"><?php echo $patientInfo->diseaseDetail; ?></div>
                <?php }?>
             </div>
             <div class="pad10">
@@ -153,10 +154,8 @@ if ($addBooking == 1) {
         } else {
             var url = $('.imgUrl').attr('href');
             innerHtml +='<div class="grid">'+
-                    '<div class="col-0"style="width:20%;border:1px dashed #bbb;">'+
-                        '<div class=" pad10 dv">'+
-                            '<img src="http://static.mingyizhudao.com/147365088158978">'+
-                        '</div> '+ 
+                    '<div class="col-0 pad10 dv"style="width:20%;border:1px dashed #bbb;">'+
+                      '<img src="http://static.mingyizhudao.com/147365088158978">' + 
                     '</div>'+
                     '<div class="col-1 font-hs1">'+
                        '<div>暂无影像资料</div>'+
