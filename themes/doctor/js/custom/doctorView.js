@@ -43,7 +43,7 @@ jQuery(function () {
             }, 1500);
             return;
         }
-        if ($('#onselect2').val() == '') {
+        if ($('select[name="DoctorForm[clinic_title]"]').val() == '') {
             $('#jingle_toast').find('a').text('请选择您的医疗职称');
             $('#jingle_toast').show();
             setTimeout(function () {
@@ -51,7 +51,7 @@ jQuery(function () {
             }, 1500);
             return;
         }
-        if ($('#onselect1').val() == '') {
+        if ($('select[name="DoctorForm[academic_title]"]').val() == '') {
             $('#jingle_toast').find('a').text('请选择您的教学职称');
             $('#jingle_toast').show();
             setTimeout(function () {

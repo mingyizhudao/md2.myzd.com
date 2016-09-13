@@ -61,18 +61,17 @@ class Manager {
                 $output['status'] = 'ok';
                 $output['id'] = $doctorId;
             } catch (CDbException $e) {
-                $output['errors'] = '网络连接异常';
+                $output['errors'] = $e->getMessage();
                 $dbTran->rollback();
-                throw new CHttpException($e->getMessage());
+              
             } catch (CException $e) {
                 $output['errors'] = '网络连接异常';
                 $dbTran->rollback();
-                Yii::log("database table new_disease_doctor_join jdbc: " . $e->getMessage(), CLogger::LEVEL_ERROR, __METHOD__);
-                throw new CHttpException($e->getMessage());
             }
         } else {
             $output['errors'] = 'miss data..';
         }
+        
         return $output;
     }
 

@@ -3,7 +3,7 @@
  * $model DoctorForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('我的账户');
+$this->setPageTitle('个人信息');
 $urlDoctorInfo = $this->createUrl('doctor/doctorInfo', array('addBackBtn' => 1));
 $urlUploadCert = $this->createUrl('doctor/uploadCert', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
@@ -24,7 +24,7 @@ $this->show_footer=false;
                     <div class="grid font-type">
                         <div class="col-0 w20 color-000 text-center" data-icon="user"></div>
                         <div class="col-0 w40 text-left">
-                            个人信息
+                            基本信息
                         </div>
                         <div class="col-0 ml20"></div>
                     </div>

@@ -24,12 +24,12 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
 ?>
 <article id="doctorView_article" class="active" data-scroll="true" data-active="center_footer">
     <div class="">
-        <div class="bg-green">
+        <div class="bg-green" id="userCenter">
             <div class="pad20 grid">
                 <div class="col-0 w77p">
                     <img src="http://static.mingyizhudao.com/146968490433527">
                 </div>
-                <div class="col-1 color-white pl20 grid">
+                <div class="col-1 color-white pl20 grid" >
                     <div class="col-1">
                         <div class="pt10">
                             您好!<?php echo $user->results->userInfo->name; ?>
@@ -48,7 +48,7 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
                             ?>
                         </div>
                     </div>
-                    <div id="userCenter" class="col-0 w15p grid middle">
+                    <div  class="col-0 w15p grid middle">
                         <img src="http://static.mingyizhudao.com/146967375501082" class="w8p">
                     </div>
                 </div>

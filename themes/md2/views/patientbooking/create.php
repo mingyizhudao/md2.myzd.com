@@ -134,7 +134,7 @@ $this->show_footer=false;
                     echo $form->textArea($model, 'detail', array(
                         'name' => 'booking[detail]',
                         'maxlength' => 1000,
-                        'rows' => '6',
+                        'rows' => '4',
                         'placeholder' => '如果有其他说明，请在此补充',
                         'class' => 'noPadding'
                     ));
