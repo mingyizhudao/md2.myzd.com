@@ -277,6 +277,22 @@
             white-space: nowrap;
             width: 100%;
         }
+        .select-area{
+            position: relative;
+        }
+        .select-area .select-value{
+            display:inline-block;
+            padding: 10px 0px;
+            width: 100%;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .select-area select{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -442,12 +458,12 @@
                                     <div class="col-0 w80p pt10">
                                         医疗职称
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-1 select-area">
+                                        <div class="color-gray select-value"></div>
                                         <?php
                                         echo $form->dropDownList($model, 'clinic_title', $model->loadOptionsClinicalTitle(), array(
                                             'name' => 'DoctorForm[clinic_title]',
-                                            'prompt' => '选择您的医疗职称',
-                                            'class' => $model->clinic_title == null ? 'color-gray' : '',
+                                            'data-text' => $model->clinic_title == null ? '' : $model->clinic_title,
                                         ));
                                         ?>
                                     </div>
@@ -456,12 +472,12 @@
                                     <div class="col-0 w80p pt10">
                                         教学职称
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-1 select-area">
+                                        <div class="color-gray select-value"></div>
                                         <?php
                                         echo $form->dropDownList($model, 'academic_title', $model->loadOptionsAcademicTitle(), array(
                                             'name' => 'DoctorForm[academic_title]',
-                                            'prompt' => '选择您的教学职称',
-                                            'class' => $model->academic_title == null ? 'color-gray' : '',
+                                            'data-text' => $model->academic_title == null ? '' : $model->academic_title,
                                         ));
                                         ?>
                                     </div>
@@ -481,13 +497,27 @@
                         $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
                         //select默认灰色、选中黑色
-                        $('select').change(function () {
-                            var optionValue = $(this).val();
-                            if (optionValue == $(this).find('option:first').val()) {
-                                $(this).addClass('color-gray');
-                            } else {
+                        $(".select-area .select-value").each(function () {
+                            if ($(this).next("select").attr('data-text') != '') {
                                 $(this).removeClass('color-gray');
+                                $(this).text($(this).next("select").find("option:selected").text());
+                            } else {
+                                $(this).text('选择您的医疗职称');
                             }
+                        });
+                        $('.select-area select').click(function () {
+                            var value = $(this).find("option:selected").text();
+                            var selecteValue = $(this).parent('.select-area').find('.select-value');
+                            if (selecteValue.text() == '选择您的医疗职称') {
+                                selecteValue.removeClass('color-gray');
+                                selecteValue.text(value);
+                            }
+                        });
+                        $('.select-area select').change(function () {
+                            var value = $(this).find("option:selected").text();
+                            var selecteValue = $(this).parent('.select-area').find('.select-value');
+                            selecteValue.removeClass('color-gray');
+                            selecteValue.text(value);
                         });
                         //选择专业
                         $('#cat_name').click(function () {
