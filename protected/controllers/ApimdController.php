@@ -413,10 +413,14 @@ class ApimdController extends Controller {
             case 'questionnaire'://问卷调查
                 if(isset($post['questionnaire'])) {
                     $user = $this->userLoginRequired($post['questionnaire']);
+
+                    $hz_values = $post['questionnaire']['hz'];
+                    $zz_values = $post['questionnaire']['zz'];
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
+
                     $doctorMgr = new MDDoctorManager();
-                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
-                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
+                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
