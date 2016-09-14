@@ -14,7 +14,7 @@
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.0.css');
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/custom.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/custom.min.1.0.js', CClientScript::POS_END);
@@ -41,7 +41,7 @@
             padding: 10px 0px!important;
         }
         .genderIcon{
-            width: 24px;
+            width: 20px;
             text-align: center;
         }
         .genderIcon.active{
@@ -140,6 +140,20 @@
         #datePicker{
             background-color: #fff;
         }
+        input[type="date"]::-webkit-clear-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        input[type="date"]::-webkit-inner-spin-button { 
+            -webkit-appearance: none;
+            display: none;
+        }
+        input[type="date"]::-ms-clear {
+            display: none;
+        }
+        ::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -177,6 +191,7 @@
                         <input type="hidden" name="BasicInfoForm[gender]" value="<?php echo $model->gender == null ? '0' : $model->gender; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_domain]" value="<?php echo $model->remote_domain; ?>"/>
                         <input type="hidden" name="BasicInfoForm[remote_file_key]" value="<?php echo $model->remote_file_key; ?>"/>
+                        <input type="hidden" name="BasicInfoForm[email]" id="formEmail" value=""/>
                         <div class="nav-crumbs">
                             <span>1</span>
                             个人信息
@@ -267,6 +282,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php $this->endWidget(); ?>
                         <div class="inputBorder">
                             <div class="grid">
                                 <div class="col-0 w80p pt7">
@@ -277,7 +293,6 @@
                                 </div>
                             </div>
                         </div>
-                        <?php $this->endWidget(); ?>
                     </div>
                 </article>
                 <script>
@@ -296,7 +311,7 @@
                         if ($birthday) {
                             $('#datePicker').val($birthday);
                         } else {
-                            $('#datePicker').val('1955-01-01');
+                            $('#datePicker').val('1965-01-01');
                         }
                     });
                 </script>
