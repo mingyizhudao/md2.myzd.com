@@ -19,8 +19,9 @@ $this->show_footer = false;
      .bb1-gray{border-bottom: 10px solid #dfdfdf;}
      .font-hs1{color: #B8B8B8;}
      #jingle_popup{top:0px!important;}
-     .dv>img{height: 27px!important;}
+     .bgzhaox{background: url('http://static.mingyizhudao.com/147376003163011') no-repeat;background-size: 65px 72px;}
      .word-wrap{word-wrap:break-word;}
+     .lh72{line-height: 72px;}
 </style>
 <?php
 if ($addBooking == 1) {
@@ -86,6 +87,7 @@ if ($addBooking == 1) {
             </div>
             <div class="pad10">
               <div class=" pl10 pr10 imglist ">
+                    
               </div>
             </div>
             
@@ -154,14 +156,15 @@ if ($addBooking == 1) {
         } else {
             var url = $('.imgUrl').attr('href');
             innerHtml +='<div class="grid">'+
-                    '<div class="col-0 pad10 dv"style="width:20%;border:1px dashed #bbb;">'+
-                      '<img src="http://static.mingyizhudao.com/147365088158978">' + 
-                    '</div>'+
-                    '<div class="col-1 font-hs1">'+
-                       '<div>暂无影像资料</div>'+
-                        '<div>您可以在提交后在订单详情里补充</div>'+
-                    '</div>'+
-                '</div>';
+                       '<div class=" col-0 bgzhaox "style="width:72px;height:72px;">'+
+                       '</div>'+
+                       '<div class="col-1 font-hs1 vertical-center">'+
+                          '<div > '  +
+                            '<div >暂无影像资料</div>'+
+                            '<div>您可以在提交后在订单详情里补充</div>'+
+                          '</div>'+
+                        '</div>'+
+                    '</div>';
                     
         }
         $(".imglist").html(innerHtml);
