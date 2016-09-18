@@ -44,7 +44,7 @@ class ApimdController extends Controller {
                     'errorCode' => ErrorList::ERROR_NONE,
                     'errorMsg' => 'success',
                     'results' => array(
-                        'version' => '20170918',
+                        'version' => '20160918',
                         'localdataUrl' => Yii::app()->createAbsoluteUrl('/apimd/localdata'),
                     )
                 );
