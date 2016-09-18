@@ -15,7 +15,9 @@ $urlPatientFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $u
 $urlPatientBookingCreate = $this->createUrl('patientbooking/create', array('pid' => $patientInfo->id, 'addBackBtn' => 1));
 $this->show_footer = false;
 ?>
-
+<style>
+     #jingle_popup{top:0px!important;}
+</style>
 <?php
 if ($addBooking == 1) {
     ?>
