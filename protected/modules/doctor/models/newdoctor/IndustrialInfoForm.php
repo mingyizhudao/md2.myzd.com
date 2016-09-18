@@ -68,9 +68,18 @@ class IndustrialInfoForm extends EFormModel {
      */
     public function loadOptionsAcademicTitle() {
         if (is_null($this->options_a_title)) {
-            $this->options_a_title = StatCode::getOptionsAcademicTitle();
+            $this->options_a_title = $this->getOptionsAcademicTitle();
         }
         return $this->options_a_title;
+    }
+    
+    private  function getOptionsAcademicTitle() {
+        return array(
+            StatCode::DR_A_TITLE_PROF => '教授',
+            StatCode::DR_A_TITLE_PROF_ASSOC => '副教授',
+            '3'=>'讲师',
+            '4'=>'助教',
+        );
     }
 
     public function loadOptionsSubcat() {

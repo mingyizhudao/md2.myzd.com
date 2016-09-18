@@ -15,7 +15,7 @@
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.0.css');
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/custom.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/zepto.min.1.0.js', CClientScript::POS_HEAD);
-        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/common.min.1.0.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/common.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/main.min.1.0.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
         Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
@@ -277,6 +277,22 @@
             white-space: nowrap;
             width: 100%;
         }
+        .select-area{
+            position: relative;
+        }
+        .select-area .select-value{
+            display:inline-block;
+            padding: 10px 0px;
+            width: 100%;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .select-area select{
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+        }
     </style>
     <body>
         <div id="jingle_loading" style="display: block;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
@@ -331,13 +347,13 @@
                         <div>
                             <p>热门省份</p>
                             <ul class="hotCitiesList">
-                                <li>北京</li>
-                                <li>上海</li>
-                                <li>广州</li>
+                                <li data-id="1">北京</li>
+                                <li data-id="9">上海</li>
+                                <li data-id="19">广州</li>
                             </ul>
                             <p>全国省份</p>
                             <ul class="stateList">
-                                <li>上海</li>
+
                             </ul>
                         </div>
                     </div>
@@ -351,13 +367,13 @@
                             </ul>
                             <p>全国城市</p>
                             <ul class="cityList">
-                                <li>上海</li>
+
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="p10">
-                    <h5>全国医院列表</h5>
+                    <h5>医院列表</h5>
                     <ul id="hospital-list" class="hospital-list">
                         <li>搜索中...</li> 
                     </ul>
@@ -367,9 +383,6 @@
 
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
-                <header class="bg-green">
-                    <h1 class="title">医生</h1>
-                </header>
                 <footer id="doctorSubmitBtn" class="bg-green color-white">
                     <div class="text-center">
                         继续填写手术信息
@@ -417,7 +430,7 @@
                                         <div id="hospital_name">
                                             <?php
                                             if ($model->hospital_name == '') {
-                                                echo '选择您的执业医院';
+                                                echo '<span class="color-gray">选择您的执业医院</span>';
                                             } else {
                                                 echo $model->hospital_name;
                                             }
@@ -433,7 +446,7 @@
                                         <div id="cat_name">
                                             <?php
                                             if ($model->cat_name == '') {
-                                                echo '选择您的专业';
+                                                echo '<span class="color-gray">选择您的专业</span>';
                                             } else {
                                                 echo $model->cat_name;
                                             }
@@ -445,33 +458,28 @@
                                     <div class="col-0 w80p pt10">
                                         医疗职称
                                     </div>
-                                    <div class="col-1">
-                                        <!-- <input type="text" class="" placeholder="选择您的医疗职称"> -->
-                                        <select id="onselect2">
-                                            <option value=""></option>
-                                            <?php
-                                            foreach (($model->options_c_title) as $key => $value) {
-                                                echo '<option value="' . $key . '">' . $value . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                    <div class="col-1 select-area">
+                                        <div class="color-gray select-value"></div>
+                                        <?php
+                                        echo $form->dropDownList($model, 'clinic_title', $model->loadOptionsClinicalTitle(), array(
+                                            'name' => 'DoctorForm[clinic_title]',
+                                            'data-text' => $model->clinic_title == null ? '' : $model->clinic_title,
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="grid">
                                     <div class="col-0 w80p pt10">
                                         教学职称
                                     </div>
-                                    <div class="col-1">
-                                        <!-- <input type="text" id="" class="" placeholder="选择您的教学职称"> -->
-                                        <!-- <label id="select1"> 选择您的医疗职称</label> -->
-                                        <select id="onselect1">
-                                            <option value=""></option>
-                                            <?php
-                                            foreach (($model->options_a_title) as $key => $value) {
-                                                echo '<option value="' . $key . '">' . $value . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                    <div class="col-1 select-area">
+                                        <div class="color-gray select-value"></div>
+                                        <?php
+                                        echo $form->dropDownList($model, 'academic_title', $model->loadOptionsAcademicTitle(), array(
+                                            'name' => 'DoctorForm[academic_title]',
+                                            'data-text' => $model->academic_title == null ? '' : $model->academic_title,
+                                        ));
+                                        ?>
                                     </div>
                                 </div>
                                 <?php
@@ -488,6 +496,29 @@
                         $('#jingle_loading.initLoading').remove();
                         $('#jingle_loading_mask').remove();
                         ajaxLoadAllStates();
+                        //select默认灰色、选中黑色
+                        $(".select-area .select-value").each(function () {
+                            if ($(this).next("select").attr('data-text') != '') {
+                                $(this).removeClass('color-gray');
+                                $(this).text($(this).next("select").find("option:selected").text());
+                            } else {
+                                $(this).text('选择您的医疗职称');
+                            }
+                        });
+                        $('.select-area select').click(function () {
+                            var value = $(this).find("option:selected").text();
+                            var selecteValue = $(this).parent('.select-area').find('.select-value');
+                            if (selecteValue.text() == '选择您的医疗职称') {
+                                selecteValue.removeClass('color-gray');
+                                selecteValue.text(value);
+                            }
+                        });
+                        $('.select-area select').change(function () {
+                            var value = $(this).find("option:selected").text();
+                            var selecteValue = $(this).parent('.select-area').find('.select-value');
+                            selecteValue.removeClass('color-gray');
+                            selecteValue.text(value);
+                        });
                         //选择专业
                         $('#cat_name').click(function () {
                             var innerHtml = '<div id="major-layer" style="height:400px;" data-scroll="true">' +
@@ -513,10 +544,18 @@
                         //选择职业医院
                         $('#hospital_name').click(function () {
                             $('#search_section').css('display', 'block');
-                            mapInit();
+                            if ($('#pick-city>span').text() == '选择城市') {
+                                mapInit();
+                            }
                         });
                         $('#btn-back-search').click(function () {
                             $('#search_section').css('display', 'none');
+                            if ($('#pick-province-layer').css('display') == 'block') {
+                                $('#pick-province').trigger('click');
+                            }
+                            if ($('#pick-city-layer').css('display') == 'block') {
+                                $('#pick-city').trigger('click');
+                            }
                         });
 
                         $('#pick-province').click(function () {
@@ -553,11 +592,13 @@
                             $('#pick-city-layer').css('display', 'none');
                         });
                         $('.hotCitiesList>li').click(function () {
-                            $('#pick-province').find('img').attr('src', 'http://static.mingyizhudao.com/146735870119173');
-                            var cityName = $(this).text();
-                            $('#pick-province>span').text(cityName);
-                            $('#pick-city>span').text(cityName);
-                            getHospitalList(cityName);
+                            var statId = $(this).attr('data-id');
+                            $('#pick-province').find('span').attr('data-common', 1);
+                            $('#pick-province-layer ul.stateList>li').each(function () {
+                                if ($(this).attr('data-id') == statId) {
+                                    $(this).trigger('click');
+                                }
+                            });
                         });
                         //搜索医院
                         $('.searchInput').click(function () {
@@ -669,8 +710,9 @@
                                 var res = result.regeocode.addressComponent;
                                 var _city = res.city ? res.city : res.province;
                                 getHospitalList(_city);
-                                setCity(_city == '上海市' ? '上海' : _city);
-                                setProvince(res.province);
+//                                setCity(_city == '上海市' ? '上海' : _city);
+                                setProvince(res.province.substr(0, _city.length - 1));
+                                setCity(_city.substr(0, _city.length - 1));
                             } else {
                                 //获取地址失败
                             }
@@ -696,7 +738,7 @@
                         var urlHospital = "<?php echo $urlHospital; ?>";
                         $.ajax({
                             type: 'get',
-                            url: urlHospital + '?name=' + cityname,
+                            url: urlHospital + '?cityname=' + cityname,
                             'success': function (data) {
                                 //console.log(data);
                                 if (data.status === true || data.status === 'ok') {
@@ -720,9 +762,9 @@
 
                     function reflashHospitalList(list) {
                         if (!list || !list.length) {
-                            return false
+                            $('#hospital-list').html('<li>未查询到</li>');
+                            return false;
                         }
-                        ;
                         var listHtml = '';
                         for (var i = 0; i < list.length; i++) {
                             var _li = '<li id="' + list[i].id + '">' + list[i].name + '</li>';
@@ -779,11 +821,17 @@
                     }
                     function setCitiesHtml(data) {
                         var innerHtml = '';
+                        var onlyOne = false;
                         if (data) {
                             for (var i = 0; i < data.length; i++) {
                                 var city = data[i];
                                 if (i == 0) {
-                                    $('#pick-city>span').text('选择城市');
+                                    if (data.length == 1) {
+                                        onlyOne = true;
+                                        $('#pick-city>span').text(data[0].name);
+                                    } else {
+                                        $('#pick-city>span').text('选择城市');
+                                    }
                                 }
                                 innerHtml += '<li data-id="' + city.id + '">' + city.name + '</li>';
                             }
@@ -795,6 +843,17 @@
                             $('#pick-city>span').text(cityname);
                             getHospitalList(cityname);
                         });
+                        if (onlyOne) {
+                            $('#pick-city-layer ul.cityList>li').first().trigger('click');
+                        } else {
+                            if ($('#pick-province').find('span').attr('data-common') == 1) {
+                                $('#pick-city-layer ul.cityList>li').each(function () {
+                                    if ($(this).attr('data-id') == 200) {
+                                        $(this).trigger('click');
+                                    }
+                                });
+                            }
+                        }
                     }
                 </script>
             </section>

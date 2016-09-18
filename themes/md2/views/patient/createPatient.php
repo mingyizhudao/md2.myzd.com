@@ -12,13 +12,13 @@ $this->setPageTitle('创建患者');
 $urlSavePatient = $this->createUrl('patient/savePatient');
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmit = $this->createUrl('patient/ajaxCreate');
-//$urlReturn = $this->createUrl('patient/uploadMRFile', array('type' => 'create'));
 $urlReturn = $this->createUrl('doctor/addDisease');
 $currentUrl = $this->getCurrentRequestUrl();
 $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
 $checkTeamDoctor = $teamDoctor;
+
 
 ?>
 <article class="active" data-scroll="true">
@@ -182,6 +182,8 @@ $checkTeamDoctor = $teamDoctor;
                 cache: false,
                 // dataType: "html",
                 'success': function (data) {
+                    // console.log(data);市的名称
+
                     $("select#patient_city_id").html(data);
                     // jquery mobile fix.
                     captionText = $("select#patient_city_id>option:first-child").text();

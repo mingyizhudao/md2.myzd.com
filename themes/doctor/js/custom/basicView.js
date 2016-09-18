@@ -19,6 +19,7 @@ $(function () {
         }
         var bool = validator.form();
         if (bool) {
+            $('#formEmail').val($('#BasicInfoForm_email').val());
             formAjaxSubmit();
         }
     });

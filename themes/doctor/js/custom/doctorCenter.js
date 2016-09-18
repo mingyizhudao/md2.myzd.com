@@ -13,7 +13,7 @@ $(function () {
         browse_button: 'pickfiles',
         container: 'container',
         drop_element: 'container',
-        max_file_size: '1000mb',
+        max_file_size: '100mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
@@ -37,7 +37,7 @@ $(function () {
         filters: {
             prevent_duplicates: true,
             mime_types: [
-                {title: "Image files", extensions: "jpg,gif,png"}
+                {title: "Image files", extensions: "bmp,jpg,gif,png,jpeg"}
             ]
         },
         init: {

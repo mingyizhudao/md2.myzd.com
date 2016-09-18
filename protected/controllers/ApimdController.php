@@ -44,7 +44,7 @@ class ApimdController extends Controller {
                     'errorCode' => ErrorList::ERROR_NONE,
                     'errorMsg' => 'success',
                     'results' => array(
-                        'version' => '20160526',
+                        'version' => '20160918',
                         'localdataUrl' => Yii::app()->createAbsoluteUrl('/apimd/localdata'),
                     )
                 );
@@ -110,7 +110,7 @@ class ApimdController extends Controller {
                 break;
             case 'bookinglist'://我的订单
                 $user = $this->userLoginRequired($values);
-                if (isset($values['api']) && $values['api'] == 2) {
+                if (isset($values['api']) && $values['api'] >= 2) {
                     $apisvc = new ApiViewPatientBookingListV2($user->id, $values['status']);
                     $output = $apisvc->loadApiViewData(true);
                 } else {
@@ -416,7 +416,7 @@ class ApimdController extends Controller {
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
                     $doctorMgr = new MDDoctorManager();
                     isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
-                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($post['questionnaire']['zz']);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
@@ -505,6 +505,13 @@ class ApimdController extends Controller {
                     $values['user_id'] = $user->getId();
                     $userMgr = new UserManager();
                     $output = $userMgr->ApiCreateCard($values);
+                }
+                break;
+            case 'deletedoctorpatient'://根据ids逻辑删除患者
+                if (isset($post['patient_ids'])) {
+                    $user = $this->userLoginRequired($post);
+                    $apiSvc = new ApiViewDeletePatientByIds($post['patient_ids']);
+                    $output = $apiSvc->loadApiViewData();
                 }
                 break;
             default:

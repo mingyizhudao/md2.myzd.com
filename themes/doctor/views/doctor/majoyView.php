@@ -59,11 +59,6 @@
         .bg-silvery{
             background-color: #F9F8F8;
         }
-        #major{
-            position: fixed;
-            width: 100%;
-            z-index: 99;
-        }
         .majorList li{
             padding: 10px;
             text-align: center;
@@ -118,11 +113,6 @@
         }
         footer.hide~article{
             bottom: 0px;
-        }
-        #operationMajor {
-            position: fixed;
-            width: 100%;
-            z-index: 99;
         }
         .btn-back{
             height: 40px;
@@ -213,9 +203,6 @@
         <div id="section_container">
             <section id="main_section" class="active" data-init="true">
                 <div id="one" class="">
-                    <header class="bg-green">
-                        <h1 class="title">医生</h1>
-                    </header>
                     <footer class="bg-white">
                         <div id="complete" class="w100 bg-green color-white text-center">
                             <div>填写完成</div>
@@ -275,7 +262,7 @@
                     </header>
                     <footer id="span_footer" class="bg-white hide">
                         <div class="grid w100">
-                            <div id="spanList" class="col-1" style="overflow: hidden;padding-top: 13px;">
+                            <div id="spanList" class="col-1" style="overflow: auto;padding-top: 13px;height: 50px;">
 
                             </div>
                             <div id="confirmDisease" class="col-0" style="border-left: 1px solid #C8C8C8;width: 70px;text-align: center;padding-top: 12px;color: #137EFF;">
@@ -285,7 +272,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="major" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="subCurrentSelection" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -293,7 +280,7 @@
 
                                 </ul>
                             </div>
-                            <div id="diseaseUl" class="pt44">
+                            <div id="diseaseUl" class="">
 
                             </div>
                         </div>
@@ -339,7 +326,7 @@
                     </header>
                     <footer id="operation_footer" class="bg-white hide">
                         <div class="grid w100">
-                            <div id="operationList" class="col-1" style="overflow: hidden;padding-top: 13px;">
+                            <div id="operationList" class="col-1" style="overflow: auto;padding-top: 13px;height:50px;">
 
                             </div>
                             <div id="confirmOperation" class="col-0" style="border-left: 1px solid #C8C8C8;width: 70px;text-align: center;padding-top: 12px;color: #137EFF;">
@@ -349,7 +336,7 @@
                     </footer>
                     <article class="active" data-scroll="true">
                         <div>
-                            <div id="operationMajor" class="bg-silvery">
+                            <div class="bg-silvery">
                                 <div id="operationSubSpecialty" class="pad10 text-center bb-gray">
                                     <span></span>
                                 </div>
@@ -357,7 +344,7 @@
 
                                 </ul>
                             </div>
-                            <div id="operationListSelected" class="pt44">
+                            <div id="operationListSelected" class="">
 
                             </div>
                         </div>
@@ -394,12 +381,31 @@
 </html>
 <script>
     $(document).ready(function () {
+        //选择疾病
+        var dataArray = new Array();
+        var nameArray = new Array();
+        var dataResultArray = new Array();
+        var nameResultArray = new Array();
         //添加擅长疾病
         var diseaseData = true;
         $('#addDisease').click(function () {
             if ($(this).hasClass('ban')) {
                 return;
             }
+            dataArray.splice(0, dataArray.length);
+            nameArray.splice(0, nameArray.length);
+            if (dataResultArray.length > 0) {
+                for (var i = 0; i < dataResultArray.length; i++) {
+                    dataArray.push(dataResultArray[i]);
+                }
+            }
+            if (nameResultArray.length > 0) {
+                for (var i = 0; i < nameResultArray.length; i++) {
+                    nameArray.push(nameResultArray[i]);
+                }
+            }
+            rePainting();
+            rePaintingDiseaseFooter();
             $('#one').addClass('hide');
             $('#two').removeClass('hide');
             if (diseaseData) {
@@ -413,11 +419,6 @@
                 });
             }
         });
-        //返回
-        $('#diseasePage').click(function () {
-            $('#two').addClass('hide');
-            $('#one').removeClass('hide');
-        });
         function readySubSpecialty(data) {
             var diseaseHtml = '';
             var commonDisease = '';
@@ -430,7 +431,7 @@
                     var diseaseList = subcatList[i].diseaseList;
                     subCatName = subcatList[i].subCatName;
                     commonDisease += '<div class="pad10 bg-gray3">常见疾病</div><ul class="list">';
-                    allDisease += '<div class="pad10 bg-gray3">全部</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
+                    allDisease += '<div class="pad10 bg-gray3">全部疾病</div><ul class="list subSpecialtyList" data-subCatId="' + subcatList[i].subCatId + '">';
                     if (diseaseList.length > 0) {
                         for (var j = 0; j < diseaseList.length; j++) {
                             if (diseaseList[j].isCommon == 1) {
@@ -474,25 +475,19 @@
             diseaseData = false;
             J.hideMask();
 
-            alert('请根据您对手术的擅长程度按顺序选择');
-
-//            J.customConfirm('',
-//                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
-//                    '<a id="closeLogout" class="w100">我知道了</a>',
-//                    '',
-//                    function () {
-//                    },
-//                    function () {
-//                    });
-//            $('#closeLogout').click(function () {
-//                J.closePopup();
-//            });
+            J.customConfirm('',
+                    '<div class="mt10 mb10">请根据您对疾病的擅长程度按顺序选择</div>',
+                    '<a id="closeLogout" class="w100">我知道了</a>',
+                    '',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#closeLogout').click(function () {
+                J.closePopup();
+            });
         }
 
-        //选择疾病
-        //var nnn = 1;
-        var dataArray = new Array();
-        var nameArray = new Array();
         function diseaseSelected() {
             $('.selectLi').click(function () {
                 //隐藏专业列表
@@ -524,81 +519,58 @@
                     nameArray.splice(numData - 1, 1);
                     rePainting();
                 }
-                //重绘选项
-                function rePainting() {
-                    $('li').each(function () {
-                        $(this).removeClass('foreFront');
-                        $(this).removeClass('behind');
-                        $(this).removeAttr('data-active');
-                        $(this).find('.selectBtn').html('');
-                    });
-                    for (var i = 0; i < dataArray.length; i++) {
-                        var dataActive = dataArray[i];
-                        $('li').each(function () {
-                            if ($(this).attr('data-num') == dataActive) {
-                                $(this).attr('data-active', 1);
-                                $(this).attr('data-id', i + 1);
-                                if (i < 3) {
-                                    $(this).find('.selectBtn').html(i + 1);
-                                    $(this).addClass('foreFront');
-                                } else {
-                                    $(this).find('.selectBtn').html('');
-                                    $(this).addClass('behind');
-                                }
+                //重绘底栏
+                rePaintingDiseaseFooter();
+            });
+        }
+
+        function rePaintingDiseaseFooter() {
+            if (nameArray.length > 0) {
+                var innerSpan = '';
+                nameArray.reverse();
+                for (var i = 0; i < nameArray.length; i++) {
+                    var dataNum = nameArray.length - i;
+                    innerSpan += '<span class="selectedIcon" data-num="' + dataNum + '">' + nameArray[i] + '</span>';
+                }
+                $('#spanList').html(innerSpan);
+                //删除选中
+                $('.selectedIcon').click(function () {
+                    var dataNum = $(this).attr('data-num');
+                    var dataTerm = dataArray[dataNum - 1];
+                    $('.selectLi').each(function () {
+                        var liNum = $(this).attr('data-num');
+                        var repeat = $(this).attr('data-repeat');
+                        if (repeat != 1) {
+                            if (dataTerm == liNum) {
+                                $(this).trigger('click');
                             }
-                        });
-                    }
-                    //专业切换添加标记
-                    $('.changeSubSpecialty').removeClass('color-green');
-                    $('li').each(function () {
-                        if ($(this).attr('data-active') == 1) {
-                            var selectId = $(this).parent('ul').attr('data-subcatid');
-                            $('.changeSubSpecialty').each(function () {
-                                if ($(this).attr('data-id') == 'all') {
-                                    $(this).addClass('color-green');
-                                }
-                                if ($(this).attr('data-id') == selectId) {
-                                    $(this).addClass('color-green');
-                                }
-                            });
                         }
                     });
-                }
-                if (nameArray.length > 0) {
-                    var innerSpan = '';
-                    nameArray.reverse();
-                    for (var i = 0; i < nameArray.length; i++) {
-                        var dataNum = nameArray.length - i;
-                        innerSpan += '<span class="selectedIcon" data-num="' + dataNum + '">' + nameArray[i] + '</span>';
-                    }
-                    $('#spanList').html(innerSpan);
-                    //删除选中
-                    $('.selectedIcon').click(function () {
-                        var dataNum = $(this).attr('data-num');
-                        var dataTerm = dataArray[dataNum - 1];
-                        $('.selectLi').each(function () {
-                            var liNum = $(this).attr('data-num');
-                            var repeat = $(this).attr('data-repeat');
-                            if (repeat != 1) {
-                                if (dataTerm == liNum) {
-                                    $(this).trigger('click');
-                                }
-                            }
-                        });
-                    });
-                    $('#confirmDisease').html('确定(' + nameArray.length + ')');
-                    $('#span_footer').removeClass('hide');
-                    nameArray.reverse();
-                } else {
-                    $('#spanList').html('');
-                    $('#confirmDisease').html('');
-                    $('#span_footer').addClass('hide');
-                }
-            });
+                });
+                $('#confirmDisease').html('确定(' + nameArray.length + ')');
+                $('#span_footer').removeClass('hide');
+                nameArray.reverse();
+            } else {
+                $('#spanList').html('');
+                $('#confirmDisease').html('');
+                $('#span_footer').addClass('hide');
+            }
         }
 
         //完成疾病选择
         $('#confirmDisease').click(function () {
+            dataResultArray.splice(0, dataResultArray.length);
+            nameResultArray.splice(0, nameResultArray.length);
+            if (dataArray.length > 0) {
+                for (var i = 0; i < dataArray.length; i++) {
+                    dataResultArray.push(dataArray[i]);
+                }
+            }
+            if (nameArray.length > 0) {
+                for (var i = 0; i < nameArray.length; i++) {
+                    nameResultArray.push(nameArray[i]);
+                }
+            }
             readySelectDisease();
             $('#two').addClass('hide');
             $('#one').removeClass('hide');
@@ -606,45 +578,84 @@
 
         function readySelectDisease() {
             var diseaseShow = '';
-            if (nameArray.length > 0) {
-                for (var i = 0; i < nameArray.length; i++) {
-                    diseaseShow += '<div class="deleteDisease" data-num="' + i + '">' + (i + 1) + '.' + nameArray[i] + '</div>';
+            if (nameResultArray.length > 0) {
+                for (var i = 0; i < nameResultArray.length; i++) {
+                    diseaseShow += '<div class="deleteDisease" data-num="' + i + '">' + (i + 1) + '.' + nameResultArray[i] + '</div>';
                 }
             }
             $('#diseaseShow').html(diseaseShow);
             //当疾病达到上限，添加按钮不可点击
-            if (nameArray.length >= 10) {
+            if (nameResultArray.length >= 10) {
                 $('#addDisease').addClass('ban');
             } else {
                 $('#addDisease').removeClass('ban');
             }
-
             //通过点击删除已选疾病
             $('.deleteDisease').click(function () {
                 var dataNum = $(this).attr('data-num');
-                var dataTerm = dataArray[dataNum];
-                $('.selectLi').each(function () {
-                    var liNum = $(this).attr('data-num');
-                    var repeat = $(this).attr('data-repeat');
-                    if (repeat != 1) {
-                        if (dataTerm == liNum) {
-                            $(this).trigger('click');
-                            readySelectDisease();
-                        }
-                    }
-                });
+                dataResultArray.splice(dataNum, 1);
+                nameResultArray.splice(dataNum, 1);
+                readySelectDisease();
             });
         }
 
+        //返回
+        $('#diseasePage').click(function () {
+            $('#two').addClass('hide');
+            $('#one').removeClass('hide');
+        });
+
+        //重绘选项
+        function rePainting() {
+            $('#diseaseUl li').each(function () {
+                $(this).removeClass('foreFront');
+                $(this).removeClass('behind');
+                $(this).removeAttr('data-active');
+                $(this).find('.selectBtn').html('');
+            });
+            for (var i = 0; i < dataArray.length; i++) {
+                var dataActive = dataArray[i];
+                $('#diseaseUl li').each(function () {
+                    if ($(this).attr('data-num') == dataActive) {
+                        $(this).attr('data-active', 1);
+                        $(this).attr('data-id', i + 1);
+                        if (i < 3) {
+                            $(this).find('.selectBtn').html(i + 1);
+                            $(this).addClass('foreFront');
+                        } else {
+                            $(this).find('.selectBtn').html('');
+                            $(this).addClass('behind');
+                        }
+                    }
+                });
+            }
+            //专业切换添加标记
+            $('.changeSubSpecialty').removeClass('color-green');
+            $('#diseaseUl li').each(function () {
+                if ($(this).attr('data-active') == 1) {
+                    var selectId = $(this).parent('ul').attr('data-subcatid');
+                    $('.changeSubSpecialty').each(function () {
+                        if ($(this).attr('data-id') == 'all') {
+                            $(this).addClass('color-green');
+                        }
+                        if ($(this).attr('data-id') == selectId) {
+                            $(this).addClass('color-green');
+                        }
+                    });
+                }
+            });
+        }
         //搜索疾病
         $('#searchDisease').click(function () {
             $('#two').addClass('hide');
             $('#three').removeClass('hide');
+            $('input[name="searchName"]').focus();
         });
         //返回
         $('#backDisease').click(function () {
             $('#three').addClass('hide');
             $('#two').removeClass('hide');
+            $('#three').find('.icon_clear').trigger('click');
         });
         //搜索
         $('input[name="searchName"]').on('input', function (e) {
@@ -703,11 +714,51 @@
         }
 
 
+
+        //选择手术、当前id
+        var operationId = 0;
+        var operationArray = new Array();
+        var operationNameArray = new Array();
+        var operationResultArray = new Array();
+        var operationNameResultArray = new Array();
         //添加擅长手术
         var operationData = true;
         $('#addOperation').click(function () {
             if ($(this).hasClass('ban')) {
                 return;
+            }
+            operationArray.splice(0, operationArray.length);
+            operationNameArray.splice(0, operationNameArray.length);
+            if (operationResultArray.length > 0) {
+                for (var i = 0; i < operationResultArray.length; i++) {
+                    var operationObject = new Object();
+                    operationObject.id = '';
+                    operationObject.method = new Array();
+                    operationObject.num = new Array();
+                    operationObject.id = operationResultArray[i].id;
+                    if (operationResultArray[i].method.length > 0) {
+                        for (var j = 0; j < operationResultArray[i].method.length; j++) {
+                            operationObject.method.push(operationResultArray[i].method[j]);
+                        }
+                    }
+                    if (operationResultArray[i].num.length > 0) {
+                        for (var j = 0; j < operationResultArray[i].num.length; j++) {
+                            operationObject.num.push(operationResultArray[i].num[j]);
+                        }
+                    }
+                    operationArray.push(operationObject);
+                }
+            }
+            if (operationNameResultArray.length > 0) {
+                for (var i = 0; i < operationNameResultArray.length; i++) {
+                    operationNameArray.push(operationNameResultArray[i]);
+                }
+            }
+            operationId = operationResultArray.length;
+            if (operationId != 0) {
+                selectOver(1);
+            } else {
+                selectOver(3);
             }
             $('#one').addClass('hide');
             $('#four').removeClass('hide');
@@ -742,7 +793,7 @@
                     var surgeryList = subcatList[i].surgeryList;
                     if (surgeryList.length > 0) {
                         commonOperation += '<div class="pad10 bg-gray3">常见术式</div><ul class="list">';
-                        allOperation += '<div class="pad10 bg-gray3">全部</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
+                        allOperation += '<div class="pad10 bg-gray3">全部术式</div><ul class="list operationUl" data-subCatiD="' + subcatList[i].subCatId + '">';
                         for (var j = 0; j < surgeryList.length; j++) {
                             if (surgeryList[j].isCommon == 1) {
                                 commonBool = true;
@@ -776,22 +827,27 @@
             operationSelected(1);
             operationData = false;
             J.hideMask();
+            J.customConfirm('',
+                    '<div class="mt10 mb10">请根据您对手术的擅长程度按顺序选择</div>',
+                    '<a id="closeLogout" class="w100">我知道了</a>',
+                    '',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#closeLogout').click(function () {
+                J.closePopup();
+            });
         }
 
-        //选择手术、当前id
-        var operationId = 0;
-        var operationArray = new Array();
-        var operationNameArray = new Array();
         function operationSelected(type) {
             $('.operationLi').click(function () {
                 //隐藏专业列表
                 $('.operationMajorList').addClass('hide');
-
                 var operationObject = new Object();
                 operationObject.id = '';
                 operationObject.method = new Array();
                 operationObject.num = new Array();
-
                 //添加数组
                 if ($(this).attr('data-active') != 1) {
                     //判断是否超出10
@@ -847,14 +903,18 @@
                 var methodActiveOne = '';
                 var methodActiveTwo = '';
                 var methodActiveThree = '';
+                var methodBool = false;
                 if (operationArray.length > 0) {
                     if (activeInspect(operationArray[operationId - 1].method, 1)) {
+                        methodBool = true;
                         methodActiveOne = 'active';
                     }
                     if (activeInspect(operationArray[operationId - 1].method, 2)) {
+                        methodBool = true;
                         methodActiveTwo = 'active';
                     }
                     if (activeInspect(operationArray[operationId - 1].method, 3)) {
+                        methodBool = true;
                         methodActiveThree = 'active';
                     }
                 }
@@ -862,16 +922,20 @@
                         '开放' +
                         '</li>' +
                         '<li class="grid methodLi ' + methodActiveTwo + '" data-id="2">' +
-                        '控镜' +
+                        '腔镜' +
                         '</li>' +
                         '<li class="grid methodLi ' + methodActiveThree + '" data-id="3">' +
                         '机器人' +
                         '</li>' +
                         '</ul>' +
                         '<div class="pt5 pb5 pl20 pr20 bg-white">' +
-                        '<div id="selectOver" class="pad10 text-center">' +
-                        '选择完毕' +
-                        '</div>' +
+                        '<div id="selectOver" class="pad10 text-center">';
+                if (methodBool) {
+                    innerHtml += '选择完毕';
+                } else {
+                    innerHtml += '取消';
+                }
+                innerHtml += '</div>' +
                         '</div>' +
                         '</div>';
                 J.popup({
@@ -888,14 +952,20 @@
                             var innerHtml = '<div>' +
                                     '<div class="pad10 bg-green color-white">完成手术例数</div>' +
                                     '<ul class="list">' +
-                                    '<li class="grid numLi" data-num="10,20">' +
-                                    '10-20' +
+                                    '<li class="grid numLi" data-num="0,100">' +
+                                    '0-100' +
                                     '</li>' +
-                                    '<li class="grid numLi" data-num="20,50">' +
-                                    '20-50' +
+                                    '<li class="grid numLi" data-num="100,500">' +
+                                    '100-500' +
                                     '</li>' +
-                                    '<li class="grid numLi" data-num="50,100">' +
-                                    '50-100' +
+                                    '<li class="grid numLi" data-num="500,1000">' +
+                                    '500-1000' +
+                                    '</li>' +
+                                    '<li class="grid numLi" data-num="1000,2000">' +
+                                    '1000-2000' +
+                                    '</li>' +
+                                    '<li class="grid numLi" data-num="2000,∞">' +
+                                    '>2000' +
                                     '</li>' +
                                     '</ul>' +
                                     '</div>';
@@ -930,7 +1000,7 @@
                                         '开放' +
                                         '</li>' +
                                         '<li class="grid methodLi ' + methodTwo + '" data-id="2">' +
-                                        '控镜' +
+                                        '腔镜' +
                                         '</li>' +
                                         '<li class="grid methodLi ' + methodThree + '" data-id="3">' +
                                         '机器人' +
@@ -957,6 +1027,17 @@
                                     operationArray[operationId - 1].num.splice(i, 1);
                                 }
                             }
+                            var methodBool = false;
+                            $('.methodLi ').each(function () {
+                                if ($(this).hasClass('active')) {
+                                    methodBool = true;
+                                }
+                            });
+                            if (methodBool) {
+                                $('#selectOver').text('选择完毕');
+                            } else {
+                                $('#selectOver').text('取消');
+                            }
                         }
                     });
                     //选择完毕
@@ -968,9 +1049,11 @@
         }
 
         function selectOver(pageType) {
-            if (operationArray[operationId - 1].method.length == 0) {
-                operationArray.splice(operationId - 1, 1);
-                operationNameArray.splice(operationId - 1, 1);
+            if (pageType != 3) {
+                if (operationArray[operationId - 1].method.length == 0) {
+                    operationArray.splice(operationId - 1, 1);
+                    operationNameArray.splice(operationId - 1, 1);
+                }
             }
             J.hideMask();
             //根据选择情况，重新绘制列表框
@@ -1018,7 +1101,7 @@
 
             //专业切换添加标记
             $('.changeOperationSub').removeClass('color-green');
-            $('li').each(function () {
+            $('#operationListSelected li').each(function () {
                 if ($(this).attr('data-active') == 1) {
                     var selectId = $(this).parent('ul').attr('data-subcatid');
                     $('.changeOperationSub').each(function () {
@@ -1069,6 +1152,33 @@
 
         //完成疾病选择
         $('#confirmOperation').click(function () {
+            operationResultArray.splice(0, operationResultArray.length);
+            operationNameResultArray.splice(0, operationNameResultArray.length);
+            if (operationArray.length > 0) {
+                for (var i = 0; i < operationArray.length; i++) {
+                    var operationObject = new Object();
+                    operationObject.id = '';
+                    operationObject.method = new Array();
+                    operationObject.num = new Array();
+                    operationObject.id = operationArray[i].id;
+                    if (operationArray[i].method.length > 0) {
+                        for (var j = 0; j < operationArray[i].method.length; j++) {
+                            operationObject.method.push(operationArray[i].method[j]);
+                        }
+                    }
+                    if (operationArray[i].num.length > 0) {
+                        for (var j = 0; j < operationArray[i].num.length; j++) {
+                            operationObject.num.push(operationArray[i].num[j]);
+                        }
+                    }
+                    operationResultArray.push(operationObject);
+                }
+            }
+            if (operationNameArray.length > 0) {
+                for (var i = 0; i < operationNameArray.length; i++) {
+                    operationNameResultArray.push(operationNameArray[i]);
+                }
+            }
             readySelectedOperation();
             $('#four').addClass('hide');
             $('#three').addClass('hide');
@@ -1077,9 +1187,9 @@
 
         function readySelectedOperation() {
             var operationShow = '';
-            if (operationNameArray.length > 0) {
-                for (var i = 0; i < operationNameArray.length; i++) {
-                    operationShow += '<div class="deleteOperation" data-num="' + i + '">' + (i + 1) + '.' + operationNameArray[i] + '</div>';
+            if (operationNameResultArray.length > 0) {
+                for (var i = 0; i < operationNameResultArray.length; i++) {
+                    operationShow += '<div class="deleteOperation" data-num="' + i + '">' + (i + 1) + '.' + operationNameResultArray[i] + '</div>';
                 }
             }
             $('#operationShow').html(operationShow);
@@ -1087,19 +1197,20 @@
             $('.deleteOperation').click(function () {
                 var dataNum = Number($(this).attr('data-num'));
                 //清空method
-                var method = operationArray[dataNum].method;
-                if (method.length > 0) {
-                    for (var i = 0; i < method.length; i++) {
-                        operationArray[dataNum].method.splice(0);
-                    }
-                }
-                operationId = dataNum + 1;
-                selectOver(1);
+//                var method = operationResultArray[dataNum].method;
+//                if (method.length > 0) {
+//                    for (var i = 0; i < method.length; i++) {
+//                        operationResultArray[dataNum].method.splice(0);
+//                    }
+//                }
+                operationResultArray.splice(dataNum, 1);
+                operationNameResultArray.splice(dataNum, 1);
+                operationId = dataNum;
                 readySelectedOperation();
             });
 
             //当手术达到上限，添加按钮不可点击
-            if (operationNameArray.length >= 10) {
+            if (operationNameResultArray.length >= 10) {
                 $('#addOperation').addClass('ban');
             } else {
                 $('#addOperation').removeClass('ban');
@@ -1111,11 +1222,13 @@
             $('#three').addClass('hide');
             $('#operation_footer').addClass('hide');
             $('#five').removeClass('hide');
+            $('input[name="operationName"]').focus();
         });
         //返回
         $('#backOperation').click(function () {
             $('#five').addClass('hide');
             $('#four').removeClass('hide');
+            $('#five').find('.icon_clear').trigger('click');
         });
 
         //搜索
@@ -1181,7 +1294,7 @@
             $.ajax({
                 type: 'post',
                 url: '<?php echo $urlAjaxMajor; ?>',
-                data: {'MajorForm[id]': 6, 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
+                data: {'MajorForm[id]': '<?php echo $urlId; ?>', 'MajorForm[diseaseList]': dataArray, 'MajorForm[surgeryList]': structure_data(operationArray)},
                 success: function (data) {
                     if (data.status = 'ok') {
                         location.href = '<?php echo $urlSuccess; ?>';

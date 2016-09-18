@@ -71,7 +71,7 @@ class ApiViewPatientSearch extends EApiViewService {
                     $data->gender = $model->getGender();
                     $data->mobile = $model->getMobile();
                     $data->diseaseName = $model->getDiseaseName();
-                    $data->dateUpdated = $model->getDateUpdated('m月d日');
+                    $data->dateUpdated = $model->getDateUpdated('Y-m-d H:i:s');
                     $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
                     $this->patients[] = $data;
                 }
@@ -86,7 +86,7 @@ class ApiViewPatientSearch extends EApiViewService {
                 $data->gender = $model->getGender();
                 $data->mobile = $model->getMobile();
                 $data->diseaseName = $model->getDiseaseName();
-                $data->dateUpdated = $model->getDateUpdated('m月d日');
+                $data->dateUpdated = $model->getDateUpdated('Y-m-d H:i:s');
                 $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/patientinfo/' . $model->getId());
                 $this->patients[] = $data;
             }
