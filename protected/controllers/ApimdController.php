@@ -416,7 +416,7 @@ class ApimdController extends Controller {
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
                     $doctorMgr = new MDDoctorManager();
                     isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
-                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($post['questionnaire']['zz']);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
