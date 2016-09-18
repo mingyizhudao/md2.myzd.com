@@ -26,7 +26,7 @@ if ($addBooking == 1) {
     </footer>
 <?php }
 ?>
-<article  class="active" data-scroll="true">
+<article id="patientView_article" class="active" data-scroll="true">
     <div class="pt10 pb10">
         <div class=" bg-white  mb20">
             
