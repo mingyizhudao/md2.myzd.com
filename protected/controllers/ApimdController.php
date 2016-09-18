@@ -110,7 +110,7 @@ class ApimdController extends Controller {
                 break;
             case 'bookinglist'://我的订单
                 $user = $this->userLoginRequired($values);
-                if (isset($values['api']) && $values['api'] == 2) {
+                if (isset($values['api']) && $values['api'] >= 2) {
                     $apisvc = new ApiViewPatientBookingListV2($user->id, $values['status']);
                     $output = $apisvc->loadApiViewData(true);
                 } else {
@@ -413,14 +413,10 @@ class ApimdController extends Controller {
             case 'questionnaire'://问卷调查
                 if(isset($post['questionnaire'])) {
                     $user = $this->userLoginRequired($post['questionnaire']);
-
-                    $hz_values = $post['questionnaire']['hz'];
-                    $zz_values = $post['questionnaire']['zz'];
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
-
                     $doctorMgr = new MDDoctorManager();
-                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
-                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
+                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
