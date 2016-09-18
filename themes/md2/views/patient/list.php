@@ -18,7 +18,7 @@ $checkTeamDoctor = $teamDoctor;
 $this->show_footer = false;
 ?>
 
-<header class="bg-green" id="patientlist_header">
+<header class="bg-green" id="patientList_header">
     <nav class="left">
         <a href="<?php echo $urlDoctorView; ?>" data-target="link">
             <div class="pl5">
@@ -32,7 +32,7 @@ $this->show_footer = false;
         <a id="cancelEdit" class="hide" href="javascript:;">取消</a>
     </nav>
 </header>
-<footer class="grid middle hide " id="patientlist_footer">
+<footer class="grid middle hide " id="patientList_footer">
     删除
 </footer>
 <nav id="patientList_nav" class="header-secondary">
