@@ -11,7 +11,7 @@ $id = Yii::app()->request->getQuery('id', '');
 $urlSubmit = $this->createUrl('doctor/addDisease');
 $urlUpdatePatientMR = $this->createUrl('patient/updatePatientMR', array('id' => $patientInfo->id, 'addBackBtn' => 1));
 $urlUploadMRFile = $this->createUrl('patient/uploadMRFile', array('id' => $patientInfo->id, 'type' => 'update', 'addBackBtn' => 1));
-$urlPatientFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientInfo->id . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientInfo->id ? $patientInfo->id : 0));
+$urlPatientFiles = 'http://121.40.127.64:8089/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientInfo->id . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientInfo->id ? $patientInfo->id : 0));
 $urlPatientBookingCreate = $this->createUrl('patientbooking/create', array('pid' => $patientInfo->id, 'addBackBtn' => 1));
 $this->show_footer = false;
 ?>
@@ -111,7 +111,7 @@ if ($addBooking == 1) {
             if(diseaseDetail==''&&diseaseName==''){
               location.href = '<?php echo $urlSubmit.'?id='.$id; ?>'+'&returnUrl';
            }
-            else if(_imgfiles==''){
+            else if(_imgfiles.length==0){
                 location.href = '<?php echo $urlUploadMRFile ; ?>';
               }
             else {
