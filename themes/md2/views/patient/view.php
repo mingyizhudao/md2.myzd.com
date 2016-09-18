@@ -15,14 +15,7 @@ $urlPatientFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $u
 $urlPatientBookingCreate = $this->createUrl('patientbooking/create', array('pid' => $patientInfo->id, 'addBackBtn' => 1));
 $this->show_footer = false;
 ?>
-<style>
-     .bb1-gray{border-bottom: 10px solid #dfdfdf;}
-     .font-hs1{color: #B8B8B8;}
-     #jingle_popup{top:0px!important;}
-     .bgzhaox{background: url('http://static.mingyizhudao.com/147376003163011') no-repeat;background-size: 65px 72px;}
-     .word-wrap{word-wrap:break-word;}
-     .lh72{line-height: 72px;}
-</style>
+
 <?php
 if ($addBooking == 1) {
     ?>
