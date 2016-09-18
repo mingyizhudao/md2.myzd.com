@@ -413,10 +413,14 @@ class ApimdController extends Controller {
             case 'questionnaire'://问卷调查
                 if(isset($post['questionnaire'])) {
                     $user = $this->userLoginRequired($post['questionnaire']);
+
+                    $hz_values = $post['questionnaire']['hz'];
+                    $zz_values = $post['questionnaire']['zz'];
                     $hz_values['user_id'] = $zz_values['user_id'] = $user->id;
+
                     $doctorMgr = new MDDoctorManager();
-                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['hz']);
-                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($post['questionnaire']['zz']);
+                    isset($post['questionnaire']['hz']) && $hzResult = $doctorMgr->apiCreateOrUpdateDoctorHuizhen($hz_values);
+                    isset($post['questionnaire']['zz']) && $zzResult = $doctorMgr->apiCreateOrUpdateDoctorZhuanzhen($zz_values);
                     //专家签约
                     $doctorProfile = $user->getUserDoctorProfile();
                     $doctorMgr->doctorContract($doctorProfile);
@@ -505,6 +509,13 @@ class ApimdController extends Controller {
                     $values['user_id'] = $user->getId();
                     $userMgr = new UserManager();
                     $output = $userMgr->ApiCreateCard($values);
+                }
+                break;
+            case 'deletedoctorpatient'://根据ids逻辑删除患者
+                if (isset($post['patient_ids'])) {
+                    $user = $this->userLoginRequired($post);
+                    $apiSvc = new ApiViewDeletePatientByIds($post['patient_ids']);
+                    $output = $apiSvc->loadApiViewData();
                 }
                 break;
             default:

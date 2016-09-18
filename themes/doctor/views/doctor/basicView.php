@@ -41,7 +41,7 @@
             padding: 10px 0px!important;
         }
         .genderIcon{
-            width: 24px;
+            width: 20px;
             text-align: center;
         }
         .genderIcon.active{
