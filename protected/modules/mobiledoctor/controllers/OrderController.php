@@ -169,7 +169,10 @@ class OrderController extends MobiledoctorController {
 //        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
 //        $this->send_get($url);
 
-        //Yii::app()->session['orderReferer_' . $order->bk_id . '_' . $pbooking->getRefNo()] === true &&
+//         if (Yii::app()->session['orderReferer_' . $order->bk_id . '_' . $pbooking->getRefNo()] === true) {
+//            $adminBookingManager = new AdminBooingManager();
+//            $adminBookingManager->setDockingCase(1, $order->bk_id, $pbooking->getRefNo());
+//         }
         
         $this->show_header = true;
         $this->show_footer = false;

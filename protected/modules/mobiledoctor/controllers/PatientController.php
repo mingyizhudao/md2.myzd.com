@@ -366,10 +366,32 @@ class PatientController extends MobiledoctorController {
     }
 
     /**
-     * 选择患者页
+     * 填写预约单选择患者页
      */
-    public function actionChooseList()
+    public function actionChooseList($page = 1)
     {
+        $user = $this->loadUser();
+        $userId = $user->getId();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $teamDoctor = 0;
+        if (isset($doctorProfile)) {
+            if ($doctorProfile->isVerified()) {
+                if ($doctorProfile->isTermsDoctor() === false) {
+                    $teamDoctor = 1;
+                }
+            }
+        }
+        $page_size = 100;
+        //service层
+        $apiSvc = new ApiViewDoctorPatientList($userId, $page_size, $page);
+        //调用父类方法将数据返回
+        $output = $apiSvc->loadApiViewData();
+        
+        $dataCount = $apiSvc->loadCount();
+        $this->render('list', array(
+            'data' => $output, 'dataCount' => $dataCount, 'teamDoctor' => $teamDoctor
+        ));
+        
         $this->render('chooseList');
     }
 }
