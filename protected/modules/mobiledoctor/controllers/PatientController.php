@@ -388,10 +388,8 @@ class PatientController extends MobiledoctorController {
         $output = $apiSvc->loadApiViewData();
         
         $dataCount = $apiSvc->loadCount();
-        $this->render('list', array(
+        $this->render('chooseList', array(
             'data' => $output, 'dataCount' => $dataCount, 'teamDoctor' => $teamDoctor
         ));
-        
-        $this->render('chooseList');
     }
 }
