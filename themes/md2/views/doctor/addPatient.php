@@ -38,9 +38,9 @@ $this->show_footer = false;
     </nav>
     <h1 class="title">填写预约单</h1>
     
-    <nav id="btnSubmit" class="right">
+    <!-- <nav id="btnSubmit" class="right">
         确定
-    </nav>  
+    </nav>   -->
 </header>
 <footer class='bg-white '>
         <button id='add_Patient' class="btn btn-block bg-g1">提交</button>
@@ -102,7 +102,7 @@ $this->show_footer = false;
           </div>
        </div>
 
-    <div class="pl10 pr10">
+   <!-- <div class="pl10 pr10">
          
 
          <div class="mt10 pt15 pb30 pl10 doctorInf">
@@ -156,7 +156,7 @@ $this->show_footer = false;
         }
         ?>
         <div class="pt20"></div> 
-    </div>
+    </div> -->
 </article>
 <script>
     $(document).ready(function () {
