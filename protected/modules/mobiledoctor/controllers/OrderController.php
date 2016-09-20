@@ -111,6 +111,18 @@ class OrderController extends MobiledoctorController {
     public function actionOrderView($bookingid) {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
+        
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
+            if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
+                //一次性通过流程到达支付详情时作一个标记
+                Yii::app()->session[$sessionName] = true;
+            }
+            else {
+                if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
+            }
+        }
+
         $this->render('orderView', array(
             'data' => $output
         ));
@@ -131,6 +143,7 @@ class OrderController extends MobiledoctorController {
         if ($order === NULL) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         //微信推送信息
         $pbooking = PatientBooking::model()->getById($order->bk_id);
         $wxMgr = new WeixinManager();
@@ -156,6 +169,8 @@ class OrderController extends MobiledoctorController {
 //        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
 //        $this->send_get($url);
 
+        //Yii::app()->session['orderReferer_' . $order->bk_id . '_' . $pbooking->getRefNo()] === true &&
+        
         $this->show_header = true;
         $this->show_footer = false;
         $this->show_baidushangqiao = false;

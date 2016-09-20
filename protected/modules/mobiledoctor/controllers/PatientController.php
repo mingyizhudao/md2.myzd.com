@@ -84,7 +84,7 @@ class PatientController extends MobiledoctorController {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('ajaxTask', 'ajaxDrTask', 'view', 'createPatientMR', 'updatePatientMR', 'createBooking', 'ajaxCreate',
                     'ajaxCreatePatientMR', 'ajaxUploadMRFile', 'delectPatientMRFile', 'patientMRFiles', 'uploadMRFile', 'searchView',
-                    'ajaxSearch', 'uploadDAFile', 'viewDaFile', 'ajaxDeleteDoctorPatient'),
+                    'ajaxSearch', 'uploadDAFile', 'viewDaFile', 'ajaxDeleteDoctorPatient', 'chooseList'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -365,4 +365,11 @@ class PatientController extends MobiledoctorController {
         $this->send_get($remote_url);
     }
 
+    /**
+     * 选择患者页
+     */
+    public function actionChooseList()
+    {
+        $this->render('chooseList');
+    }
 }
