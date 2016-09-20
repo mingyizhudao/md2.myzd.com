@@ -1,8 +1,4 @@
 <?php
-/*
- * $model DoctorForm.
- */
-$this->setPageID('pMyBooking');
 $this->setPageTitle('未处理患者');
 $hasBookingList = $data->results->hasBookingList;
 $noBookingList = $data->results->noBookingList;
@@ -16,10 +12,17 @@ $ajaxDeleteDoctorPatient = $this->createUrl('patient/ajaxDeleteDoctorPatient');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
 $this->show_footer = false;
+$patientId = Yii::app()->request->getQuery('id', '');
+$urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $patientId, 'patientId' => ''));
 ?>
 <style>
-    
-   
+    #chooseList_footer.hide~article{
+        bottom: 0px;
+    }
+    #chooseList_footer{
+        background-color: #32c9c0;
+        color: #fff;
+    }
 </style>
 <header class="bg-green" id="patientList_header">
     <nav class="left pr10">
@@ -31,32 +34,16 @@ $this->show_footer = false;
     </nav>
     <h1 class="title">未处理患者</h1>
     <nav class="right">
-        <!-- <a id="editPatient" href="javascript:;">编辑</a>
-        <a id="cancelEdit" class="hide" href="javascript:;">取消</a> -->
         <a href="<?php echo $urlCreatePatient; ?>">
             <img src="http://static.mingyizhudao.com/14743390650457" class="w20p">
         </a>
     </nav>
 </header>
-<footer class="grid middle hide " id="patientList_footer">
-    确认
-</footer>  
-<!-- <nav id="patientList_nav" class="header-secondary">
-    <div class="w100 pl10 pr10">
-        <a href="<?php echo $urlSearchView; ?>">
-            <div class="searchDiv grid">
-                <div class="col-0 searchIcon">
-
-                </div>
-                <div class="col-1 text-left">
-                    搜索
-                </div>
-            </div>
-        </a>
-    </div>
-</nav> -->
-<article id="patientList_article" class="active" data-scroll="true"style="background-color: #e1e1e1;">
-    <div class="noBookingList pt10 pb20"style="margin-top:-10px;">
+<footer class="grid middle hide " id="chooseList_footer">
+    确定
+</footer>
+<article id="chooseList_article" class="active bg-gray" data-scroll="true">
+    <div class="noBookingList pb20">
         <?php
         if ($noBookingList) {
             for ($i = 0; $i < count($noBookingList); $i++) {
@@ -77,39 +64,31 @@ $this->show_footer = false;
                     $yearlyText = $yearly . '岁';
                 }
                 ?>
-                <div class="">
-                    <div class="mt10 ml10 mr10 bg-white b-white">
-                        <div class="pt5 pl10 pb10 bb-g1 grid" id="dv">
-                            <div class="col-1 pt2">
-                                创建时间:<?php echo $patientInfo->dateUpdated; ?>
-                            </div>
-                            <!-- <div class="col-0 pr10 selectBtn hide" data-id="<?php echo $patientInfo->id; ?>">
-                                <img src="http://static.mingyizhudao.com/14696845618638" class="w20p">
-                            </div>  -->
-                           <?php if($patientInfo->diseaseName!=''){?> 
-                           <div class="col-0 pr10 selectBtn" data-id="<?php echo $patientInfo->id; ?>">
-                                <img src="http://static.mingyizhudao.com/14696845618638" class="w20p">
-                            </div> 
-                            <?php }?>
+                <div class="mt10 ml10 mr10 bg-white b-white br5">
+                    <div class="pt5 pl10 pb10 bb-g1 grid" id="dv">
+                        <div class="col-1 pt2">
+                            创建时间:<?php echo $patientInfo->dateUpdated; ?>
                         </div>
-                        <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBackBtn' => 1)); ?>" class="color-000" data-target="link">
-                            <div class="pl10 mt5">
-                                <?php echo $patientInfo->name; ?>
+                        <?php if ($patientInfo->diseaseName != '') { ?>
+                            <div class="col-0 pr10 selectBtn" data-id="<?php echo $patientInfo->id; ?>">
+                                <img src="http://static.mingyizhudao.com/14696845618638" class="w20p">
                             </div>
-                            <div class="p10">
-                                <?php echo $patientInfo->gender; ?>
-                                <span class="ml5"><?php echo $yearlyText . $monthly; ?></span>
-                                <span class="ml5"><?php echo $patientInfo->cityName; ?></span>
-                            </div>
-                            <!-- <div class="pl10 pb10">
-                                <?php echo $patientInfo->diseaseName; ?>
-                            </div> -->
-                            <?php if($patientInfo->diseaseName!=''){?>
-                               <div class="pl10 pb10"><?php echo $patientInfo->diseaseName;?></div>
-                            <?}else{?>
-                               <div class='pl10 pb10 pr5 color-green'>您还没有选择疾病名称，点击补充后才可选择</div>
-                            <?php }?>
+                        <?php } ?>
                     </div>
+                    <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBackBtn' => 1)); ?>" class="color-000" data-target="link">
+                        <div class="pl10 mt5">
+                            <?php echo $patientInfo->name; ?>
+                        </div>
+                        <div class="p10">
+                            <?php echo $patientInfo->gender; ?>
+                            <span class="ml5"><?php echo $yearlyText . $monthly; ?></span>
+                            <span class="ml5"><?php echo $patientInfo->cityName; ?></span>
+                        </div>
+                        <?php if ($patientInfo->diseaseName != '') { ?>
+                            <div class="pl10 pb10"><?php echo $patientInfo->diseaseName; ?></div>
+                        <?php } else { ?>
+                            <div class="pl10 pb10 pr10 color-green font-s12">您还没有选择疾病名称，点击补充后才可选择</div>
+                        <?php } ?>
                     </a>
                 </div>
                 <?php
@@ -121,14 +100,60 @@ $this->show_footer = false;
     </div>
 </article>
 <script>
-    $(document).ready(function(){
-       var innerHtml='<div class="col-0 pr10 selectBtn hide" data-id="<?php echo $patientInfo->id; ?>">'+
-                                '<img src="http://static.mingyizhudao.com/14696845618638" class="w20p">'+
-                    '</div>';
-      // if('<?php echo $patientInfo->diseaseName;?>'!=''){
-      //      $('selectBtn').removeAttr('hide');
-      // }
-    })
+    $(document).ready(function() {
+        //选中患者id
+        var patientId = '';
+        //选择取消对象
+        $('.selectBtn').click(function() {
+            if ($(this).attr('data-active') == 1) {
+                $('.selectBtn').each(function() {
+                    $(this).removeAttr('data-active');
+                    $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14696845618638');
+                });
+                $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14696845618638');
+                $(this).removeAttr('data-active');
+            } else {
+                patientId = $(this).attr('data-id');
+                $('.selectBtn').each(function() {
+                    $(this).removeAttr('data-active');
+                    $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14696845618638');
+                });
+                $(this).find('img').attr('src', 'http://static.mingyizhudao.com/146968462384937');
+                $(this).attr('data-active', 1);
+            }
+            var hasBool = false;
+            $('.selectBtn').each(function() {
+                if ($(this).attr('data-active') == 1) {
+                    hasBool = true;
+                }
+            });
+            if (hasBool) {
+                $('footer').removeClass('hide');
+            } else {
+                $('footer').addClass('hide');
+            }
+        });
+        //确定
+        $('#chooseList_footer').click(function() {
+            location.href = '<?php echo $urlAddPatient; ?>/' + patientId;
+        });
+
+
+
+
+
+
+
+
+
+
+        var innerHtml = '<div class="col-0 pr10 selectBtn hide" data-id="<?php echo $patientInfo->id; ?>">' +
+                '<img src="http://static.mingyizhudao.com/14696845618638" class="w20p">' +
+                '</div>';
+        // if('<?php echo $patientInfo->diseaseName; ?>'!=''){
+        //      $('selectBtn').removeAttr('hide');
+        // }
+    });
 //     $(document).ready(function () {
 //         if ('<?php echo $checkTeamDoctor; ?>' == 1) {
 //             J.customConfirm('您已实名认证',
@@ -152,7 +177,7 @@ $this->show_footer = false;
 //         //           $('footer').removeClass('hide');   
 //         //      }
 //         //     })
-          
+
 //         // });
 //         //取消编辑
 //         // $('#cancelEdit').click(function () {
@@ -160,54 +185,8 @@ $this->show_footer = false;
 //         //     $('#editPatient').removeClass('hide');
 //         //     $('.selectBtn').addClass('hide');
 //         //     $('footer').addClass('hide');
-//         // });
-//         //选择取消对象
-        $('.selectBtn').click(function () {
-            // $('.selectBtn').each(function(){
-            //    $(this).removeAttr('data-active');
-            //    $(this).attr('src','http://static.mingyizhudao.com/14696845618638');
-            //  });
-            //  $(this).attr('data-active', 1);
-            //  $(this).attr('src','http://static.mingyizhudao.com/146968462384937');
+    //         // });
 
-            if ($(this).attr('data-active') == 1) {
-                $('.selectBtn').each(function(){
-                   $(this).removeAttr('data-active');
-                   $(this).find('img').attr('src','http://static.mingyizhudao.com/14696845618638');
-                 });
-                $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14696845618638');
-                 $(this).removeAttr('data-active');
-           } else {
-               $('.selectBtn').each(function(){
-                   $(this).removeAttr('data-active');
-                   $(this).find('img').attr('src','http://static.mingyizhudao.com/14696845618638');
-                 });
-
-                $(this).find('img').attr('src', 'http://static.mingyizhudao.com/146968462384937');
-                $(this).attr('data-active', 1);
-                // $('footer').removeClass('hide'); 
-             };
-
-
-
-             
-
-             var hasBool=false;
-          $('.selectBtn').each(function(){
-                if($(this).attr('data-active')==1){
-                    hasBool=true;
-                }
-             })
-          if(hasBool){
-            $('footer').removeClass('hide');
-          }else{
-            $('footer').addClass('hide');
-          }
-       
-             
-        });
-       
-        
 //         //取消
 //         $('footer').click(function () {
 //             var patientList = new Array();
