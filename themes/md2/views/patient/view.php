@@ -21,8 +21,8 @@ $this->show_footer = false;
 <?php
 if ($addBooking == 1) {
     ?>
-    <footer class='bg-white'>
-        <button id='patientBookingCreate' class="btn btn-block bg-green">继续创建</button>
+    <footer class='bg-white hide'>
+        <button id='patientBookingCreate' class="btn btn-block bg-green">补充疾病信息</button>
     </footer>
 <?php }
 ?>
@@ -72,12 +72,12 @@ if ($addBooking == 1) {
                 <div class="col-1 w70 pr10 text-right "><?php echo $patientInfo->diseaseName; ?></div>
                 <?php }?>
             </div>
-            <div class="pad10 bb-gray">
+            <div class="pad10 bb-gray ">
                 
                 <?php if($patientInfo->diseaseDetail==''){?>
-                <div class="text-center  font-hs1 ">暂没填写疾病描述</div>
+                <div class="text-center  font-hs1 diseaseD">暂没填写疾病描述</div>
                <?php }else{?>
-               <div class="mt5 pl10 font-hs1 word-wrap"><?php echo $patientInfo->diseaseDetail; ?></div>
+               <div class="mt5 pl10 font-hs1 word-wrap diseaseD"><?php echo $patientInfo->diseaseDetail; ?></div>
                <?php }?>
             </div>
             <div class="pad10">
@@ -104,19 +104,18 @@ if ($addBooking == 1) {
         $(".confirmPage").tap(function () {
             $(this).hide();
         });
+        var diseaseD=$('.diseaseD').text();
+            if(diseaseD=='暂没填写疾病描述'){
+                $('footer').removeClass('hide');
+            }
         $('#patientBookingCreate').tap(function () {
+            
             sessionStorage.removeItem('intention');
             var diseaseName='<?php echo $patientInfo->diseaseName?>';
             var diseaseDetail='<?php echo $patientInfo->diseaseDetail?>';
-            if(diseaseDetail==''&&diseaseName==''){
+           
               location.href = '<?php echo $urlSubmit.'?id='.$id; ?>'+'&returnUrl';
-           }
-            else if(_imgfiles.length==0){
-                location.href = '<?php echo $urlUploadMRFile ; ?>';
-              }
-            else {
-               location.href = '<?php echo $urlPatientBookingCreate; ?>';
-            }
+           
         });
     });
     function ajaxPatientFiles() {
@@ -174,5 +173,7 @@ if ($addBooking == 1) {
                 J.closePopup();
             });
         });
+        
+    
     }
 </script>
