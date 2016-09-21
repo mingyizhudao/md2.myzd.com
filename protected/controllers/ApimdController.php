@@ -510,6 +510,7 @@ class ApimdController extends Controller {
             case 'deletedoctorpatient'://根据ids逻辑删除患者
                 if (isset($post['patient_ids'])) {
                     $user = $this->userLoginRequired($post);
+                    $post['patient_ids'] = json_decode($post['patient_ids']);
                     $apiSvc = new ApiViewDeletePatientByIds($post['patient_ids']);
                     $output = $apiSvc->loadApiViewData();
                 }
