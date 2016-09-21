@@ -51,10 +51,6 @@ class OrderController extends MobiledoctorController {
         if (isset($adminBooking['date_invalid'])) {
             strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
         }
-        //如果支付过期不显示支付页
-        if ($isInvalid === true) {
-            throw new CHttpException(404, 'The requested page does not exist.');
-        }
         
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
@@ -81,6 +77,7 @@ class OrderController extends MobiledoctorController {
             $this->render('view', array(
                 'data' => $output,
                 'returnUrl' => $returnUrl,
+                'isInvalid' => $isInvalid
             ));
         }
     }
