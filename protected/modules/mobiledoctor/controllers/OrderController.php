@@ -43,6 +43,15 @@ class OrderController extends MobiledoctorController {
         if (empty($refNo)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+        
+        $isInvalid = true;
+        $bookingId = (int)Yii::app()->request->getParam('bookingId');
+        $adminBookingManager = new AdminBookingManager();
+        $adminBooking = $adminBookingManager->getAdminBookingByBookingId((int)$bookingId);
+        if (isset($adminBooking['date_invalid'])) {
+            strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+        }
+        
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
@@ -68,6 +77,7 @@ class OrderController extends MobiledoctorController {
             $this->render('view', array(
                 'data' => $output,
                 'returnUrl' => $returnUrl,
+                'isInvalid' => $isInvalid
             ));
         }
     }
@@ -97,6 +107,14 @@ class OrderController extends MobiledoctorController {
                 $order->openid = $openid;
                 $output->status = 'ok';
                 $output->data = $order;
+                
+                $isInvalid = true;
+                $adminBookingManager = new AdminBookingManager();
+                $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($refNo);
+                if (isset($adminBooking['date_invalid'])) {
+                    strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+                }
+                $output->isInvalid = $isInvalid;
             }
             // exit;
         } else {
@@ -111,20 +129,20 @@ class OrderController extends MobiledoctorController {
     public function actionOrderView($bookingid) {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
-        
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
-            if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
-                //一次性通过流程到达支付详情时作一个标记
-                Yii::app()->session[$sessionName] = true;
-            }
-            else {
-                if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
-            }
-        }
+
+//         if (isset($_SERVER['HTTP_REFERER'])) {
+//             $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
+//             if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
+//                 //一次性通过流程到达支付详情时作一个标记
+//                 Yii::app()->session[$sessionName] = true;
+//             }
+//             else {
+//                 if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
+//             }
+//         }
 
         $this->render('orderView', array(
-            'data' => $output
+            'data' => $output,
         ));
     }
 
@@ -170,10 +188,10 @@ class OrderController extends MobiledoctorController {
 //        $this->send_get($url);
 
 //         if (Yii::app()->session['orderReferer_' . $order->bk_id . '_' . $pbooking->getRefNo()] === true) {
-//            $adminBookingManager = new AdminBooingManager();
+//            $adminBookingManager = new AdminBookingManager();
 //            $adminBookingManager->setDockingCase(1, $order->bk_id, $pbooking->getRefNo());
 //         }
-        
+
         $this->show_header = true;
         $this->show_footer = false;
         $this->show_baidushangqiao = false;

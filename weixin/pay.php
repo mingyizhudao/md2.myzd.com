@@ -62,7 +62,8 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
 
                         </div>
                         <div class="ui-block-b">
-                            <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
+                            <a id="noPay" href="javascript:;" class="btn btn-default btn-block hide">已过期</a>
+                            <a id="pay" href="javascript:;" class="btn btn-yes btn-block hide">立即支付</a>
                         </div>
 
                         <div class="clearfix"></div>
@@ -75,14 +76,14 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
     <script type="text/javascript">
         //var orderno = document.getElementById('ref_no').value;
         //var amount = 0.01;
-        Zepto(function ($) {
+        Zepto(function($) {
 
             loadOrderData();
             var pingAmount = '', pingOrderno = '', pingOpenid = '';
 
             function initPing() {
                 //    var openid='';
-                document.getElementById('pay').addEventListener('click', function (e) {
+                document.getElementById('pay').addEventListener('click', function(e) {
                     pingpp_one.init({
                         app_id: 'app_SWv9qLSGWj1GKqbn', //该应用在ping++的应用ID
                         order_no: pingOrderno, //订单在商户系统中的订单号
@@ -95,7 +96,7 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
                         charge_url: "<?php echo $payUrl; ?>", //商户服务端创建订单的url              
                         charge_param: {ref_url: "<?php echo $refUrl; ?>"}, //(可选，用户自定义参数，若存在自定义参数则壹收款会通过 POST 方法透传给 charge_url)                        
                         open_id: pingOpenid
-                    }, function (res) {
+                    }, function(res) {
                         console.log("res data...");
                         console.log(res);
                         //alert(res.msg);
@@ -107,13 +108,13 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
                         else {
                             //若微信公众号渠道需要使用壹收款的支付成功页面，则在这里进行成功回调，调用 pingpp_one.success 方法，你也可以自己定义回调函数
                             //其他渠道的处理方法请见第 2 节
-                            pingpp_one.success(function (res) {
+                            pingpp_one.success(function(res) {
                                 if (!res.status) {
                                     alert(res.msg);
                                 } else {
                                     window.location.href = '<?php echo $refUrl; ?>';
                                 }
-                            }, function () {
+                            }, function() {
                                 //这里处理支付成功页面点击“继续购物”按钮触发的方法，例如：若你需要点击“继续购物”按钮跳转到你的购买页，则在该方法内写入 window.location.href = "你的购买页面 url"
                                 window.location.href = '<?php echo $refUrl; ?>';
                                 //alert("支付成功的跳转");
@@ -125,31 +126,38 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
             function loadOrderData() {
                 $.ajax({
                     url: "<?php echo $loadOrderDataUrl; ?>",
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status == "ok") {
-                            var order = data.data;
+//                            var order = data.data;
                             //var returnUrl = data.returnUrl;
-                            console.log(order);
+//                            console.log(order);
                             //  console.log(returnUrl);
-                            updateData(order);
+                            updateData(data);
                             initPing();
                         } else {
                             console.log(data);
                             //alert(data);
                         }
                     },
-                    error: function (data) {
+                    error: function(data) {
                         console.log(data);
                         //alert(data);
                     }
                 });
             }
 
-            function updateData(order) {
+            function updateData(data) {
+                var order = data.data;
                 $("#orderNo").html(order.refNo);
                 $("#orderAmount").html(order.finalAmount);
                 $("#orderSubject").html(order.subject);
                 $("#orderDesc").html(order.description);
+                //判断支付订单是否过期
+                if (data.isInvalid) {
+                    $('#noPay').removeClass('hide');
+                } else {
+                    $('#pay').removeClass('hide');
+                }
                 if (order.isPaid == "0") {
                     $("#orderStatus").html("未支付");
                 } else {
