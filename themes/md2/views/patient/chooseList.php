@@ -2,7 +2,6 @@
 $this->setPageTitle('未处理患者');
 $hasBookingList = $data->results->hasBookingList;
 $noBookingList = $data->results->noBookingList;
-$urlCreatePatient = $this->createUrl('patient/create', array('addBackBtn' => 1, 'status' => 0));
 $currentUrl = $this->getCurrentRequestUrl();
 $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlSearchView = $this->createUrl('patient/searchView', array('addBackBtn' => 1));
@@ -12,8 +11,11 @@ $ajaxDeleteDoctorPatient = $this->createUrl('patient/ajaxDeleteDoctorPatient');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $checkTeamDoctor = $teamDoctor;
 $this->show_footer = false;
-$patientId = Yii::app()->request->getQuery('id', '');
-$urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $patientId, 'patientId' => ''));
+$doctorId = Yii::app()->request->getQuery('id', '');
+$patientId = Yii::app()->request->getQuery('patientId', '');
+$createReturnUrl = $this->createUrl('patient/chooseList', array('id' => $doctorId, 'addBackBtn' => 1));
+$urlCreatePatient = $this->createUrl('patient/create');
+$urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $doctorId, 'patientId' => ''));
 ?>
 <style>
     #chooseList_footer.hide~article{
@@ -34,12 +36,12 @@ $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $patientId,
     </nav>
     <h1 class="title">未处理患者</h1>
     <nav class="right">
-        <a href="<?php echo $urlCreatePatient; ?>">
+        <a href="<?php echo $urlCreatePatient . '?status=1&returnUrl=' . $createReturnUrl; ?>">
             <img src="http://static.mingyizhudao.com/14743390650457" class="w20p">
         </a>
     </nav>
 </header>
-<footer class="grid middle hide " id="chooseList_footer">
+<footer class="grid middle <?php echo $patientId == '' ? 'hide' : ''; ?>" id="chooseList_footer">
     确定
 </footer>
 <article id="chooseList_article" class="active bg-gray" data-scroll="true">
@@ -69,13 +71,25 @@ $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $patientId,
                         <div class="col-1 pt2">
                             创建时间:<?php echo $patientInfo->dateUpdated; ?>
                         </div>
-                        <?php if ($patientInfo->diseaseName != '') { ?>
-                            <div class="col-0 pr10 selectBtn" data-id="<?php echo $patientInfo->id; ?>">
-                                <img src="http://static.mingyizhudao.com/14696845618638" class="w20p">
-                            </div>
-                        <?php } ?>
+                        <?php
+                        if ($patientInfo->diseaseName != '') {
+                            if ($patientInfo->id == $patientId) {
+                                ?>
+                                <div class="col-0 pr10 selectBtn" data-id="<?php echo $patientInfo->id; ?>" data-active="1">
+                                    <img src="http://static.mingyizhudao.com/146968462384937" class="w20p">
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="col-0 pr10 selectBtn" data-id="<?php echo $patientInfo->id; ?>">
+                                    <img src="http://static.mingyizhudao.com/14696845618638" class="w20p">
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
                     </div>
-                    <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'addBackBtn' => 1)); ?>" class="color-000" data-target="link">
+                    <a href="<?php echo $this->createUrl('patient/view', array('id' => $patientInfo->id, 'doctorId' => $doctorId, 'source' => $patientInfo->diseaseName == '' ? 2 : 1)); ?>" class="color-000" data-target="link">
                         <div class="pl10 mt5">
                             <?php echo $patientInfo->name; ?>
                         </div>
@@ -102,7 +116,7 @@ $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $patientId,
 <script>
     $(document).ready(function() {
         //选中患者id
-        var patientId = '';
+        var patientId = '<?php echo $patientId; ?>';
         //选择取消对象
         $('.selectBtn').click(function() {
             if ($(this).attr('data-active') == 1) {
