@@ -14,7 +14,7 @@ $this->show_footer = false;
 $doctorId = Yii::app()->request->getQuery('id', '');
 $patientId = Yii::app()->request->getQuery('patientId', '');
 $createReturnUrl = $this->createUrl('patient/chooseList', array('id' => $doctorId, 'addBackBtn' => 1));
-$urlCreatePatient = $this->createUrl('patient/create', array('addBackBtn' => 1, 'status' => 0, 'returnUrl' => ''));
+$urlCreatePatient = $this->createUrl('patient/create');
 $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $doctorId, 'patientId' => ''));
 ?>
 <style>
@@ -36,7 +36,7 @@ $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $doctorId, 
     </nav>
     <h1 class="title">未处理患者</h1>
     <nav class="right">
-        <a href="<?php echo $urlCreatePatient; ?>">
+        <a href="<?php echo $urlCreatePatient . '?status=1&returnUrl=' . $createReturnUrl; ?>">
             <img src="http://static.mingyizhudao.com/14743390650457" class="w20p">
         </a>
     </nav>

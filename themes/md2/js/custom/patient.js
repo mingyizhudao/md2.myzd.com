@@ -1,17 +1,18 @@
-$(function () {
+$(function() {
 
     var domForm = $("#patient-form"), // form - html dom object.
             btnSubmit = $("#btnSubmit"),
             type = domForm.attr('data-type'),
+            requestUrl = domForm.attr('data-url-action'),
             returnUrl = domForm.attr("data-url-return");
     // 手机号码验证
-    $.validator.addMethod("isMobile", function (value, element) {
+    $.validator.addMethod("isMobile", function(value, element) {
         var length = value.length;
         var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
         return this.optional(element) || (mobile.test(value));
     }, "请填写正确的电话号码");
 
-    btnSubmit.click(function () {
+    btnSubmit.click(function() {
         var bool = validator_patient.form();
         if (bool) {
             formAjaxSubmit();
@@ -74,14 +75,13 @@ $(function () {
 //        errorLabelContainer: $("#DoctorForm-form div .error"),
 //        wrapper: "div",
         errorElement: "div",
-        errorPlacement: function (error, element) {                             //错误信息位置设置方法  
+        errorPlacement: function(error, element) {                             //错误信息位置设置方法  
             error.appendTo(element.parent());                        //这里的element是录入数据的对象  
         }
     });
     function formAjaxSubmit() {
         //form插件的异步无刷新提交
         disabledBtn(btnSubmit);
-        requestUrl = domForm.attr('data-url-action');
         var formdata = domForm.serializeArray();
         var dataArray = structure_formdata('patient', formdata);
         var encryptContext = do_encrypt(dataArray, pubkey);
@@ -90,16 +90,19 @@ $(function () {
             type: 'post',
             url: requestUrl,
             data: param,
-            success: function (data) {
+            success: function(data) {
                 //success.
                 if (data.status == 'ok') {
+                    if ($returnUrl != '') {
+                        $returnUrl += '/patientId/' + data.patient.id;
+                    }
                     returnUrl += '?id=' + data.patient.id + '&returnUrl=' + $returnUrl;
                     if (type == 'update') {
                         J.showToast('修改成功', '', '1000');
                     } else {
                         J.showToast('创建成功', '', '1000');
                     }
-                    setTimeout(function () {
+                    setTimeout(function() {
                         location.href = returnUrl;//下一步的链接有关
                     }, 1000);
                 } else {
@@ -114,7 +117,7 @@ $(function () {
                     //error.
                 }
             },
-            error: function (XmlHttpRequest, textStatus, errorThrown) {
+            error: function(XmlHttpRequest, textStatus, errorThrown) {
                 if (type == 'update') {
                     J.showToast('网络异常，修改失败', '', '2000');
                 }
@@ -123,7 +126,7 @@ $(function () {
                 console.log(textStatus);
                 console.log(errorThrown);
             },
-            complete: function () {
+            complete: function() {
                 enableBtn(btnSubmit);
             }
         });
