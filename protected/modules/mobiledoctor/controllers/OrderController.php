@@ -107,6 +107,14 @@ class OrderController extends MobiledoctorController {
                 $order->openid = $openid;
                 $output->status = 'ok';
                 $output->data = $order;
+                
+                $isInvalid = true;
+                $adminBookingManager = new AdminBookingManager();
+                $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($refNo);
+                if (isset($adminBooking['date_invalid'])) {
+                    strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+                }
+                $output->isInvalid = $isInvalid;
             }
             // exit;
         } else {
