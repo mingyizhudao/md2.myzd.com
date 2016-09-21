@@ -248,7 +248,7 @@ class DoctorController extends MobiledoctorController {
      * 添加患者
      * @param $id
      */
-    public function actionAddPatient($id, $patientId) {
+    public function actionAddPatient($id) {
         $apiService = new ApiViewDoctor($id);
         $doctor = $apiService->loadApiViewData();
         //查看患者列表
@@ -258,9 +258,9 @@ class DoctorController extends MobiledoctorController {
         $patientList = $apisvc->loadApiViewData();
         
         $patientInfo = null;
-        if ($patientId) {
+        if (isset($_GET['patientId'])) {
             //根据id获得患者信息
-            $patientInfoApiSvc = new ApiViewDoctorPatientInfo($patientId, $userId);
+            $patientInfoApiSvc = new ApiViewDoctorPatientInfo((int)$_GET['patientId'], $userId);
             //调用父类方法将数据返回
             $patientInfo = $patientInfoApiSvc->loadApiViewData();
         }
