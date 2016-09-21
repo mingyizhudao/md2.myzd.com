@@ -122,13 +122,6 @@ class OrderController extends MobiledoctorController {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
 
-        //是否支付过期
-        $isInvalid = true;
-        $adminBookingManager = new AdminBookingManager();
-        $adminBooking = $adminBookingManager->getAdminBookingByBookingId((int)$bookingid);
-        if (isset($adminBooking['date_invalid'])) {
-            strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
-        }
 //         if (isset($_SERVER['HTTP_REFERER'])) {
 //             $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
 //             if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
@@ -142,7 +135,6 @@ class OrderController extends MobiledoctorController {
 
         $this->render('orderView', array(
             'data' => $output,
-            'isInvalid' => $isInvalid
         ));
     }
 
