@@ -43,6 +43,19 @@ class OrderController extends MobiledoctorController {
         if (empty($refNo)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+        
+        $isInvalid = true;
+        $bookingId = (int)Yii::app()->request->getParam('bookingId');
+        $adminBookingManager = new AdminBookingManager();
+        $adminBooking = $adminBookingManager->getAdminBookingByBookingId((int)$bookingId);
+        if (isset($adminBooking['date_invalid'])) {
+            strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+        }
+        //如果支付过期不显示支付页
+        if ($isInvalid === true) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
@@ -112,19 +125,27 @@ class OrderController extends MobiledoctorController {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
 
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
-            if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
-                //一次性通过流程到达支付详情时作一个标记
-                Yii::app()->session[$sessionName] = true;
-            }
-            else {
-                if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
-            }
+        //是否支付过期
+        $isInvalid = true;
+        $adminBookingManager = new AdminBookingManager();
+        $adminBooking = $adminBookingManager->getAdminBookingByBookingId((int)$bookingid);
+        if (isset($adminBooking['date_invalid'])) {
+            strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
         }
+//         if (isset($_SERVER['HTTP_REFERER'])) {
+//             $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
+//             if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
+//                 //一次性通过流程到达支付详情时作一个标记
+//                 Yii::app()->session[$sessionName] = true;
+//             }
+//             else {
+//                 if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
+//             }
+//         }
 
         $this->render('orderView', array(
-            'data' => $output
+            'data' => $output,
+            'isInvalid' => $isInvalid
         ));
     }
 

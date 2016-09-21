@@ -10,6 +10,15 @@ class PayManager {
     public function doPingxxPay($refNo, $channel, $refurl, $openid = '') {
         //$keyconfig = new KeyConfig();
         //$config_res = $keyconfig->getPayConfig();
+        
+        $adminBookingManager = new AdminBookingManager();
+        $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($refNo);
+        if (isset($adminBooking['date_invalid'])) {
+            if (!is_null($adminBooking['date_invalid'])) {
+                if(strtotime($adminBooking['date_invalid']) <= time()) throw new CException('该订单-' . $refNo . ' 支付已过期');
+            }
+        }
+        
         $pingCharge = null;
         $apisvs = new ApiViewSalesOrder($refNo);
         $output = $apisvs->loadApiViewData();
