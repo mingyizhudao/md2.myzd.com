@@ -111,7 +111,7 @@ class OrderController extends MobiledoctorController {
     public function actionOrderView($bookingid) {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
-        
+
         if (isset($_SERVER['HTTP_REFERER'])) {
             $sessionName = 'orderReferer_' . $bookingid . '_' . $output->results->booking->refNo;
             if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
@@ -170,10 +170,10 @@ class OrderController extends MobiledoctorController {
 //        $this->send_get($url);
 
 //         if (Yii::app()->session['orderReferer_' . $order->bk_id . '_' . $pbooking->getRefNo()] === true) {
-//            $adminBookingManager = new AdminBooingManager();
+//            $adminBookingManager = new AdminBookingManager();
 //            $adminBookingManager->setDockingCase(1, $order->bk_id, $pbooking->getRefNo());
 //         }
-        
+
         $this->show_header = true;
         $this->show_footer = false;
         $this->show_baidushangqiao = false;
