@@ -84,7 +84,7 @@ class PatientController extends MobiledoctorController {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('ajaxTask', 'ajaxDrTask', 'view', 'createPatientMR', 'updatePatientMR', 'createBooking', 'ajaxCreate',
                     'ajaxCreatePatientMR', 'ajaxUploadMRFile', 'delectPatientMRFile', 'patientMRFiles', 'uploadMRFile', 'searchView',
-                    'ajaxSearch', 'uploadDAFile', 'viewDaFile', 'ajaxDeleteDoctorPatient'),
+                    'ajaxSearch', 'uploadDAFile', 'viewDaFile', 'ajaxDeleteDoctorPatient', 'chooseList'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -365,4 +365,31 @@ class PatientController extends MobiledoctorController {
         $this->send_get($remote_url);
     }
 
+    /**
+     * 填写预约单选择患者页
+     */
+    public function actionChooseList($page = 1)
+    {
+        $user = $this->loadUser();
+        $userId = $user->getId();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $teamDoctor = 0;
+        if (isset($doctorProfile)) {
+            if ($doctorProfile->isVerified()) {
+                if ($doctorProfile->isTermsDoctor() === false) {
+                    $teamDoctor = 1;
+                }
+            }
+        }
+        $page_size = 100;
+        //service层
+        $apiSvc = new ApiViewDoctorPatientList($userId, $page_size, $page);
+        //调用父类方法将数据返回
+        $output = $apiSvc->loadApiViewData();
+        
+        $dataCount = $apiSvc->loadCount();
+        $this->render('chooseList', array(
+            'data' => $output, 'dataCount' => $dataCount, 'teamDoctor' => $teamDoctor
+        ));
+    }
 }

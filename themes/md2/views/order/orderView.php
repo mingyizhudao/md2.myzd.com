@@ -21,8 +21,9 @@ $BK_STATUS_DONE = StatCode::BK_STATUS_DONE;
 $BK_STATUS_PROCESS_DONE = StatCode::BK_STATUS_PROCESS_DONE;
 $orderType = SalesOrder::ORDER_TYPE_SERVICE;
 $user = $this->loadUser();
-$booking = $data->results->booking;
-$notPays = $data->results->notPays;
+$booking = $data->results->booking;//医生的信息
+$notPays = $data->results->notPays;//订单编号等
+ // var_dump($notPays);die;
 $pays = $data->results->pays;
 $this->show_footer = false;
 $hasFile = $data->results->booking->hasFile;

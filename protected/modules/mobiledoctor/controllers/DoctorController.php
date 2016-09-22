@@ -253,12 +253,23 @@ class DoctorController extends MobiledoctorController {
         $doctor = $apiService->loadApiViewData();
         //查看患者列表
         $userId = $this->getCurrentUserId();
-        $apisvc = new ApiViewDoctorPatientList($userId, 100, 1);
-        //调用父类方法将数据返回
-        $patientList = $apisvc->loadApiViewData();
+//         $apisvc = new ApiViewDoctorPatientList($userId, 100, 1);
+//         //调用父类方法将数据返回
+//         $patientList = $apisvc->loadApiViewData();
+        
+        $patientInfo = null;
+        if (isset($_GET['patientId'])) {
+            //根据id获得患者信息
+            $patientInfoApiSvc = new ApiViewDoctorPatientInfo((int)$_GET['patientId'], $userId);
+            //调用父类方法将数据返回
+            $patientInfo = $patientInfoApiSvc->loadApiViewData();
+        }
+
+        $form = new PatientBookingForm();
         $this->render("addPatient", array(
             'doctorInfo' => $doctor,
-            'patientList' => $patientList
+            'patientInfo' => $patientInfo,
+            'model' => $form
         ));
     }
 

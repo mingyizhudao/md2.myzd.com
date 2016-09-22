@@ -98,6 +98,14 @@ class PaymentController extends MobiledoctorController {
             } else {
                 throw new CException('invalid parameters - missing ref_url.');
             }
+             
+            $isInvalid = true;
+            $salesOrder = new SalesOrder();
+            $salesOrder = $salesOrder->getByAttributes(array('ref_no' => $refno));
+            if (isset($salesOrder->date_invalid)) {
+                if(strtotime($salesOrder->date_invalid) <= time()) throw new CException('该订单-' . $refno . ' 支付已过期');
+            }
+            
             if (isset($post['open_id'])) {
                 $openid = $post['open_id'];
             } else {
