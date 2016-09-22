@@ -5,8 +5,14 @@ $addDisease = $this->createUrl('doctor/addDisease');
 $diseaseCategoryToSub = $this->createUrl('doctor/diseaseCategoryToSub');
 $diseaseByCategoryId = $this->createUrl('doctor/diseaseByCategoryId', array('categoryid' => ''));
 $id = Yii::app()->request->getQuery('id', '');
+/*
+ * source
+ * 0:正常途径完善疾病信息
+ * 1:从签约专家路径完善疾病信息，点击下一步，回到签约专家中的选择患者页面
+ */
+$source = Yii::app()->request->getQuery('source', '0');
 $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
 <header id="diseaseSearch_header" class="bg-green">
     <div class="grid w100">
@@ -35,24 +41,24 @@ $this->show_footer=false;
     </div>
 </article>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         J.showMask();
         var articleHeight = $('article').height();
         $('.scrollModular').css('height', articleHeight);
         $('.scrollModular').css('overflow', 'auto');
         //搜索疾病
-        $('.searchInput').click(function () {
-            location.href = '<?php echo $diseaseResult; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>';
+        $('.searchInput').click(function() {
+            location.href = '<?php echo $diseaseResult; ?>?source=' + '<?php echo $source; ?>&id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>';
         });
         //科室列表
         $.ajax({
             url: '<?php echo $diseaseCategoryToSub; ?>',
-            success: function (data) {
+            success: function(data) {
                 if (data.status == 'ok') {
                     readyDept(data);
                 }
             },
-            error: function (XmlHttpRequest, textStatus, errorThrown) {
+            error: function(XmlHttpRequest, textStatus, errorThrown) {
                 J.hideMask();
                 console.log(XmlHttpRequest);
                 console.log(textStatus);
@@ -103,16 +109,16 @@ $this->show_footer=false;
             $('#diseaseView').html(innerDisease);
             J.hideMask();
             //科室切换
-            $('.deptChange').click(function () {
+            $('.deptChange').click(function() {
                 if (!$(this).hasClass('bg-gray3')) {
                     //科室添加背景色
-                    $('.deptChange').each(function () {
+                    $('.deptChange').each(function() {
                         $(this).removeClass('bg-gray3');
                     });
                     $(this).addClass('bg-gray3');
                     var id = $(this).attr('data-id');
                     //疾病显示、隐藏
-                    $('.diseaseList').each(function () {
+                    $('.diseaseList').each(function() {
                         var deptId = $(this).attr('data-dept');
                         if (deptId == id) {
                             $(this).removeClass('hide');
@@ -124,9 +130,9 @@ $this->show_footer=false;
                 }
             });
             //选择疾病
-            $('.selectDisease').click(function () {
+            $('.selectDisease').click(function() {
                 var name = $(this).text();
-                location.href = '<?php echo $addDisease; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>&diseaseName=' + name;
+                location.href = '<?php echo $addDisease; ?>?source=' + '<?php echo $source; ?>&id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>&diseaseName=' + name;
             });
         }
     });

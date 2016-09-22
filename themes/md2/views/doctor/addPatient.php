@@ -1,22 +1,21 @@
 <?php
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/jquery.formvalidate.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/addPatient.js?ts=' . time(), CClientScript::POS_END);
+?>
+<?php
 $this->setPageTitle('添加患者');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlBookingDoctor = $this->createAbsoluteUrl('booking/create', array('did' => ''));
 $url = $this->createUrl('home/page', array('view' => 'bookingDoctor', 'addBackBtn' => '1'));
 $urlPatientCreate = $this->createUrl('patient/create', array('addBackBtn' => 1));
 $doctor = $doctorInfo->results->doctor;
-$noBookingList = $patientList->results->noBookingList;
 $id = Yii::app()->request->getQuery('id', '');
 $returnUrl = $this->createUrl('doctor/addPatient', array('id' => $id, 'addBackBtn' => 1));
 $urlchoosePatientList = $this->createUrl('patient/chooseList', array('id' => $doctor->id, 'addBackBtn' => 1));
-$patientId = Yii::app()->request->getQuery('patientId', '');
-$urlReturn = $this->createUrl('order/orderView');
-
-// var_dump($patientId);die;
+$urlSubmit = $this->createUrl('patientbooking/ajaxCreate');
+$urlReturn = $this->createUrl('order/view');
 $this->show_footer = false;
-// var_dump($noBookingList);die;
 ?>
-
 <style>
     .bg-g1{
         background-color: #00A378;
@@ -71,7 +70,7 @@ $this->show_footer = false;
         box-shadow: none!important;
         height: 60px;
     }
-    #addPatient_article .icon-clear{
+    .icon-clear {
         background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
         background-size: 15px 15px;
         background-position: 10px 5px;
@@ -79,11 +78,31 @@ $this->show_footer = false;
         height: 25px;
     }
 </style>
-<footer style="background:#EEEEEE;">
-    <button id='add_info' class="btn btn-block bg-g1" disabled="disabled">提交</button>
+<footer class="bg-white">
+    <button id="btnSubmit" class="btn btn-block bg-g1">提交</button>
 </footer>
 <article id="addPatient_article" class="active" data-scroll="true">
     <div>
+        <?php
+        $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'patient-form',
+            'action' => $urlSubmit,
+            'htmlOptions' => array('data-url-return' => $urlReturn),
+            'enableClientValidation' => false,
+            'clientOptions' => array(
+                'validateOnSubmit' => true,
+                'validateOnType' => true,
+                'validateOnDelay' => 500,
+                'errorCssClass' => 'error',
+            ),
+            'enableAjaxValidation' => false,
+        ));
+        ?>
+        <?php echo $form->hiddenField($model, 'patient_id', array('name' => 'booking[patient_id]', 'value' => is_null($patientInfo) ? '' : $patientInfo->results->patientInfo->id)); ?>
+        <?php echo $form->hiddenField($model, 'expected_doctor', array('name' => 'booking[expected_doctor]', 'value' => $doctor->name)); ?>
+        <?php echo $form->hiddenField($model, 'expected_hospital', array('name' => 'booking[expected_hospital]', 'value' => $doctor->hospitalName)); ?>
+        <?php echo $form->hiddenField($model, 'expected_dept', array('name' => 'booking[expected_dept]', 'value' => $doctor->hpDeptName)); ?>
+        <?php echo $form->hiddenField($model, 'travel_type', array('name' => 'booking[travel_type]')); ?>
         <div class="grid pt20 pb20 doctorInfo">
             <div class="col-0">
                 <div class="imgDiv ml20">
@@ -115,127 +134,67 @@ $this->show_footer = false;
             <div class="bbh pl10 pb10 ">
                 <span class="bgimg1 pl25">选择就诊意向:</span> 
             </div>
-            <div class="grid pad20 want">
+            <div class="grid pad20">
                 <div class="col-1 intention w50 mr10" data-travel="1">邀请专家过来</div>
                 <div class="col-1 intention w50 ml10" data-travel="2">希望转诊治疗</div>
             </div>
         </div>
         <div class="mt10 bg-white">
-            <div class="pad10 bbh  ">
+            <div class="pad10 bbh">
                 <span class="bgimg2 pl25">请选择您的患者:</span>
             </div>
-            <?php if($patientId==''){?>
-            <div class="text-center pad20 ">
-                <span class="text-center pr50 pl50 pt10 pb10 " id="choosep" style="border:1px solid #f1f1f1;border-radius:5px ;">+选择患者</span>
-            </div>
-            <?php }else{?>
-               <?php
-                  if ($noBookingList) {
-                   for ($i = 0; $i < count($noBookingList); $i++) {
-                      $patientInfo = $noBookingList[$i];
-                      if($patientInfo->id==$patientId){?>
-                      <div class="grid pad10 ">
-                       <div class=" col-1" ><?php echo $patientInfo->name.'-'.$patientInfo->diseaseName;?></div>
-                       <div class="col-0 icon-clear"></div>
-                     </div>
-
-               <?php       }
-                  }
-            
-             }
-         }?>
+            <?php
+            if (is_null($patientInfo)) {
+                echo '<div class="text-center pad20"><span class="text-center pr50 pl50 pt10 pb10" id="choosep" style="border:1px solid #f1f1f1;border-radius:5px ;">+选择患者</span></div>';
+            } else {
+                ?>
+                <div id="choosep" class="pad10 grid">
+                    <div class="col-1">
+                        <?php echo $patientInfo->results->patientInfo->name . '-' . $patientInfo->results->patientInfo->diseaseName; ?>
+                    </div>
+                    <div class="col-0 icon-clear"></div>
+                </div>
+                <?php
+            }
+            ?>
         </div>
         <div class="mt10 bg-white">
             <div class="pad10 bbh">
                 <span class="bgimg3 pl25">诊疗意见:</span>
             </div> 
             <div class="pad10">
-                <textarea name="booking[detail]" id="booking_detail"  placeholder="如您有其他诊疗意见，请填写&#10;如没有请填写“无”"cols="10"rows="2"></textarea>
+                <textarea name="booking[detail]" id="booking_detail"  placeholder="如您有其他诊疗意见，请填写&#10;如没有请填写“无”" maxlength="1000" cols="10" rows="2"></textarea>
             </div>
         </div>
+        <?php $this->endWidget(); ?>
     </div>
 </article>
 <script>
     $(document).ready(function() {
-
-       //  var patientId='<?php echo $patientId?>';
-       // if($('#booking_detail').val()!=''&patientId!=''$('.want').children('.active')!=''){
-       //  $('footer').removeClass('hide');
-       // }
         //选择就诊意向
         $('.intention').click(function() {
             var travelType = $(this).attr('data-travel');
-            sessionStorage.setItem('intention', travelType);
-           $(this).addClass('active');
-           $(this).siblings().removeClass('active');
-           show();
-
+            $('input[name = "booking[travel_type]"]').attr('value', travelType);
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
         });
-    
-        //初始化就诊方式
-        var intention = sessionStorage.getItem('intention');
-        if (intention != null) {
-            $('.intention').each(function () {
-                if ($(this).attr('data-travel') == intention) {
+        var session_travelType = sessionStorage.getItem('travelType');
+        var session_detail = sessionStorage.getItem('detail');
+        if (session_travelType != null) {
+            $('.intention').each(function() {
+                if ($(this).attr('data-travel') == session_travelType) {
                     $(this).trigger('click');
                 }
             });
         }
-
-        $('#booking_detail').on('input',function(){
-            show();
-        })
-
-        function show(){
-            var patientId='<?php echo $patientId;?>';
-            var val=$('#booking_detail').val();
-            if(patientId!=''&&val!=''){
-              $('.intention').each(function(){
-                    if($(this).hasClass('active')){
-                        console.log('ok');
-                        $("#add_info").removeAttr('disabled');  
-
-                    }
-                })
-            }
-        }
-        // function show(){
-        //     var patientId='<?php echo $patientId;?>';
-        //     var val=$('#booking_detail').val();
-        //     if()
-        // }
-        $('.icon-clear').parent().click(function(){
-         location.href = "<?php echo $urlchoosePatientList; ?>";   
-        })
+        $('textarea[name="booking[detail]"]').val(session_detail);
         //选择患者
         $('#choosep').click(function() {
+            var travelType = $('input[name="booking[travel_type]"]').val();
+            var detail = $('textarea[name="booking[detail]"]').val();
+            sessionStorage.setItem('travelType', travelType);
+            sessionStorage.setItem('detail', detail);
             location.href = "<?php echo $urlchoosePatientList; ?>";
         });
-
-
-        $('#add_info').click(function() {
-            alert('s');
-            var urlReturn='<?php echo $urlReturn?>';
-          
-            location.href=urlReturn+'?bookingid=' + data.booking.id + '&status=1&addBackBtn=1';;
-        });
-
-        $('#btnSubmit').click(function() {
-            var patientId = '';
-            $(".selectPatient").each(function() {
-                if ($(this).hasClass('select')) {
-                    patientId = $(this).attr('data-id');
-                }
-            });
-            //console.log(patientId);
-            if (patientId == '') {
-                J.showToast('请先选择患者', '', 1000);
-                return;
-            }
-            location.href = '<?php echo $this->createUrl("doctor/createPatientBooking", array("doctorId" => $doctor->id, "patientId" => "")) ?>/' + patientId + '/addBackBtn/1';
-        });
-
-     
-
     });
 </script>

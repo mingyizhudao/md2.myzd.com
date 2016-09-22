@@ -127,7 +127,7 @@ if ($source != 1) {
                     location.href = '<?php echo $urlPatientBookingCreate; ?>';
                 }
             } else if ('<?php echo $source == 2; ?>') {
-                location.href = '<?php echo $urlSubmit . '?id=' . $id; ?>' + '&returnUrl=<?php echo $urlChooseList; ?>';
+                location.href = '<?php echo $urlSubmit . '?source=1&id=' . $id; ?>' + '&returnUrl=<?php echo $urlChooseList; ?>';
             }
         });
     });
