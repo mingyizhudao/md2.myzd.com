@@ -1,7 +1,7 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patient.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patient.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patient.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patient.min.1.2.js', CClientScript::POS_END);
 /*
  * $model PatientInfoForm.
  */
@@ -16,8 +16,7 @@ $urlDoctorTerms = $this->createAbsoluteUrl('doctor/doctorTerms');
 $urlDoctorTerms.='?returnUrl=' . $currentUrl;
 $urlDoctorView = $this->createUrl('doctor/view');
 $checkTeamDoctor = $teamDoctor;
-
-
+$this->show_footer = false;
 ?>
 <article class="active" data-scroll="true">
     <div class="ml10 mr10 mb20">
@@ -39,13 +38,13 @@ $checkTeamDoctor = $teamDoctor;
             <?php echo $form->hiddenField($model, 'country_id', array('name' => 'patient[country_id]')); ?>
             <ul class="list">
                 <li>
-                    <?php //echo CHtml::activeLabel($model, 'name'); ?>                                            
+                    <?php //echo CHtml::activeLabel($model, 'name');  ?>                                            
                     <label for="PatientInfoForm_name">患者姓名</label>
                     <?php echo $form->textField($model, 'name', array('name' => 'patient[name]', 'placeholder' => '请填写真实姓名', 'maxlength' => 45)); ?>
                     <?php echo $form->error($model, 'name'); ?>  
                 </li>
                 <li>
-                    <?php //echo CHtml::activeLabel($model, 'mobile'); ?>    
+                    <?php //echo CHtml::activeLabel($model, 'mobile');  ?>    
                     <label for="PatientInfoForm_mobile">联系方式</label>
                     <?php echo $form->textField($model, 'mobile', array('name' => 'patient[mobile]', 'placeholder' => '请填写手机号码', 'maxlength' => 50)); ?>
                     <?php echo $form->error($model, 'mobile'); ?>
@@ -119,7 +118,7 @@ $checkTeamDoctor = $teamDoctor;
     </div>
 </article>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         //签约专家跳转过来的returnUrl
         $returnUrl = '<?php echo $returnUrl; ?>';
 
@@ -128,30 +127,30 @@ $checkTeamDoctor = $teamDoctor;
                     '<div class="mt10 mb10">尚未签署《医生顾问协议》</div>',
                     '<a data="cancel" class="w50">暂不</a>',
                     '<a data="ok" class="color-green w50">签署协议</a>',
-                    function () {
+                    function() {
                         location.href = "<?php echo $urlDoctorTerms; ?>";
                     },
-                    function () {
+                    function() {
                         location.href = "<?php echo $urlDoctorView; ?>";
                     });
         }
         //按钮可操作
-        $('input[name="patient[gender]"]').click(function () {
+        $('input[name="patient[gender]"]').click(function() {
             $('#checkGender').val('ok');
             checkInput();
         });
-        document.addEventListener('input', function (e) {
+        document.addEventListener('input', function(e) {
             checkInput();
         });
         function checkInput() {
             var bool = true;
-            $('input').each(function () {
+            $('input').each(function() {
                 if ($(this).val() == '') {
                     bool = false;
                     return false;
                 }
             });
-            $('select').each(function () {
+            $('select').each(function() {
                 if ($(this).val() == '') {
                     bool = false;
                     return false;
@@ -166,10 +165,10 @@ $checkTeamDoctor = $teamDoctor;
 
         //初始化年月下拉菜单
         initDateSelect();
-        $("select").change(function () {
+        $("select").change(function() {
             $(this).parents(".ui-select").find("span.error").removeClass(".error");
         });
-        $("select#patient_state_id").change(function () {
+        $("select#patient_state_id").change(function() {
             $("select#patient_city_id").attr("disabled", true);
             var stateId = $(this).val();
             var actionUrl = "<?php echo $urlLoadCity; ?>";// + stateId + "&prompt=选择城市";
@@ -179,7 +178,7 @@ $checkTeamDoctor = $teamDoctor;
                 data: {'state': this.value, 'prompt': '选择城市'},
                 cache: false,
                 // dataType: "html",
-                'success': function (data) {
+                'success': function(data) {
                     // console.log(data);市的名称
 
                     $("select#patient_city_id").html(data);
@@ -190,9 +189,9 @@ $checkTeamDoctor = $teamDoctor;
                         $('#btnSubmit').removeAttr('disabled');
                     }
                 },
-                'error': function (data) {
+                'error': function(data) {
                 },
-                complete: function () {
+                complete: function() {
                     $("select#patient_city_id").attr("disabled", false);
                     $("select#patient_city_id").removeAttr("disabled");
                 }

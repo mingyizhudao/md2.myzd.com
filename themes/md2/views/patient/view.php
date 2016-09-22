@@ -19,7 +19,7 @@ $doctorId = Yii::app()->request->getQuery('doctorId', '');
 $urlChooseList = $this->createUrl('patient/chooseList', array('id' => $doctorId, 'patientId' => $id, 'addBackBtn' => 1));
 $urlUpdatePatientMR = $this->createUrl('patient/updatePatientMR', array('id' => $patientInfo->id, 'addBackBtn' => 1));
 $urlUploadMRFile = $this->createUrl('patient/uploadMRFile', array('id' => $patientInfo->id, 'type' => 'update', 'addBackBtn' => 1));
-$urlPatientFiles = 'http://file.mingyizhudao.com/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientInfo->id . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientInfo->id ? $patientInfo->id : 0));
+$urlPatientFiles = 'http://121.40.127.64:8089/api/loadpatientmr?userId=' . $user->id . '&patientId=' . $patientInfo->id . '&reportType=mr'; //$this->createUrl('patient/patientMRFiles', array('id' => $patientInfo->id ? $patientInfo->id : 0));
 $urlPatientBookingCreate = $this->createUrl('patientbooking/create', array('pid' => $patientInfo->id, 'addBackBtn' => 1));
 $this->show_footer = false;
 ?>
@@ -127,7 +127,7 @@ if ($source != 1) {
                     location.href = '<?php echo $urlPatientBookingCreate; ?>';
                 }
             } else if ('<?php echo $source == 2; ?>') {
-                location.href = '<?php echo $urlSubmit . '?id=' . $id; ?>' + '&returnUrl=<?php echo $urlChooseList; ?>';
+                location.href = '<?php echo $urlSubmit . '?source=1&id=' . $id; ?>' + '&returnUrl=<?php echo $urlChooseList; ?>';
             }
         });
     });

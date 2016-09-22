@@ -3,6 +3,12 @@ $this->setPageTitle('搜索疾病');
 $searchDisease = $this->createUrl('doctor/searchDisease', array('islike' => 1, 'name' => ''));
 $addDisease = $this->createUrl('doctor/addDisease');
 $id = Yii::app()->request->getQuery('id', '');
+/*
+ * source
+ * 0:正常途径完善疾病信息
+ * 1:从签约专家路径完善疾病信息，点击下一步，回到签约专家中的选择患者页面
+ */
+$source = Yii::app()->request->getQuery('source', '0');
 $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
 ?>
 <header class="searchHeader bg-green">
@@ -23,8 +29,8 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
     </div>
 </article>
 <script>
-    $(document).ready(function () {
-        $("header").on("input", function () {
+    $(document).ready(function() {
+        $("header").on("input", function() {
             var searchValue = $('input').val();
             if (Trim(searchValue) == '') {
                 $('.icon_clear').addClass('hide');
@@ -44,7 +50,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
         });
 
         //清空input
-        $('.icon_clear').click(function () {
+        $('.icon_clear').click(function() {
             $('.icon_input').val('');
             $(this).addClass('hide');
             $('#searchDiseaseView').html('');
@@ -54,7 +60,7 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
             $.ajax({
                 type: 'get',
                 url: '<?php echo $searchDisease; ?>/' + searchValue,
-                success: function (data) {
+                success: function(data) {
                     if (data.status == 'ok') {
                         readyPage(data, searchValue);
                     }
@@ -81,9 +87,9 @@ $sourceReturn = Yii::app()->request->getQuery('returnUrl', '');
         }
 
         function selectDisease() {
-            $('.selectDisease').click(function () {
+            $('.selectDisease').click(function() {
                 var diseaseName = $(this).attr('data-name');
-                location.href = '<?php echo $addDisease; ?>?id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>&diseaseName=' + diseaseName;
+                location.href = '<?php echo $addDisease; ?>?source=' + '<?php echo $source; ?>&id=' + '<?php echo $id; ?>&returnUrl=' + '<?php echo $sourceReturn; ?>&diseaseName=' + diseaseName;
             });
         }
 
