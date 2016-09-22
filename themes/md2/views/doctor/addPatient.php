@@ -1,6 +1,7 @@
 <?php
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/jquery.formvalidate.min.1.1.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/addPatient.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/addPatient.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/addPatient.min.1.0.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('添加患者');
@@ -16,6 +17,7 @@ $urlSubmit = $this->createUrl('patientbooking/ajaxCreate');
 $urlReturn = $this->createUrl('order/view');
 $this->show_footer = false;
 ?>
+<<<<<<< HEAD
 <style>
     .bg-g1{
         background-color: #00A378;
@@ -80,6 +82,10 @@ $this->show_footer = false;
 </style>
 <footer style="background:#eee;">
     <button id="btnSubmit" class="btn btn-block bg-g1" disabled="disabled">提交</button>
+=======
+<footer id="addPatient_footer" class="bg-white">
+    <button id="btnSubmit" class="btn btn-block bg-g1">提交</button>
+>>>>>>> 6430a5b9b9467a61fd82cf870539e604ca6984fa
 </footer>
 <article id="addPatient_article" class="active" data-scroll="true">
     <div>
