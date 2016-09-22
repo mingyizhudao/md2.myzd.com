@@ -46,50 +46,53 @@ $this->show_footer = false;
     <?php
     if ($order->isPaid == 0) {
         ?>
-        <div class="ui-grid-a">
+
+        <?php
+        if ($isInvalid) {
+            echo '<a href="javascript:;" class="btn btn-default btn-block">已过期</a>';
+        } else {
+            ?>
+            <div class="ui-grid-a">
+                <?php
+                if ($this->isUserAgentApp()) {
+                    echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
+                } else {
+                    ?>
+                    <div class="ui-block-a">
+                        <?php
+                        if ($bookingId != 0) {
+                            echo '<a href="' . $urlBookingView . '" class="btn btn-default btn-block" data-target="link">暂不支付</a>';
+                        }
+                        ?>
+                    </div>
+                    <div class="ui-block-b">
+                        <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
+                    </div>
+                <?php } ?>
+                <div class="clearfix"></div>
+            </div>
             <?php
-            if ($this->isUserAgentApp()) {
-                echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
-            } else {
-                ?>
-                <div class="ui-block-a">
-                    <?php
-                    if ($bookingId != 0) {
-                        echo '<a href="' . $urlBookingView . '" class="btn btn-default btn-block" data-target="link">暂不支付</a>';
-                    }
-                    ?>
-                </div>
-                <div class="ui-block-b">
-                    <?php
-                    if ($isInvalid) {
-                        echo '<a href="javascript:;" class="btn btn-default btn-block">已过期</a>';
-                    } else {
-                        echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
-                    }
-                    ?>
-                </div>
-            <?php } ?>
-            <div class="clearfix"></div>
-        </div>
+        }
+        ?>
 
 
-                                                    <!--            <section class="block">
-                                                    <div class="content2">
-                                                    <div class="app">
-                                                    <div class="ch">
-                                                        <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
-                                                        <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
-                                                        <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
-                                                        <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
-                                                        <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
-                                                        <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
-                                                        <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                                        <!--            <section class="block">
+                                                        <div class="content2">
+                                                        <div class="app">
+                                                        <div class="ch">
+                                                            <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
+                                                            <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
+                                                            <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
+                                                            <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
+                                                            <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
+                                                            <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
                                                             <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
-                                                        <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
-                                                    </div>
-                                                    </div>
-                                                    </div>
-                                                    </section>-->
+                                                                <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                                            <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </section>-->
         <?php
     }
     ?>
