@@ -98,6 +98,15 @@ class PaymentController extends MobiledoctorController {
             } else {
                 throw new CException('invalid parameters - missing ref_url.');
             }
+            
+            $adminBookingManager = new AdminBookingManager();
+            $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($refno);
+            if (isset($adminBooking['date_invalid'])) {
+                if (!is_null($adminBooking['date_invalid'])) {
+                    if(strtotime($adminBooking['date_invalid']) <= time()) throw new CException('该订单-' . $refno . ' 支付已过期');
+                }
+            }
+            
             if (isset($post['open_id'])) {
                 $openid = $post['open_id'];
             } else {
