@@ -2,7 +2,7 @@
 
 class AdminBookingManager
 {
-    public function setDockingCase($dockingCase ,$bkId, $refNo)
+    public function setDockingCase($dockingCase, $refNo)
     {
         return Yii::app()->db->createCommand()->update('admin_booking', array('docking_case' => $dockingCase), 'ref_no = :refNo', array(':refNo' => $refNo));
     }
