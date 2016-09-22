@@ -155,7 +155,7 @@ $this->show_footer = false;
             infoHtml += '</div>';
             $(".huizhenInfo").html(infoHtml);
         } else {
-            $('.huizhenInfo').html('<div class="text-center">暂不接受</div>');
+            $('.huizhenInfo').html('<div class="text-center color-gray">暂不接受</div>');
         }
     }
 
@@ -179,7 +179,7 @@ $this->show_footer = false;
             infoHtml += '</div>';
             $('.zhuanzhenInfo').html(infoHtml);
         } else {
-            $('.zhuanzhenInfo').html('<div class="text-center">暂不接受</div>');
+            $('.zhuanzhenInfo').html('<div class="text-center color-gray">暂不接受</div>');
         }
     }
 
