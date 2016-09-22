@@ -60,30 +60,36 @@ $this->show_footer = false;
                     ?>
                 </div>
                 <div class="ui-block-b">
-                    <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
+                    <?php
+                    if ($isInvalid) {
+                        echo '<a href="javascript:;" class="btn btn-default btn-block">已过期</a>';
+                    } else {
+                        echo '<a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>';
+                    }
+                    ?>
                 </div>
             <?php } ?>
             <div class="clearfix"></div>
         </div>
 
 
-                                        <!--            <section class="block">
-                                        <div class="content2">
-                                        <div class="app">
-                                        <div class="ch">
-                                            <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
-                                            <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
-                                            <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
-                                            <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
-                                            <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
-                                            <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
-                                            <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
-                                                <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
-                                            <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </section>-->
+                                                    <!--            <section class="block">
+                                                    <div class="content2">
+                                                    <div class="app">
+                                                    <div class="ch">
+                                                        <span class="up" onclick="wap_pay('upacp_wap')">银联 WAP</span>
+                                                        <span class="up" onclick="wap_pay('alipay_pc_direct')">支付宝 即时到账</span>
+                                                        <span class="up alipay" onclick="wap_pay('alipay_wap')">&nbsp;</span>
+                                                        <span class="up weixin" onclick="wap_pay('wx_pub')">&nbsp;</span>
+                                                        <span class="up" onclick="wap_pay('bfb_wap')">百度钱包 WAP</span>
+                                                        <span class="up" onclick="wap_pay('jdpay_wap')">京东支付 WAP</span>
+                                                        <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                                            <span class="up" onclick="wap_pay('yeepay_wap')">易宝支付 WAP</span>
+                                                        <span class="up yeepay" onclick="wap_pay('yeepay_wap')">&nbsp;</span>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    </section>-->
         <?php
     }
     ?>
@@ -93,10 +99,10 @@ $this->show_footer = false;
 <script type="text/javascript">
     var orderno = document.getElementById('ref_no').value;
     var amount = 0.01;
-    Zepto(function ($) {
+    Zepto(function($) {
 
         //    var openid='';
-        document.getElementById('pay').addEventListener('click', function (e) {
+        document.getElementById('pay').addEventListener('click', function(e) {
             pingpp_one.init({
                 app_id: 'app_SWv9qLSGWj1GKqbn', //该应用在ping++的应用ID
                 order_no: orderno, //订单在商户系统中的订单号
@@ -110,7 +116,7 @@ $this->show_footer = false;
                 charge_param: {ref_url: "<?php echo $refUrl; ?>"}, //(可选，用户自定义参数，若存在自定义参数则壹收款会通过 POST 方法透传给 charge_url)
                 //open_id: 'o9D7bsrlWC5ecKJdSuyVAYLedjVc'                             //(可选，使用微信公众号支付时必须传入)
                 //  open_id: openid
-            }, function (res) {
+            }, function(res) {
                 console.log("res data...");
                 console.log(res);
                 //   alert(res.msg);
@@ -122,11 +128,11 @@ $this->show_footer = false;
                 else {
                     //若微信公众号渠道需要使用壹收款的支付成功页面，则在这里进行成功回调，调用 pingpp_one.success 方法，你也可以自己定义回调函数
                     //其他渠道的处理方法请见第 2 节
-                    pingpp_one.success(function (res) {
+                    pingpp_one.success(function(res) {
                         if (!res.status) {
                             alert(res.msg);
                         }
-                    }, function () {
+                    }, function() {
                         //这里处理支付成功页面点击“继续购物”按钮触发的方法，例如：若你需要点击“继续购物”按钮跳转到你的购买页，则在该方法内写入 window.location.href = "你的购买页面 url"
                         //window.location.href = 'http://yourdomain.com/payment_succeeded';//示例
                         alert("支付成功的跳转");

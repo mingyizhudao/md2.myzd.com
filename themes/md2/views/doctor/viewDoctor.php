@@ -91,17 +91,17 @@ $this->show_footer = false;
     </div>
 </article>
 <script>
-    $(document).ready(function () {
-        $('.cardSelect').click(function () {
+    $(document).ready(function() {
+        $('.cardSelect').click(function() {
             var dataCard = $(this).attr('data-card');
-            $('.cardSelect').each(function () {
+            $('.cardSelect').each(function() {
                 if (dataCard == $(this).attr('data-card')) {
                     $(this).addClass('active');
                 } else {
                     $(this).removeClass('active');
                 }
             });
-            $('.pageCard').each(function () {
+            $('.pageCard').each(function() {
                 if (dataCard == $(this).attr('data-card')) {
                     $(this).removeClass('hide');
                 } else {
@@ -110,7 +110,9 @@ $this->show_footer = false;
             });
             $('#viewDoctor_article').scrollTop(0);
         });
-        $('#bookingDoc').click(function () {
+        $('#bookingDoc').click(function() {
+            sessionStorage.removeItem('travelType');
+            sessionStorage.removeItem('detail');
             location.href = '<?php echo $urlAddPatient; ?>/<?php echo $doctor->id; ?>/addBackBtn/1';
         });
     });

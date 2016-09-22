@@ -48,7 +48,9 @@ class ApiViewPayOrders extends EApiViewService {
     }
 
     private function setOrder($models) {
-        foreach ($models as $model) {
+        $adminBookingManager = new AdminBookingManager();
+        
+        foreach ($models as $model) {            
             $data = new stdClass();
             $data->id = $model->getId();
             $data->refNo = $model->ref_no;
@@ -58,6 +60,14 @@ class ApiViewPayOrders extends EApiViewService {
             $data->isPaidText = $model->getIsPaid();
             $data->isPaid = $model->getIsPaid(false);
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/orderview');
+            
+            $isInvalid = true;
+            $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($data->refNo);
+            if (isset($adminBooking['date_invalid'])) {
+                strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+            }
+            $data->isInvalid = $isInvalid;
+            
             $this->orderList[] = $data;
         }
     }
