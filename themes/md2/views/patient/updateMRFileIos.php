@@ -15,7 +15,7 @@ $urlLogin = $this->createUrl('doctor/login');
 $patientId = $output['id'];
 $user = $this->loadUser();
 $urlSubmitMR = $this->createUrl("patient/ajaxCreatePatientMR");
-$urlUploadFile = 'http://121.40.127.64:8089/api/uploadparientmr'; //$this->createUrl("patient/ajaxUploadMRFile");
+$urlUploadFile = 'http://file.mingyizhudao.com/api/uploadparientmr'; //$this->createUrl("patient/ajaxUploadMRFile");
 $urlReturn = $this->createUrl('patient/view', array('id' => $patientId));
 
 $patientBookingId = Yii::app()->request->getQuery('patientBookingId', '');
