@@ -13,7 +13,7 @@
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientUpload.min.1.2.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientUpload.min.1.3.js', CClientScript::POS_END);
 ?>
 
 <?php
@@ -107,7 +107,7 @@ $this->show_footer = false;
                         </a>
                     </div>
                 </div>
-                <div class="mt10">
+                <div id="skipSection" class="mt10">
                     <?php
                     if ($type == 'create') {
                         echo '<a href="' . $urlReturn . '" class="btn btn-full skipBtn" data-ajax="false">稍后补充</a>' .
