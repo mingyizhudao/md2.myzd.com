@@ -17,15 +17,6 @@ $createReturnUrl = $this->createUrl('patient/chooseList', array('id' => $doctorI
 $urlCreatePatient = $this->createUrl('patient/create');
 $urlAddPatient = $this->createUrl('doctor/addPatient', array('id' => $doctorId, 'patientId' => ''));
 ?>
-<style>
-    #chooseList_footer.hide~article{
-        bottom: 0px;
-    }
-    #chooseList_footer{
-        background-color: #32c9c0;
-        color: #fff;
-    }
-</style>
 <header class="bg-green" id="patientList_header">
     <nav class="left pr10">
         <a href="javascript:;" data-target="back">
