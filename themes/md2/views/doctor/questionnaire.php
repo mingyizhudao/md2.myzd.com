@@ -41,82 +41,84 @@ $this->show_footer = false;
             ?>
             <div class="bg-white br5">
                 <div class="grid pad10">
-                    <div class="col-1 pt5">您是否接受病人转诊？</div>
+                    <div class="col-1 pt3">您是否接受病人转诊？</div>
                     <div class="col-0">
-                        <select id="zZSelect">
+                        <select id="zZSelect" class="c-gray font-s12">
                             <option value="" <?php echo $zz_model->is_join == '' ? 'selected="true"' : ''; ?>>请选择</option>
                             <option value="1" <?php echo $zz_model->is_join == 1 ? 'selected="true"' : ''; ?>>会接受</option>
                             <option value="0" <?php echo $zz_model->is_join == 0 ? 'selected="true"' : ''; ?>>暂不接受</option>
                         </select>
                     </div>
                 </div>
-                <ul id="zZForm" class="list <?php echo $zz_model->is_join == 1 ? '' : 'hide'; ?>">
-                    <li>
-                        <label for="DoctorZhuanzhenForm_preferred_patient">1.对转诊病例有何要求?</label>
-                        <?php echo $form->textArea($zz_model, 'preferred_patient', array('name' => 'DoctorZhuanzhenForm[preferred_patient]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
-                        <?php echo $form->error($zz_model, 'preferred_patient'); ?>
-                    </li>
-                    <li>
-                        <div>
-                            <label>2.是否需要转诊费?</label>
-                        </div>
-                        <div class="grid mt10 numberFee">
-                            <div class="col-1 checkFee p11 selectFee0">
-                                <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee0' value='0'/>
-                                <label for="fee0" class="ui-btn ui-corner-all">不需要</label>
+                <div class="c-gray">
+                    <ul id="zZForm" class="list <?php echo $zz_model->is_join == 1 ? '' : 'hide'; ?>">
+                        <li>
+                            <label for="DoctorZhuanzhenForm_preferred_patient">1.对转诊病例有何要求?</label>
+                            <?php echo $form->textArea($zz_model, 'preferred_patient', array('name' => 'DoctorZhuanzhenForm[preferred_patient]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
+                            <?php echo $form->error($zz_model, 'preferred_patient'); ?>
+                        </li>
+                        <li>
+                            <div>
+                                <label>2.是否需要转诊费?</label>
                             </div>
-                            <div class="col-1 checkFee p11 selectFee500">
-                                <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee500' value='500'/>
-                                <label for="fee500" class="ui-btn ui-corner-all">500元</label>
+                            <div class="grid mt10 numberFee">
+                                <div class="col-1 checkFee p11 selectFee0">
+                                    <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee0' value='0'/>
+                                    <label for="fee0" class="ui-btn ui-corner-all">不需要</label>
+                                </div>
+                                <div class="col-1 checkFee p11 selectFee500">
+                                    <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee500' value='500'/>
+                                    <label for="fee500" class="ui-btn ui-corner-all">500元</label>
+                                </div>
+                                <div class="col-1 checkFee p11 selectFee1000">
+                                    <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee1000' value='1000'/>
+                                    <label for="fee1000" class="ui-btn ui-corner-all">1000元</label>
+                                </div>
                             </div>
-                            <div class="col-1 checkFee p11 selectFee1000">
-                                <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee1000' value='1000'/>
-                                <label for="fee1000" class="ui-btn ui-corner-all">1000元</label>
+                            <div class="grid mt10 feeNum pl10">
+                                <div id="otherFee">
+                                    <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee4' value=''/>
+                                </div>
+                                <label class="pl10" for="fee4">其他:</label>
+                                <div class="w70p"><?php echo $form->textField($zz_model, 'fee', array('class' => 'zZCheckNumber', 'readonly' => 'ture', 'name' => 'fee')); ?></div>
+                                <div class="">元</div>
                             </div>
-                        </div>
-                        <div class="grid mt10 feeNum pl10">
-                            <div id="otherFee">
-                                <input type='radio' name='DoctorZhuanzhenForm[fee]' id='fee4' value=''/>
+                            <div class="clearfix mt10"></div>
+                            <?php echo $form->error($zz_model, 'fee'); ?>
+                        </li>
+                        <li class="noborder">
+                            <div>
+                                <label>3.您最快多久能够安排床位?</label>   
                             </div>
-                            <label class="pl10" for="fee4">其他:</label>
-                            <div class="w70p"><?php echo $form->textField($zz_model, 'fee', array('class' => 'zZCheckNumber', 'readonly' => 'ture', 'name' => 'fee')); ?></div>
-                            <div class="">元</div>
-                        </div>
-                        <div class="clearfix mt10"></div>
-                        <?php echo $form->error($zz_model, 'fee'); ?>
-                    </li>
-                    <li class="noborder">
-                        <div>
-                            <label>3.您最快多久能够安排床位?</label>   
-                        </div>
-                        <div class="mt10">
-                            <span class="checkPrepDay p11 select-3d">
-                                <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='3d' value='3d'/>
-                                <label for="3d" class="ui-btn ui-corner-all">三天内</label>
-                            </span>
-                        </div>
-                        <div class="mt20">
-                            <span class="checkPrepDay p11 select-1w">
-                                <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='1w' value='1w'/>
-                                <label for="1w" class="ui-btn ui-corner-all">一周内</label>
-                            </span>
-                        </div>
-                        <div class="mt20">
-                            <span class="checkPrepDay p11 select-2w">
-                                <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='2w' value='2w'/>
-                                <label for="2w" class="ui-btn ui-corner-all">两周内</label>
-                            </span>
-                        </div>
-                        <div class="mt20">
-                            <span class="checkPrepDay p11 select-3w">
-                                <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='3w' value='3w'/>
-                                <label for="3w" class="ui-btn ui-corner-all">三周内</label>
-                            </span>
-                        </div>
-                        <div class="clearfix mt15"></div>
-                        <?php echo $form->error($zz_model, 'prep_days'); ?>
-                    </li>
-                </ul>
+                            <div class="mt10">
+                                <span class="checkPrepDay p11 select-3d">
+                                    <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='3d' value='3d'/>
+                                    <label for="3d" class="ui-btn ui-corner-all">三天内</label>
+                                </span>
+                            </div>
+                            <div class="mt20">
+                                <span class="checkPrepDay p11 select-1w">
+                                    <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='1w' value='1w'/>
+                                    <label for="1w" class="ui-btn ui-corner-all">一周内</label>
+                                </span>
+                            </div>
+                            <div class="mt20">
+                                <span class="checkPrepDay p11 select-2w">
+                                    <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='2w' value='2w'/>
+                                    <label for="2w" class="ui-btn ui-corner-all">两周内</label>
+                                </span>
+                            </div>
+                            <div class="mt20">
+                                <span class="checkPrepDay p11 select-3w">
+                                    <input type='radio' name='DoctorZhuanzhenForm[prep_days]' id='3w' value='3w'/>
+                                    <label for="3w" class="ui-btn ui-corner-all">三周内</label>
+                                </span>
+                            </div>
+                            <div class="clearfix mt15"></div>
+                            <?php echo $form->error($zz_model, 'prep_days'); ?>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
         </div>
@@ -144,164 +146,166 @@ $this->show_footer = false;
         ?>
         <div class="bg-white br5">
             <div class="grid pad10">
-                <div class="col-1 pt5">您是否接受病人会诊？</div>
+                <div class="col-1 pt3">您是否接受病人会诊？</div>
                 <div class="col-0">
-                    <select id="hZSelect">
+                    <select id="hZSelect" class="c-gray font-s12">
                         <option value="" <?php echo $hz_model->is_join == '' ? 'selected="true"' : ''; ?>>请选择</option>
                         <option value="1" <?php echo $hz_model->is_join == 1 ? 'selected="true"' : ''; ?>>会接受</option>
                         <option value="0" <?php echo $hz_model->is_join == 0 ? 'selected="true"' : ''; ?>>暂不接受</option>
                     </select>
                 </div>
             </div>
-            <ul id="hZForm" class="list <?php echo $hz_model->is_join == 1 ? '' : 'hide'; ?>">
-                <li class="fee">
-                    <label>1.几台手术您愿意外出会诊?</label>
-                    <div class="grid mt10 numberSurgery">
-                        <div class="col-1 checkSurgery p11 selectSurgery1">
-                            <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery1d' class="surgery" value='1'/>
-                            <label for="surgery1d" class="ui-btn ui-corner-all">1台</label>
-                        </div>
-                        <div class="col-1 checkSurgery p11 selectSurgery2">
-                            <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery2d' class="surgery" value='2'/>
-                            <label for="surgery2d" class="ui-btn ui-corner-all">2台</label>
-                        </div>
-                        <div class="col-1 checkSurgery p11 selectSurgery3">
-                            <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery3d' class="surgery" value='3'/>
-                            <label for="surgery3d" class="ui-btn ui-corner-all">3台</label>
-                        </div>
-                    </div>
-                    <div class="mt10 grid surgeryNum pl10">
-                        <div id="otherSurgery">
-                            <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery4d' class="surgery" value=''/>
-                        </div>
-                        <label class="pl10" for="surgery4d">其他:</label>
-                        <div class="w60p"><?php echo $form->textField($hz_model, 'min_no_surgery', array('class' => 'checkNumber', 'readonly' => 'true', 'name' => 'min_no_surgery')); ?></div>
-                        <div class="">台</div>
-                    </div>
-                    <div id="surgery-error" class="error hide">请选择外出会诊要求</div>
-                </li>
-                <li class="fee">
-                    <label for="DoctorHuizhenForm_fee">2.每台收费多少?</label>
-                    <div class="grid mt10">
-                        <div class="col-1">
-                            <div>
-                                <?php echo $form->numberField($hz_model, 'fee_min', array('name' => 'DoctorHuizhenForm[fee_min]', 'placeholder' => '最低额度')); ?>
+            <div class="c-gray">
+                <ul id="hZForm" class="list <?php echo $hz_model->is_join == 1 ? '' : 'hide'; ?>">
+                    <li class="fee">
+                        <label>1.几台手术您愿意外出会诊?</label>
+                        <div class="grid mt10 numberSurgery">
+                            <div class="col-1 checkSurgery p11 selectSurgery1">
+                                <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery1d' class="surgery" value='1'/>
+                                <label for="surgery1d" class="ui-btn ui-corner-all">1台</label>
+                            </div>
+                            <div class="col-1 checkSurgery p11 selectSurgery2">
+                                <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery2d' class="surgery" value='2'/>
+                                <label for="surgery2d" class="ui-btn ui-corner-all">2台</label>
+                            </div>
+                            <div class="col-1 checkSurgery p11 selectSurgery3">
+                                <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery3d' class="surgery" value='3'/>
+                                <label for="surgery3d" class="ui-btn ui-corner-all">3台</label>
                             </div>
                         </div>
-                        <div class="col-0 text-center">
-                            <span>~</span>
+                        <div class="mt10 grid surgeryNum pl10">
+                            <div id="otherSurgery">
+                                <input type='radio' name='DoctorHuizhenForm[min_no_surgery]' id='surgery4d' class="surgery" value=''/>
+                            </div>
+                            <label class="pl10" for="surgery4d">其他:</label>
+                            <div class="w60p"><?php echo $form->textField($hz_model, 'min_no_surgery', array('class' => 'checkNumber', 'readonly' => 'true', 'name' => 'min_no_surgery')); ?></div>
+                            <div class="">台</div>
                         </div>
-                        <div class="col-1">
-                            <div>
-                                <?php echo $form->numberField($hz_model, 'fee_max', array('name' => 'DoctorHuizhenForm[fee_max]', 'placeholder' => '最高额度')); ?>
+                        <div id="surgery-error" class="error hide">请选择外出会诊要求</div>
+                    </li>
+                    <li class="fee">
+                        <label for="DoctorHuizhenForm_fee">2.每台收费多少?</label>
+                        <div class="grid mt10">
+                            <div class="col-1">
+                                <div>
+                                    <?php echo $form->numberField($hz_model, 'fee_min', array('name' => 'DoctorHuizhenForm[fee_min]', 'placeholder' => '最低额度')); ?>
+                                </div>
+                            </div>
+                            <div class="col-0 text-center">
+                                <span>~</span>
+                            </div>
+                            <div class="col-1">
+                                <div>
+                                    <?php echo $form->numberField($hz_model, 'fee_max', array('name' => 'DoctorHuizhenForm[fee_max]', 'placeholder' => '最高额度')); ?>
+                                </div>
+                            </div>
+                            <div class="col-0 text-center">
+                                <span>元</span>
                             </div>
                         </div>
-                        <div class="col-0 text-center">
-                            <span>元</span>
+                    </li>
+                    <li>
+                        <div>
+                            <label>3.时间成本控制要求?<span class="color-green">(可多选)</span></label>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <label>3.时间成本控制要求?<span class="color-green">(可多选)</span></label>
-                    </div>
-                    <div class="">
-                        <div class="ui-block-a mt10">
-                            <span class="checkDuration train3hSelect p11">
-                                <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='train3h' value='train3h'/>
-                                <label for="train3h" class="ui-btn ui-corner-all">高铁3小时内</label>
-                            </span>
-                        </div>
-                        <div class="ui-block-a mt20">
-                            <span class="checkDuration train5hSelect p11">
-                                <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='train5h' value='train5h'/>
-                                <label for="train5h" class="ui-btn ui-corner-all">高铁5小时内</label>
-                            </span>
-                        </div>
-                        <div class="ui-block-a mt20">
-                            <span class="checkDuration plane2hSelect p11">
-                                <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='plane2h' value='plane2h'/>
-                                <label for="plane2h" class="ui-btn ui-corner-all">飞机2小时内</label>
-                            </span>
-                        </div>
-                        <div class="ui-block-a mt20">
-                            <div class="ui-block-b">
-                                <span class="checkDuration plane3hSelect p11">
-                                    <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='plane3h' value='plane3h'/>
-                                    <label for="plane3h" class="ui-btn ui-corner-all">飞机3小时内</label>
+                        <div class="">
+                            <div class="ui-block-a mt10">
+                                <span class="checkDuration train3hSelect p11">
+                                    <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='train3h' value='train3h'/>
+                                    <label for="train3h" class="ui-btn ui-corner-all">高铁3小时内</label>
                                 </span>
                             </div>
-                        </div>
-                        <div class="ui-block-a mt20">
-                            <div class="ui-block-b">
-                                <span class="checkDuration noneSelect p11">
-                                    <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='none' value='none'/>
-                                    <label for="none" class="ui-btn ui-corner-all">无</label>
+                            <div class="ui-block-a mt20">
+                                <span class="checkDuration train5hSelect p11">
+                                    <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='train5h' value='train5h'/>
+                                    <label for="train5h" class="ui-btn ui-corner-all">高铁5小时内</label>
                                 </span>
                             </div>
+                            <div class="ui-block-a mt20">
+                                <span class="checkDuration plane2hSelect p11">
+                                    <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='plane2h' value='plane2h'/>
+                                    <label for="plane2h" class="ui-btn ui-corner-all">飞机2小时内</label>
+                                </span>
+                            </div>
+                            <div class="ui-block-a mt20">
+                                <div class="ui-block-b">
+                                    <span class="checkDuration plane3hSelect p11">
+                                        <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='plane3h' value='plane3h'/>
+                                        <label for="plane3h" class="ui-btn ui-corner-all">飞机3小时内</label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ui-block-a mt20">
+                                <div class="ui-block-b">
+                                    <span class="checkDuration noneSelect p11">
+                                        <input type='checkbox' name='DoctorHuizhenForm[travel_duration]' id='none' value='none'/>
+                                        <label for="none" class="ui-btn ui-corner-all">无</label>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="clearfix mt10"></div>
-                    <?php echo $form->error($hz_model, 'travel_duration'); ?>  
-                </li>
-                <li>
-                    <label for="DoctorHuizhenForm_week_days">4.一般周几方便外出会诊?<span class="color-green">(可多选)</span></label>
-                    <div class="grid mt10">
-                        <div class="col-1 w33 p11 checkDay select-1">
-                            <?php //echo $form->checkBox($hz_model, 'week_days', array('name' => 'DoctorHuizhenForm[week_days]', 'id' => 'week_days1', 'value' => '1')); ?>
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days1" value="1" type="checkbox">
-                            <label for="week_days1" class="ui-btn ui-corner-all">周一</label>
+                        <div class="clearfix mt10"></div>
+                        <?php echo $form->error($hz_model, 'travel_duration'); ?>  
+                    </li>
+                    <li>
+                        <label for="DoctorHuizhenForm_week_days">4.一般周几方便外出会诊?<span class="color-green">(可多选)</span></label>
+                        <div class="grid mt10">
+                            <div class="col-1 w33 p11 checkDay select-1">
+                                <?php //echo $form->checkBox($hz_model, 'week_days', array('name' => 'DoctorHuizhenForm[week_days]', 'id' => 'week_days1', 'value' => '1')); ?>
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days1" value="1" type="checkbox">
+                                <label for="week_days1" class="ui-btn ui-corner-all">周一</label>
+                            </div>
+                            <div class="col-1 w33 p11 checkDay select-2">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days2" value="2" type="checkbox">
+                                <label for="week_days2" class="ui-btn ui-corner-all">周二</label>
+                            </div>
+                            <div class="col-1 w33 p11 checkDay select-3">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days3" value="3" type="checkbox">
+                                <label for="week_days3" class="ui-btn ui-corner-all">周三</label>
+                            </div>
                         </div>
-                        <div class="col-1 w33 p11 checkDay select-2">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days2" value="2" type="checkbox">
-                            <label for="week_days2" class="ui-btn ui-corner-all">周二</label>
+                        <div class="grid">
+                            <div class="col-1 w33 p11 checkDay select-4">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days4" value="4" type="checkbox">
+                                <label for="week_days4" class="ui-btn ui-corner-all">周四</label>
+                            </div>
+                            <div class="col-1 w33 p11 checkDay select-5">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days5" value="5" type="checkbox">
+                                <label for="week_days5" class="ui-btn ui-corner-all">周五</label>
+                            </div>
+                            <div class="col-1 w33 p11 checkDay select-6">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days6" value="6" type="checkbox">
+                                <label for="week_days6" class="ui-btn ui-corner-all">周六</label>
+                            </div>
                         </div>
-                        <div class="col-1 w33 p11 checkDay select-3">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days3" value="3" type="checkbox">
-                            <label for="week_days3" class="ui-btn ui-corner-all">周三</label>
+                        <div class="grid">
+                            <div class="col-1 w33 p11 checkDay select-7">
+                                <input name="DoctorHuizhenForm[week_days]" id="week_days7" value="7" type="checkbox">
+                                <label for="week_days7" class="ui-btn ui-corner-all">周日</label>
+                            </div>
+                            <div class="col-1 w33"></div>
+                            <div class="col-1 w33"></div>
                         </div>
-                    </div>
-                    <div class="grid">
-                        <div class="col-1 w33 p11 checkDay select-4">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days4" value="4" type="checkbox">
-                            <label for="week_days4" class="ui-btn ui-corner-all">周四</label>
-                        </div>
-                        <div class="col-1 w33 p11 checkDay select-5">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days5" value="5" type="checkbox">
-                            <label for="week_days5" class="ui-btn ui-corner-all">周五</label>
-                        </div>
-                        <div class="col-1 w33 p11 checkDay select-6">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days6" value="6" type="checkbox">
-                            <label for="week_days6" class="ui-btn ui-corner-all">周六</label>
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <div class="col-1 w33 p11 checkDay select-7">
-                            <input name="DoctorHuizhenForm[week_days]" id="week_days7" value="7" type="checkbox">
-                            <label for="week_days7" class="ui-btn ui-corner-all">周日</label>
-                        </div>
-                        <div class="col-1 w33"></div>
-                        <div class="col-1 w33"></div>
-                    </div>
-                </li>
-                <li>
-                    <?php //echo CHtml::activeLabel($hz_model, 'patients_prefer'); ?>
-                    <label for="DoctorHuizhenForm_patients_prefer">5.您希望会诊什么样的病人?</label>
-                    <?php echo $form->textArea($hz_model, 'patients_prefer', array('name' => 'DoctorHuizhenForm[patients_prefer]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
-                    <?php echo $form->error($hz_model, 'patients_prefer'); ?>
-                <li>
-                    <?php //echo CHtml::activeLabel($hz_model, 'freq_destination'); ?>
-                    <label for="DoctorHuizhenForm_freq_destination">6.您常去哪些地区或医院会诊?</label>
-                    <?php echo $form->textArea($hz_model, 'freq_destination', array('name' => 'DoctorHuizhenForm[freq_destination]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
-                    <?php echo $form->error($hz_model, 'freq_destination'); ?>
-                </li>
-                <li class="noborder">
-                    <?php //echo CHtml::activeLabel($hz_model, 'destination_req'); ?>
-                    <label for="DoctorHuizhenForm_action">7.您对手术地点/条件有何要求?</label>
-                    <?php echo $form->textArea($hz_model, 'destination_req', array('name' => 'DoctorHuizhenForm[destination_req]', 'placeholder' => '', 'maxlength' => 500, 'placeholder' => '医院规模是否三甲/二甲、既往手术量、设备条件、手术室条件等等。')); ?>
-                    <?php echo $form->error($hz_model, 'destination_req'); ?>
-                </li>
-            </ul>
+                    </li>
+                    <li>
+                        <?php //echo CHtml::activeLabel($hz_model, 'patients_prefer'); ?>
+                        <label for="DoctorHuizhenForm_patients_prefer">5.您希望会诊什么样的病人?</label>
+                        <?php echo $form->textArea($hz_model, 'patients_prefer', array('name' => 'DoctorHuizhenForm[patients_prefer]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
+                        <?php echo $form->error($hz_model, 'patients_prefer'); ?>
+                    <li>
+                        <?php //echo CHtml::activeLabel($hz_model, 'freq_destination'); ?>
+                        <label for="DoctorHuizhenForm_freq_destination">6.您常去哪些地区或医院会诊?</label>
+                        <?php echo $form->textArea($hz_model, 'freq_destination', array('name' => 'DoctorHuizhenForm[freq_destination]', 'placeholder' => '如没有特殊要求，可填"无"。', 'maxlength' => 500)); ?>
+                        <?php echo $form->error($hz_model, 'freq_destination'); ?>
+                    </li>
+                    <li class="noborder">
+                        <?php //echo CHtml::activeLabel($hz_model, 'destination_req'); ?>
+                        <label for="DoctorHuizhenForm_action">7.您对手术地点/条件有何要求?</label>
+                        <?php echo $form->textArea($hz_model, 'destination_req', array('name' => 'DoctorHuizhenForm[destination_req]', 'placeholder' => '', 'maxlength' => 500, 'placeholder' => '医院规模是否三甲/二甲、既往手术量、设备条件、手术室条件等等。')); ?>
+                        <?php echo $form->error($hz_model, 'destination_req'); ?>
+                    </li>
+                </ul>
+            </div>
         </div>
         <?php $this->endWidget(); ?>
         <div class="pt20 pb20">
@@ -310,9 +314,9 @@ $this->show_footer = false;
     </div>
 </article>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         //展开问卷
-        document.addEventListener('input', function (e) {
+        document.addEventListener('input', function(e) {
             $('input[name="DoctorZhuanzhenForm[is_join]"]').val($('#zZSelect').val());
             $('input[name="DoctorHuizhenForm[is_join]"]').val($('#hZSelect').val());
             if ($('#zZSelect').val() == 1) {
