@@ -18,7 +18,11 @@ $orders = $data->results->orders;
                             </div>
                             <?php
                             if ($order->isPaidText == '待支付') {
-                                echo '<div data-refNo="' . $order->refNo . '" class="pay col-1 w50p br5 bg-yellow color-white text-center pt7 pb5">支付</div>';
+                                if ($order->isInvalid) {
+                                    echo '<div class="col-1 w50p br5 bg-gray color-white text-center pt7 pb5">已过期</div>';
+                                } else {
+                                    echo '<div data-refNo="' . $order->refNo . '" class="pay col-1 w50p br5 bg-yellow color-white text-center pt7 pb5">支付</div>';
+                                }
                             } else {
                                 echo '<div class="col-1 w50p br5 bg-gray color-white text-center pt7 pb5">已支付</div>';
                             }
@@ -33,8 +37,8 @@ $orders = $data->results->orders;
     </div>
 </article>
 <script>
-    $(document).ready(function () {
-        $('.pay').click(function () {
+    $(document).ready(function() {
+        $('.pay').click(function() {
             var refNo = $(this).attr('data-refNo');
             location.href = '<?php echo $this->createUrl('order/view', array('bookingId' => $bookingId, 'refNo' => '')); ?>/' + refNo;
         });

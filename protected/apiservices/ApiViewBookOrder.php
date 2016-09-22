@@ -92,6 +92,7 @@ class ApiViewBookOrder extends EApiViewService {
     private function setOrder($models) {
         $needPay = 0; //剩余支付
         $payed = 0;
+        $salesOrder = new SalesOrder();
         foreach ($models as $model) {
             $data = new stdClass();
             $data->id = $model->getId();
@@ -108,7 +109,17 @@ class ApiViewBookOrder extends EApiViewService {
                     $needPay += $model->getFinalAmount();
                     $this->notPay = $data;
                 } elseif ($this->status == PatientBooking::BK_STATUS_SERVICE_UNPAID && $model->getOrderType(false) == SalesOrder::ORDER_TYPE_SERVICE) {
-                    $needPay += $model->getFinalAmount();
+                    $isInvalid = true;
+                    $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' => $data->refNo));
+                    if (isset($salesOrder->date_invalid)) {
+                        strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                    }
+                    
+                    //服务费没有过期的话累加
+                    if ($isInvalid === false) {
+                        $needPay += $model->getFinalAmount();
+                    }
+                    
                     $this->notPay = $data;
                 }
             } else {

@@ -48,7 +48,9 @@ class ApiViewPayOrders extends EApiViewService {
     }
 
     private function setOrder($models) {
-        foreach ($models as $model) {
+        $salesOrder = new SalesOrder();
+        
+        foreach ($models as $model) {            
             $data = new stdClass();
             $data->id = $model->getId();
             $data->refNo = $model->ref_no;
@@ -58,6 +60,15 @@ class ApiViewPayOrders extends EApiViewService {
             $data->isPaidText = $model->getIsPaid();
             $data->isPaid = $model->getIsPaid(false);
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/orderview');
+            
+            $isInvalid = true;
+            $salesOrder = new SalesOrder();
+            $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' => $data->refNo));
+            if (isset($salesOrder->date_invalid)) {
+                strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+            }
+            $data->isInvalid = $isInvalid;
+            
             $this->orderList[] = $data;
         }
     }

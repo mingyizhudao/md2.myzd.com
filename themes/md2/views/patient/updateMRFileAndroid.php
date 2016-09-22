@@ -10,10 +10,10 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/highlight.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
-
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/patientUpload.min.1.0.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientUpload.min.1.3.js', CClientScript::POS_END);
 ?>
 
 <?php
@@ -51,111 +51,117 @@ if (isset($output['id'])) {
     $urlPatientMRFiles = "";
     $urldelectPatientMRFile = "";
 }
-
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-
+$this->show_footer = false;
 ?>
-<article id="" class="active android_article" data-scroll="true">
-    <div class="mt20">
-        <div class="grid">
-            <div class="col-1 ml10">上传影像资料：</div>
-            <?php if ($type == 'create') { ?>
-                <div class="col-0">
-                    <a href="<?php echo $urlReturn; ?>" class="btn btn-yes mr10" data-ajax="false">跳过</a>
-                </div>
-            <?php } ?>
+<article id="updateMRFileAndroid_article" class="active android_article" data-scroll="true">
+    <div class="pad10">
+        <div class="text-center mt20">
+            <div class="font-w800">
+                请您上传患者的相关病历资料
+            </div>
+            <div class="font-s12 color-gray">
+                (图片需清晰可见，最多9张)
+            </div>
         </div>
-    </div>
-    <div class="imglist mt10">
-        <ul class="filelist"></ul>
-    </div>
-    <div class="clearfix"></div>
-    <div class="form-wrapper mt20">
-        <div class="">
-            <div class="container">
-                <div class="text-left wrapper">
-                    <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-patientBookingId="<?php echo $patientBookingId; ?>" data-patientAjaxTask="<?php echo $patientAjaxTask; ?>">
-                        <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php echo $patientId; ?>" />
-                        <input id="reportType" type="hidden" name="Booking[report_type]" value="mr" />
-                        <input type="hidden" id="domain" value="http://mr.file.mingyizhudao.com">
-                        <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
-                    </form>
+        <div class="exampleSection">
+            <div class="text-center font-s14">
+                示例(如CT、磁共振、病理报告等)
+            </div>
+            <div class="grid mt20">
+                <div class="col-1 w40">
+                    <img src="http://static.mingyizhudao.com/147433914906338"/>
                 </div>
-                <div class="body mt10">
-                    <div class="text-center">
-                        <div id="container">
-                            <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
-                                <span>选择影像资料</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt10">
-                        <table class="table table-striped table-hover text-left" style="display:none">
-                            <tbody id="fsUploadProgress">
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="col-1 w20">
+
                 </div>
-                <div id="submitBtn" class="hide">
-                    <button class="btn btn-full bg-green color-white">上传</button>
+                <div class="col-1 w40">
+                    <img src="http://static.mingyizhudao.com/146968742128587"/>
                 </div>
             </div>
         </div>
-        <div class="">
-            <div class="example">
-                <label class="color-red">示例:</label>
-                <div class="ui-grid-b">
-                    <div class="ui-block-a">
-                        <img src="http://static.mingyizhudao.com/146968736951484"/>
-                    </div>
-                    <div class="ui-block-b">
-                        <span>或</span>
-                    </div>
-                    <div class="ui-block-c">
-                        <img src="http://static.mingyizhudao.com/146968742128587"/>
+        <div class="imglist mt10">
+            <ul class="filelist"></ul>
+        </div>
+        <div class="clearfix"></div>
+        <div class="container">
+            <div class="text-left wrapper">
+                <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-patientBookingId="<?php echo $patientBookingId; ?>" data-patientAjaxTask="<?php echo $patientAjaxTask; ?>">
+                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php echo $patientId; ?>" />
+                    <input id="reportType" type="hidden" name="Booking[report_type]" value="mr" />
+                    <input type="hidden" id="domain" value="http://mr.file.mingyizhudao.com">
+                    <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
+                </form>
+            </div>
+            <div class="body mt10">
+                <div class="col-md-12 mt10">
+                    <table class="table table-striped table-hover text-left" style="display:none">
+                        <tbody id="fsUploadProgress">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <div id="container">
+                        <a id="pickfiles" class="" href="#" >
+                            <span>点击添加图片</span>
+                        </a>
                     </div>
                 </div>
-                <div class="clearfix"></div>
+                <div id="skipSection" class="mt10">
+                    <?php
+                    if ($type == 'create') {
+                        echo '<a href="' . $urlReturn . '" class="btn btn-full skipBtn" data-ajax="false">稍后补充</a>' .
+                        '<div class="text-center color-gray font-s12">(提交订单后可在订单详情里补充)</div>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <div id="submitBtn" class="hide pt20">
+                <button class="btn btn-full bg-green color-white">确认</button>
             </div>
         </div>
-    </div>
-    <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
-        <div class="popup-title">提示</div>
-        <div class="popup-content text-center">确定删除这张图片?</div>
-        <div id="popup_btn_container">
-            <a class="cancel">取消</a>
-            <a class="delete">确定</a>
+        <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
+            <div class="popup-title">提示</div>
+            <div class="popup-content text-center">确定删除这张图片?</div>
+            <div id="popup_btn_container">
+                <a class="cancel">取消</a>
+                <a class="delete">确定</a>
+            </div>
+        </div>
+        <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
+        <div id="loading_popup" style="" class="loading">
+            <i class="icon spinner"></i>
+            <p>上传中...</p>
         </div>
     </div>
-    <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
 </article>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#deleteConfirm .cancel").click(function () {
+    $(document).ready(function() {
+        $("#deleteConfirm .cancel").click(function() {
             $("#deleteConfirm").hide();
             $("#jingle_toast").show();
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#jingle_toast").hide();
             }, 1000);
         });
-        $("#deleteConfirm .delete").click(function () {
+        $("#deleteConfirm .delete").click(function() {
             $("#deleteConfirm").hide();
             id = $(this).attr("data-id");
             domId = "#" + id;
             domLi = $(domId);
             deleteImg(id, domLi);
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#jingle_toast").hide();
             }, 2000);
         });
         //加载病人病历图片
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
-        $.ajax({
-            url: urlPatientMRFiles,
-            success: function (data) {
-                setImgHtml(data.results.files);
-            }
-        });
+//        $.ajax({
+//            url: urlPatientMRFiles,
+//            success: function(data) {
+//                setImgHtml(data.results.files);
+//            }
+//        });
     });
     function setImgHtml(imgfiles) {
         var innerHtml = '';
@@ -175,7 +181,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         initDelete();
     }
     function initDelete() {
-        $('.imglist .delete').click(function () {
+        $('.imglist .delete').click(function() {
             domLi = $(this).parents("li");
             id = domLi.attr("id");
             $("#deleteConfirm .delete").attr("data-id", id);
@@ -187,17 +193,17 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         urlDelectDoctorCert = '<?php echo $urldelectPatientMRFile ?>' + id;
         $.ajax({
             url: urlDelectDoctorCert,
-            beforeSend: function () {
+            beforeSend: function() {
 
             },
-            success: function (data) {
+            success: function(data) {
                 if (data.status == 'ok') {
                     domLi.remove();
                     $("#jingle_toast a").text('删除成功!');
                     $("#jingle_toast").show();
                 }
             },
-            complete: function () {
+            complete: function() {
                 $(".ui-loader").hide();
             }
         });

@@ -43,10 +43,24 @@ class OrderController extends MobiledoctorController {
         if (empty($refNo)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
 
+        $isInvalid = false;
+        if (isset($output->results)) {
+            $salesOrder = new SalesOrder();
+            $orderTypeString = $salesOrder->getOptionsOrderType();
+            if ($output->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
+                $isInvalid = true;
+                $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
+                if (isset($salesOrder->date_invalid)) {
+                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                }
+            }
+        }
+        
         if ($output->status == 'ok' && $this->isUserAgentWeixin()) {
             $requestUrl = Yii::app()->request->hostInfo . '/weixin/pay.php?' . http_build_query($_GET);
             $data = $output->results;
@@ -68,6 +82,7 @@ class OrderController extends MobiledoctorController {
             $this->render('view', array(
                 'data' => $output,
                 'returnUrl' => $returnUrl,
+                'isInvalid' => $isInvalid
             ));
         }
     }
@@ -97,6 +112,23 @@ class OrderController extends MobiledoctorController {
                 $order->openid = $openid;
                 $output->status = 'ok';
                 $output->data = $order;
+
+                $apiSvc = new ApiViewSalesOrder($refNo);
+                $apiSvcoutput = $apiSvc->loadApiViewData();
+                $isInvalid = false;
+                if (isset($apiSvcoutput->results)) {
+                    $salesOrder = new SalesOrder();
+                    $orderTypeString = $salesOrder->getOptionsOrderType();
+                    if ($apiSvcoutput->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
+                        $isInvalid = true;
+                        $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
+                        if (isset($salesOrder->date_invalid)) {
+                            strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                        }
+                    }
+                }
+                
+                $output->isInvalid = $isInvalid;
             }
             // exit;
         } else {
@@ -111,8 +143,20 @@ class OrderController extends MobiledoctorController {
     public function actionOrderView($bookingid) {
         $apiSvc = new ApiViewBookOrder($bookingid);
         $output = $apiSvc->loadApiViewData();
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $sessionName = 'orderReferer_' . $output->results->booking->refNo;
+            if(preg_match('/^.+(\/mobiledoctor\/patientbooking\/create\/)+.+$/', $_SERVER['HTTP_REFERER']) !== 0) {
+                //一次性通过流程到达支付详情时作一个标记
+                Yii::app()->session[$sessionName] = true;
+            }
+            else {
+                if(is_null(Yii::app()->session[$sessionName]) === false) unset(Yii::app()->session[$sessionName]);
+            }
+        }
+
         $this->render('orderView', array(
-            'data' => $output
+            'data' => $output,
         ));
     }
 
@@ -131,6 +175,7 @@ class OrderController extends MobiledoctorController {
         if ($order === NULL) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         //微信推送信息
         $pbooking = PatientBooking::model()->getById($order->bk_id);
         $wxMgr = new WeixinManager();
@@ -155,6 +200,12 @@ class OrderController extends MobiledoctorController {
 //        $apiurl = new ApiRequestUrl();
 //        $url = $apiurl->getUrlPay() . "?refno=" . $order->getRefNo();
 //        $this->send_get($url);
+
+        //一次性通过流程进行支付的订单在数据库中作标记
+        if (Yii::app()->session['orderReferer_' . $pbooking->getRefNo()] === true) {
+           $adminBookingManager = new AdminBookingManager();
+           $adminBookingManager->setDockingCase(1, $pbooking->getRefNo());
+        }
 
         $this->show_header = true;
         $this->show_footer = false;
