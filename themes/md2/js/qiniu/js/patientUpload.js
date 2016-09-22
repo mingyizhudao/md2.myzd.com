@@ -89,6 +89,7 @@ $(function() {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
+                $('#loading_popup').hide();
                 $('#success').show();
                 if (returnResult) {
                     //电邮提醒
@@ -188,6 +189,7 @@ $(function() {
         //console.log('hello man,a file is uploaded');
     });
     submitBtn.click(function() {
+        $('#loading_popup').show();
         submitBtn.find('button').attr('disabled', true);
         uploader.start();
     });
