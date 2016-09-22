@@ -70,7 +70,7 @@ $this->show_footer = false;
         box-shadow: none!important;
         height: 60px;
     }
-    .icon-clear {
+   #addPatient_article .icon-clear {
         background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
         background-size: 15px 15px;
         background-position: 10px 5px;
@@ -78,8 +78,8 @@ $this->show_footer = false;
         height: 25px;
     }
 </style>
-<footer class="bg-white">
-    <button id="btnSubmit" class="btn btn-block bg-g1">提交</button>
+<footer style="background:#eee;">
+    <button id="btnSubmit" class="btn btn-block bg-g1" disabled="disabled">提交</button>
 </footer>
 <article id="addPatient_article" class="active" data-scroll="true">
     <div>
@@ -157,6 +157,7 @@ $this->show_footer = false;
                 <?php
             }
             ?>
+
         </div>
         <div class="mt10 bg-white">
             <div class="pad10 bbh">
@@ -177,6 +178,7 @@ $this->show_footer = false;
             $('input[name = "booking[travel_type]"]').attr('value', travelType);
             $(this).addClass('active');
             $(this).siblings().removeClass('active');
+             show();
         });
         var session_travelType = sessionStorage.getItem('travelType');
         var session_detail = sessionStorage.getItem('detail');
@@ -196,5 +198,20 @@ $this->show_footer = false;
             sessionStorage.setItem('detail', detail);
             location.href = "<?php echo $urlchoosePatientList; ?>";
         });
+
+        $("#booking_detail").on('input',function(){
+             show();
+        })
+        function show(){
+            var patientId='<?php echo $patientInfo->results->patientInfo->name;?>';
+            var val=$('textarea[name="booking[detail]"]').val();
+            if(patientId!=''&&val!=''){
+                $('.intention').each(function(){
+                    if($(this).hasClass('active')){
+                        $('#btnSubmit').removeAttr('disabled');
+                    }
+                })
+            }
+        }
     });
 </script>
