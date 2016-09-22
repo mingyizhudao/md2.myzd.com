@@ -1645,3 +1645,34 @@ body #viewCommonweal_article{
     background-color: #fff;
     font-size: 16px;
 }
+
+#loading_popup.loading{
+    top:50%;
+    left:50%;
+    margin:-75px 0 0 -75px;
+    opacity:.9;
+    text-align:center;
+    width:150px;
+    height:150px;
+    border-radius:10px;
+    background-color:#2c3e50
+}
+#loading_popup{
+    display:none;
+    position:absolute;
+    left:0;
+    right:0;
+    z-index:98;
+    min-height:50px
+}
+#loading_popup.loading i.icon{
+    color:#fff
+}
+#loading_popup.loading i.icon{
+    font-size:4em;
+    line-height:110px;
+    margin:0
+}
+#loading_popup.loading p{
+    color:#bdc3c7
+}
