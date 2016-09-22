@@ -114,12 +114,12 @@ class OrderController extends MobiledoctorController {
                 $output->data = $order;
 
                 $apiSvc = new ApiViewSalesOrder($refNo);
-                $output = $apiSvc->loadApiViewData();
+                $apiSvcoutput = $apiSvc->loadApiViewData();
                 $isInvalid = false;
-                if (isset($output->results)) {
+                if (isset($apiSvcoutput->results)) {
                     $salesOrder = new SalesOrder();
                     $orderTypeString = $salesOrder->getOptionsOrderType();
-                    if ($output->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
+                    if ($apiSvcoutput->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
                         $isInvalid = true;
                         $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
                         if (isset($salesOrder->date_invalid)) {
