@@ -73,7 +73,7 @@ $this->show_footer = false;
             <div class="bbh pl10 pb10 ">
                 <span class="bgimg1 pl25">选择就诊意向:</span> 
             </div>
-            <div class="grid pad20">
+            <div class="grid pad20 color-gray">
                 <div class="col-1 intention w50 mr10" data-travel="1">邀请专家过来</div>
                 <div class="col-1 intention w50 ml10" data-travel="2">希望转诊治疗</div>
             </div>
@@ -84,10 +84,10 @@ $this->show_footer = false;
             </div>
             <?php
             if (is_null($patientInfo)) {
-                echo '<div class="text-center pad20"><span class="text-center pr50 pl50 pt10 pb10" id="choosep" style="border:1px solid #f1f1f1;border-radius:5px ;">+选择患者</span></div>';
+                echo '<div class="text-center pad20 color-gray"><span class="text-center pr50 pl50 pt10 pb10 b-gray1 br5" id="choosep">+选择患者</span></div>';
             } else {
                 ?>
-                <div id="choosep" class="pad10 grid">
+                <div id="choosep" class="pad10 grid color-gray">
                     <div class="col-1">
                         <?php echo $patientInfo->results->patientInfo->name . '-' . $patientInfo->results->patientInfo->diseaseName; ?>
                     </div>
