@@ -17,69 +17,7 @@ $urlSubmit = $this->createUrl('patientbooking/ajaxCreate');
 $urlReturn = $this->createUrl('order/view');
 $this->show_footer = false;
 ?>
-<style>
-    .bg-g1{
-        background-color: #00A378;
-    } 
-    #addPatient_article .doctorInfo{
-        background:url('http://static.mingyizhudao.com/147062699107071') no-repeat;
-        background-size: 100% 100%;
-    }
-    #addPatient_article .imgDiv{
-        width:74px;
-        height:74px;
-        border-radius: 50%;
-        overflow: hidden;
-    } 
-    .bbh{
-        border-bottom: 1px solid #f1f1f1;
-    }
-    .bgimg1{
-        background: url('http://static.mingyizhudao.com/147383811199511') no-repeat;
-        background-size: 19px 19px;
-    }
-    .bgimg2{
-        background: url('http://static.mingyizhudao.com/147383865276045') no-repeat;
-        background-size: 19px 19px;
-    }
-    .bgimg3{
-        background: url('http://static.mingyizhudao.com/147383865671528') no-repeat;
-        background-size: 19px 17px;
-    }
-    #addPatient_article .intention{
-        border:1px solid #e7e7e7;
-        padding:5px;
-        text-align: center;
-        border-radius: 5px;
-    }
-    #addPatient_article .intention.active{
-        border:1px solid #19aea5;
-        background:url('http://static.mingyizhudao.com/146967365510273') no-repeat;
-        background-size: 15px;
-        background-position-x:100%;
-        background-position-y:100%;
-        color: #19aea5;
-    }
-    footer{
-        border-top: 1px solid #fff;
-    }
-    textarea{
-        padding: 0;
-        margin-bottom: 0;
-        border: none!important;
-        -webkit-box-shadow: none!important;
-        box-shadow: none!important;
-        height: 60px;
-    }
-    .icon-clear {
-        background: url('http://static.mingyizhudao.com/146717942005220') no-repeat;
-        background-size: 15px 15px;
-        background-position: 10px 5px;
-        width: 30px;
-        height: 25px;
-    }
-</style>
-<footer class="bg-white">
+<footer id="addPatient_footer" class="bg-white">
     <button id="btnSubmit" class="btn btn-block bg-g1">提交</button>
 </footer>
 <article id="addPatient_article" class="active" data-scroll="true">

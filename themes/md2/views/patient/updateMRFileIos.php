@@ -46,57 +46,7 @@ if (isset($output['id'])) {
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
-<style>
-    .exampleSection{
-        margin-top: 20px;
-        border: 1px dashed #A9A9A9;
-        padding: 10px 20px 20px;
-    }
-    .skipBtn{
-        color: #19aea5;
-        border: 1px solid #19aea5!important;
-        background-color: #fff;
-        font-size: 16px;
-    }
-    #uploader .webuploader-pick:after{
-        display: none;
-    }
-    .webuploader-pick{
-        display: block;
-        background-color: #19aea5;
-        width: 100%;
-        padding: 10px!important;
-        border-radius: 5px;
-        line-height: inherit!important;
-    }
-    #uploader .queueList{
-        margin: 0px;
-    }
-    .uploadBtn{
-        margin-left: 0px;
-        font-size: 16px;
-    }
-    #uploader .filelist li{
-        height: 90px;
-        width: 33.333%;
-    }
-    #uploader .filelist li p.imgWrap{
-        text-align: center;
-        width: 90px;
-        height: 90px;
-        line-height: 90px;
-    }
-    #filePicker3 .webuploader-pick{
-        width: 90px;
-        border: 1px dashed #aaa;
-        font-size: 4em;
-        height: 90px;
-        background-color: #fff;
-        color: #aaa;
-        line-height: 60px!important;
-    }
-</style>
-<article id="a1" class="active" data-scroll="true">
+<article id="updateMRFileIos_article" class="active" data-scroll="true">
     <div class="form-wrapper">
         <form id="patient-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-patientBookingId="<?php echo $patientBookingId; ?>" data-patientAjaxTask="<?php echo $patientAjaxTask; ?>">
             <input id="patientId" type="hidden" name="patient[id]" value="<?php echo $output['id']; ?>" />
@@ -118,7 +68,7 @@ $this->show_footer = false;
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <div class="exampleSection mb20">
-                                <div class="text-center font-s14">
+                                <div class="text-center font-s14 color-black">
                                     示例(如CT、磁共振、病理报告等)
                                 </div>
                                 <div class="grid mt20">

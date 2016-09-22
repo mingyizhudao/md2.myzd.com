@@ -54,52 +54,7 @@ if (isset($output['id'])) {
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
-<style>
-    .exampleSection{
-        margin-top: 20px;
-        border: 1px dashed #A9A9A9;
-        padding: 10px 20px 20px;
-    }
-    .container{
-        padding-left: 0px;
-        padding-right: 0px;
-    }
-    #pickfiles{
-        display: block!important;
-        background-color: #19aea5;
-        color: #fff;
-        width: 100%!important;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    #pickfiles.addImg{
-        border: 1px dashed #C9C9C9;
-        display: block!important;
-        background-color: #fff;
-        color: #C9C9C9;
-        width: 100%!important;
-        padding: 0px;
-        border-radius: 0px;
-    }
-    .col-md-12{
-        padding-left: 0px;
-        padding-right: 0px;
-    }
-    #fsUploadProgress tr{
-        border: 1px dashed #C9C9C9;
-        color: #C9C9C9;
-    }
-    #fsUploadProgress tr .progressCancel{
-        color: #C9C9C9;
-    }
-    .skipBtn {
-        color: #19aea5;
-        border: 1px solid #19aea5!important;
-        background-color: #fff;
-        font-size: 16px;
-    }
-</style>
-<article id="" class="active android_article" data-scroll="true">
+<article id="updateMRFileAndroid_article" class="active android_article" data-scroll="true">
     <div class="pad10">
         <div class="text-center mt20">
             <div class="font-w800">
