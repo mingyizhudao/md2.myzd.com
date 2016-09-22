@@ -43,18 +43,24 @@ class OrderController extends MobiledoctorController {
         if (empty($refNo)) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        
-        $isInvalid = true;
-        $salesOrder = new SalesOrder();
-        $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
-        if (isset($salesOrder->date_invalid)) {
-            strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
-        }
 
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
 
+        $isInvalid = false;
+        if (isset($output->results)) {
+            $salesOrder = new SalesOrder();
+            $orderTypeString = $salesOrder->getOptionsOrderType();
+            if ($output->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
+                $isInvalid = true;
+                $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
+                if (isset($salesOrder->date_invalid)) {
+                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                }
+            }
+        }
+        
         if ($output->status == 'ok' && $this->isUserAgentWeixin()) {
             $requestUrl = Yii::app()->request->hostInfo . '/weixin/pay.php?' . http_build_query($_GET);
             $data = $output->results;
@@ -107,11 +113,19 @@ class OrderController extends MobiledoctorController {
                 $output->status = 'ok';
                 $output->data = $order;
 
-                $isInvalid = true;
-                $salesOrder = new SalesOrder();
-                $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' => $refNo));
-                if (isset($salesOrder->date_invalid)) {
-                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                $apiSvc = new ApiViewSalesOrder($refNo);
+                $apiSvcoutput = $apiSvc->loadApiViewData();
+                $isInvalid = false;
+                if (isset($apiSvcoutput->results)) {
+                    $salesOrder = new SalesOrder();
+                    $orderTypeString = $salesOrder->getOptionsOrderType();
+                    if ($apiSvcoutput->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
+                        $isInvalid = true;
+                        $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
+                        if (isset($salesOrder->date_invalid)) {
+                            strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                        }
+                    }
                 }
                 
                 $output->isInvalid = $isInvalid;

@@ -80,7 +80,6 @@ $this->show_footer = false;
                             <div></div>
                         </div>
                     </div>
-                    <input type="hidden" id="checkGender">
                     <?php echo $form->error($model, 'gender'); ?>
                 </li>
                 <li>
@@ -112,7 +111,7 @@ $this->show_footer = false;
             $this->endWidget();
             ?>
             <div class="pad20">
-                <button id="btnSubmit" class="btn btn-yes btn-block" disabled="disabled">下一步</button>
+                <button id="btnSubmit" class="btn btn-yes btn-block">下一步</button>
             </div>
         </div>
     </div>
@@ -133,34 +132,6 @@ $this->show_footer = false;
                     function() {
                         location.href = "<?php echo $urlDoctorView; ?>";
                     });
-        }
-        //按钮可操作
-        $('input[name="patient[gender]"]').click(function() {
-            $('#checkGender').val('ok');
-            checkInput();
-        });
-        document.addEventListener('input', function(e) {
-            checkInput();
-        });
-        function checkInput() {
-            var bool = true;
-            $('input').each(function() {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
-            $('select').each(function() {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
-            if (bool) {
-                $('#btnSubmit').removeAttr('disabled');
-            } else {
-                $('#btnSubmit').attr('disabled', 'disabled');
-            }
         }
 
         //初始化年月下拉菜单
@@ -185,9 +156,6 @@ $this->show_footer = false;
                     // jquery mobile fix.
                     captionText = $("select#patient_city_id>option:first-child").text();
                     $("#patient_city_id-button>span:first-child").text(captionText);
-                    if (data.length < 45) {
-                        $('#btnSubmit').removeAttr('disabled');
-                    }
                 },
                 'error': function(data) {
                 },

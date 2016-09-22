@@ -63,6 +63,7 @@ $(function() {
                     });
                     if (uploadFile) {
                         $('.exampleSection').addClass('hide');
+                        $('#skipSection').addClass('hide');
                         $('#pickfiles').addClass('addImg');
                         $('#pickfiles').find('span').text('+添加图片');
                         $('#submitBtn').removeClass('hide');
