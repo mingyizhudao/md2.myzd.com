@@ -50,17 +50,17 @@ class OrderController extends MobiledoctorController {
 
         $isInvalid = false;
         if (isset($output->results)) {
-            $orderTypeString = SalesOrder::getOptionsOrderType();
+            $salesOrder = new SalesOrder();
+            $orderTypeString = $salesOrder->getOptionsOrderType();
             if ($output->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
                 $isInvalid = true;
-                $salesOrder = new SalesOrder();
                 $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
                 if (isset($salesOrder->date_invalid)) {
                     strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
                 }
             }
         }
-
+        
         if ($output->status == 'ok' && $this->isUserAgentWeixin()) {
             $requestUrl = Yii::app()->request->hostInfo . '/weixin/pay.php?' . http_build_query($_GET);
             $data = $output->results;
