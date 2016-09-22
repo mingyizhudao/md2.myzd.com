@@ -189,8 +189,17 @@ header nav.right .header-user{height: 28px;}
 #questionnaire_article select{
     margin-bottom:0;
     border-radius:15px;
-    padding:5px 10px;
+    padding:3px 10px;
     background-color:#fff
+}
+#questionnaire_article input{
+    color: #7d7d7d;
+}
+#questionnaire_article textarea{
+    color: #7d7d7d;
+}
+#questionnaire_article .c-gray{
+    color: #7d7d7d;
 }
 
 /**/
