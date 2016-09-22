@@ -45,13 +45,12 @@ class OrderController extends MobiledoctorController {
         }
         
         $isInvalid = true;
-        $bookingId = (int)Yii::app()->request->getParam('bookingId');
-        $adminBookingManager = new AdminBookingManager();
-        $adminBooking = $adminBookingManager->getAdminBookingByBookingId((int)$bookingId);
-        if (isset($adminBooking['date_invalid'])) {
-            strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+        $salesOrder = new SalesOrder();
+        $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
+        if (isset($salesOrder->date_invalid)) {
+            strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
         }
-        
+
         $apiSvc = new ApiViewSalesOrder($refNo);
         $output = $apiSvc->loadApiViewData();
         $returnUrl = $this->getReturnUrl("/mobiledoctor/order/view");
@@ -107,13 +106,14 @@ class OrderController extends MobiledoctorController {
                 $order->openid = $openid;
                 $output->status = 'ok';
                 $output->data = $order;
-                
+
                 $isInvalid = true;
-                $adminBookingManager = new AdminBookingManager();
-                $adminBooking = $adminBookingManager->getAdminBookingByBookingRefNo($refNo);
-                if (isset($adminBooking['date_invalid'])) {
-                    strtotime($adminBooking['date_invalid']) > time() && $isInvalid = false;
+                $salesOrder = new SalesOrder();
+                $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' => $refNo));
+                if (isset($salesOrder->date_invalid)) {
+                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
                 }
+                
                 $output->isInvalid = $isInvalid;
             }
             // exit;
