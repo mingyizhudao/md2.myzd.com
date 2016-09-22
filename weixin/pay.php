@@ -56,21 +56,20 @@ $refUrl = $baseUrl . '/mobiledoctor/order/view?refNo=' . $refNo;
                     </div>
                     <div class="divider"></div>
                     <br/>
-                    <div id="payBtn" class="ui-grid-a">                     
-                        <div class="ui-block-a">
-                            <a id="btnCancel" href="<?php echo $cancelUrl; ?>" class="btn btn-default btn-block" data-target="link">暂不支付</a>
-
-                        </div>
-                        <div class="ui-block-b">
-                            <div id="noPay" class="hide">
-                                <a href="javascript:;" class="btn btn-default btn-block">已过期</a>
+                    <div id="nowPay" class="hide">
+                        <div id="payBtn" class="ui-grid-a">
+                            <div class="ui-block-a">
+                                <a id="btnCancel" href="<?php echo $cancelUrl; ?>" class="btn btn-default btn-block" data-target="link">暂不支付</a>
                             </div>
-                            <div id="nowPay" class="hide">
+                            <div class="ui-block-b">
                                 <a id="pay" href="javascript:;" class="btn btn-yes btn-block">立即支付</a>
                             </div>
                         </div>
-
-                        <div class="clearfix"></div>
+                    </div>
+                    <div id="noPay" class="hide">
+                        <a href="javascript:;" class="btn btn-default btn-block">已过期</a>
+                    </div>
+                    <div class="clearfix"></div>
                     </div>
                 </article>
             </section>
