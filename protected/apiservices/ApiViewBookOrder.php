@@ -114,6 +114,9 @@ class ApiViewBookOrder extends EApiViewService {
                     if (isset($salesOrder->date_invalid)) {
                         strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
                     }
+                    else {
+                        $isInvalid = false;
+                    }
                     
                     //服务费没有过期的话累加
                     if ($isInvalid === false) {
