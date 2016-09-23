@@ -123,9 +123,10 @@ header nav.right .header-user{height: 28px;}
 }
 #drView_article .modifyBtn{
     border:1px solid #d3d3d3;
-    padding:5px 10px;
+    padding:3px 10px;
+    font-size: 12px;
     border-radius:15px;
-    color:#7c7c7c
+    color:#A9A9A9;
 }
 #drView_article .doctorIcon{
     background:url('http://static.mingyizhudao.com/147314007946989') no-repeat;
@@ -189,8 +190,17 @@ header nav.right .header-user{height: 28px;}
 #questionnaire_article select{
     margin-bottom:0;
     border-radius:15px;
-    padding:5px 10px;
+    padding:3px 10px;
     background-color:#fff
+}
+#questionnaire_article input{
+    color: #7d7d7d;
+}
+#questionnaire_article textarea{
+    color: #7d7d7d;
+}
+#questionnaire_article .c-gray{
+    color: #7d7d7d;
 }
 
 /**/
