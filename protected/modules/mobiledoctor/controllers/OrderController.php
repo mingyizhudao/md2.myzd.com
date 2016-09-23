@@ -58,6 +58,9 @@ class OrderController extends MobiledoctorController {
                 if (isset($salesOrder->date_invalid)) {
                     strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
                 }
+                else {
+                    $isInvalid = false;
+                }
             }
         }
         
@@ -120,14 +123,19 @@ class OrderController extends MobiledoctorController {
                     $salesOrder = new SalesOrder();
                     $orderTypeString = $salesOrder->getOptionsOrderType();
                     if ($apiSvcoutput->results->salesOrder->orderType != $orderTypeString[SalesOrder::ORDER_TYPE_DEPOSIT]) {
-                        $isInvalid = true;
-                        $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
-                        if (isset($salesOrder->date_invalid)) {
-                            strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                        $salesOrder = $salesOrder->getByAttributes(array('ref_no' =>$refNo));
+                        if ($salesOrder->is_paid != 1) {
+                            $isInvalid = true;
+                            if (isset($salesOrder->date_invalid)) {
+                                strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                            }
+                            else {
+                                $isInvalid = false;
+                            }
                         }
                     }
                 }
-                
+
                 $output->isInvalid = $isInvalid;
             }
             // exit;
