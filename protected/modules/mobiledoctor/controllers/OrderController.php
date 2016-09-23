@@ -56,7 +56,7 @@ class OrderController extends MobiledoctorController {
                 $isInvalid = true;
                 $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' =>$refNo));
                 if (isset($salesOrder->date_invalid)) {
-                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                    is_null($salesOrder->date_invalid) ? false : (strtotime($salesOrder->date_invalid) > time()) && $isInvalid = false;
                 }
             }
         }
@@ -124,7 +124,7 @@ class OrderController extends MobiledoctorController {
                         if ($salesOrder->is_paid != 1) {
                             $isInvalid = true;
                             if (isset($salesOrder->date_invalid)) {
-                                strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                                is_null($salesOrder->date_invalid) ? false : (strtotime($salesOrder->date_invalid) > time()) && $isInvalid = false;
                             }
                         }
                     }
