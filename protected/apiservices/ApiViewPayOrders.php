@@ -63,10 +63,18 @@ class ApiViewPayOrders extends EApiViewService {
             
             $isInvalid = true;
             $salesOrder = new SalesOrder();
-            $salesOrder = $salesOrder->getByAttributes(array('is_paid' => 0, 'ref_no' => $data->refNo));
-            if (isset($salesOrder->date_invalid)) {
-                strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+            $salesOrder = $salesOrder->getByAttributes(array('ref_no' => $data->refNo));
+            if ($salesOrder->is_paid == 1) {
+                $isInvalid = false;
+            } else {
+                if (isset($salesOrder->date_invalid)) {
+                    strtotime($salesOrder->date_invalid) > time() && $isInvalid = false;
+                }
+                else {
+                    $isInvalid = false;
+                }
             }
+
             $data->isInvalid = $isInvalid;
             
             $this->orderList[] = $data;
