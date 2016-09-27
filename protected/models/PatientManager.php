@@ -235,18 +235,17 @@ class PatientManager {
             $data = $form->getSafeAttributes();
             $attrs = array('id' => $data['id']);
             unset($data['id']);
-            $patient = new PatientInfo();
-            $return = $patient::model()->updateAllByAttributes($data, $attrs);
+            $return = Yii::app()->db->createCommand()->update(PatientInfo::model()->tableName(), $data, 'id = ' . (int)$values['id']);
             if($return != 0) {
                 $output['status'] = 'ok';
                 $output['errorMsg'] = 'success';
             } else {
-                $output['errorMsg'] = $patient->getFirstErrors();
+                $output['errorMsg'] = 'failed';
             }
         } else {
-            $output['errorMsg'] = $form->getFirstErrors();
+            $output['errorMsg'] = 'validate error';
         }
-        
+
         return $output;
     }
     
