@@ -2,9 +2,9 @@ function readyHospital() {
     var source = $('article').attr('data-source');
     var innerHtml = '';
     if (source == 1) {
-        innerHtml += '<div data-scroll="true" style="height:315px;margin-top:93px;">';
+        innerHtml += '<div id="hospitalScroll" data-scroll="true" style="height:315px;margin-top:93px;">';
     } else {
-        innerHtml += '<div data-scroll="true" style="height:315px;margin-top:49px;">';
+        innerHtml += '<div id="hospitalScroll" data-scroll="true" style="height:315px;margin-top:49px;">';
     }
     innerHtml += '<ul class="list">';
     if ($hospital != null) {
@@ -16,7 +16,7 @@ function readyHospital() {
     innerHtml += '</ul></div>';
     return innerHtml;
 }
-$('#deptSelect').tap(function () {
+$('#deptSelect').tap(function() {
     var deptName = $('#deptTitle').html();
     var deptId = $('#deptTitle').attr('data-dept');
     var stateName = $('#stateTitle').html();
@@ -66,13 +66,15 @@ $('#deptSelect').tap(function () {
         showCloseBtn: false
     });
 
-    $('.cDept').each(function(){
-        if($(this).attr('data-dept')==deptId){
+    $('.cDept').each(function() {
+        if ($(this).attr('data-dept') == deptId) {
             $(this).addClass('activeIcon');
+            var top = $(this).position().top - 49;
+            $('#deptScroll').scrollTop(top);
         }
     });
 
-    $('.cDept').click(function (e) {
+    $('.cDept').click(function(e) {
         e.preventDefault();
         $deptId = $(this).attr('data-dept');
         $deptName = $(this).html();
@@ -85,7 +87,7 @@ $('#deptSelect').tap(function () {
         J.showMask();
         $.ajax({
             url: requestUrl,
-            success: function (data) {
+            success: function(data) {
                 $hospital = data.results.hospital;
                 readyDoc(data);
                 $deptName = $deptName.length > 4 ? $deptName.substr(0, 3) + '...' : $deptName;
@@ -102,7 +104,7 @@ $('#deptSelect').tap(function () {
     });
 });
 
-$('#stateSelect').tap(function () {
+$('#stateSelect').tap(function() {
     var deptName = $('#deptTitle').html();
     var deptId = $('#deptTitle').attr('data-dept');
     var stateName = $('#stateTitle').html();
@@ -151,13 +153,15 @@ $('#stateSelect').tap(function () {
         pos: 'top',
         showCloseBtn: false
     });
-    $('.state').each(function(){
-        if($(this).attr('data-state')==stateId){
+    $('.state').each(function() {
+        if ($(this).attr('data-state') == stateId) {
             $(this).addClass('activeIcon');
+            var top = $(this).position().top - 49;
+            $('#cityScroll').scrollTop(top);
         }
     })
 
-    $('.state').click(function (e) {
+    $('.state').click(function(e) {
         e.preventDefault();
         $deptId = $('#deptTitle').attr('data-dept');
         $deptName = $('#deptTitle').html();
@@ -172,7 +176,7 @@ $('#stateSelect').tap(function () {
         J.showMask();
         $.ajax({
             url: requestUrl,
-            success: function (data) {
+            success: function(data) {
                 $hospital = data.results.hospital;
                 readyDoc(data);
                 $('#stateTitle').html($stateName);
@@ -188,7 +192,7 @@ $('#stateSelect').tap(function () {
 });
 
 
-$('#hospitalSelect').tap(function () {
+$('#hospitalSelect').tap(function() {
     var deptName = $('#deptTitle').html();
     var deptId = $('#deptTitle').attr('data-dept');
     var stateName = $('#stateTitle').html();
@@ -237,13 +241,15 @@ $('#hospitalSelect').tap(function () {
         pos: 'top',
         showCloseBtn: false
     });
-   $('.hospital').each(function(){
-        if($(this).attr('data-hospital')==hpId){
+    $('.hospital').each(function() {
+        if ($(this).attr('data-hospital') == hpId) {
             $(this).addClass('activeIcon');
+            var top = $(this).position().top - 49;
+            $('#hospitalScroll').scrollTop(top);
         }
     })
 
-    $('.hospital').click(function (e) {
+    $('.hospital').click(function(e) {
         e.preventDefault();
         $hpId = $(this).attr('data-hospital');
         $hpName = $(this).html();
@@ -258,7 +264,7 @@ $('#hospitalSelect').tap(function () {
         J.showMask();
         $.ajax({
             url: requestUrl,
-            success: function (data) {
+            success: function(data) {
                 readyDoc(data);
                 $hpName = $hpName.length > 4 ? $hpName.substr(0, 3) + '...' : $hpName;
                 $('#hospitalTitle').html($hpName);
@@ -378,13 +384,13 @@ function readyDoc(data) {
 }
 //分页
 function initPage(dataPage) {
-    $('#previousPage').tap(function () {
+    $('#previousPage').tap(function() {
         if ($condition["page"] > 1) {
             $condition["page"] = parseInt($condition["page"]) - 1;
             J.showMask();
             $.ajax({
                 url: $requestDoc + '?' + setUrlCondition() + '&getcount=1',
-                success: function (data) {
+                success: function(data) {
                     readyDoc(data);
                     setLocationUrl();
                     $('#contractDoctors_article').scrollTop(0);
@@ -394,13 +400,13 @@ function initPage(dataPage) {
             J.showToast('已是第一页', '', '1000');
         }
     });
-    $('#nextPage').tap(function () {
+    $('#nextPage').tap(function() {
         if ($condition["page"] < dataPage) {
             $condition["page"] = parseInt($condition["page"]) + 1;
             J.showMask();
             $.ajax({
                 url: $requestDoc + '?' + setUrlCondition() + '&getcount=1',
-                success: function (data) {
+                success: function(data) {
                     readyDoc(data);
                     setLocationUrl();
                     $('#contractDoctors_article').scrollTop(0);
@@ -418,7 +424,7 @@ function changePage() {
     J.showMask();
     $.ajax({
         url: $requestDoc + '?' + setUrlCondition() + '&getcount=1',
-        success: function (data) {
+        success: function(data) {
             readyDoc(data);
             setLocationUrl();
             $('#contractDoctors_article').scrollTop(0);
