@@ -245,7 +245,7 @@ class PatientManager {
         } else {
             $output['errorMsg'] = 'validate error';
         }
-
+ 
         return $output;
     }
     
