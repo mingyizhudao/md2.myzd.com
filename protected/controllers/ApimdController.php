@@ -508,10 +508,11 @@ class ApimdController extends Controller {
                 }
                 break;
             case 'deletedoctorpatient'://根据ids逻辑删除患者
-                if (isset($post['patient_ids'])) {
-                    $user = $this->userLoginRequired($post);
-                    $post['patient_ids'] = json_decode($post['patient_ids']);
-                    $apiSvc = new ApiViewDeletePatientByIds($post['patient_ids']);
+                if (isset($post['patient'])) {
+                    $values = $post['patient'];
+                    $user = $this->userLoginRequired($values);
+                    $values['patient_ids'] = json_decode($values['patient_ids']);
+                    $apiSvc = new ApiViewDeletePatientByIds($values['patient_ids']);
                     $output = $apiSvc->loadApiViewData();
                 }
                 break;
