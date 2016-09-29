@@ -1,3 +1,8 @@
+<style>
+    video{
+        position: static!important;
+    }
+</style>
 <article class="active" data-scroll="true">
     <div>
         <div>
