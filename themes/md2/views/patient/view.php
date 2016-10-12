@@ -116,6 +116,7 @@ if ($source != 1) {
         });
         $('#patientBookingCreate').tap(function() {
             sessionStorage.removeItem('intention');
+            sessionStorage.removeItem('detail');
             var diseaseName = '<?php echo $patientInfo->diseaseName ?>';
             var diseaseDetail = '<?php echo $patientInfo->diseaseDetail ?>';
             if ('<?php echo $source == 0; ?>') {
