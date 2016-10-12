@@ -2,7 +2,7 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/patientBooking.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.3.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientBooking.min.1.4.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -23,7 +23,7 @@ $expectDoctor = Yii::app()->request->getQuery('expectDoctor', '');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $real = $userDoctorProfile;
 $userDoctorCerts = $doctorCerts;
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
 <article id="patientBookingCreate_article" class="active" data-scroll="true">
     <div class="pad10">
@@ -156,6 +156,10 @@ $this->show_footer=false;
             checkInput();
         });
         $('.selectExpect').click(function () {
+            var detail = $('textarea[name="booking[detail]"]').val();
+            if (detail != '') {
+                sessionStorage.setItem('detail', detail);
+            }
             location.href = '<?php echo $urlViewContractDoctors; ?>';
         });
         document.addEventListener('input', function (e) {
@@ -187,6 +191,12 @@ $this->show_footer=false;
                     $(this).trigger('click');
                 }
             });
+        }
+        //初始化诊疗目的
+        var detail = sessionStorage.getItem('detail');
+        if (detail != null) {
+            $('textarea[name="booking[detail]"]').val(detail);
+            checkInput();
         }
         function checkInput() {
             var bool = true;
