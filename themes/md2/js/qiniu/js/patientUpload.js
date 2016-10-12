@@ -93,6 +93,8 @@ $(function() {
                 $('#loading_popup').hide();
                 $('#success').show();
                 if (returnResult) {
+                    sessionStorage.removeItem('intention');
+                    sessionStorage.removeItem('detail');
                     //电邮提醒
                     if (patientBookingId != '') {
                         $.ajax({

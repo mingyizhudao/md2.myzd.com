@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     //图片上传板块
     var btnSubmit = $(".uploadBtn"),
@@ -39,7 +39,7 @@ $(function() {
             state = 'pedding',
             // 所有文件的进度信息，key为file id
             percentages = {},
-            supportTransition = (function() {
+            supportTransition = (function () {
                 var s = document.createElement('p').style,
                         r = 'transition' in s ||
                         'WebkitTransition' in s ||
@@ -147,7 +147,7 @@ $(function() {
                 $prgress = $li.find('p.progress span'),
                 $wrap = $li.find('p.imgWrap'),
                 $info = $('<p class="error"></p>'),
-                showError = function(code) {
+                showError = function (code) {
                     switch (code) {
                         case 'exceed_size':
                             text = '文件大小超出';
@@ -170,7 +170,7 @@ $(function() {
         } else {
             // @todo lazyload
             $wrap.text('预览中');
-            uploader.makeThumb(file, function(error, src) {
+            uploader.makeThumb(file, function (error, src) {
                 if (error) {
                     $wrap.text('不能预览');
                     return;
@@ -183,7 +183,7 @@ $(function() {
             file.rotation = 0;
         }
 
-        file.on('statuschange', function(cur, prev) {
+        file.on('statuschange', function (cur, prev) {
             if (prev === 'progress') {
                 $prgress.hide().width(0);
             } else if (prev === 'queued') {
@@ -210,15 +210,15 @@ $(function() {
             $li.removeClass('state-' + prev).addClass('state-' + cur);
         });
 
-        $li.on('mouseenter', function() {
+        $li.on('mouseenter', function () {
             $btns.stop().animate({height: 30});
         });
 
-        $li.on('mouseleave', function() {
+        $li.on('mouseleave', function () {
             $btns.stop().animate({height: 0});
         });
 
-        $btns.on('click', 'span', function() {
+        $btns.on('click', 'span', function () {
             var index = $(this).index(),
                     deg;
 
@@ -267,7 +267,7 @@ $(function() {
                 spans = $progress.children(),
                 percent;
 
-        $.each(percentages, function(k, v) {
+        $.each(percentages, function (k, v) {
             total += v[ 0 ];
             loaded += v[ 0 ] * v[ 1 ];
         });
@@ -364,11 +364,13 @@ $(function() {
                         $.ajax({
                             type: 'get',
                             url: patientAjaxTask + '/' + patientBookingId,
-                            success: function(data) {
+                            success: function (data) {
                                 //console.log(data);
                             }
                         });
                     }
+                    sessionStorage.removeItem('intention');
+                    sessionStorage.removeItem('detail');
                     location.href = uploadReturnUrl;
                     //location.hash = uploadReturnUrl;
                 } else {
@@ -381,7 +383,7 @@ $(function() {
         updateStatus();
     }
 
-    uploader.onUploadProgress = function(file, percentage) {
+    uploader.onUploadProgress = function (file, percentage) {
         var $li = $('#' + file.id),
                 $percent = $li.find('.progress span');
 
@@ -390,7 +392,7 @@ $(function() {
         updateTotalProgress();
     };
 
-    uploader.onFileQueued = function(file) {
+    uploader.onFileQueued = function (file) {
         fileCount++;
         fileSize += file.size;
 
@@ -403,7 +405,7 @@ $(function() {
         updateTotalProgress();
     };
 
-    uploader.onFileDequeued = function(file) {
+    uploader.onFileDequeued = function (file) {
         fileCount--;
         fileSize -= file.size;
         if (!fileCount) {
@@ -414,7 +416,7 @@ $(function() {
 
     };
 
-    uploader.on('all', function(type) {
+    uploader.on('all', function (type) {
         var stats;
         switch (type) {
             case 'uploadFinished':
@@ -432,7 +434,7 @@ $(function() {
         }
     });
     //图片上传前的错误验证
-    uploader.onError = function(code) {
+    uploader.onError = function (code) {
         var errorinfo;
         switch (code) {
             case 'F_DUPLICATE':
@@ -461,26 +463,26 @@ $(function() {
     };
 
     //当所有文件上传结束时触发
-    uploader.on("uploadFinished", function(file, data) {
+    uploader.on("uploadFinished", function (file, data) {
 
     });
     //单个文件上传成功触发的事件
-    uploader.on("uploadSuccess", function(file, data) {
+    uploader.on("uploadSuccess", function (file, data) {
         //console.log(data);
     });
 //单个文件上传失败触发的事件
-    uploader.on("uploadError", function(file, data) {
+    uploader.on("uploadError", function (file, data) {
         console.log(data);
     });
 //单个文件上传服务器时的事件
-    uploader.on("uploadAccept", function(file, data) {
+    uploader.on("uploadAccept", function (file, data) {
         //判断该文件上传由后台返回的状态 返回false则会表示文件上传失败 
         if (data.status == 'no') {
             return false;
         }
     });
 //提交按钮点击时间
-    $upload.on('click', function() {
+    $upload.on('click', function () {
         disabledBtn(btnSubmit);
         if ($(this).hasClass('disabled') || $(this).hasClass("ui-state-disabled")) {
             return false;
@@ -490,11 +492,11 @@ $(function() {
         }
     });
 
-    $info.on('click', '.retry', function() {
+    $info.on('click', '.retry', function () {
         uploader.retry();
     });
 
-    $info.on('click', '.ignore', function() {
+    $info.on('click', '.ignore', function () {
         //忽略的操作 错误图片不再上传 直接页面跳转
         enableBtn(btnSubmit);
         location.href = uploadReturnUrl;

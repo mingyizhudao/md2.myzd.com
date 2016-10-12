@@ -3,7 +3,7 @@ Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/uploadMRFile.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/uploadMRFile.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/uploadMRFile.min.1.2.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -87,7 +87,7 @@ $this->show_footer = false;
                             <div class="mt10">
                                 <?php
                                 if ($type == 'create') {
-                                    echo '<a href="' . $urlReturn . '" class="btn btn-full skipBtn">稍后补充</a>' .
+                                    echo '<a href="javascript:;" class="btn btn-full skipBtn">稍后补充</a>' .
                                     '<div class="text-center color-gray font-s12">(提交订单后可在订单详情里补充)</div>';
                                 }
                                 ?>
@@ -121,7 +121,12 @@ $this->show_footer = false;
     </div>
 </article>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $('.skipBtn').click(function () {
+            sessionStorage.removeItem('intention');
+            sessionStorage.removeItem('detail');
+            location.href = '<?php echo $urlReturn; ?>';
+        });
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
 //        $.ajax({
 //            url: urlPatientMRFiles,
@@ -149,12 +154,12 @@ $this->show_footer = false;
         initDelete();
     }
     function initDelete() {
-        $('.imglist .delete').tap(function() {
+        $('.imglist .delete').tap(function () {
             domLi = $(this).parents("li");
             id = domLi.attr("id");
-            J.confirm('提示', '确定删除这张图片?', function() {
+            J.confirm('提示', '确定删除这张图片?', function () {
                 deleteImg(id, domLi);
-            }, function() {
+            }, function () {
                 J.showToast('取消', '', 1000);
             });
         });
@@ -164,10 +169,10 @@ $this->show_footer = false;
         var urldelectPatientMRFile = '<?php echo $urldelectPatientMRFile ?>' + id;
         $.ajax({
             url: urldelectPatientMRFile,
-            beforeSend: function() {
+            beforeSend: function () {
 
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     domLi.remove();
                     J.showToast('删除成功!', '', 1000);
@@ -176,7 +181,7 @@ $this->show_footer = false;
                     J.showToast(data.error, '', 3000);
                 }
             },
-            complete: function() {
+            complete: function () {
                 J.hideMask();
             }
         });
