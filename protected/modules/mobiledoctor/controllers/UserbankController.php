@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'actionAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -129,6 +129,23 @@ class UserbankController extends MobiledoctorController {
             'model' => $form)
         );
     }
+    
+    //认证
+    public function actionAuth($card_id)
+    {
+        if(is_numeric($card_id) && $card_id > 0) {
+            $doctorBankCard = new DoctorBankCard();
+            $result = $doctorBankCard->findByPk($card_id);
+            $cardType = '';
+            if(!is_null($result)) {
+                $cardType = $result->card_type;
+            }
+            $form = new DoctorBankCardAuthForm();
+            $this->render('auth', array(
+                'model' => $form, 'cardType' => $cardType)
+            );
+        }
+    }
 
     //修改
     public function actionUpdate($id) {
@@ -157,17 +174,36 @@ class UserbankController extends MobiledoctorController {
     }
 
     //删除银行卡信息
-    public function actionAjaxDelete($id) {
-        $output = array("status" => "no");
+    public function actionAjaxDelete() 
+    {
+        $id = Yii::app()->getRequest()->getQuery('id');
         $userId = $this->getCurrentUserId();
-        $userMgr = new UserManager();
-        $card = $userMgr->loadCardByUserIdAndId($userId, $id);
-        if (isset($card)) {
-            $card->delete();
-            $output['status'] = 'ok';
+        $output = array("status" => "no");
+        
+        if (is_null($id)) {
+            //批删
+            if (isset($_POST['ids'])) {
+                if (count($_POST['ids']) > 0) {
+                    $cardManager = new CardManager();
+                    $result = $cardManager->deleteCardsByIds($userId, $_POST['ids']);
+                    if ($result === true) {
+                        $output['status'] = 'ok';
+                    }
+                    $result === true ? $output['status'] = 'ok' : $output['errors'] = '银行卡解绑失败!';
+                }
+            }
         } else {
-            $output['errors'] = '无权限操作!';
+            //单删
+            $userMgr = new UserManager();
+            $card = $userMgr->loadCardByUserIdAndId($userId, $id);
+            if (isset($card)) {
+                $card->delete();
+                $output['status'] = 'ok';
+            } else {
+                $output['errors'] = '无权限操作!';
+            }
         }
+
         $this->renderJsonOutput($output);
     }
 
