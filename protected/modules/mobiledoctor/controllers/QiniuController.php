@@ -2,6 +2,7 @@
 
 class QiniuController extends MobiledoctorController {
 
+    const REAL_AUTH_PIC_NUM = 3;
     /**
      * 安卓获取医生头像七牛上传权限
      */
@@ -84,19 +85,23 @@ class QiniuController extends MobiledoctorController {
     public function actionAjaxDoctorRealAuth() {
         $post = $this->decryptInput();
         $output = array('status' => 'no');
-        if (isset($post['auth_file'])) {
-            $form = new UserDoctorRealAuthForm();
-            $form->setAttributes($post['auth_file'], true);
-            $form->user_id = $this->getCurrentUserId();
-            $form->initModel();
-            if ($form->validate()) {
-                $file = new UserDoctorCert();
-                $file->setAttributes($form->attributes, true);
-                if ($file->save()) {
-                    $output['status'] = 'ok';
-                    $output['fileId'] = $file->getId();
-                } else {
-                    $output['errors'] = $file->getErrors();
+        //三张照片一起上传
+        if (isset($post['auth_file']) && is_array($post['auth_file']) && count($post['auth_file']) == self::REAL_AUTH_PIC_NUM) {
+            foreach($post['auth_file'] as $item) {
+                $form = new UserDoctorRealAuthForm();
+                $form->setAttributes($item, true);
+                $form->user_id = $this->getCurrentUserId();
+                $form->initModel();
+                if ($form->validate()) {
+                    $file = new UserDoctorCert();
+                    $file->setAttributes($form->attributes, true);
+                    if ($file->save()) {
+                        $output['status'] = 'ok';
+                        $output['fileId'][] = $file->getId();
+                    } else {
+                        $output['errors'] = $file->getErrors();
+                        break;
+                    }
                 }
             }
         } else {
