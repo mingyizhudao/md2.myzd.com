@@ -97,6 +97,7 @@ class AppManager {
         $appObj = new stdClass();
         $appObj->app_version = $appVersionNo;
         $appObj->cur_app_version = $modelAppVersion->getAppVersion();
+        $appObj->cur_app_version_name = $modelAppVersion->getAppVersionName();
         $appObj->cur_app_dl_url = $modelAppVersion->getAppDownloadUrl();
         $appObj->force_update = $modelAppVersion->getIsForceUpdate();
         $appObj->change_log = $modelAppVersion->getChangeLog();
