@@ -35,7 +35,6 @@ $this->show_footer=false;
     $(document).ready(function () {
         $("#searchListView_header").on("input", function () {
             var searchValue = $(this).val();
-            console.log(searchValue);
             if (searchValue != '') {
                 $('.icon_clear').removeClass('hide');
             } else {
@@ -50,12 +49,11 @@ $this->show_footer=false;
         });
 
         $('#searchBtn').click(function () {
-            J.showMask();
             var searchValue = $('input[type="text"]').val();
-            console.log(searchValue);
             if (searchValue == '') {
                 J.showToast('请先输入条件', '', '1500');
             } else {
+                J.showMask();
                 ajaxSearch(searchValue);
             }
         });
