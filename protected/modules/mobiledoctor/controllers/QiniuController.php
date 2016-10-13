@@ -81,4 +81,27 @@ class QiniuController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    public function actionAjaxDoctorRealAuth() {
+        $post = $this->decryptInput();
+        $output = array('status' => 'no');
+        if (isset($post['auth_file'])) {
+            $form = new UserDoctorRealAuthForm();
+            $form->setAttributes($post['auth_file'], true);
+            $form->user_id = $this->getCurrentUserId();
+            $form->initModel();
+            if ($form->validate()) {
+                $file = new UserDoctorCert();
+                $file->setAttributes($form->attributes, true);
+                if ($file->save()) {
+                    $output['status'] = 'ok';
+                    $output['fileId'] = $file->getId();
+                } else {
+                    $output['errors'] = $file->getErrors();
+                }
+            }
+        } else {
+            $output['errors'] = 'no data....';
+        }
+        $this->renderJsonOutput($output);
+    }
 }
