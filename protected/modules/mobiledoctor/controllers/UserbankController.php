@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'actionAuth'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'auth', 'ajaxAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -146,6 +146,24 @@ class UserbankController extends MobiledoctorController {
             );
         }
     }
+    
+    //异步银行卡认证
+    public function actionAjaxAuth($code)
+    {
+        $output = array("status" => "no");
+        
+        //认证是否是银行卡预留手机号
+        
+        //认证验证码
+        $user = $this->getCurrentUser();
+        $authMgr = new AuthManager();
+        $authSmsVerify = $authMgr->verifyCodeForBank($user->getMobile(), $code, null);
+        if ($authSmsVerify->isValid()) {
+            $output['status'] = 'ok';
+        } else {
+            $output['errors'] = $authSmsVerify->getError('code');
+        }
+    }
 
     //修改
     public function actionUpdate($id) {
@@ -179,7 +197,7 @@ class UserbankController extends MobiledoctorController {
         $id = Yii::app()->getRequest()->getQuery('id');
         $userId = $this->getCurrentUserId();
         $output = array("status" => "no");
-        
+
         if (is_null($id)) {
             //批删
             if (isset($_POST['ids'])) {
