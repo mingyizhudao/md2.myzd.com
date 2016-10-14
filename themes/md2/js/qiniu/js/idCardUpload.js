@@ -37,7 +37,7 @@ $(function () {
         //         return time;
         //     },
         // },
-        auto_start: true,
+        auto_start: false,
         log_level: 5,
         filters: {
             prevent_duplicates: true,
@@ -53,10 +53,21 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
+                    showPreview(file)
                     var progress = new FileProgress(file, 'fsUploadProgress1');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
                 });
+                function showPreview(file) {
+                    var image = new Image();
+                    var preloader = new mOxie.Image();
+                    preloader.onload = function () {
+                        preloader.downsize(300, 300);
+                        image.setAttribute("src", preloader.getAsDataURL());
+                        $('#preview').append(image);
+                    };
+                    preloader.load(file.getSource());
+                }
             },
             'BeforeUpload': function (up, file) {
                 var progress = new FileProgress(file, 'fsUploadProgress1');
@@ -89,7 +100,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('firstImg:' + imgUrl);
                 $('#container1').find('img').attr('src', imgUrl);
                 firstData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
@@ -198,7 +209,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('secondImg:' + imgUrl);
                 $('#container2').find('img').attr('src', imgUrl);
                 secondData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
@@ -308,7 +319,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('thirdImg:' + imgUrl);
                 $('#container3').find('img').attr('src', imgUrl);
                 thirdData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
@@ -343,6 +354,9 @@ $(function () {
 
     submitBtn.click(function () {
         submitBtn.find('button').attr('disabled', true);
+        uploader.start();
+        return;
+        
         if (firstData == '' || secondData == '' || thirdData == '') {
             $('#jingle_toast').show();
             setTimeout(function () {
