@@ -9,6 +9,7 @@
  * @property string $os_version
  * @property string $device
  * @property string $app_version
+ * @property string $app_version_name
  * @property string $app_dl_url
  * @property integer $is_force_update
  * @property string $change_log
@@ -35,12 +36,12 @@ class AppVersion extends EActiveRecord {
         return array(
             array('app_name, os, os_version, app_version, date_active', 'required'),
             array('is_force_update', 'numerical', 'integerOnly' => true),
-            array('os, os_version, device, app_version, app_dl_url', 'length', 'max' => 45),
+            array('os, os_version, device, app_version, app_version_name, app_dl_url', 'length', 'max' => 45),
             array('app_name', 'length', 'max'=>20),
             array('change_log, date_created, date_updated, date_deleted', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, os, os_version, device, app_version, app_dl_url, is_force_update, change_log, date_active, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
+            array('id, os, os_version, device, app_version, app_version_name, app_dl_url, is_force_update, change_log, date_active, date_created, date_updated, date_deleted', 'safe', 'on' => 'search'),
         );
     }
 
@@ -64,6 +65,7 @@ class AppVersion extends EActiveRecord {
             'os_version' => 'Os Version',
             'device' => 'Device',
             'app_version' => 'App Version',
+            'app_version_name' => 'App Version',
             'app_dl_url' => 'App Dl Url',
             'is_force_update' => 'Is Force Update',
             'change_log' => 'Change Log',
@@ -96,6 +98,7 @@ class AppVersion extends EActiveRecord {
         $criteria->compare('os_version', $this->os_version, true);
         $criteria->compare('device', $this->device, true);
         $criteria->compare('app_version', $this->app_version, true);
+        $criteria->compare('app_version_name', $this->app_version_name, true);
         $criteria->compare('app_dl_url', $this->app_dl_url, true);
         $criteria->compare('is_force_update', $this->is_force_update);
         $criteria->compare('change_log', $this->change_log, true);
@@ -169,6 +172,10 @@ class AppVersion extends EActiveRecord {
 
     public function getAppVersion() {
         return $this->app_version;
+    }
+    
+    public function getAppVersionName() {
+        return $this->app_version_name;
     }
 
     public function getAppDownloadUrl() {
