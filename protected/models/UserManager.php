@@ -506,17 +506,19 @@ class UserManager {
     }
 
     //删除银行卡
-    public function apiBankDelete($id, $userId) {
+    public function apiBankDelete(Array $ids, $userId) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
-        $card = $this->loadCardByUserIdAndId($userId, $id);
-        if (isset($card)) {
-            $card->delete();
-            $output['status'] = EApiViewService::RESPONSE_OK;
-            $output['errorCode'] = ErrorList::ERROR_NONE;
-            $output['errorMsg'] = 'success';
-        } else {
-            $output['errorMsg'] = '无权限操作!';
+        
+        if (count($ids) > 0) {
+            $cardManager = new CardManager();
+            $result = $cardManager->deleteCardsByIds($userId, $ids);
+            if ($result === true) {
+                $output['status'] = 'ok';
+            }
+            $result === true ? $output['status'] = 'ok' : $output['errors'] = '银行卡解绑失败!';
+            $result === true && $output['errorCode'] = 0;
         }
+
         return $output;
     }
 
