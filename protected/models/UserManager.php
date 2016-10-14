@@ -62,8 +62,9 @@ class UserManager {
 
     /**
      * 创建用户
-     * @param type $mobile
-     * @param type $statCode
+     * @param $mobile
+     * @param $statCode
+     * @return null|User
      */
     private function createUser($mobile, $statCode) {
         $model = new User();
@@ -108,16 +109,15 @@ class UserManager {
     }
 
     /**
-     * Get EUploadedFile from $_FILE. 
-     * Create DoctorCert model. 
-     * Save file in filesystem. 
+     * Get EUploadedFile from $_FILE.
+     * Create DoctorCert model.
+     * Save file in filesystem.
      * Save model in db.
-     * @param EUploadedFile $file EUploadedFile::getInstances()
-     * @param integer $doctorId Doctor.id     
-     * @return DoctorCert 
+     * @param $file
+     * @param $userId
+     * @return UserDoctorCert
      */
     private function saveUserDoctorCert($file, $userId) {
-        //$dFile = new DoctorCert();
         $dFile = new UserDoctorCert();
         $dFile->initModel($userId, $file);
         $dFile->saveModel();
@@ -125,14 +125,37 @@ class UserManager {
         return $dFile;
     }
 
-    //医生信息查询
-    public function loadUserDoctorProflieByUserId($userId, $attributes = null, $with = null) {
+    /**
+     * 医生信息查询
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return $this
+     */
+    public function loadUserDoctorProfileByUserId($userId, $attributes = null, $with = null) {
         return UserDoctorProfile::model()->getByUserId($userId, $attributes, $with);
     }
 
-    //医生文件查询
+    /**
+     * 医生文件查询
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return type
+     */
     public function loadUserDoctorFilesByUserId($userId, $attributes = null, $with = null) {
         return UserDoctorCert::model()->getDoctorFilesByUserId($userId, $attributes, $with);
+    }
+
+    /**
+     * 获取医生实名认证文件
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return type
+     */
+    public function loadUserRealNameAuthByUserId($userId, $attributes = null, $with = null) {
+        return UserDoctorRealAuth::model()->getDoctorFilesByUserId($userId, $attributes, $with);
     }
 
     //异步删除医生证明图片
@@ -183,13 +206,13 @@ class UserManager {
 
     /**
      * 注册医生
-     * @param type $username
-     * @param type $password
-     * @param type $terms
-     * @return User $model.
+     * @param $username
+     * @param $password
+     * @param int $terms
+     * @param int $activate
+     * @return User
      */
     public function doRegisterDoctor($username, $password, $terms = 1, $activate = 1) {
-        // create new User model and save into db.
         $model = new User();
         $model->scenario = 'register';
         $model->username = $username;
@@ -241,10 +264,11 @@ class UserManager {
 
     /**
      * Auto login user.
-     * @param type $username
-     * @param type $password
-     * @param type $rememberMe
-     * @return type 
+     * @param $username
+     * @param $password
+     * @param $role
+     * @param int $rememberMe
+     * @return UserLoginForm
      */
     public function autoLoginUser($username, $password, $role, $rememberMe = 0) {
         $form = new UserLoginForm();
