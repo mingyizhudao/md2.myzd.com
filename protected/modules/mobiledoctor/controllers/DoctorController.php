@@ -847,7 +847,7 @@ class DoctorController extends MobiledoctorController {
             $is_real_auth_verified = $doctorProfile->isRealAuthVerified();
         }
         $id = $user->getId();
-        $this->render('realAuth', array(
+        $this->render('uploadRealAuth', array(
             'output' => array('id' => $id, 'isVerified' => $is_real_auth_verified)
         ));
     }
