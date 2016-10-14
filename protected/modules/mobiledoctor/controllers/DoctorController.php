@@ -456,25 +456,34 @@ class DoctorController extends MobiledoctorController {
      */
     public function actionAccount() {
         $user = $this->loadUser();
-        $doctorProfile = $user->getUserDoctorProfile();
+
+        $doctorCerts = 0; //医师资格认证
+        $userDoctorProfile = 0; //基本信息
+        $verified = 0; //基本信息认证
+        $realName_auth = 0; //实名认证
+
+        $doctorProfile = $user->getUserDoctorProfile(); //基本信息
         $userMgr = new UserManager();
-        $models = $userMgr->loadUserDoctorFilesByUserId($user->id);
-        $doctorCerts = 0;
-        $userDoctorProfile = 0;
-        $verified = 0;
+        $models = $userMgr->loadUserDoctorFilesByUserId($user->id); //医师认证信息
+
         if (arrayNotEmpty($models)) {
             $doctorCerts = 1;
         }
+
         if (isset($doctorProfile)) {
             $userDoctorProfile = 1;
             if ($doctorProfile->isVerified()) {
                 $verified = 1;
             }
+            if($doctorProfile->isRealAuthVerified()) {
+                $realName_auth = 1;
+            }
         }
         $this->render('account', array(
             'userDoctorProfile' => $userDoctorProfile,
             'verified' => $verified,
-            'doctorCerts' => $doctorCerts
+            'doctorCerts' => $doctorCerts,
+            'realAuth' => $realName_auth
         ));
     }
 
@@ -827,6 +836,27 @@ class DoctorController extends MobiledoctorController {
         ));
     }
 
+    /**
+     * 上传医生实名认证
+     */
+    public function actionUploadRealAuth() {
+        $user = $this->loadUser();
+        $doctorProfile = $user->getUserDoctorProfile();
+        $is_real_auth_verified = false;
+        if (isset($doctorProfile)) {
+            $is_real_auth_verified = $doctorProfile->isRealAuthVerified();
+        }
+        $id = $user->getId();
+        $viewFile = 'realAuth';
+        if ($this->isUserAgentIOS()) {
+            $viewFile .= 'Ios';
+        } else {
+            $viewFile .= 'Android';
+        }
+        $this->render($viewFile, array(
+            'output' => array('id' => $id, 'isVerified' => $is_real_auth_verified)
+        ));
+    }
     /**
      * 主页进入修改医生信息页面
      */
