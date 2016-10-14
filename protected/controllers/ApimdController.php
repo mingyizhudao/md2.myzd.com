@@ -255,11 +255,6 @@ class ApimdController extends Controller {
                 $apiSvc = new ApiViewBankCardInfo($id, $user->id);
                 $output = $apiSvc->loadApiViewData();
                 break;
-            case 'bankdelete'://删除银行卡
-                $user = $this->userLoginRequired($values);
-                $userMgr = new UserManager();
-                $output = $userMgr->apiBankDelete($id, $user->id);
-                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
@@ -514,6 +509,15 @@ class ApimdController extends Controller {
                     $values['patient_ids'] = json_decode($values['patient_ids']);
                     $apiSvc = new ApiViewDeletePatientByIds($values['patient_ids']);
                     $output = $apiSvc->loadApiViewData();
+                }
+                break;
+            case 'bankdelete'://删除银行卡
+                if (isset($post['card'])) {
+                    $values = $post['card'];
+                    $user = $this->userLoginRequired($values);
+                    $values['card_ids'] = json_decode($values['card_ids']);
+                    $userMgr = new UserManager();
+                    $output = $userMgr->apiBankDelete($values['card_ids'], $user->id);
                 }
                 break;
             default:
