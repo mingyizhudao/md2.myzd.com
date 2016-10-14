@@ -185,9 +185,6 @@ class UserbankController extends MobiledoctorController {
         $output = array("status" => "no");
         $post = $this->decryptInput();
         if (isset($post['card'])) {
-            unset($post['card']);
-            $post['card']['name']='33333';
-            $post['card']['card_no']='1232132131133';
             $values = $post['card'];
             $values['user_id'] = $this->getCurrentUserId();
             $userMgr = new UserManager();
