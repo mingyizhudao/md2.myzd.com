@@ -37,7 +37,7 @@ $(function () {
         //         return time;
         //     },
         // },
-        auto_start: true,
+        auto_start: false,
         log_level: 5,
         filters: {
             prevent_duplicates: true,
@@ -53,10 +53,21 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
+                    showPreview(file)
                     var progress = new FileProgress(file, 'fsUploadProgress1');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
                 });
+                function showPreview(file) {
+                    var image = new Image();
+                    var preloader = new mOxie.Image();
+                    preloader.onload = function () {
+                        preloader.downsize(300, 300);
+                        image.setAttribute("src", preloader.getAsDataURL());
+                        $('#preview').append(image);
+                    };
+                    preloader.load(file.getSource());
+                }
             },
             'BeforeUpload': function (up, file) {
                 var progress = new FileProgress(file, 'fsUploadProgress1');
@@ -343,6 +354,9 @@ $(function () {
 
     submitBtn.click(function () {
         submitBtn.find('button').attr('disabled', true);
+        uploader.start();
+        return;
+        
         if (firstData == '' || secondData == '' || thirdData == '') {
             $('#jingle_toast').show();
             setTimeout(function () {
