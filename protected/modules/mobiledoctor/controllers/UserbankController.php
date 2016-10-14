@@ -125,12 +125,12 @@ class UserbankController extends MobiledoctorController {
     //新增
     public function actionCreate() {
         $userId = $this->getCurrentUserId();
-        $user = new UserManager();
-        $result = $user->loadUserById($userId);
+        $userDoctorProfile = new UserDoctorProfile();
+        $result = $userDoctorProfile->getByUserId($userId);
 
         $form = new DoctorBankCardForm();
         $this->render('create', array(
-            'model' => $form, 'username' => $result->username, 'name' => $result->name)
+            'model' => $form, 'name' => $result->name)
         );
     }
     
