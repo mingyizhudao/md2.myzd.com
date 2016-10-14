@@ -3,11 +3,13 @@
 class QiniuController extends MobiledoctorController {
 
     const REAL_AUTH_PIC_NUM = 3;
+
     /**
      * 安卓获取医生头像七牛上传权限
      */
     public function actionAjaxDrToken() {
-        $url = 'http://file.mingyizhudao.com/api/tokendrcert';
+//        $url = 'http://file.mingyizhudao.com/api/tokendrcert';
+        $url = 'http://121.40.127.64:8089/file.myzd.com/api/tokenpatientmr';
         $data = $this->send_get($url);
         $output = array('uptoken' => $data['results']['uploadToken']);
         $this->renderJsonOutput($output);
@@ -83,21 +85,24 @@ class QiniuController extends MobiledoctorController {
     }
 
     public function actionAjaxDoctorRealAuth() {
-        $post = $this->decryptInput();
+        $post = $this->decryptInput(false);
+        var_dump($post);
+        die;
         $output = array('status' => 'no');
         //三张照片一起上传
         if (isset($post['auth_file']) && is_array($post['auth_file']) && count($post['auth_file']) == self::REAL_AUTH_PIC_NUM) {
-            foreach($post['auth_file'] as $item) {
+            foreach ($post['auth_file'] as $key => $value) {
                 $form = new UserDoctorRealAuthForm();
-                $form->setAttributes($item, true);
+                $form->setAttributes($value, true);
                 $form->user_id = $this->getCurrentUserId();
+                $form->cert_type = $key;
                 $form->initModel();
                 if ($form->validate()) {
-                    $file = new UserDoctorCert();
+                    $file = new UserDoctorRealAuth();
                     $file->setAttributes($form->attributes, true);
                     if ($file->save()) {
                         $output['status'] = 'ok';
-                        $output['fileId'][] = $file->getId();
+                        $output['fileId'][$key] = $file->getId();
                     } else {
                         $output['errors'] = $file->getErrors();
                         break;
@@ -109,4 +114,5 @@ class QiniuController extends MobiledoctorController {
         }
         $this->renderJsonOutput($output);
     }
+
 }
