@@ -847,13 +847,7 @@ class DoctorController extends MobiledoctorController {
             $is_real_auth_verified = $doctorProfile->isRealAuthVerified();
         }
         $id = $user->getId();
-        $viewFile = 'realAuth';
-        if ($this->isUserAgentIOS()) {
-            $viewFile .= 'Ios';
-        } else {
-            $viewFile .= 'Android';
-        }
-        $this->render($viewFile, array(
+        $this->render('uploadRealAuth', array(
             'output' => array('id' => $id, 'isVerified' => $is_real_auth_verified)
         ));
     }
