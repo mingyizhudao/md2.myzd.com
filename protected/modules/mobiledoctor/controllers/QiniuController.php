@@ -83,21 +83,22 @@ class QiniuController extends MobiledoctorController {
     }
 
     public function actionAjaxDoctorRealAuth() {
-        $post = $this->decryptInput();
+        $post = $this->decryptInput(false);
         $output = array('status' => 'no');
         //三张照片一起上传
         if (isset($post['auth_file']) && is_array($post['auth_file']) && count($post['auth_file']) == self::REAL_AUTH_PIC_NUM) {
-            foreach($post['auth_file'] as $item) {
+            foreach($post['auth_file'] as $key=> $value) {
                 $form = new UserDoctorRealAuthForm();
-                $form->setAttributes($item, true);
+                $form->setAttributes($value, true);
                 $form->user_id = $this->getCurrentUserId();
+                $form->cert_type = $key;
                 $form->initModel();
                 if ($form->validate()) {
-                    $file = new UserDoctorCert();
+                    $file = new UserDoctorRealAuth();
                     $file->setAttributes($form->attributes, true);
                     if ($file->save()) {
                         $output['status'] = 'ok';
-                        $output['fileId'][] = $file->getId();
+                        $output['fileId'][$key] = $file->getId();
                     } else {
                         $output['errors'] = $file->getErrors();
                         break;
