@@ -145,7 +145,7 @@ class UserbankController extends MobiledoctorController {
                 $cardType = $result->card_type;
             }
             $form = new DoctorBankCardAuthForm();
-            $this->render('inentify', array(
+            $this->render('identify', array(
                 'model' => $form, 'cardType' => $cardType)
             );
         }
