@@ -241,12 +241,19 @@ abstract class Controller extends CController {
         if ($disfor) {
             foreach ($str as $k => $values) {
                 foreach ($values as $key => $value) {
-                    $values[$key] = urldecode($value);
+                    if(is_array($value)) {
+                        foreach($value as $ch => $ch_value) {
+                            $value[$ch] = urldecode($ch_value);
+                        }
+                        $values[$key] = $value;
+                    } else {
+                        $values[$key] = urldecode($value);
+                    }
+
                 }
                 $str[$k] = $values;
             }
         }
         return $str;
     }
-
 }
