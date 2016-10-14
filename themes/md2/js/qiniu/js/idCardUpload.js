@@ -53,21 +53,12 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
-                    showPreview(file)
+                    //图片预览
+                    showPreview(file, '#container1');
                     var progress = new FileProgress(file, 'fsUploadProgress1');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
                 });
-                function showPreview(file) {
-                    var image = new Image();
-                    var preloader = new mOxie.Image();
-                    preloader.onload = function () {
-                        preloader.downsize(300, 300);
-                        image.setAttribute("src", preloader.getAsDataURL());
-                        $('#preview').append(image);
-                    };
-                    preloader.load(file.getSource());
-                }
             },
             'BeforeUpload': function (up, file) {
                 var progress = new FileProgress(file, 'fsUploadProgress1');
@@ -82,8 +73,7 @@ $(function () {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-                $('#jingle_loading.initLoading').hide();
-                $('#jingle_loading_mask').hide();
+                uploader2.start();
             },
             'FileUploaded': function (up, file, info) {
                 //单个文件上传成功所做的事情 
@@ -100,9 +90,10 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
+
                 var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('firstImg:' + imgUrl);
-                $('#container1').find('img').attr('src', imgUrl);
+
                 firstData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                         '","mime_type":"' + encodeURIComponent(file.type) +
                         '","file_name":"' + encodeURIComponent(file.name) +
@@ -157,7 +148,7 @@ $(function () {
         //         return time;
         //     },
         // },
-        auto_start: true,
+        auto_start: false,
         log_level: 5,
         filters: {
             prevent_duplicates: true,
@@ -173,6 +164,8 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
+                    //图片预览
+                    showPreview(file, '#container2');
                     var progress = new FileProgress(file, 'fsUploadProgress2');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
@@ -191,8 +184,7 @@ $(function () {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-                $('#jingle_loading.initLoading').hide();
-                $('#jingle_loading_mask').hide();
+                uploader3.start();
             },
             'FileUploaded': function (up, file, info) {
                 //单个文件上传成功所做的事情 
@@ -211,7 +203,6 @@ $(function () {
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                 var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('secondImg:' + imgUrl);
-                $('#container2').find('img').attr('src', imgUrl);
                 secondData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                         '","mime_type":"' + encodeURIComponent(file.type) +
                         '","file_name":"' + encodeURIComponent(file.name) +
@@ -267,7 +258,7 @@ $(function () {
         //         return time;
         //     },
         // },
-        auto_start: true,
+        auto_start: false,
         log_level: 5,
         filters: {
             prevent_duplicates: true,
@@ -283,6 +274,8 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
+                    //图片预览
+                    showPreview(file, '#container3');
                     var progress = new FileProgress(file, 'fsUploadProgress3');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
@@ -301,8 +294,18 @@ $(function () {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function () {
-                $('#jingle_loading.initLoading').hide();
-                $('#jingle_loading_mask').hide();
+                //图片信息存储
+                var formData = '{"auth_file":{"1":' + firstData + ',"2":' + secondData + ',"3":' + thirdData + '}}';
+                var encryptContext = do_encrypt(formData, pubkey);
+                var param = {param: encryptContext};
+                $.ajax({
+                    url: uploadFile,
+                    data: param,
+                    type: 'post',
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
             },
             'FileUploaded': function (up, file, info) {
                 //单个文件上传成功所做的事情 
@@ -321,7 +324,6 @@ $(function () {
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                 var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('thirdImg:' + imgUrl);
-                $('#container3').find('img').attr('src', imgUrl);
                 thirdData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                         '","mime_type":"' + encodeURIComponent(file.type) +
                         '","file_name":"' + encodeURIComponent(file.name) +
@@ -352,11 +354,21 @@ $(function () {
         //console.log('hello man,a file is uploaded');
     });
 
+    //图片预览
+    function showPreview(file, id) {
+        var preloader = new mOxie.Image();
+        preloader.onload = function () {
+            preloader.downsize(300, 300);
+            $(id).find('img').attr('src', preloader.getAsDataURL());
+        };
+        preloader.load(file.getSource());
+    }
+
     submitBtn.click(function () {
         submitBtn.find('button').attr('disabled', true);
         uploader.start();
         return;
-        
+
         if (firstData == '' || secondData == '' || thirdData == '') {
             $('#jingle_toast').show();
             setTimeout(function () {
@@ -364,17 +376,7 @@ $(function () {
             }, 2000);
             return false;
         }
-        var formData = '{"auth_file":{"1":' + firstData + ',"2":' + secondData + ',"3":' + thirdData + '}}';
-        var encryptContext = do_encrypt(formData, pubkey);
-        var param = {param: encryptContext};
-        $.ajax({
-            url: uploadFile,
-            data: param,
-            type: 'post',
-            success: function (data) {
-                console.log(data);
-            }
-        });
+
     });
     $('#container').on(
             'dragenter',
