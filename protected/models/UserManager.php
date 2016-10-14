@@ -19,10 +19,15 @@ class UserManager {
         }
         $attributes = $form->getSafeAttributes();
         $card->setAttributes($attributes, true);
-        $regionState = RegionState::model()->getById($card->state_id);
-        $card->state_name = $regionState->getName();
-        $regionCity = RegionCity::model()->getById($card->city_id);
-        $card->city_name = $regionCity->getName();
+        if (isset($card->state_id)) {
+            $regionState = RegionState::model()->getById($card->state_id);
+            $card->state_name = $regionState->getName();
+        }
+        if (isset($card->city_id)) {
+            $regionCity = RegionCity::model()->getById($card->city_id);
+            $card->city_name = $regionCity->getName();
+        }
+
         if ($card->save() === false) {
             $output['status'] = 'no';
             $output['errors'] = $card->getErrors();
