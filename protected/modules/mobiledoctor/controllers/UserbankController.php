@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'auth', 'ajaxAuth'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -131,7 +131,7 @@ class UserbankController extends MobiledoctorController {
     }
     
     //认证
-    public function actionAuth($card_id)
+    public function actionIdentify($card_id)
     {
         if(is_numeric($card_id) && $card_id > 0) {
             $doctorBankCard = new DoctorBankCard();
@@ -141,7 +141,7 @@ class UserbankController extends MobiledoctorController {
                 $cardType = $result->card_type;
             }
             $form = new DoctorBankCardAuthForm();
-            $this->render('auth', array(
+            $this->render('inentify', array(
                 'model' => $form, 'cardType' => $cardType)
             );
         }
