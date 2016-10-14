@@ -57,7 +57,7 @@ $this->show_footer = false;
                 <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php //echo $urlReturn;         ?>" data-ajaxDrTask="<?php //echo $urlPatientAjaxDrTask; ?>" data-patientbookingid="<?php //echo $bookingId;         ?>">
                     <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php //echo $patientId;         ?>" />
                     <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
-                    <input type="hidden" id="domain" value="http://mr.file.mingyizhudao.com">
+                    <input type="hidden" id="domain" value="http://121.40.127.64:8089">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                 </form>
             </div>
