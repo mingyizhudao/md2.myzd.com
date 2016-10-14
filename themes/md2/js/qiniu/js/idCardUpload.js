@@ -89,7 +89,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('firstImg:' + imgUrl);
                 $('#container1').find('img').attr('src', imgUrl);
                 firstData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
@@ -198,7 +198,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('secondImg:' + imgUrl);
                 $('#container2').find('img').attr('src', imgUrl);
                 secondData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
@@ -308,7 +308,7 @@ $(function () {
                 var infoJson = eval('(' + info + ')');
                 progress.setComplete(up, info);
                 var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-                var imgUrl = domForm.find('#domain').val() + '' + infoJson.key;
+                var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                 console.log('thirdImg:' + imgUrl);
                 $('#container3').find('img').attr('src', imgUrl);
                 thirdData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
