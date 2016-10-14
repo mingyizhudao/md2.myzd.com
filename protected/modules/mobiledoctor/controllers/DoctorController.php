@@ -135,7 +135,7 @@ class DoctorController extends MobiledoctorController {
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
                     'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
-                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract'),
+                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract', 'uploadRealAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
