@@ -3,6 +3,7 @@ $(function () {
             btnSubmit = $('#submitBtn');
     btnSubmit.click(function () {
         var cardTest = /^(\d{15,20})$/;
+        // var cardTest = /^(\d{4}\s){3}\d{4}$/;
         var cardNo = $('input[name="card[card_no]"]').val();
         if (!cardTest.test(cardNo)) {
             J.showToast('银行卡号不正确', '', '1500');
@@ -85,7 +86,8 @@ $(function () {
             data: param,
             success: function (data) {
                 if (data.status == 'ok') {
-                    location.href = returnUrl;
+                    // console.log(data);
+                    location.href = returnUrl+'/'+data.cardId;
                 } else {
                     enable(btnSubmit);
                 }
