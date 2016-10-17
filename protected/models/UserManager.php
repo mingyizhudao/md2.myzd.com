@@ -160,7 +160,7 @@ class UserManager {
      * @return type
      */
     public function loadUserRealNameAuthByUserId($userId, $attributes = null, $with = null) {
-        return UserDoctorRealAuth::model()->getDoctorFilesByUserId($userId, $attributes, $with);
+        return UserDoctorRealAuth::model()->getRealAuthFilesByUserId($userId, $attributes, $with);
     }
 
     //异步删除医生证明图片
