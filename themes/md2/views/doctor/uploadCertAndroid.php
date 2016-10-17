@@ -41,7 +41,7 @@ if (isset($output['id'])) {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
-
+$register = Yii::app()->request->getQuery('register', 0);
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
@@ -70,27 +70,58 @@ $this->show_footer = false;
         height: 100%;
         border-radius: 5px;
     }
+    nav.right {
+        width: auto!important;
+        background-color: inherit!important;
+        margin-top: 12px!important;
+    }
 </style>
+<?php
+if ($register == 1) {
+    ?>
+    <header class="bg-green">
+        <h1 class="title">医生执业证书</h1>
+        <?php
+        if ($register == 1) {
+            ?>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
 <article id="" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
-        <div>
-            <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
-        </div>
-        <div class="grid text-center pb5">
-            <div class="col-1 w25 c-red">
-                注册成功
+        <?php
+        if ($register == 1) {
+            ?>
+            <div>
+                <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
             </div>
-            <div class="col-1 w25 c-red">
-                基本信息
+            <div class="grid text-center pb5">
+                <div class="col-1 w25 c-red">
+                    注册成功
+                </div>
+                <div class="col-1 w25 c-red">
+                    基本信息
+                </div>
+                <div class="col-1 w25 c-red">
+                    实名认证
+                </div>
+                <div class="col-1 w25 c-red">
+                    医师认证
+                </div>
             </div>
-            <div class="col-1 w25 c-red">
-                实名认证
-            </div>
-            <div class="col-1 w25 c-red">
-                医师认证
-            </div>
-        </div>
-        <div class="line-tab"></div>
+            <div class="line-tab"></div>
+            <?php
+        }
+        ?>
         <div class="pad10">
             <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
             <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
@@ -196,6 +227,12 @@ $this->show_footer = false;
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#skip-btn').click(function () {
+            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
+        });
         var isVerified = '<?php echo $output['isVerified']; ?>';
         if (!isVerified) {
             $(".uploadFileAndroid").removeClass('hide');

@@ -64,20 +64,26 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         background: #F1F1F1;
     }
 </style>
-<header class="bg-green">
-    <h1 class="title">医生执业证书</h1>
-    <?php
-    if ($register == 1) {
-        ?>
-        <nav class="right">
-            <a href="javascript:;" data-target="link">
-                稍后补充
-            </a>
-        </nav>
-        <?php
-    }
+<?php
+if ($register == 1) {
     ?>
-</header>
+    <header class="bg-green">
+        <h1 class="title">医生执业证书</h1>
+        <?php
+        if ($register == 1) {
+            ?>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
 <article class="active" data-scroll="true">
     <div class="form-wrapper">
         <?php
@@ -168,6 +174,12 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#skip-btn').click(function () {
+            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
+        });
         var isVerified = '<?php echo $output['isVerified']; ?>';
         if (isVerified) {
             $(".queueList").hide();

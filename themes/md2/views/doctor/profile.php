@@ -42,7 +42,7 @@ if ($register == 1) {
     ?>
     <header class="bg-green">
         <nav class="left">
-            <a href="" data-target="back">
+            <a id="no-back" href="javascript:;">
                 <div class="pl5">
                     <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
                 </div>
@@ -59,13 +59,13 @@ if ($register == 1) {
         if ($register == 1) {
             ?>
             <div>
-                <img src="http://static.mingyizhudao.com/147643278340367" class="w100">
+                <img src="http://static.mingyizhudao.com/147667522197052" class="w100">
             </div>
             <div class="grid text-center pb5 bg-fff">
                 <div class="col-1 w25 c-red">
                     注册成功
                 </div>
-                <div class="col-1 w25">
+                <div class="col-1 w25 c-red">
                     基本信息
                 </div>
                 <div class="col-1 w25">
@@ -220,6 +220,20 @@ if ($register == 1) {
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
+        //注册时无返回
+        $('#no-back').click(function () {
+            J.customConfirm('',
+                    '<div class="mt10 mb10">未完成基本信息填写，将不能进行手术预约。请您先填写吧！</div>',
+                    '',
+                    '<a id="close-popup" class="w100">确定</a>',
+                    function () {
+                    },
+                    function () {
+                    });
+            $('#close-popup').click(function () {
+                J.closePopup();
+            });
+        });
         $("#termslink").click(function () {
             $("#termsShow").show();
             $('#a1').scrollTop(0);
