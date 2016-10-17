@@ -203,6 +203,14 @@ class UserDoctorProfile extends EActiveRecord {
     public function isProfileVerified() {
         return $this->profile_verified == 1;
     }
+
+    /**
+     * 实名认证
+     * @return bool
+     */
+    public function isDoctorAuth() {
+        return $this->isRealAuthVerified() && $this->isRealAuthVerified();
+    }
     /*     * ****** Query Methods ******* */
 
     /**

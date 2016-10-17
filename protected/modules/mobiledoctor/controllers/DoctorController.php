@@ -829,10 +829,20 @@ class DoctorController extends MobiledoctorController {
 
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
-        $isVerified = false;
-        if (isset($doctorProfile)) {
-            $isVerified = $doctorProfile->isVerified();
+        $doctor_cert_verify = 0;
+
+        $userMgr = new UserManager();
+        $doctor_cert_model = $userMgr->loadUserDoctorFilesByUserId($user->id); //实名认证信息
+
+
+        if(arrayNotEmpty($doctor_cert_model)) {
+            $doctor_cert_verify = 1;
         }
+
+        if(isset($doctorProfile)) {
+            $doctor_cert_verify = $doctor_cert_verify ==0 ? 0 : $doctor_cert_verify + $doctorProfile->getCertVerifyState();
+        }
+
         $id = $user->getId();
         $viewFile = 'uploadCert';
         if ($this->isUserAgentIOS()) {
@@ -841,7 +851,7 @@ class DoctorController extends MobiledoctorController {
             $viewFile .= 'Android';
         }
         $this->render($viewFile, array(
-            'output' => array('id' => $id, 'isVerified' => $isVerified)
+            'output' => array('id' => $id, 'isVerified' => $doctor_cert_verify)
         ));
     }
 
@@ -851,13 +861,22 @@ class DoctorController extends MobiledoctorController {
     public function actionUploadRealAuth() {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
-        $is_real_auth_verified = false;
-        if (isset($doctorProfile)) {
-            $is_real_auth_verified = $doctorProfile->isRealAuthVerified();
+        $real_auth_verified = 0;
+
+        $userMgr = new UserManager();
+        $real_auth_model = $userMgr->loadUserRealNameAuthByUserId($user->id); //实名认证信息
+
+
+        if(arrayNotEmpty($real_auth_model)) {
+            $real_auth_verified = 1;
+        }
+
+        if(isset($doctorProfile)) {
+            $real_auth_verified = $real_auth_verified ==0 ? 0 : $real_auth_verified + $doctorProfile->getRealAuthState();
         }
         $id = $user->getId();
         $this->render('uploadRealAuth', array(
-            'output' => array('id' => $id, 'isVerified' => $is_real_auth_verified)
+            'output' => array('id' => $id, 'isVerified' => $real_auth_verified)
         ));
     }
     /**
