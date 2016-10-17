@@ -8,12 +8,12 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/ui.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/qiniu.min.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/highlight.js?ts=' . time(), CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
 
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -43,16 +43,57 @@ if (isset($output['id'])) {
 }
 
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer = false;
 ?>
-<article id="" class="active pad1 android_article" data-scroll="true">
+<style>
+    .c-red{
+        color: #FF857E;
+    }
+    .line-tab{
+        height: 10px;
+        background: #F1F1F1;
+    }
+    #container a{
+        width: 100%;
+        display: block!important;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    #container a.showImg{
+        background-color: inherit!important;
+        padding: 0px;
+        height: 110px;
+    }
+    #container a.showImg img{
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+</style>
+<article id="" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
-        <!-- file uploader -->
-        <div class="">
-            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
-            <div class="">
-                <label>上传医生职业证书或者手持工牌照</label>
+        <div>
+            <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
+        </div>
+        <div class="grid text-center pb5">
+            <div class="col-1 w25 c-red">
+                注册成功
             </div>
-            <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
+            <div class="col-1 w25 c-red">
+                基本信息
+            </div>
+            <div class="col-1 w25 c-red">
+                实名认证
+            </div>
+            <div class="col-1 w25 c-red">
+                医师认证
+            </div>
+        </div>
+        <div class="line-tab"></div>
+        <div class="pad10">
+            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
+            <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
             <?php
             if ($output['isVerified']) {
                 echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
@@ -75,19 +116,19 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                         <div class="body mt10">
                             <div class="text-center">
                                 <div id="container">
-                                    <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
+                                    <a class="btn btn-default btn-lg" id="pickfiles" href="#">
                                         <span>选择图片</span>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt10">
+                            <div class="col-md-12 mt10 hide">
                                 <table class="table table-striped table-hover text-left" style="display:none">
                                     <tbody id="fsUploadProgress">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div id="submitBtn" class="hide">
+                        <div id="submitBtn" class="hide pt20">
                             <a class="btn btn-full bg-green color-white">上传</a>
                         </div>
                     </div>

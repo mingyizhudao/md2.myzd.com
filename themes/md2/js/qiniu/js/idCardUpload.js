@@ -8,11 +8,15 @@ $(function () {
     var num = 0;
     var domForm = $('#idCard-form'),
             uploadFile = domForm.attr('data-url-uploadfile'),
+            urlReturn = domForm.attr('data-url-return'),
             submitBtn = $('#submitBtn');
     //存储成功上传图片的信息
     var firstData = '';
+    var firstImg = false;
     var secondData = '';
+    var secondImg = false;
     var thirdData = '';
+    var thirdImg = false;
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'pickfiles1',
@@ -47,14 +51,13 @@ $(function () {
         },
         init: {
             'FilesAdded': function (up, files) {
-                $('#jingle_loading.initLoading').show();
-                $('#jingle_loading_mask').show();
-                $('#submitBtn').removeClass('hide');
+                firstImg = true;
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
                     //图片预览
                     showPreview(file, '#container1');
+
                     var progress = new FileProgress(file, 'fsUploadProgress1');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
@@ -158,9 +161,7 @@ $(function () {
         },
         init: {
             'FilesAdded': function (up, files) {
-                $('#jingle_loading.initLoading').show();
-                $('#jingle_loading_mask').show();
-                $('#submitBtn').removeClass('hide');
+                secondImg = true;
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
@@ -268,9 +269,7 @@ $(function () {
         },
         init: {
             'FilesAdded': function (up, files) {
-                $('#jingle_loading.initLoading').show();
-                $('#jingle_loading_mask').show();
-                $('#submitBtn').removeClass('hide');
+                thirdImg = true;
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
@@ -303,7 +302,9 @@ $(function () {
                     data: param,
                     type: 'post',
                     success: function (data) {
-                        console.log(data);
+                        if (data.status == 'ok') {
+                            location.href = urlReturn;
+                        }
                     }
                 });
             },
@@ -366,17 +367,16 @@ $(function () {
 
     submitBtn.click(function () {
         submitBtn.find('button').attr('disabled', true);
-        uploader.start();
-        return;
-
-        if (firstData == '' || secondData == '' || thirdData == '') {
+        if (firstImg && secondImg && thirdImg) {
+            $('#jingle_loading.initLoading').show();
+            $('#jingle_loading_mask').show();
+            uploader.start();
+        } else {
             $('#jingle_toast').show();
             setTimeout(function () {
                 $('#jingle_toast').hide();
-            }, 2000);
-            return false;
+            }, 1500);
         }
-
     });
     $('#container').on(
             'dragenter',
