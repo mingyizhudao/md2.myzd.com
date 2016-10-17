@@ -511,10 +511,21 @@ class UserManager {
     }
 
     //删除银行卡
-    public function apiBankDelete(Array $ids, $userId) {
+    public function apiBankDelete($ids, $userId) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
         
-        if (count($ids) > 0) {
+        if (!is_array($ids)) {
+            $id = $ids;
+            $card = $this->loadCardByUserIdAndId($userId, $id);
+            if (isset($card)) {
+                $card->delete();
+                $output['status'] = EApiViewService::RESPONSE_OK;
+                $output['errorCode'] = ErrorList::ERROR_NONE;
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = '无权限操作!';
+            }
+        } elseif (count($ids) > 0) {
             $cardManager = new CardManager();
             $result = $cardManager->deleteCardsByIds($userId, $ids);
             if ($result === true) {

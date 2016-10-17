@@ -113,7 +113,7 @@ $(function () {
 //        wrapper: "div",
         errorElement: "div",
         errorPlacement: function (error, element) {                             //错误信息位置设置方法  
-            error.appendTo(element.parents("li"));                        //这里的element是录入数据的对象  
+            error.appendTo(element.parents(".input-tab"));                        //这里的element是录入数据的对象  
         }
     });
     function formAjaxSubmit() {
@@ -142,7 +142,7 @@ $(function () {
                         errerMsg = data.errors[error];
                         inputKey = '#doctor_' + error;
                         $(inputKey).focus();
-                        $(inputKey).parent().after("<div class='error'>" + errerMsg + "</div> ");
+                        $(inputKey).parent(".input-tab").after("<div class='error'>" + errerMsg + "</div> ");
                     }
                     enableBtn(btnSubmit);
                 }
