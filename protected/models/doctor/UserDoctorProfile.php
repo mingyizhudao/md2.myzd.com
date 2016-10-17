@@ -192,6 +192,17 @@ class UserDoctorProfile extends EActiveRecord {
         return $this->date_verified !== null;
     }
 
+    public function isRealAuthVerified() {
+        return $this->real_auth_verified == 1;
+    }
+
+    public function isDoctorCertVerified() {
+        return $this->cert_verified == 1;
+    }
+
+    public function isProfileVerified() {
+        return $this->profile_verified == 1;
+    }
     /*     * ****** Query Methods ******* */
 
     /**

@@ -478,10 +478,10 @@ class DoctorController extends MobiledoctorController {
             $userDoctorProfile = 1;
         }
 
-        if($userDoctorProfile == 1) {
-            $userDoctorProfile = $doctorProfile->getProfileVerifyState() == 0 ? $userDoctorProfile : $doctorProfile->getProfileVerifyState();
-            $doctorCerts = $doctorProfile->getCertVerifyState() == 0 ? $doctorCerts : $doctorProfile->getCertVerifyState();
-            $realNameAuth = $doctorProfile->getRealAuthState() ==0 ? $realNameAuth : $doctorProfile->getRealAuthState();
+        if(isset($doctorProfile)) {
+            $userDoctorProfile = $userDoctorProfile == 0 ? 0 : $userDoctorProfile+$doctorProfile->getProfileVerifyState();
+            $doctorCerts = $doctorCerts == 0 ? 0 : $doctorCerts + $doctorProfile->getCertVerifyState();
+            $realNameAuth = $realNameAuth ==0 ? 0 : $realNameAuth + $doctorProfile->getRealAuthState();
         }
 
         $this->render('account', array(
