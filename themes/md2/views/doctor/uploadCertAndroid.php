@@ -35,7 +35,7 @@ $urlQiniuAjaxDrToken = $this->createUrl('qiniu/ajaxDrToken');
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
@@ -262,10 +262,22 @@ if ($register == 1) {
         $.ajax({
             url: urlDoctorCerts,
             success: function (data) {
-                setImgHtml(data.results.files, isVerified);
+                setImg(data);
+//                setImgHtml(data.results.files, isVerified);上一个版本
             }
         });
     });
+    function setImg(data) {
+        var files = data.results.files;
+        var imgHtml = '<span>选择图片</span>';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                imgHtml = '<img src="' + files.thumbnailUrl + '">';
+            }
+        }
+        $('#pickfiles').html(imgHtml);
+    }
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {

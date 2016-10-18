@@ -152,21 +152,25 @@ class UserbankController extends MobiledoctorController {
     }
     
     //异步银行卡认证
-    public function actionAjaxAuth($code)
+    public function actionAjaxAuth()
     {
         $output = array("status" => "no");
+        $mobile = $_GET['phone'];
+        $code = $_GET['code'];
         
         //认证是否是银行卡预留手机号
         
         //认证验证码
         $user = $this->getCurrentUser();
         $authMgr = new AuthManager();
-        $authSmsVerify = $authMgr->verifyCodeForBank($user->getMobile(), $code, null);
+        $authSmsVerify = $authMgr->verifyCodeForBank($mobile, $code, null);
         if ($authSmsVerify->isValid()) {
             $output['status'] = 'ok';
         } else {
             $output['errors'] = $authSmsVerify->getError('code');
         }
+        
+        $this->renderJsonOutput($output);
     }
 
     //修改
