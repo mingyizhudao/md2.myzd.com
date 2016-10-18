@@ -262,10 +262,22 @@ if ($register == 1) {
         $.ajax({
             url: urlDoctorCerts,
             success: function (data) {
-                setImgHtml(data.results.files, isVerified);
+                setImg(data);
+//                setImgHtml(data.results.files, isVerified);上一个版本
             }
         });
     });
+    function setImg(data) {
+        var files = data.results.files;
+        var imgHtml = '<span>选择图片</span>';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                imgHtml = '<img src="' + files.thumbnailUrl + '">';
+            }
+        }
+        $('#pickfiles').html(imgHtml);
+    }
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {

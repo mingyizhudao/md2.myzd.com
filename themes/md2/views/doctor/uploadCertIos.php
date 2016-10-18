@@ -2,7 +2,8 @@
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js?ts=' . time(), CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -40,6 +41,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     }
     #uploader .webuploader-pick:after{
         display: none;
+    }
+    #filePicker.has-img .webuploader-pick{
+        background-color: #fff;
+        box-shadow: inherit;
+    }
+    #filePicker.has-img .webuploader-pick>img{
+        height: 110px;
     }
     #uploader .filelist li{
         width: 100%;
@@ -85,7 +93,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true">
+<article class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -125,7 +133,7 @@ if ($register == 1) {
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <!-- btn 选择图片 -->
-                            <div id="filePicker"></div>
+                            <div id="filePicker" class=""></div>
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
@@ -181,14 +189,9 @@ if ($register == 1) {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
         });
-        urlDoctorCerts = "<?php echo $urlDoctorCerts; ?>";
-        $.ajax({
-            url: urlDoctorCerts,
-            success: function (data) {
-                setImgHtml(data.results.files, isVerified);
-            }
-        });
     });
+
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {
