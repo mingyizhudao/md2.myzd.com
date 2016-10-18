@@ -11,10 +11,14 @@ $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlIdentify= $this->createUrl('userbank/identify', array('addBackBtn' => 1));
 $this->show_footer = false;
+$authActionType = AuthSmsVerify::ACTION_USER_LOGIN;
+$urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
+
+// var_dump($urlDoctorValiCaptcha);die;///md2.myzd.com/mobiledoctor/doctor/valiCaptcha
 
 ?>
 <style>
-    #userbankIdentify_article .yzma{border:1px solid #FD8C47;width:130px;color:#FD8C47;border-radius:5px;}
+    #userbankIdentify_article .yzma{border:1px solid #FD8C47;width:136px;color:#FD8C47;border-radius:5px;background: #fff;}
 </style>
 <article id="userbankIdentify_article" class="active userbank_article" data-scroll="true">
     <div class="pt10">
@@ -31,7 +35,8 @@ $this->show_footer = false;
             ),
             'enableAjaxValidation' => false,
         ));
-        echo $form->hiddenField($model, 'is_default', array('name' => 'card[is_default]', 'value' => 0));
+         echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
+         echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
         ?>
         <div class="pl10 pr10 bg-white">
             <div class="inputRow">
@@ -64,14 +69,15 @@ $this->show_footer = false;
                         
                         <?php echo $form->textField($model, 'verification', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
                     </div>
-                    <div id="sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5">获取验证码</div>
+                    <!-- <div id="btn-sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5"disabled="disabled">获取验证码</div> -->
+                    <button id="btn-sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5">获取验证码</button>
                 </div>
             </div>
          
         </div>
         <div class="grid pt10 pl10 pr10">
             
-            <div id="setDefault" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
+            <div id="setAgreement" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
                 <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 ">我已同意《名医主刀用户协议》
             </div>
         </div>
@@ -96,6 +102,7 @@ $this->show_footer = false;
                 return;
             }
             var bool = validator.form();
+            // console.log('aaa',bool);
             if (bool) {
               
                 formAjaxSubmit();
@@ -128,7 +135,7 @@ $this->show_footer = false;
             element.addClass('error');
         }
     });
-        function formAjaxSubmit(){
+    function formAjaxSubmit(){
             disabled(btnSubmit);
         var formdata = domForm.serializeArray();
         var requestUrl = domForm.attr('data-action-url');
@@ -156,12 +163,80 @@ $this->show_footer = false;
             },
         });
         }
-      $("#sendSmsCode").click(function(){
-         e.preventDefault();
-        checkForm($(this));
+
+      $("#btn-sendSmsCode").click(function(e){
+       e.preventDefault();
+       var domForm = $("#identify-form");
+       var domMobile = domForm.find("#phone");//手机号码
+       var captchaCode = $('#DoctorBankCardAuthForm_verification').val();//验证码
+       var mobile = domMobile.val();//手机号码
+       var formdata = domForm.serializeArray();
+       sendSmsVerifyCode($(this), domForm, mobile, captchaCode);
+   });
+
+      function sendSmsVerifyCode(domBtn, domForm, mobile, captchaCode) {
+        $(".error").html(""); //删除错误信息
+        var actionUrl = domForm.find("input[name='smsverify[actionUrl]']").val();//http://localhost/md2.myzd.com/auth/sendSmsVerifyCode
+        var actionType = domForm.find("input[name='smsverify[actionType]']").val();//102
+        var formData = new FormData();
+        formData.append("AuthSmsVerify[mobile]", mobile);
+        formData.append("AuthSmsVerify[actionType]", actionType);
+        $.ajax({
+            type: 'post',
+            url: actionUrl ,
+            data: formData,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            'success': function (data) {
+                console.log('aa',data);
+                if (data.status === true || data.status === 'ok') {
+                    //domForm[0].reset();
+                    buttonTimerStart(domBtn, 60000);
+                }
+                else {
+                    console.log(data);
+                    if (data.errors.captcha_code != undefined) {
+                        $('#captchaCode').after('<div id="UserDoctorMobileLoginForm_captcha_code-error" class="error">' + data.errors.captcha_code + '</div>');
+                    }
+                }
+            },
+            'error': function (data) {
+                console.log(data);
+            },
+            'complete': function () {
+            }
+        });
+    }
+      function buttonTimerStart(domBtn, timer) {
+        timer = timer / 1000 //convert to second.
+        var interval = 1000;
+        var timerTitle = '秒后重发';
+        domBtn.attr("disabled", true);
+        domBtn.html(timer + timerTitle);
+        timerId = setInterval(function () {
+            timer--;
+            if (timer > 0) {
+                domBtn.html(timer + timerTitle);
+            } else {
+                clearInterval(timerId);
+                timerId = null;
+                domBtn.html("重新发送");
+                domBtn.attr("disabled", false).removeAttr("disabled");
+                ;
+            }
+        }, interval);
+    }
+    
+      $("#setAgreement").click(function(){
+        $(this).find('img').attr('src','http://static.mingyizhudao.com/146665213709967');
+         if($("#phone").val()!=''&&$("#DoctorBankCardAuthForm_verification").val()!=''){
+         $("#submitBtn").click(function(){
+            // alert('a');
+            location.href="<?php echo $urlCardList;?>"+'/card_id/'+'<?php echo $card_id;?>';
+        })
+    }
       });
-      function sendSmsCode(){
-        
-      }
+    
     })
 </script>
