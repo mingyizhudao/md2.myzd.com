@@ -15,6 +15,7 @@ if ($register == 1) {
 } else {
     $urlReturn = $this->createUrl('doctor/view');
 }
+$isVerified = $output['isVerified'];
 $this->show_footer = false;
 ?>
 <style>
@@ -130,8 +131,8 @@ $this->show_footer = false;
         ?>
         <div class="container">
             <div class="text-left wrapper">
-                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php //echo $urlPatientAjaxDrTask;                ?>" data-patientbookingid="<?php //echo $bookingId;                        ?>">
-                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php //echo $patientId;                        ?>" />
+                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php //echo $urlPatientAjaxDrTask;                       ?>" data-patientbookingid="<?php //echo $bookingId;                               ?>">
+                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php //echo $patientId;                               ?>" />
                     <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
                     <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
@@ -216,7 +217,15 @@ $this->show_footer = false;
             </div>
         </div>
         <div class="pt30">
-            <a id="submitBtn" class="btn btn-block bg-green color-fff">下一步</a>
+            <?php
+            if ($isVerified == 0) {
+                echo '<a id="submitBtn" class="btn btn-block bg-green color-fff">下一步</a>';
+            } else if ($isVerified == 1) {
+                echo '<a id="submitBtn" class="btn btn-block bg-green color-fff">修改</a>';
+            } else {
+                echo '<a href="javascript:;" class="btn btn-block bg-gray">已审核</a>';
+            }
+            ?>
         </div>
     </div>
 </article>

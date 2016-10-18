@@ -26,6 +26,7 @@ if (isset($output['id'])) {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
 <style>
@@ -117,11 +118,6 @@ if ($register == 1) {
             <div class="">
                 <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
                 <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
-                <?php
-                if ($output['isVerified']) {
-                    echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-                }
-                ?>
                 <div id="uploader" class="mt20">
                     <div class="imglist">
                         <ul class="filelist"></ul>
@@ -146,9 +142,14 @@ if ($register == 1) {
                             </div>
                         </div>
                         <div class="ui-field-contain mt20">
-    <!--                                <input id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                            <a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>
-                            <!--                <button id="btnSubmit" type="button" class="statusBar state-pedding">提交</button>-->
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>';
+                            } else {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">修改</a>';
+                            }
+                            ?>
+
                         </div>
                     </div>
                     <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
@@ -180,10 +181,6 @@ if ($register == 1) {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
         });
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (isVerified) {
-            $(".queueList").hide();
-        }
         urlDoctorCerts = "<?php echo $urlDoctorCerts; ?>";
         $.ajax({
             url: urlDoctorCerts,
@@ -206,10 +203,6 @@ if ($register == 1) {
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';
