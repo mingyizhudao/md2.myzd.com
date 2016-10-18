@@ -42,6 +42,9 @@ $(function () {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function (file) {
+                    //图片预览
+                    showPreview(file);
+
                     var progress = new FileProgress(file, 'fsUploadProgress');
                     progress.setStatus("等待...");
                     progress.bindUploadCancel(up);
@@ -152,6 +155,19 @@ $(function () {
             }
         }
     });
+
+    //图片预览
+    function showPreview(file) {
+        var image = new Image();
+        var preloader = new mOxie.Image();
+        preloader.onload = function () {
+            preloader.downsize(300, 300);
+            image.setAttribute("src", preloader.getAsDataURL());
+            $('#pickfiles').addClass('showImg');
+            $('#pickfiles').html(image);
+        };
+        preloader.load(file.getSource());
+    }
 
     uploader.bind('FileUploaded', function () {
         //console.log('hello man,a file is uploaded');

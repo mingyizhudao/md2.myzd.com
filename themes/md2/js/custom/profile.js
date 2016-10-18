@@ -113,7 +113,7 @@ $(function () {
 //        wrapper: "div",
         errorElement: "div",
         errorPlacement: function (error, element) {                             //错误信息位置设置方法  
-            error.appendTo(element.parents("li"));                        //这里的element是录入数据的对象  
+            error.appendTo(element.parents(".input-tab"));                        //这里的element是录入数据的对象  
         }
     });
     function formAjaxSubmit() {
@@ -131,10 +131,11 @@ $(function () {
             success: function (data) {
                 //success.
                 if (data.status == 'ok') {
-                    J.popup({
-                        html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功！</h4><div class="mt20"><a data-target="link" href="' + returnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
-                        pos: 'center'
-                    });
+//                    J.popup({
+//                        html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功！</h4><div class="mt20"><a data-target="link" href="' + returnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
+//                        pos: 'center'
+//                    });
+                    location.href = returnUrl;
                 } else {
                     //error.
                     domForm.find("div.error").remove();
@@ -142,7 +143,7 @@ $(function () {
                         errerMsg = data.errors[error];
                         inputKey = '#doctor_' + error;
                         $(inputKey).focus();
-                        $(inputKey).parent().after("<div class='error'>" + errerMsg + "</div> ");
+                        $(inputKey).parent(".input-tab").after("<div class='error'>" + errerMsg + "</div> ");
                     }
                     enableBtn(btnSubmit);
                 }

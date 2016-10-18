@@ -9,7 +9,7 @@ Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doc
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('实名认证');
+$this->setPageTitle('医生执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
@@ -17,8 +17,8 @@ $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
-$this->show_footer=false;
-
+$register = Yii::app()->request->getQuery('register', 0);
+$this->show_footer = false;
 if (isset($output['id'])) {
     $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
@@ -26,69 +26,148 @@ if (isset($output['id'])) {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
-
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<article class="active pad1" data-scroll="true">
-    <div class="form-wrapper">
-        <form id="doctor-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>" >
-            <input id="doctorId" type="hidden" name="doctor[id]" value="<?php echo $output['id']; ?>" />                
-        </form>
-        <div class="">
-            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
-            <div class="">
-                <label>上传医生职业证书或者手持工牌照</label>
-            </div>
-            <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
-            <?php
-            if ($output['isVerified']) {
-                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-            }
+<style>
+    #uploader .queueList{
+        margin: 0px;
+    }
+    #uploader .webuploader-pick{
+        display: block;
+        padding-left: 1em;
+        background-color: #32c9c0;
+    }
+    #uploader .webuploader-pick:after{
+        display: none;
+    }
+    #uploader .filelist li{
+        width: 100%;
+        height: 110px;
+        margin: 0px;
+    }
+    #uploader .filelist li img{
+        height: 100%;
+    }
+    #uploader .filelist div.file-panel{
+        display: none;
+    }
+    nav.right {
+        width: auto!important;
+        background-color: inherit!important;
+        margin-top: 12px!important;
+    }
+    .c-red{
+        color: #FF857E;
+    }
+    .line-tab{
+        height: 10px;
+        background: #F1F1F1;
+    }
+</style>
+<?php
+if ($register == 1) {
+    ?>
+    <header class="bg-green">
+        <h1 class="title">医生执业证书</h1>
+        <?php
+        if ($register == 1) {
             ?>
-            <div id="uploader" class="mt20">
-                <div class="imglist">
-                    <ul class="filelist"></ul>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
+<article class="active" data-scroll="true">
+    <div class="form-wrapper">
+        <?php
+        if ($register == 1) {
+            ?>
+            <div>
+                <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
+            </div>
+            <div class="grid text-center pb5 bg-fff">
+                <div class="col-1 w25 c-red">
+                    注册成功
                 </div>
-                <div class="queueList">
-                    <div id="dndArea" class="placeholder">
-                        <!-- btn 选择图片 -->
-                        <div id="filePicker"></div>
-                    <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
-                    </div>
+                <div class="col-1 w25 c-red">
+                    基本信息
                 </div>
-                <div class="statusBar clearfix" style="display:none;">
-                    <div class="progress" style="display: none;">
-                        <span class="text">0%</span>
-                        <span class="percentage" style="width: 0%;"></span>
+                <div class="col-1 w25 c-red">
+                    实名认证
+                </div>
+                <div class="col-1 w25 c-red">
+                    医师认证
+                </div>
+            </div>
+            <div class="line-tab"></div>
+            <?php
+        }
+        ?>
+        <div class="pad10">
+            <form id="doctor-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>" >
+                <input id="doctorId" type="hidden" name="doctor[id]" value="<?php echo $output['id']; ?>" />                
+            </form>
+            <div class="">
+                <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
+                <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
+                <div id="uploader" class="mt20">
+                    <div class="imglist">
+                        <ul class="filelist"></ul>
                     </div>
-                    <div class="info">共0张（0B），已上传0张</div>
-                    <div class="">
-                        <!-- btn 继续添加 -->
-                        <div id="filePicker2" class="pull-right"></div>                          
+                    <div class="queueList">
+                        <div id="dndArea" class="placeholder">
+                            <!-- btn 选择图片 -->
+                            <div id="filePicker"></div>
+                        <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
+                        </div>
+                    </div>
+                    <div class="statusBar clearfix" style="display:none;">
+                        <div class="hide">
+                            <div class="progress" style="display: none;">
+                                <span class="text">0%</span>
+                                <span class="percentage" style="width: 0%;"></span>
+                            </div>
+                            <div class="info">共0张（0B），已上传0张</div>
+                            <div class="">
+                                <!-- btn 继续添加 -->
+                                <div id="filePicker2" class="pull-right"></div>
+                            </div>
+                        </div>
+                        <div class="ui-field-contain mt20">
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>';
+                            } else {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">修改</a>';
+                            }
+                            ?>
 
-                    </div>
-                    <div class="ui-field-contain mt20">
-<!--                                <input id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                        <a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>
-                        <!--                <button id="btnSubmit" type="button" class="statusBar state-pedding">提交</button>-->
-                    </div>
-                </div>
-                <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
-                <div class="divider mt20"></div>
-                <div class="example">
-                    <label class="color-red">示例:</label>
-                    <div class="ui-grid-b">
-                        <div class="ui-block-a">
-                            <img src="http://static.mingyizhudao.com/146968477003421"/>
-                        </div>
-                        <div class="ui-block-b">
-                            <span>或</span>
-                        </div>
-                        <div class="ui-block-c">
-                            <img src="http://static.mingyizhudao.com/146968481261970"/>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
+                    <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
+                    <div class="example">
+                        <div class="ui-grid-b">
+                            <div class="ui-block-a">
+                                <img src="http://static.mingyizhudao.com/146968477003421"/>
+                            </div>
+                            <div class="ui-block-b">
+                                <span>或</span>
+                            </div>
+                            <div class="ui-block-c">
+                                <img src="http://static.mingyizhudao.com/146968481261970"/>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,10 +175,12 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (isVerified) {
-            $(".queueList").hide();
-        }
+        $('#skip-btn').click(function () {
+            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
+        });
         urlDoctorCerts = "<?php echo $urlDoctorCerts; ?>";
         $.ajax({
             url: urlDoctorCerts,
@@ -122,10 +203,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';
