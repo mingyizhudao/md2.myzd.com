@@ -42,6 +42,7 @@ if (isset($output['id'])) {
     $urlDelectDoctorCert = "";
 }
 $register = Yii::app()->request->getQuery('register', 0);
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
@@ -125,17 +126,12 @@ if ($register == 1) {
         <div class="pad10">
             <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
             <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
-            <?php
-            if ($output['isVerified']) {
-                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-            }
-            ?>
             <div class="imglist mt10">
                 <ul class="filelist"></ul>
             </div>
             <div class="clearfix"></div>
             <div class="form-wrapper mt20">
-                <div class="uploadFileAndroid hide">
+                <div class="uploadFileAndroid">
                     <div class="container">
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
@@ -159,9 +155,17 @@ if ($register == 1) {
                                 </table>
                             </div>
                         </div>
-                        <div id="submitBtn" class="hide pt20">
-                            <a class="btn btn-full bg-green color-white">上传</a>
-                        </div>
+                        <?php
+                        if ($isVerified == 0) {
+                            echo '<div id="submitBtn" class="hide pt20">' .
+                            '<a class="btn btn-full bg-green color-white">上传</a>' .
+                            '</div>';
+                        } else {
+                            echo '<div id="submitBtn" class="hide pt20">' .
+                            '<a class="btn btn-full bg-green color-white">修改</a>' .
+                            '</div>';
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="">
@@ -233,10 +237,7 @@ if ($register == 1) {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
         });
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (!isVerified) {
-            $(".uploadFileAndroid").removeClass('hide');
-        }
+
         $("#imgConfirm #tag_close_popup").click(function () {
             $(this).parents(".confirm").hide();
         });
@@ -279,10 +280,6 @@ if ($register == 1) {
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';
