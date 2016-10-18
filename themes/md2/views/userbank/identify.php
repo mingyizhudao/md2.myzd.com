@@ -7,7 +7,8 @@ $card_id=Yii::app()->request->getQuery('card_id', '');
 $this->setPageTitle('银行卡认证');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
-$urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
+$urlAjaxAuth = $this->createUrl('userbank/ajaxAuth');
+
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlIdentify= $this->createUrl('userbank/identify', array('addBackBtn' => 1));
 $this->show_footer = false;
@@ -25,7 +26,7 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'identify-form',
-            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxCreate),
+            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxAuth),
             'enableClientValidation' => false,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
@@ -77,7 +78,7 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
         </div>
         <div class="grid pt10 pl10 pr10">
             
-            <div id="setAgreement" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
+            <div id="setAgreement"name="setAgreement" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
                 <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 ">我已同意《名医主刀用户协议》
             </div>
         </div>
@@ -116,6 +117,9 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
             },
             'DoctorBankCardAuthForm[verification]': {
                 required: true
+            },
+            'setAgreement':{
+                required:true
             }
         },
         messages: {
@@ -125,6 +129,9 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
             'DoctorBankCardAuthForm[verification]': {
                 required: '请输入验证码'
             }
+            // 'setAgreement':{
+            //     required:''
+            // }
         },
         errorElement: 'div',
         errorPlacement: function (error, element) {
@@ -137,18 +144,15 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
     });
     function formAjaxSubmit(){
             disabled(btnSubmit);
-        var formdata = domForm.serializeArray();
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
-        var dataArray = structure_formdata('identify', formdata);///////注意这个值（不一定对）
-        var encryptContext = do_encrypt(dataArray, pubkey);
-        var param = {param: encryptContext};
+        var code=$("#DoctorBankCardAuthForm_verification").val();
+        var phone=$("#phone").val();
         $.ajax({
-            type: 'post',
-            url: requestUrl,
-            data: param,
+            type: 'get',
+            url: requestUrl+'?code='+code+'&phone='+phone,
             success: function (data) {
-                console.log(data);
+                console.log('aa',data);
                 if (data.status == 'ok') {
                     location.href = returnUrl+'/'+data.cardId;
                 } else {
@@ -189,7 +193,7 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
             processData: false,
             contentType: false,
             'success': function (data) {
-                console.log('aa',data);
+                console.log('ad',data);
                 if (data.status === true || data.status === 'ok') {
                     //domForm[0].reset();
                     buttonTimerStart(domBtn, 60000);
@@ -230,13 +234,7 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
     
       $("#setAgreement").click(function(){
         $(this).find('img').attr('src','http://static.mingyizhudao.com/146665213709967');
-         if($("#phone").val()!=''&&$("#DoctorBankCardAuthForm_verification").val()!=''){
-         $("#submitBtn").click(function(){
-            // alert('a');
-            location.href="<?php echo $urlCardList;?>"+'/card_id/'+'<?php echo $card_id;?>';
-        })
-    }
       });
-    
+   
     })
 </script>

@@ -132,6 +132,12 @@ $this->show_footer = false;
             </div>
             <div class="line-tab"></div>
             <?php
+        } else {
+            ?>
+            <div class="pad10">
+                <p class="text-justify">为了确保您能正常使用名医主刀账户，请您配合完成以下认证:</p>
+            </div>
+            <?php
         }
         ?>
         <div class="container">
@@ -154,7 +160,7 @@ $this->show_footer = false;
                             <div id="container1" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles1" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523695755" class="w70p">
+                                        <img src="" class="w70p">
                                     </span>
                                 </a>
                             </div>
@@ -179,7 +185,7 @@ $this->show_footer = false;
                             <div id="container2" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles2" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523727390" class="w70p">
+                                        <img src="" class="w70p">
                                     </span>
                                 </a>
                             </div>
@@ -204,7 +210,7 @@ $this->show_footer = false;
                             <div id="container3" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles3" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523577826" class="w70p">
+                                        <img src="" class="w70p">
                                     </span>
                                 </a>
                             </div>
@@ -241,7 +247,22 @@ $this->show_footer = false;
             url: '<?php echo $urlDoctorRealAuth; ?>',
             success: function (data) {
                 console.log(data);
+                setImg(data);
             }
         });
+        function setImg(data) {
+            var files = data.results.files;
+            var firstImg = 'http://static.mingyizhudao.com/147634523695755';
+            var secondImg = 'http://static.mingyizhudao.com/147634523727390';
+            var thirdImg = 'http://static.mingyizhudao.com/147634523577826';
+            if (files && files.length > 0) {
+                firstImg = files[0].thumbnailUrl;
+                secondImg = files[1].thumbnailUrl;
+                thirdImg = files[2].thumbnailUrl;
+            }
+            $('#pickfiles1').find('img').attr('src', firstImg);
+            $('#pickfiles2').find('img').attr('src', secondImg);
+            $('#pickfiles3').find('img').attr('src', thirdImg);
+        }
     });
 </script>
