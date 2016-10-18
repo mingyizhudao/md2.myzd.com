@@ -3,7 +3,6 @@ $(function () {
             btnSubmit = $('#submitBtn');
     btnSubmit.click(function () {
         var cardTest = /^(\d{15,20})$/;
-        // var cardTest = /^(\d{4}\s){3}\d{4}$/;
         var cardNo = $('input[name="card[card_no]"]').val();
         cardNo = cardNo.replace(/\s/g, "");
         if (!cardTest.test(cardNo)) {
