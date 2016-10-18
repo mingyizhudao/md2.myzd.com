@@ -135,7 +135,7 @@ class DoctorController extends MobiledoctorController {
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
                     'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
-                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract'),
+                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract', 'uploadRealAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -457,33 +457,37 @@ class DoctorController extends MobiledoctorController {
     public function actionAccount() {
         $user = $this->loadUser();
 
-        $doctorCerts = 0; //医师资格认证
-        $userDoctorProfile = 0; //基本信息
-        $verified = 0; //基本信息认证
-        $realName_auth = 0; //实名认证
+        $doctorCerts = 0; //医师资格认证 0:未上传 1:认证中 2:认证通过 3:未通过
+        $userDoctorProfile = 0; //基本信息0:未填写 1:认证中 2:认证通过 3:未通过
+        $realNameAuth = 0; //实名认证0:未上传 1:认证中 2:认证通过 3:未通过
 
         $doctorProfile = $user->getUserDoctorProfile(); //基本信息
         $userMgr = new UserManager();
-        $models = $userMgr->loadUserDoctorFilesByUserId($user->id); //医师认证信息
+        $cert_models = $userMgr->loadUserDoctorFilesByUserId($user->id); //医师认证信息
+        $real_auth_model = $userMgr->loadUserRealNameAuthByUserId($user->id); //实名认证信息
 
-        if (arrayNotEmpty($models)) {
+        if (arrayNotEmpty($cert_models)) {
             $doctorCerts = 1;
+        }
+
+        if(arrayNotEmpty($real_auth_model)) {
+            $realNameAuth = 1;
         }
 
         if (isset($doctorProfile)) {
             $userDoctorProfile = 1;
-            if ($doctorProfile->isVerified()) {
-                $verified = 1;
-            }
-            if($doctorProfile->isRealAuthVerified()) {
-                $realName_auth = 1;
-            }
         }
+
+        if(isset($doctorProfile)) {
+            $userDoctorProfile = $userDoctorProfile == 0 ? 0 : $userDoctorProfile+$doctorProfile->getProfileVerifyState();
+            $doctorCerts = $doctorCerts == 0 ? 0 : $doctorCerts + $doctorProfile->getCertVerifyState();
+            $realNameAuth = $realNameAuth ==0 ? 0 : $realNameAuth + $doctorProfile->getRealAuthState();
+        }
+
         $this->render('account', array(
             'userDoctorProfile' => $userDoctorProfile,
-            'verified' => $verified,
             'doctorCerts' => $doctorCerts,
-            'realAuth' => $realName_auth
+            'realAuth' => $realNameAuth
         ));
     }
 
@@ -674,12 +678,17 @@ class DoctorController extends MobiledoctorController {
         $returnUrl = $this->getReturnUrl($this->createUrl('doctor/doctorInfo'));
         $userMgr = new UserManager();
         $certs = $userMgr->loadUserDoctorFilesByUserId($user->id);
-        if (arrayNotEmpty($certs) === false) {
+
+        if(arrayNotEmpty($certs) === false) {
             $returnUrl = $this->createUrl('doctor/uploadCert');
+        }
+        if ($register == 1) {
+            $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1));
         }
         if ($register == 2) {
             $returnUrl = $this->createUrl('doctor/viewCommonweal');
         }
+
         $this->render('profile', array(
             'model' => $form,
             'returnUrl' => $returnUrl,
@@ -820,10 +829,20 @@ class DoctorController extends MobiledoctorController {
 
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
-        $isVerified = false;
-        if (isset($doctorProfile)) {
-            $isVerified = $doctorProfile->isVerified();
+        $doctor_cert_verify = 0;
+
+        $userMgr = new UserManager();
+        $doctor_cert_model = $userMgr->loadUserDoctorFilesByUserId($user->id); //实名认证信息
+
+
+        if(arrayNotEmpty($doctor_cert_model)) {
+            $doctor_cert_verify = 1;
         }
+
+        if(isset($doctorProfile)) {
+            $doctor_cert_verify = $doctor_cert_verify ==0 ? 0 : $doctor_cert_verify + $doctorProfile->getCertVerifyState();
+        }
+
         $id = $user->getId();
         $viewFile = 'uploadCert';
         if ($this->isUserAgentIOS()) {
@@ -832,7 +851,7 @@ class DoctorController extends MobiledoctorController {
             $viewFile .= 'Android';
         }
         $this->render($viewFile, array(
-            'output' => array('id' => $id, 'isVerified' => $isVerified)
+            'output' => array('id' => $id, 'isVerified' => $doctor_cert_verify)
         ));
     }
 
@@ -842,19 +861,22 @@ class DoctorController extends MobiledoctorController {
     public function actionUploadRealAuth() {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
-        $is_real_auth_verified = false;
-        if (isset($doctorProfile)) {
-            $is_real_auth_verified = $doctorProfile->isRealAuthVerified();
+        $real_auth_verified = 0;
+
+        $userMgr = new UserManager();
+        $real_auth_model = $userMgr->loadUserRealNameAuthByUserId($user->id); //实名认证信息
+
+
+        if(arrayNotEmpty($real_auth_model)) {
+            $real_auth_verified = 1;
+        }
+
+        if(isset($doctorProfile)) {
+            $real_auth_verified = $real_auth_verified ==0 ? 0 : $real_auth_verified + $doctorProfile->getRealAuthState();
         }
         $id = $user->getId();
-        $viewFile = 'realAuth';
-        if ($this->isUserAgentIOS()) {
-            $viewFile .= 'Ios';
-        } else {
-            $viewFile .= 'Android';
-        }
-        $this->render($viewFile, array(
-            'output' => array('id' => $id, 'isVerified' => $is_real_auth_verified)
+        $this->render('uploadRealAuth', array(
+            'output' => array('id' => $id, 'isVerified' => $real_auth_verified)
         ));
     }
     /**

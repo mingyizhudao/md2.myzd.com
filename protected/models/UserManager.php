@@ -19,10 +19,15 @@ class UserManager {
         }
         $attributes = $form->getSafeAttributes();
         $card->setAttributes($attributes, true);
-        $regionState = RegionState::model()->getById($card->state_id);
-        $card->state_name = $regionState->getName();
-        $regionCity = RegionCity::model()->getById($card->city_id);
-        $card->city_name = $regionCity->getName();
+        if (isset($card->state_id)) {
+            $regionState = RegionState::model()->getById($card->state_id);
+            $card->state_name = $regionState->getName();
+        }
+        if (isset($card->city_id)) {
+            $regionCity = RegionCity::model()->getById($card->city_id);
+            $card->city_name = $regionCity->getName();
+        }
+
         if ($card->save() === false) {
             $output['status'] = 'no';
             $output['errors'] = $card->getErrors();
@@ -155,7 +160,7 @@ class UserManager {
      * @return type
      */
     public function loadUserRealNameAuthByUserId($userId, $attributes = null, $with = null) {
-        return UserDoctorRealAuth::model()->getDoctorFilesByUserId($userId, $attributes, $with);
+        return UserDoctorRealAuth::model()->getRealAuthFilesByUserId($userId, $attributes, $with);
     }
 
     //异步删除医生证明图片
@@ -506,10 +511,21 @@ class UserManager {
     }
 
     //删除银行卡
-    public function apiBankDelete(Array $ids, $userId) {
+    public function apiBankDelete($ids, $userId) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
         
-        if (count($ids) > 0) {
+        if (!is_array($ids)) {
+            $id = $ids;
+            $card = $this->loadCardByUserIdAndId($userId, $id);
+            if (isset($card)) {
+                $card->delete();
+                $output['status'] = EApiViewService::RESPONSE_OK;
+                $output['errorCode'] = ErrorList::ERROR_NONE;
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = '无权限操作!';
+            }
+        } elseif (count($ids) > 0) {
             $cardManager = new CardManager();
             $result = $cardManager->deleteCardsByIds($userId, $ids);
             if ($result === true) {
