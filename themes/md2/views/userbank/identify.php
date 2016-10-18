@@ -12,11 +12,8 @@ $urlAjaxAuth = $this->createUrl('userbank/ajaxAuth');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlIdentify= $this->createUrl('userbank/identify', array('addBackBtn' => 1));
 $this->show_footer = false;
-$authActionType = AuthSmsVerify::ACTION_USER_LOGIN;
+$authActionType = AuthSmsVerify::ACTION_USER_BANK;
 $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
-
-// var_dump($urlDoctorValiCaptcha);die;///md2.myzd.com/mobiledoctor/doctor/valiCaptcha
-
 ?>
 <style>
     #userbankIdentify_article .yzma{border:1px solid #FD8C47;width:136px;color:#FD8C47;border-radius:5px;background: #fff;}
@@ -129,9 +126,7 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
             'DoctorBankCardAuthForm[verification]': {
                 required: '请输入验证码'
             }
-            // 'setAgreement':{
-            //     required:''
-            // }
+            
         },
         errorElement: 'div',
         errorPlacement: function (error, element) {
