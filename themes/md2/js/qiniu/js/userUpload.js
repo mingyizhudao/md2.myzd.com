@@ -2,8 +2,6 @@
 /*global plupload */
 /*global FileProgress */
 /*global hljs */
-
-
 $(function () {
     var num = 0;
     var domForm = $('#booking-form'),
