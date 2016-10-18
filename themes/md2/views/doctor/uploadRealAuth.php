@@ -160,7 +160,7 @@ $this->show_footer = false;
                             <div id="container1" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles1" href="#">
                                     <span>
-                                        <img src="" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
@@ -185,7 +185,7 @@ $this->show_footer = false;
                             <div id="container2" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles2" href="#">
                                     <span>
-                                        <img src="" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
@@ -210,7 +210,7 @@ $this->show_footer = false;
                             <div id="container3" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles3" href="#">
                                     <span>
-                                        <img src="" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
