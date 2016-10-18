@@ -155,8 +155,8 @@ class UserbankController extends MobiledoctorController {
     public function actionAjaxAuth()
     {
         $output = array("status" => "no");
-        $mobile = $_POST['mobile'];
-        $code = $_POST['code'];
+        $mobile = $_GET['phone'];
+        $code = $_GET['code'];
         
         //认证是否是银行卡预留手机号
         
