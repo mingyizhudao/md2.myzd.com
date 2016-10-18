@@ -272,7 +272,7 @@ if ($register == 1) {
         var imgHtml = '<span>选择图片</span>';
         if (files && files.length > 0) {
             for (var i = 0; i < files.length; i++) {
-                imgHtml = '<img src="' + files.thumbnailUrl + '">';
+                imgHtml = '<img src="' + files[i].thumbnailUrl + '">';
             }
         }
         $('#pickfiles').html(imgHtml);
