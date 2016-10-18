@@ -108,7 +108,7 @@ $this->show_footer = false;
     }
     ?>
 </header>
-<article class="active" data-scroll="true">
+<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>">
     <div>
         <?php
         if ($register == 1) {
@@ -241,28 +241,3 @@ $this->show_footer = false;
 <div id="jingle_loading" style="display: none;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
 <div id="jingle_loading_mask" style="opacity: 0; display: none;"></div>
 <div id="jingle_toast" class="toast" style="display: none;"><a href="#">请完善图片</a></div>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '<?php echo $urlDoctorRealAuth; ?>',
-            success: function (data) {
-                console.log(data);
-                setImg(data);
-            }
-        });
-        function setImg(data) {
-            var files = data.results.files;
-            var firstImg = 'http://static.mingyizhudao.com/147634523695755';
-            var secondImg = 'http://static.mingyizhudao.com/147634523727390';
-            var thirdImg = 'http://static.mingyizhudao.com/147634523577826';
-            if (files && files.length > 0) {
-                firstImg = files[0].thumbnailUrl;
-                secondImg = files[1].thumbnailUrl;
-                thirdImg = files[2].thumbnailUrl;
-            }
-            $('#pickfiles1').find('img').attr('src', firstImg);
-            $('#pickfiles2').find('img').attr('src', secondImg);
-            $('#pickfiles3').find('img').attr('src', thirdImg);
-        }
-    });
-</script>

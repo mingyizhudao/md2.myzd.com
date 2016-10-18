@@ -17,6 +17,28 @@ $(function () {
     var secondImg = false;
     var thirdData = '';
     var thirdImg = false;
+    //加载已上传图片
+    $.ajax({
+        url: $('article').attr('data-realAuth'),
+        success: function (data) {
+            console.log(data);
+            setImg(data);
+        }
+    });
+    function setImg(data) {
+        var files = data.results.files;
+        var firstImg = 'http://static.mingyizhudao.com/147634523695755';
+        var secondImg = 'http://static.mingyizhudao.com/147634523727390';
+        var thirdImg = 'http://static.mingyizhudao.com/147634523577826';
+        if (files && files.length > 0) {
+            firstImg = files[0].thumbnailUrl;
+            secondImg = files[1].thumbnailUrl;
+            thirdImg = files[2].thumbnailUrl;
+        }
+        $('#pickfiles1').find('img').attr('src', firstImg);
+        $('#pickfiles2').find('img').attr('src', secondImg);
+        $('#pickfiles3').find('img').attr('src', thirdImg);
+    }
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'pickfiles1',
