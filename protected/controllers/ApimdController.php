@@ -255,6 +255,11 @@ class ApimdController extends Controller {
                 $apiSvc = new ApiViewBankCardInfo($id, $user->id);
                 $output = $apiSvc->loadApiViewData();
                 break;
+            case 'bankdelete'://删除银行卡(兼容)
+                $user = $this->userLoginRequired($values);
+                $userMgr = new UserManager();
+                $output = $userMgr->apiBankDelete($id, $user->id);
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();

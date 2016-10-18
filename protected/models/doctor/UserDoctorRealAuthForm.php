@@ -35,6 +35,7 @@ class UserDoctorRealAuthForm extends EFormModel
 
     public function initModel() {
         $this->has_remote = StatCode::HAS_NOT_REMOTE;
+        $this->uid = strRandomLong(32);
         if(! strIsEmpty($this->remote_domain)) {
             $this->has_remote = StatCode::HAS_REMOTE;
         }
