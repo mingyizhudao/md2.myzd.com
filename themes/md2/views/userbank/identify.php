@@ -147,10 +147,10 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
         var code=$("#DoctorBankCardAuthForm_verification").val();
-        var mobile=$("#phone").val();
+        var phone=$("#phone").val();
         $.ajax({
             type: 'get',
-            url: requestUrl+'?code='+code+'&phone='+mobile,
+            url: requestUrl+'?code='+code+'&phone='+phone,
             success: function (data) {
                 console.log('aa',data);
                 if (data.status == 'ok') {
