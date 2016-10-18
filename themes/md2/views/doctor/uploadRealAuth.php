@@ -15,6 +15,11 @@ if ($register == 1) {
 } else {
     $urlReturn = $this->createUrl('doctor/view');
 }
+if (isset($output['id'])) {
+    $urlDoctorRealAuth = 'http://121.40.127.64:8089/api/loadrealauth?userId=' . $output['id'];
+} else {
+    $urlDoctorRealAuth = "";
+}
 $isVerified = $output['isVerified'];
 $this->show_footer = false;
 ?>
@@ -131,9 +136,7 @@ $this->show_footer = false;
         ?>
         <div class="container">
             <div class="text-left wrapper">
-                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php //echo $urlPatientAjaxDrTask;                       ?>" data-patientbookingid="<?php //echo $bookingId;                               ?>">
-                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php //echo $patientId;                               ?>" />
-                    <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
+                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>">
                     <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                 </form>
@@ -232,3 +235,13 @@ $this->show_footer = false;
 <div id="jingle_loading" style="display: none;" class="loading initLoading"><i class="icon spinner"></i><p>加载中...</p><div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div></div>
 <div id="jingle_loading_mask" style="opacity: 0; display: none;"></div>
 <div id="jingle_toast" class="toast" style="display: none;"><a href="#">请完善图片</a></div>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '<?php echo $urlDoctorRealAuth; ?>',
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+</script>
