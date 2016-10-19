@@ -7,21 +7,23 @@ $card_id=Yii::app()->request->getQuery('card_id', '');
 $this->setPageTitle('银行卡认证');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
-$urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
+$urlAjaxAuth = $this->createUrl('userbank/ajaxAuth');
+
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlIdentify= $this->createUrl('userbank/identify', array('addBackBtn' => 1));
 $this->show_footer = false;
-
+$authActionType = AuthSmsVerify::ACTION_USER_BANK;
+$urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
 ?>
 <style>
-    #userbankIdentify_article .yzma{border:1px solid #FD8C47;width:130px;color:#FD8C47;border-radius:5px;}
+    #userbankIdentify_article .yzma{border:1px solid #FD8C47;width:136px;color:#FD8C47;border-radius:5px;background: #fff;}
 </style>
 <article id="userbankIdentify_article" class="active userbank_article" data-scroll="true">
     <div class="pt10">
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'identify-form',
-            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxCreate),
+            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxAuth),
             'enableClientValidation' => false,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
@@ -31,7 +33,8 @@ $this->show_footer = false;
             ),
             'enableAjaxValidation' => false,
         ));
-        echo $form->hiddenField($model, 'is_default', array('name' => 'card[is_default]', 'value' => 0));
+         echo CHtml::hiddenField("smsverify[actionUrl]", $urlGetSmsVerifyCode);
+         echo CHtml::hiddenField("smsverify[actionType]", $authActionType);
         ?>
         <div class="pl10 pr10 bg-white">
             <div class="inputRow">
@@ -64,15 +67,16 @@ $this->show_footer = false;
                         
                         <?php echo $form->textField($model, 'verification', array('placeholder' => '请输入验证码', 'class' => 'noPaddingInput')); ?>
                     </div>
-                    <div id="sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5">获取验证码</div>
+                    <!-- <div id="btn-sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5"disabled="disabled">获取验证码</div> -->
+                    <button id="btn-sendSmsCode" class="col-1 font-s12  vertical-center yzma pl5 mt5 mb5">获取验证码</button>
                 </div>
             </div>
          
         </div>
         <div class="grid pt10 pl10 pr10">
             
-            <div id="setDefault" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
-                <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 ">我已同意《名医主刀用户协议》
+            <div  class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
+                <span id="setAgreement"name="setAgreement"><img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 "></span><span id="xieyi">我已同意《名医主刀用户协议》</span>
             </div>
         </div>
         <?php
@@ -86,6 +90,9 @@ $this->show_footer = false;
 </article>
 <script>
     $(function(){
+        $("#xieyi").click(function(){
+            alert('a');
+        })
         var domForm = $('#identify-form'),
         btnSubmit = $('#submitBtn');
         btnSubmit.click(function () {
@@ -95,7 +102,13 @@ $this->show_footer = false;
                 J.showToast('手机号不正确', '', '1500');
                 return;
             }
+            if($("#setAgreement").attr('data-active')!='1'){
+                J.showToast('点击我同意','','1500');
+                return;
+            }
+
             var bool = validator.form();
+            // console.log('aaa',bool);
             if (bool) {
               
                 formAjaxSubmit();
@@ -109,6 +122,9 @@ $this->show_footer = false;
             },
             'DoctorBankCardAuthForm[verification]': {
                 required: true
+            },
+            'setAgreement':{
+                required:true
             }
         },
         messages: {
@@ -117,7 +133,13 @@ $this->show_footer = false;
             },
             'DoctorBankCardAuthForm[verification]': {
                 required: '请输入验证码'
+            },
+            'setAgreement':{
+                required:'请点击我同意'
             }
+
+
+             
         },
         errorElement: 'div',
         errorPlacement: function (error, element) {
@@ -128,20 +150,17 @@ $this->show_footer = false;
             element.addClass('error');
         }
     });
-        function formAjaxSubmit(){
+    function formAjaxSubmit(){
             disabled(btnSubmit);
-        var formdata = domForm.serializeArray();
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
-        var dataArray = structure_formdata('identify', formdata);///////注意这个值（不一定对）
-        var encryptContext = do_encrypt(dataArray, pubkey);
-        var param = {param: encryptContext};
+        var code=$("#DoctorBankCardAuthForm_verification").val();
+        var phone=$("#phone").val();
         $.ajax({
-            type: 'post',
-            url: requestUrl,
-            data: param,
+            type: 'get',
+            url: requestUrl+'?code='+code+'&phone='+phone,
             success: function (data) {
-                console.log(data);
+                console.log('aa',data);
                 if (data.status == 'ok') {
                     location.href = returnUrl+'/'+data.cardId;
                 } else {
@@ -156,12 +175,76 @@ $this->show_footer = false;
             },
         });
         }
-      $("#sendSmsCode").click(function(){
-         e.preventDefault();
-        checkForm($(this));
+
+      $("#btn-sendSmsCode").click(function(e){
+       e.preventDefault();
+       var domForm = $("#identify-form");
+       var domMobile = domForm.find("#phone");//手机号码
+       var captchaCode = $('#DoctorBankCardAuthForm_verification').val();//验证码
+       var mobile = domMobile.val();//手机号码
+       var formdata = domForm.serializeArray();
+       sendSmsVerifyCode($(this), domForm, mobile, captchaCode);
+   });
+
+      function sendSmsVerifyCode(domBtn, domForm, mobile, captchaCode) {
+        $(".error").html(""); //删除错误信息
+        var actionUrl = domForm.find("input[name='smsverify[actionUrl]']").val();//http://localhost/md2.myzd.com/auth/sendSmsVerifyCode
+        var actionType = domForm.find("input[name='smsverify[actionType]']").val();//102
+        var formData = new FormData();
+        formData.append("AuthSmsVerify[mobile]", mobile);
+        formData.append("AuthSmsVerify[actionType]", actionType);
+        $.ajax({
+            type: 'post',
+            url: actionUrl ,
+            data: formData,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            'success': function (data) {
+                console.log('ad',data);
+                if (data.status === true || data.status === 'ok') {
+                    //domForm[0].reset();
+                    buttonTimerStart(domBtn, 60000);
+                }
+                else {
+                    console.log(data);
+                    if (data.errors.captcha_code != undefined) {
+                        $('#captchaCode').after('<div id="UserDoctorMobileLoginForm_captcha_code-error" class="error">' + data.errors.captcha_code + '</div>');
+                    }
+                }
+            },
+            'error': function (data) {
+                console.log(data);
+            },
+            'complete': function () {
+            }
+        });
+    }
+      function buttonTimerStart(domBtn, timer) {
+        timer = timer / 1000 //convert to second.
+        var interval = 1000;
+        var timerTitle = '秒后重发';
+        domBtn.attr("disabled", true);
+        domBtn.html(timer + timerTitle);
+        timerId = setInterval(function () {
+            timer--;
+            if (timer > 0) {
+                domBtn.html(timer + timerTitle);
+            } else {
+                clearInterval(timerId);
+                timerId = null;
+                domBtn.html("重新发送");
+                domBtn.attr("disabled", false).removeAttr("disabled");
+                ;
+            }
+        }, interval);
+    }
+    
+      $("#setAgreement").click(function(){
+        $(this).find('img').attr('src','http://static.mingyizhudao.com/146665213709967');
+        $(this).attr('data-active','1');
+        location.href = '<?php echo $urlCardList;?>'+'/';
       });
-      function sendSmsCode(){
-        
-      }
+   
     })
 </script>

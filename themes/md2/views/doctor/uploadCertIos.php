@@ -2,7 +2,8 @@
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -14,18 +15,19 @@ $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
-$urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
+$urlUploadFile = 'http://121.40.127.64:8089/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
 $register = Yii::app()->request->getQuery('register', 0);
 $this->show_footer = false;
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
 <style>
@@ -39,6 +41,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     }
     #uploader .webuploader-pick:after{
         display: none;
+    }
+    #filePicker.has-img .webuploader-pick{
+        background-color: #fff;
+        box-shadow: inherit;
+    }
+    #filePicker.has-img .webuploader-pick>img{
+        height: 110px;
     }
     #uploader .filelist li{
         width: 100%;
@@ -64,21 +73,27 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         background: #F1F1F1;
     }
 </style>
-<header class="bg-green">
-    <h1 class="title">医生执业证书</h1>
-    <?php
-    if ($register == 1) {
-        ?>
-        <nav class="right">
-            <a href="javascript:;" data-target="link">
-                稍后补充
-            </a>
-        </nav>
-        <?php
-    }
+<?php
+if ($register == 1) {
     ?>
-</header>
-<article class="active" data-scroll="true">
+    <header class="bg-green">
+        <h1 class="title">医生执业证书</h1>
+        <?php
+        if ($register == 1) {
+            ?>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
+<article class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -111,11 +126,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
             <div class="">
                 <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
                 <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
-                <?php
-                if ($output['isVerified']) {
-                    echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-                }
-                ?>
                 <div id="uploader" class="mt20">
                     <div class="imglist">
                         <ul class="filelist"></ul>
@@ -123,7 +133,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <!-- btn 选择图片 -->
-                            <div id="filePicker"></div>
+                            <div id="filePicker" class=""></div>
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
@@ -140,9 +150,14 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                             </div>
                         </div>
                         <div class="ui-field-contain mt20">
-    <!--                                <input id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-block" type="button" name="yt0" value="提交">-->
-                            <a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>
-                            <!--                <button id="btnSubmit" type="button" class="statusBar state-pedding">提交</button>-->
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">提交</a>';
+                            } else {
+                                echo '<a id="btnSubmit" class="statusBar uploadBtn btn btn-yes btn-full ml0">修改</a>';
+                            }
+                            ?>
+
                         </div>
                     </div>
                     <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
@@ -168,18 +183,15 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (isVerified) {
-            $(".queueList").hide();
-        }
-        urlDoctorCerts = "<?php echo $urlDoctorCerts; ?>";
-        $.ajax({
-            url: urlDoctorCerts,
-            success: function (data) {
-                setImgHtml(data.results.files, isVerified);
-            }
+        $('#skip-btn').click(function () {
+            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
         });
     });
+
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {
@@ -194,10 +206,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';

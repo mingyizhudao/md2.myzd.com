@@ -131,10 +131,11 @@ $(function () {
             success: function (data) {
                 //success.
                 if (data.status == 'ok') {
-                    J.popup({
-                        html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功！</h4><div class="mt20"><a data-target="link" href="' + returnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
-                        pos: 'center'
-                    });
+//                    J.popup({
+//                        html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功！</h4><div class="mt20"><a data-target="link" href="' + returnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
+//                        pos: 'center'
+//                    });
+                    location.href = returnUrl;
                 } else {
                     //error.
                     domForm.find("div.error").remove();

@@ -15,6 +15,12 @@ if ($register == 1) {
 } else {
     $urlReturn = $this->createUrl('doctor/view');
 }
+if (isset($output['id'])) {
+    $urlDoctorRealAuth = 'http://121.40.127.64:8089/api/loadrealauth?userId=' . $output['id'];
+} else {
+    $urlDoctorRealAuth = "";
+}
+$isVerified = $output['isVerified'];
 $this->show_footer = false;
 ?>
 <style>
@@ -102,7 +108,7 @@ $this->show_footer = false;
     }
     ?>
 </header>
-<article class="active" data-scroll="true">
+<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>">
     <div>
         <?php
         if ($register == 1) {
@@ -126,13 +132,17 @@ $this->show_footer = false;
             </div>
             <div class="line-tab"></div>
             <?php
+        } else {
+            ?>
+            <div class="pad10">
+                <p class="text-justify">为了确保您能正常使用名医主刀账户，请您配合完成以下认证:</p>
+            </div>
+            <?php
         }
         ?>
         <div class="container">
             <div class="text-left wrapper">
-                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>" data-ajaxDrTask="<?php //echo $urlPatientAjaxDrTask;                ?>" data-patientbookingid="<?php //echo $bookingId;                        ?>">
-                    <input id="patientId" type="hidden" name="Booking[patient_id]" value="<?php //echo $patientId;                        ?>" />
-                    <input id="reportType" type="hidden" name="Booking[report_type]" value="da" />
+                <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlReturn; ?>">
                     <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                 </form>
@@ -150,7 +160,7 @@ $this->show_footer = false;
                             <div id="container1" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles1" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523695755" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
@@ -175,7 +185,7 @@ $this->show_footer = false;
                             <div id="container2" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles2" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523727390" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
@@ -200,7 +210,7 @@ $this->show_footer = false;
                             <div id="container3" class="uploadTab">
                                 <a class="btn btn-lg " id="pickfiles3" href="#">
                                     <span>
-                                        <img src="http://static.mingyizhudao.com/147634523577826" class="w70p">
+                                        <img src="" class="w70p h70">
                                     </span>
                                 </a>
                             </div>
@@ -216,7 +226,15 @@ $this->show_footer = false;
             </div>
         </div>
         <div class="pt30">
-            <a id="submitBtn" class="btn btn-block bg-green color-fff">下一步</a>
+            <?php
+            if ($isVerified == 0) {
+                echo '<a id="submitBtn" class="btn btn-block bg-green color-fff">下一步</a>';
+            } else if ($isVerified == 1) {
+                echo '<a id="submitBtn" class="btn btn-block bg-green color-fff">修改</a>';
+            } else {
+                echo '<a href="javascript:;" class="btn btn-block bg-gray">已审核</a>';
+            }
+            ?>
         </div>
     </div>
 </article>

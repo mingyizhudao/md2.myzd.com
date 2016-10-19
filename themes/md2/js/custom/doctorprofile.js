@@ -62,7 +62,7 @@ $(function () {
     uploader = WebUploader.create({
         pick: {
             id: '#filePicker',
-            innerHTML: '&nbsp;选择文件'
+            innerHTML: getImg()
         },
         dnd: '#uploader .queueList',
         paste: document.body,
@@ -84,6 +84,25 @@ $(function () {
         fileSizeLimit: 10 * 1024 * 1024, // 200 M
         fileSingleSizeLimit: 100 * 1024 * 1024    // 50 M
     });
+    //获取已上传照片
+    function getImg() {
+        $.ajax({
+            url: $('article').attr('data-upload-cert'),
+            success: function (data) {
+                return setImg(data);
+            }
+        });
+    }
+    function setImg(data) {
+        var files = data.results.files;
+        var uploadHtml = '选择文件';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                uploadHtml = '<img src="' + files[i].thumbnailUrl + '">';
+            }
+        }
+        return uploadHtml;
+    }
 
 //    uploader.option('thumb',{
 //        width: 1600,
@@ -511,7 +530,7 @@ $(function () {
             url: urlSendEmail,
             type: 'post',
             success: function () {
-                
+
             }
         });
     }

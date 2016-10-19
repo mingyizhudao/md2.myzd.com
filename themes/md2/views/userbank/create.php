@@ -38,7 +38,7 @@ $this->show_footer = false;
                         持卡人：
                     </div>
                     <div class="col-1 pt5 pb5">
-                        <?php echo $name;?>
+                        <?php echo $name; ?>
                     </div>
                 </div>
             </div>
@@ -48,11 +48,11 @@ $this->show_footer = false;
                         银行卡号：
                     </div>
                     <div class="col-1">
-                        <?php echo $form->numberField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
+                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
                     </div>
                 </div>
             </div>
-         
+
         </div>
         <div class="pad10 font-s12"style="color:#FD8C47;">
             * 为了您的资金账户安全，只能绑定持卡人本人的银行卡
@@ -61,8 +61,17 @@ $this->show_footer = false;
         $this->endWidget();
         ?>
         <div class="pad10">
-           <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
-           <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
+            <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
+            <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
         </div>
     </div>
 </article>
+<script>
+    $(document).ready(function () {
+        $('#bankCard').on('input', function () {
+            var $this = $(this);
+            var v = $this.val();
+            /\S{5}/.test(v) && $this.val(v.replace(/[^(\d)]/g, "").replace(/(.{4})/g, "$1 "));
+        });
+    });
+</script>

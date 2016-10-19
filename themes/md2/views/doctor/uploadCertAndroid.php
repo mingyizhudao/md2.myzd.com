@@ -35,13 +35,14 @@ $urlQiniuAjaxDrToken = $this->createUrl('qiniu/ajaxDrToken');
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $urlReturn = $this->createUrl('doctor/view');
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
-
+$register = Yii::app()->request->getQuery('register', 0);
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
@@ -70,41 +71,70 @@ $this->show_footer = false;
         height: 100%;
         border-radius: 5px;
     }
+    nav.right {
+        width: auto!important;
+        background-color: inherit!important;
+        margin-top: 12px!important;
+    }
+    .h110p{
+        height: 110px;
+    }
 </style>
+<?php
+if ($register == 1) {
+    ?>
+    <header class="bg-green">
+        <h1 class="title">医生执业证书</h1>
+        <?php
+        if ($register == 1) {
+            ?>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
 <article id="" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
-        <div>
-            <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
-        </div>
-        <div class="grid text-center pb5">
-            <div class="col-1 w25 c-red">
-                注册成功
+        <?php
+        if ($register == 1) {
+            ?>
+            <div>
+                <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
             </div>
-            <div class="col-1 w25 c-red">
-                基本信息
+            <div class="grid text-center pb5">
+                <div class="col-1 w25 c-red">
+                    注册成功
+                </div>
+                <div class="col-1 w25 c-red">
+                    基本信息
+                </div>
+                <div class="col-1 w25 c-red">
+                    实名认证
+                </div>
+                <div class="col-1 w25 c-red">
+                    医师认证
+                </div>
             </div>
-            <div class="col-1 w25 c-red">
-                实名认证
-            </div>
-            <div class="col-1 w25 c-red">
-                医师认证
-            </div>
-        </div>
-        <div class="line-tab"></div>
+            <div class="line-tab"></div>
+            <?php
+        }
+        ?>
         <div class="pad10">
             <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
             <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
-            <?php
-            if ($output['isVerified']) {
-                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-            }
-            ?>
             <div class="imglist mt10">
                 <ul class="filelist"></ul>
             </div>
             <div class="clearfix"></div>
             <div class="form-wrapper mt20">
-                <div class="uploadFileAndroid hide">
+                <div class="uploadFileAndroid">
                     <div class="container">
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
@@ -116,9 +146,21 @@ $this->show_footer = false;
                         <div class="body mt10">
                             <div class="text-center">
                                 <div id="container">
-                                    <a class="btn btn-default btn-lg" id="pickfiles" href="#">
-                                        <span>选择图片</span>
-                                    </a>
+                                    <?php
+                                    if ($isVerified == 0) {
+                                        ?>
+                                        <a class="btn btn-default btn-lg" id="pickfiles" href="#">
+                                            <span>选择图片</span>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <a class="btn btn-default btn-lg showImg" id="pickfiles" href="#">
+                                            <img src="">
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="col-md-12 mt10 hide">
@@ -128,9 +170,17 @@ $this->show_footer = false;
                                 </table>
                             </div>
                         </div>
-                        <div id="submitBtn" class="hide pt20">
-                            <a class="btn btn-full bg-green color-white">上传</a>
-                        </div>
+                        <?php
+                        if ($isVerified == 0) {
+                            echo '<div id="submitBtn" class="hide pt20">' .
+                            '<a class="btn btn-full bg-green color-white">上传</a>' .
+                            '</div>';
+                        } else {
+                            echo '<div id="submitBtn" class="pt20">' .
+                            '<a class="btn btn-full bg-green color-white">修改</a>' .
+                            '</div>';
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="">
@@ -196,10 +246,13 @@ $this->show_footer = false;
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (!isVerified) {
-            $(".uploadFileAndroid").removeClass('hide');
-        }
+        $('#skip-btn').click(function () {
+            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
+        });
+
         $("#imgConfirm #tag_close_popup").click(function () {
             $(this).parents(".confirm").hide();
         });
@@ -224,10 +277,22 @@ $this->show_footer = false;
         $.ajax({
             url: urlDoctorCerts,
             success: function (data) {
-                setImgHtml(data.results.files, isVerified);
+                setImg(data);
+//                setImgHtml(data.results.files, isVerified);上一个版本
             }
         });
     });
+    function setImg(data) {
+        var files = data.results.files;
+        var imgHtml = '<span>选择图片</span>';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                imgHtml = '<img src="' + files[i].thumbnailUrl + '">';
+            }
+        }
+        $('#pickfiles').html(imgHtml);
+    }
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {
@@ -242,10 +307,6 @@ $this->show_footer = false;
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';
