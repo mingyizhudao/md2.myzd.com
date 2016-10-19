@@ -89,7 +89,7 @@ $(function () {
         $.ajax({
             url: $('article').attr('data-upload-cert'),
             success: function (data) {
-                setImg(data);
+                return setImg(data);
             }
         });
     }
@@ -98,7 +98,7 @@ $(function () {
         var uploadHtml = '选择文件';
         if (files && files.length > 0) {
             for (var i = 0; i < files.length; i++) {
-                uploadHtml = '<img src="' + files.thumbnailUrl + '">';
+                uploadHtml = '<img src="' + files[i].thumbnailUrl + '">';
             }
         }
         return uploadHtml;
