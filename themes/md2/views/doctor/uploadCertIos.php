@@ -72,6 +72,12 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         height: 10px;
         background: #F1F1F1;
     }
+    #filePicker.showImg .webuploader-pick{
+        background-color: #fff;
+    }
+    #filePicker.showImg img{
+        height: 110px;
+    }
 </style>
 <?php
 if ($register == 1) {
@@ -133,7 +139,13 @@ if ($register == 1) {
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <!-- btn 选择图片 -->
-                            <div id="filePicker" class=""></div>
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<div id="filePicker" class=""></div>';
+                            } else {
+                                echo '<div id="filePicker" class="showImg"></div>';
+                            }
+                            ?>
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
