@@ -383,10 +383,11 @@ $(function () {
                         //location.href = uploadReturnUrl;
                         //location.reload();
                         sendEmailForCert();
-                        J.popup({
-                            html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功，请耐心等待审核</h4><div class="mt20"><a data-target="link" href="' + uploadReturnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
-                            pos: 'center'
-                        });
+//                        J.popup({
+//                            html: '<div><div class="popup-title">提示</div><div class="popup-content"><h4>提交成功，请耐心等待审核</h4><div class="mt20"><a data-target="link" href="' + uploadReturnUrl + '" class="btn btn-yes btn-block">确定</a></div></div></div>',
+//                            pos: 'center'
+//                        });
+                        location.href = uploadReturnUrl;
                     } else {
                         // 没有成功的图片，重设
                         //state = 'done';
