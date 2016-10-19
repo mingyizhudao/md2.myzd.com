@@ -3,7 +3,7 @@ Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
 ?>
 <?php
 /*
