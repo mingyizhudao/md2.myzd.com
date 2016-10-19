@@ -86,12 +86,14 @@ $(function () {
     });
     //获取已上传照片
     function getImg() {
+        var uploadBtn = '';
         $.ajax({
             url: $('article').attr('data-upload-cert'),
             success: function (data) {
-                return setImg(data);
+                uploadBtn = setImg(data);
             }
         });
+        return uploadBtn;
     }
     function setImg(data) {
         var files = data.results.files;
