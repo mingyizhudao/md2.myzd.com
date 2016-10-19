@@ -87,15 +87,27 @@ $(function () {
     //获取已上传照片
     function getImg() {
         var uploadBtn = '';
-        $.ajax({
-            url: $('article').attr('data-upload-cert'),
-            success: function (data) {
-                uploadBtn = setImg(data);
-            }
-        });
         return uploadBtn;
     }
-    function setImg(data) {
+//    function setImg(data) {
+//        var files = data.results.files;
+//        var uploadHtml = '选择文件';
+//        if (files && files.length > 0) {
+//            for (var i = 0; i < files.length; i++) {
+//                uploadHtml = '<img src="' + files[i].thumbnailUrl + '">';
+//            }
+//        }
+//        return uploadHtml;
+//    }
+
+
+    $.ajax({
+        url: $('article').attr('data-upload-cert'),
+        success: function (data) {
+            setUploadBtn(data);
+        }
+    });
+    function setUploadBtn(data) {
         var files = data.results.files;
         var uploadHtml = '选择文件';
         if (files && files.length > 0) {
@@ -103,7 +115,7 @@ $(function () {
                 uploadHtml = '<img src="' + files[i].thumbnailUrl + '">';
             }
         }
-        return uploadHtml;
+        $('#filePicker').find('.webuploader-pick').html(uploadHtml);
     }
 
 //    uploader.option('thumb',{
