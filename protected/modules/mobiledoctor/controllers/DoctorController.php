@@ -679,11 +679,11 @@ class DoctorController extends MobiledoctorController {
         $userMgr = new UserManager();
         $certs = $userMgr->loadUserDoctorFilesByUserId($user->id);
 
-        if(arrayNotEmpty($certs) === false) {
-            $returnUrl = $this->createUrl('doctor/uploadCert');
+        if (arrayNotEmpty($certs) === false) {
+            $returnUrl = $this->createUrl('doctor/view');
         }
         if ($register == 1) {
-            $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1));
+            $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1, 'addBackBtn' => 1));
         }
         if ($register == 2) {
             $returnUrl = $this->createUrl('doctor/viewCommonweal');

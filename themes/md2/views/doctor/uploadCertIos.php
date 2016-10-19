@@ -85,6 +85,13 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 if ($register == 1) {
     ?>
     <header class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
         <h1 class="title">医生执业证书</h1>
         <?php
         if ($register == 1) {
@@ -198,7 +205,7 @@ if ($register == 1) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#skip-btn').click(function () {
-            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            J.showToast('感谢注册!请记得上传照片以完成认证', '', '3000');
             setTimeout(function () {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
