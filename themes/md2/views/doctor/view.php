@@ -238,8 +238,46 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
             location.href = '<?php echo $urlDrView; ?>';
         });
 
-        $('#userbankViewInputKey').tap(function () {
-            location.href = '<?php echo $urlUserbankViewInputKey; ?>';
+        $('#userbankViewInputKey').tap(function (e) {
+            e.preventDefault();
+            if ('<?php echo $user->results->userInfo->isProfile; ?>' == '') {
+                J.hideMask();
+                J.customConfirm('',
+                        '<div class="mt10 mb10">您尚未完善个人信息</div>',
+                        '<a id="closeLogout" class="w50">暂不</a>',
+                        '<a id="doctorProfile" class="color-green w50">完善信息</a>',
+                        function () {
+                        },
+                        function () {
+                        });
+                $('#closeLogout').tap(function () {
+                    J.closePopup();
+                });
+                $('#doctorProfile').tap(function () {
+                    location.href = '<?php echo $urlDoctorProfile; ?>';
+                });
+            }else if ('<?php echo $user->results->userInfo->doctorCerts; ?>' == '') {
+                J.hideMask();
+                J.customConfirm('',
+                        '<div class="mt10 mb10">您尚未上传实名认证证件</div>',
+                        '<a id="closeLogout" class="w50">暂不</a>',
+                        '<a id="uploadFile" class="color-green w50">上传证件</a>',
+                        function () {
+                        },
+                        function () {
+                        });
+                $('#closeLogout').tap(function () {
+                    J.closePopup();
+                });
+                $('#uploadFile').tap(function () {
+                    location.href = '<?php echo $urlDoctorUploadCert; ?>';
+                });
+            } else if ('<?php echo $verified; ?>' == '') {
+                J.hideMask();
+                J.showToast('请您等待实名认证通过', '', '1500');
+            } else {
+                location.href = '<?php echo $urlUserbankViewInputKey; ?>';
+            }
         });
 
         //医生顾问协议
