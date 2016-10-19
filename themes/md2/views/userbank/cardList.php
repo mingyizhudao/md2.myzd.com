@@ -10,7 +10,7 @@ $card_id=Yii::app()->request->getQuery('card_id', '');
 $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $this->show_footer = false;
-// var_dump($data);die;
+// var_dump($card_id);die;
 ?>
 
 <header class="bg-green" id="patientList_header">
@@ -59,10 +59,7 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                         <div class="col-0 pr10 hide selectBtn" data-active="1"data-id="<?php echo $card->id;?>">
                         <img src="http://static.mingyizhudao.com/147625968339249" width="21" >
                         </div>
-                    <?php }else if($card->id==$card_id){?>
-                         <div class="col-0 pr10 hide selectBtn" data-active="1"data-id="<?php echo $card->id;?>">
-                        <img src="http://static.mingyizhudao.com/147625968339249" width="21" >
-                        </div>
+                    
                         <?php }else { ?>
                         <div class="col-0 pr10 hide selectBtn"data-id="<?php echo $card->id;?>">
                         <img src="http://static.mingyizhudao.com/147625867170645" width="21">
@@ -75,15 +72,14 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                                 <div class="col-1 ">
                                   <img src="http://static.mingyizhudao.com/14762545733435" width="27">
                                   <span class=""><?php echo $card->bank; ?></span> 
-                                  <a href="<?php echo $urlViewInputKey; ?>/<?php echo $card->id; ?>" class="color-white">修改</a> 
+                             <!--   <a href="<?php echo $urlViewInputKey; ?>/<?php echo $card->id; ?>" class="color-white">修改</a> -->
                                 </div> 
                                 <div class="col-0">
                                   <?php if($card->isDefault==1){?>
                                   <div class="color-white current"data-active="1" data-id="<?php echo $card->id;?>"><img src="http://static.mingyizhudao.com/14762566281804"width="16"><span class="pl5">当前使用</span></div>
-                                  <?php }else if($card->id==$card_id){?>
-                                  <div class="color-white current"data-active="1" data-id="<?php echo $card->id;?>"><img src="http://static.mingyizhudao.com/14762566281804"width="16"><span class="pl5">当前使用</span></div>
+                                 
                                   <?php }else{?>
-                                   <div class="color-white current" data-id="<?php echo $card->id;?>"><img src="http://static.mingyizhudao.com/147633795597639"width="16"><span class="pl5">使用该卡</span></div>
+                                   <div class="color-white current hide" data-id="<?php echo $card->id;?>"><img src="http://static.mingyizhudao.com/147633795597639"width="16"><span class="pl5">使用该卡</span></div>
                                   <?php }?>  
                                 </div>
                             </div>
@@ -125,18 +121,14 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
 </article>
 <script>
     $(function(){
-        
+      
+      var cards='<?php echo count($data->results->cards);?>';
       var card_id='<?php echo $card_id;?>';
-      if(card_id){
-      //   $(".selectBtn").each(function(){
-      //      $(this).find('img').attr('src','http://static.mingyizhudao.com/147625867170645'); 
-      //   });
-      //   $(".current").each(function(){
-      //        $(this).find('img').attr('src', 'http://static.mingyizhudao.com/147633795597639');
-      //           $(this).removeAttr('data-active');
-      //            $(this).find('span').html('使用该卡');
-      //   })
-              J.customConfirm('',
+      console.log('dd',card_id);
+      console.log('aa',cards);
+      // console.log(card_id);
+      if(card_id&&cards){
+            J.customConfirm('',
                         '<div class="mt10 mb10">是否将您最新添加的银行卡设为默认卡片(名医主导将与此卡发生结算)</div>',
                         '<a id="pause" class="w50">咱不</a>',
                         '<a id="ok" class="color-green w50">是的</a>',
@@ -145,8 +137,8 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                         function () {
                         });
              $('#pause').click(function () {
-                    J.closePopup();
-                });
+                  J.closePopup();
+                 });
              $('#ok').click(function(){
                 $('.selectBool').each(function(){
                     if($(this).attr('data-id')==card_id){
@@ -155,26 +147,28 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                 })
                 $(".current").each(function(){
                     if($(this).attr('data-id')==card_id){
-
                       $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14762566281804');
                       $(this).attr('data-active', 1);
                       $(this).find('span').html('当前使用');
                     }
                 })
-
-                
                 J.closePopup();
              })
                
       }
         //编辑
         $("#editCard").click(function(){
-          
-           $(this).addClass('hide');
+            $(this).addClass('hide');
             $("#cancelCard").removeClass('hide');
             $(".selectBtn").removeClass('hide');
             $('#addCard').addClass('hide');
             $("#delCard").removeClass('hide');
+            $(".current").removeAttr('hide');
+            $(".current").each(function(){
+                if($(this).attr('data-active')!='1'){
+                   $(this).removeClass('hide');
+                }
+            })
 
         });
         //取消
@@ -184,10 +178,15 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
             $("#addCard").removeClass('hide');
             $("#delCard").addClass('hide');
             $(".selectBtn").addClass('hide');
+            $(".current").each(function(){
+                if($(this).attr('data-active')!='1'){
+                   $(this).addClass('hide');
+                }
+            })
+            
         })
         //解除
         $("#delCard").click(function(){
-
             var cardList=new Array();
             var selectBool=false;
             var i=0;
@@ -199,10 +198,11 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                     cardList.push(id);
                 }
             });
+            
             if(i==1){
                 J.showToast('请选择要使用的卡片');
             }else if(selectBool){
-                console.log(cardList);
+                // console.log(cardList);
                 var urlAjaxDelete='<?php echo $urlAjaxDelete;?>';
                 // console.log('aa',urlAjaxDelete);
                 $.ajax({
@@ -213,6 +213,7 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                          // console.log('dd',data);
                          if(data.status=='ok'){
                             location.href='<?php echo $urlCardList?>/'+card_id;
+                            location.reload();
                          }
                     }
                 })
@@ -220,26 +221,16 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
            
       })
 
-
-        
-        $('.selectBtn').click(function(){
+      $('.selectBtn').click(function(){
             var dataid=$(this).attr('data-id');
-          if($(this).attr('data-active')==1){
+           if($(this).attr('data-active')==1){
             $(this).find('img').attr('src','http://static.mingyizhudao.com/147625867170645');
             $(this).removeAttr('data-active');
-            // if($(".current").attr('data-id')==dataid){
-            //      $(this).find('img').attr('src', 'http://static.mingyizhudao.com/147633795597639');
-            //     $(this).removeAttr('data-active');
-            //      $(this).find('span').html('使用该卡');
-            // }
+            
           } else{
             $(this).find('img').attr('src','http://static.mingyizhudao.com/147625968339249');
             $(this).attr('data-active','1');
-          //   if($(".current").attr('data-id')==dataid){
-          //       $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14762566281804');
-          //       $(this).attr('data-active', 1);
-          //       $(this).find('span').html('当前使用');
-          // }
+          
       }
         });   
 
@@ -272,7 +263,6 @@ if (isset($data) && !(is_null($data)) && (count($data->results->cards) > 0)) {
                 $(this).find('img').attr('src', 'http://static.mingyizhudao.com/14762566281804');
                 $(this).attr('data-active', 1);
                 $(this).find('span').html('当前使用');
-                
                 $('.selectBtn').each(function(){
                      $(this).find('img').attr('src','http://static.mingyizhudao.com/147625867170645');
                      $(this).removeAttr('data-active');

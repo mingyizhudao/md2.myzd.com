@@ -75,8 +75,8 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
         </div>
         <div class="grid pt10 pl10 pr10">
             
-            <div id="setAgreement"name="setAgreement" class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
-                <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 ">我已同意《名医主刀用户协议》
+            <div  class="col-0 font-s12" data-select="0"style="color:#A9A9BB;">
+                <span id="setAgreement"name="setAgreement"><img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6 "></span><span id="xieyi">我已同意《名医主刀用户协议》</span>
             </div>
         </div>
         <?php
@@ -90,6 +90,9 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
 </article>
 <script>
     $(function(){
+        $("#xieyi").click(function(){
+            alert('a');
+        })
         var domForm = $('#identify-form'),
         btnSubmit = $('#submitBtn');
         btnSubmit.click(function () {
@@ -99,6 +102,11 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
                 J.showToast('手机号不正确', '', '1500');
                 return;
             }
+            if($("#setAgreement").attr('data-active')!='1'){
+                J.showToast('点击我同意','','1500');
+                return;
+            }
+
             var bool = validator.form();
             // console.log('aaa',bool);
             if (bool) {
@@ -125,8 +133,13 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
             },
             'DoctorBankCardAuthForm[verification]': {
                 required: '请输入验证码'
+            },
+            'setAgreement':{
+                required:'请点击我同意'
             }
-            
+
+
+             
         },
         errorElement: 'div',
         errorPlacement: function (error, element) {
@@ -229,6 +242,8 @@ $urlGetSmsVerifyCode = $this->createAbsoluteUrl('/auth/sendSmsVerifyCode');
     
       $("#setAgreement").click(function(){
         $(this).find('img').attr('src','http://static.mingyizhudao.com/146665213709967');
+        $(this).attr('data-active','1');
+        location.href = '<?php echo $urlCardList;?>'+'/';
       });
    
     })
