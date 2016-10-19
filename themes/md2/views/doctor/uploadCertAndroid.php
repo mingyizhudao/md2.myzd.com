@@ -76,6 +76,9 @@ $this->show_footer = false;
         background-color: inherit!important;
         margin-top: 12px!important;
     }
+    .h110p{
+        height: 110px;
+    }
 </style>
 <?php
 if ($register == 1) {
@@ -143,9 +146,21 @@ if ($register == 1) {
                         <div class="body mt10">
                             <div class="text-center">
                                 <div id="container">
-                                    <a class="btn btn-default btn-lg" id="pickfiles" href="#">
-                                        <span>选择图片</span>
-                                    </a>
+                                    <?php
+                                    if ($isVerified == 0) {
+                                        ?>
+                                        <a class="btn btn-default btn-lg" id="pickfiles" href="#">
+                                            <span>选择图片</span>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <a class="btn btn-default btn-lg showImg" id="pickfiles" href="#">
+                                            <img src="">
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="col-md-12 mt10 hide">
@@ -161,7 +176,7 @@ if ($register == 1) {
                             '<a class="btn btn-full bg-green color-white">上传</a>' .
                             '</div>';
                         } else {
-                            echo '<div id="submitBtn" class="hide pt20">' .
+                            echo '<div id="submitBtn" class="pt20">' .
                             '<a class="btn btn-full bg-green color-white">修改</a>' .
                             '</div>';
                         }
