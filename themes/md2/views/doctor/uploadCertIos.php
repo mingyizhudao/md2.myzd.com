@@ -17,7 +17,12 @@ $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlUploadFile = 'http://121.40.127.64:8089/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
-$urlReturn = $this->createUrl('doctor/view');
+$register = Yii::app()->request->getQuery('register', 0);
+if ($register == 0) {
+    $urlReturn = $this->createUrl('doctor/account');
+} else {
+    $urlReturn = $this->createUrl('doctor/view');
+}
 $register = Yii::app()->request->getQuery('register', 0);
 $this->show_footer = false;
 if (isset($output['id'])) {
