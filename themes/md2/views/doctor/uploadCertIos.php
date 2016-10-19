@@ -74,9 +74,11 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
     }
     #filePicker.showImg .webuploader-pick{
         background-color: #fff;
+        box-shadow: inherit;
     }
     #filePicker.showImg img{
         height: 110px;
+        width: 100%;
     }
 </style>
 <?php
@@ -149,7 +151,7 @@ if ($register == 1) {
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
-                    <div class="statusBar clearfix" style="display:none;">
+                    <div class="statusBar clearfix" style="<?php $isVerified == 0 ? 'display:none;' : ''; ?>">
                         <div class="hide">
                             <div class="progress" style="display: none;">
                                 <span class="text">0%</span>
