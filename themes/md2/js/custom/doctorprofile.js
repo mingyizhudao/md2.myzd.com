@@ -100,9 +100,8 @@ $(function () {
             for (var i = 0; i < files.length; i++) {
                 uploadHtml = '<img src="' + files.thumbnailUrl + '">';
             }
-            $('#filePicker').addClass('has-img');
         }
-        $('#webuploader-pick').html(uploadHtml);
+        return uploadHtml;
     }
 
 //    uploader.option('thumb',{
