@@ -146,7 +146,7 @@ if ($register == 1) {
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
                                 <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
-                                <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
+                                <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                                 <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
                             </form>
                         </div>
