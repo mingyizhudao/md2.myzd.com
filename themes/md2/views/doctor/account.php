@@ -21,11 +21,10 @@ $this->show_footer = false;
     }
     .next-icon{
         width: 16px;
-        height: 16px;
-        border-color: #A0A0A0;
-        border-style: solid;
-        border-width: 1px 1px 0px 0px;
-        transform: rotate(45deg);
+        height: 23px;
+        background: url('http://static.mingyizhudao.com/146967375501082') no-repeat;
+        background-size: 8px 15px;
+        background-position: 8px 5px;
     }
     .user-icon{
         background: url('http://static.mingyizhudao.com/147643866526133') no-repeat;
@@ -72,7 +71,7 @@ $this->show_footer = false;
                                 }
                                 ?>
                             </div>
-                            <div class="col-0 pad5">
+                            <div class="col-0">
                                 <div class="next-icon">
                                 </div>
                             </div>
@@ -94,7 +93,7 @@ $this->show_footer = false;
                             <div class="col-1 text-right">
                                 <?php
                                 if ($realAuth == 0) {
-                                    echo '<span class="color-gray">未填写</span>';
+                                    echo '<span class="color-gray">未上传</span>';
                                 } else if ($realAuth == 1) {
                                     echo '<span class="c-red">认证中</span>';
                                 } else if ($realAuth == 2) {
@@ -104,7 +103,7 @@ $this->show_footer = false;
                                 }
                                 ?>
                             </div>
-                            <div class="col-0 pad5">
+                            <div class="col-0">
                                 <div class="next-icon">
                                 </div>
                             </div>
@@ -123,7 +122,7 @@ $this->show_footer = false;
                             <div class="col-1 text-right">
                                 <?php
                                 if ($doctorCerts == 0) {
-                                    echo '<span class="color-gray">未填写</span>';
+                                    echo '<span class="color-gray">未上传</span>';
                                 } else if ($doctorCerts == 1) {
                                     echo '<span class="c-red">认证中</span>';
                                 } else if ($doctorCerts == 2) {
@@ -133,7 +132,7 @@ $this->show_footer = false;
                                 }
                                 ?>
                             </div>
-                            <div class="col-0 pad5">
+                            <div class="col-0">
                                 <div class="next-icon">
                                 </div>
                             </div>
