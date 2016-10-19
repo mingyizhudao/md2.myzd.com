@@ -84,6 +84,13 @@ $this->show_footer = false;
 if ($register == 1) {
     ?>
     <header class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
         <h1 class="title">医生执业证书</h1>
         <?php
         if ($register == 1) {
@@ -139,7 +146,7 @@ if ($register == 1) {
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
                                 <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
-                                <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
+                                <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                                 <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
                             </form>
                         </div>
@@ -234,7 +241,6 @@ if ($register == 1) {
         </div>
         <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
     </div>
-
     <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
     <div id="jingle_popup_mask" style="opacity: 0.3;"></div>
 </article>
@@ -247,7 +253,8 @@ if ($register == 1) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#skip-btn').click(function () {
-            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            $('#jingle_toast').find('a').text('感谢注册!请记得上传照片以完成认证');
+            $('#jingle_toast').show();
             setTimeout(function () {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);

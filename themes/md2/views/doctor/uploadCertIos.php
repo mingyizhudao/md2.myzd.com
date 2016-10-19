@@ -72,11 +72,26 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         height: 10px;
         background: #F1F1F1;
     }
+    #filePicker.showImg .webuploader-pick{
+        background-color: #fff;
+        box-shadow: inherit;
+    }
+    #filePicker.showImg img{
+        height: 110px;
+        width: 100%;
+    }
 </style>
 <?php
 if ($register == 1) {
     ?>
     <header class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
         <h1 class="title">医生执业证书</h1>
         <?php
         if ($register == 1) {
@@ -133,11 +148,17 @@ if ($register == 1) {
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <!-- btn 选择图片 -->
-                            <div id="filePicker" class=""></div>
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<div id="filePicker" class=""></div>';
+                            } else {
+                                echo '<div id="filePicker" class="showImg"></div>';
+                            }
+                            ?>
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
-                    <div class="statusBar clearfix" style="display:none;">
+                    <div class="statusBar clearfix" style="<?php $isVerified == 0 ? 'display:none;' : ''; ?>">
                         <div class="hide">
                             <div class="progress" style="display: none;">
                                 <span class="text">0%</span>
@@ -184,7 +205,7 @@ if ($register == 1) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#skip-btn').click(function () {
-            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            J.showToast('感谢注册!请记得上传照片以完成认证', '', '3000');
             setTimeout(function () {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);

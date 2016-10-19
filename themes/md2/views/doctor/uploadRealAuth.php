@@ -94,20 +94,27 @@ $this->show_footer = false;
         background: #F1F1F1;
     }
 </style>
-<header class="bg-green">
-    <h1 class="title">实名认证</h1>
-    <?php
-    if ($register == 1) {
-        ?>
+<?php
+if ($register == 1) {
+    ?>
+    <header class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
+        <h1 class="title">实名认证</h1>
         <nav class="right">
             <a href="<?php echo $urlUploadCert; ?>" data-target="link">
                 稍后补充
             </a>
         </nav>
-        <?php
-    }
-    ?>
-</header>
+    </header>
+    <?php
+}
+?>
 <article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>">
     <div>
         <?php

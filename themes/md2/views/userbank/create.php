@@ -1,25 +1,21 @@
 <?php
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-// Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/card.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/card.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/card.min.1.0.js', CClientScript::POS_END);
 ?>
 <?php
-$this->setPageTitle('银行卡认证');
+$this->setPageTitle('添加银行卡信息');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
-$urlIdentify = $this->createUrl('userbank/identify', array('card_id' => ''));
-// var_dump($urlIdentify);die;
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $this->show_footer = false;
-// var_dump($name);die;
 ?>
 <article id="userbankCreate_article" class="active userbank_article" data-scroll="true">
     <div class="pt10">
         <?php
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'card-form',
-            'htmlOptions' => array('data-return-url' => $urlIdentify, 'data-action-url' => $urlAjaxCreate),
+            'htmlOptions' => array('data-return-url' => $urlCardList, 'data-action-url' => $urlAjaxCreate),
             'enableClientValidation' => false,
             'clientOptions' => array(
                 'validateOnSubmit' => true,
@@ -35,43 +31,128 @@ $this->show_footer = false;
             <div class="inputRow">
                 <div class="grid bb-gray">
                     <div class="col-0 w90p vertical-center">
-                        持卡人：
+                        持卡人
                     </div>
-                    <div class="col-1 pt5 pb5">
-                        <?php echo $name; ?>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'name', array('name' => 'card[name]', 'placeholder' => '请输入姓名', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div>
             <div class="inputRow">
                 <div class="grid bb-gray">
                     <div class="col-0 w90p vertical-center">
-                        银行卡号：
+                        卡号
                     </div>
                     <div class="col-1">
-                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
+                        <?php echo $form->numberField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div>
-
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        省份
+                    </div>
+                    <div class="col-1">
+                        <?php
+                        $model->state_id = null;
+                        echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
+                            'name' => 'card[state_id]',
+                            'prompt' => '选择省份',
+                            'class' => '',
+                        ));
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        城市
+                    </div>
+                    <div class="col-1">                        
+                        <?php
+                        echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
+                            'name' => 'card[city_id]',
+                            'prompt' => '选择城市',
+                            'class' => '',
+                        ));
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        开户银行
+                    </div>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '选择开户银行', 'class' => 'noPaddingInput')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="grid bb-gray">
+                    <div class="col-0 w90p vertical-center">
+                        支行名称
+                    </div>
+                    <div class="col-1">
+                        <?php echo $form->textField($model, 'subbranch', array('name' => 'card[subbranch]', 'placeholder' => '选择银行支行', 'class' => 'noPaddingInput')); ?>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="pad10 font-s12"style="color:#FD8C47;">
-            * 为了您的资金账户安全，只能绑定持卡人本人的银行卡
+        <div class="grid pt10 pl10 pr10">
+            <div class="col-1"></div>
+            <div id="setDefault" class="col-0" data-select="0">
+                <img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认
+            </div>
         </div>
         <?php
         $this->endWidget();
         ?>
         <div class="pad10">
-            <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
-            <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
+            <button id="submitBtn" class="btn btn-full btn-yellow3">保存</button>
         </div>
     </div>
 </article>
 <script>
     $(document).ready(function () {
-        $('#bankCard').on('input', function () {
-            var $this = $(this);
-            var v = $this.val();
-            /\S{5}/.test(v) && $this.val(v.replace(/[^(\d)]/g, "").replace(/(.{4})/g, "$1 "));
+        $('#setDefault').click(function () {
+            if ($(this).attr('data-select') == 0) {
+                $(this).attr('data-select', 1);
+                $('input[name="card[is_default]"]').val(1);
+                $(this).html('<img src="http://static.mingyizhudao.com/146665213709967" class="w17p mr6">设为默认');
+            } else {
+                $(this).attr('data-select', 0);
+                $('input[name="card[is_default]"]').val(0);
+                $(this).html('<img src="http://static.mingyizhudao.com/146664844004130" class="w17p mr6">设为默认');
+            }
+        });
+        $("select#card_state_id").change(function () {
+            $("select#card_city_id").attr("disabled", true);
+            var stateId = $(this).val();
+            var actionUrl = "<?php echo $urlLoadCity; ?>";// + stateId + "&prompt=选择城市";
+            $.ajax({
+                type: 'get',
+                url: actionUrl,
+                data: {'state': this.value, 'prompt': '选择城市'},
+                cache: false,
+                // dataType: "html",
+                'success': function (data) {
+                    $("select#card_city_id").html(data);
+                    // jquery mobile fix.
+                    captionText = $("select#card_city_id>option:first-child").text();
+                    $("#card_city_id-button>span:first-child").text(captionText);
+                },
+                'error': function (data) {
+                },
+                complete: function () {
+                    $("select#card_city_id").attr("disabled", false);
+                    $("select#card_city_id").removeAttr("disabled");
+                }
+            });
+            return false;
         });
     });
 </script>
