@@ -13,7 +13,7 @@ $register = Yii::app()->request->getQuery('register', 0);
 if ($register == 1) {
     $urlReturn = $urlUploadCert;
 } else {
-    $urlReturn = $this->createUrl('doctor/view');
+    $urlReturn = $this->createUrl('doctor/account');
 }
 if (isset($output['id'])) {
     $urlDoctorRealAuth = 'http://121.40.127.64:8089/api/loadrealauth?userId=' . $output['id'];

@@ -669,7 +669,7 @@ class DoctorController extends MobiledoctorController {
      * @param int $register
      */
     public function actionProfile($register = 0) {
-        $returnUrl = $this->getReturnUrl($this->createUrl('doctor/view'));
+        $returnUrl = $this->getReturnUrl($this->createUrl('doctor/account'));
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         $form = new UserDoctorProfileForm();
@@ -680,7 +680,7 @@ class DoctorController extends MobiledoctorController {
         $certs = $userMgr->loadUserDoctorFilesByUserId($user->id);
 
         if (arrayNotEmpty($certs) === false) {
-            $returnUrl = $this->createUrl('doctor/view');
+            $returnUrl = $this->createUrl('doctor/account');
         }
         if ($register == 1) {
             $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1, 'addBackBtn' => 1));
