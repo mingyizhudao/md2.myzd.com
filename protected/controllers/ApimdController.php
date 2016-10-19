@@ -468,7 +468,7 @@ class ApimdController extends Controller {
                     }
                 }
                 break;
-            case 'bankverifycode'; //账户验证码验证
+            case 'bankverifycode': //账户验证码验证
                 if (isset($post['bank'])) {
                     $values = $post['bank'];
                     $user = $this->userLoginRequired($values);
