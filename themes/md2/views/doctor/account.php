@@ -93,7 +93,7 @@ $this->show_footer = false;
                             <div class="col-1 text-right">
                                 <?php
                                 if ($realAuth == 0) {
-                                    echo '<span class="color-gray">未填写</span>';
+                                    echo '<span class="color-gray">未上传</span>';
                                 } else if ($realAuth == 1) {
                                     echo '<span class="c-red">认证中</span>';
                                 } else if ($realAuth == 2) {
@@ -122,7 +122,7 @@ $this->show_footer = false;
                             <div class="col-1 text-right">
                                 <?php
                                 if ($doctorCerts == 0) {
-                                    echo '<span class="color-gray">未填写</span>';
+                                    echo '<span class="color-gray">未上传</span>';
                                 } else if ($doctorCerts == 1) {
                                     echo '<span class="c-red">认证中</span>';
                                 } else if ($doctorCerts == 2) {
