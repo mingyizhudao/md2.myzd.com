@@ -95,6 +95,13 @@ $this->show_footer = false;
     }
 </style>
 <header class="bg-green">
+    <nav class="left">
+        <a href="javascript:;" data-target="back">
+            <div class="pl5">
+                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+            </div>
+        </a>
+    </nav>
     <h1 class="title">实名认证</h1>
     <?php
     if ($register == 1) {
