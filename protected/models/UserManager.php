@@ -574,6 +574,49 @@ class UserManager {
         return $output;
     }
 
+    /**
+     * 身份认证信息保存
+     * @param $values
+     * @return array
+     */
+    public function apiSaveDoctorRealAuth($values) {
+        $output = array('status' => 'ok', 'errorCode' => ErrorList::ERROR_NONE, 'errorMsg' => 'success');
+        //三张照片一起上传
+        if (isset($values['auth_file']) && is_array($values['auth_file']) && count($values['auth_file']) == 3) {
+            foreach ($values['auth_file'] as $key => $value) {
+                $form = new UserDoctorRealAuthForm();
+                $form->setAttributes($value, true);
+                $form->user_id = $values['user_id'];
+                $form->cert_type = $key;
+                $form->initModel();
+                if ($form->validate()) {
+                    //先删除已存在的后保存
+                    UserDoctorRealAuth::model()->deleteAllByAttributes(['user_id' => $form->user_id, 'cert_type' => $form->cert_type]);
+                    $file = new UserDoctorRealAuth();
+                    $file->setAttributes($form->attributes, true);
+                    if ($file->save()) {
+                        $output['status'] = 'ok';
+                    } else {
+                        $output['errorMsg'] = $file->getErrors();
+                        $output['errorCode'] = ErrorList::NOT_FOUND;
+                        $output['status'] = 'no';
+                        break;
+                    }
+                }else {
+                    $output['errorMsg'] = $form->getFirstErrors();
+                    $output['status'] = 'no';
+                    $output['errorCode'] = ErrorList::NOT_FOUND;
+                    return $output;
+                }
+            }
+        } else {
+            $output['errorMsg'] = 'no data....';
+            $output['status'] = 'no';
+            $output['errorCode'] = ErrorList::NOT_FOUND;
+        }
+        return $output;
+    }
+
     /*     * ******************************微信调用登陆接口********************************************** */
 
     public function wxlogin($id) {
