@@ -95,6 +95,7 @@ class ApimdController extends Controller {
                 $apiService = new ApiViewDoctorZz($user->id);
                 $output = $apiService->loadApiViewData(true);
                 break;
+
             case 'patientlist'://患者列表
                 $user = $this->userLoginRequired($values);
                 $apisvc = new ApiViewDoctorPatientList($user->id);
@@ -253,11 +254,6 @@ class ApimdController extends Controller {
                 $user = $this->userLoginRequired($values);
                 $apiSvc = new ApiViewBankCardInfo($id, $user->id);
                 $output = $apiSvc->loadApiViewData();
-                break;
-            case 'bankdelete'://删除银行卡(兼容)
-                $user = $this->userLoginRequired($values);
-                $userMgr = new UserManager();
-                $output = $userMgr->apiBankDelete($id, $user->id);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
@@ -468,7 +464,7 @@ class ApimdController extends Controller {
                     }
                 }
                 break;
-            case 'bankverifycode': //账户验证码验证
+            case 'bankverifycode'; //账户验证码验证
                 if (isset($post['bank'])) {
                     $values = $post['bank'];
                     $user = $this->userLoginRequired($values);
@@ -515,21 +511,13 @@ class ApimdController extends Controller {
                     $output = $apiSvc->loadApiViewData();
                 }
                 break;
-            case 'bankdelete'://删除银行卡
+            case 'bankdelete'://删除银行卡a
                 if (isset($post['card'])) {
                     $values = $post['card'];
                     $user = $this->userLoginRequired($values);
                     $values['card_ids'] = json_decode($values['card_ids']);
                     $userMgr = new UserManager();
                     $output = $userMgr->apiBankDelete($values['card_ids'], $user->id);
-                }
-                break;
-            case 'saverealauth':
-                if(isset($post['auth'])) {
-                    $user = $this->userLoginRequired($post['auth']);
-                    $post['auth']['user_id'] = $user->getId();
-                    $userMgr = new UserManager();
-                    $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
                 break;
             default:
