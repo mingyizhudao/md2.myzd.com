@@ -1,7 +1,8 @@
 <?php
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/idCardUpload.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/idCardUpload.js?ts=' . time(), CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/idCardUpload.min.1.0.js', CClientScript::POS_END);
 ?>
 <?php
 $this->setPageTitle('实名认证');
@@ -24,25 +25,6 @@ $isVerified = $output['isVerified'];
 $this->show_footer = false;
 ?>
 <style>
-    .w70p{
-        width: 70px;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .uploadTab{
-        margin-bottom: 0px;
-    }
-    .uploadTab a {
-        width: inherit;
-        min-width: inherit;
-        line-height: normal;
-        display: inline-block!important;
-        background-color: #fff;
-    }
-
     #jingle_loading_mask {
         background-color: #222;
     }
@@ -86,18 +68,11 @@ $this->show_footer = false;
     #jingle_loading p{
         color: #fff;
     }
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
 </style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
+    <header id="uploadRealAuth_header" class="bg-green">
         <nav class="left">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
@@ -115,7 +90,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>" data-isVerified="<?php echo $isVerified; ?>">
+<article id="uploadRealAuth_article" class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>" data-isVerified="<?php echo $isVerified; ?>">
     <div>
         <?php
         if ($register == 1) {

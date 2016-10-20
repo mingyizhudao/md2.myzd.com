@@ -2,8 +2,8 @@
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/doctorprofile.min.1.2.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -35,61 +35,10 @@ if (isset($output['id'])) {
 $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<style>
-    #uploader .queueList{
-        margin: 0px;
-    }
-    #uploader .webuploader-pick{
-        display: block;
-        padding-left: 1em;
-        background-color: #32c9c0;
-    }
-    #uploader .webuploader-pick:after{
-        display: none;
-    }
-    #filePicker.has-img .webuploader-pick{
-        background-color: #fff;
-        box-shadow: inherit;
-    }
-    #filePicker.has-img .webuploader-pick>img{
-        height: 110px;
-    }
-    #uploader .filelist li{
-        width: 100%;
-        height: 110px;
-        margin: 0px;
-    }
-    #uploader .filelist li img{
-        height: 100%;
-    }
-    #uploader .filelist div.file-panel{
-        display: none;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-    #filePicker.showImg .webuploader-pick{
-        background-color: #fff;
-        box-shadow: inherit;
-    }
-    #filePicker.showImg img{
-        height: 110px;
-        width: 100%;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
+    <header id="uploadCertIos_header" class="bg-green">
         <nav class="left">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
@@ -113,7 +62,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
+<article id="uploadCertIos_article" class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
