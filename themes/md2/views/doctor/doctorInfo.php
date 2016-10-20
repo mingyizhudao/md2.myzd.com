@@ -6,7 +6,7 @@ $this->setPageID('pPersonalCenter');
 $this->setPageTitle('基本信息');
 $urlDoctorProfile = $this->createUrl('doctor/profile', array('addBackBtn' => 1));
 $doctorInfo = $data->results->doctorInfo;
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
 <article id="a1" class="active" data-scroll="true">
     <div class="doctorInfo pb20">
@@ -75,8 +75,8 @@ $this->show_footer=false;
             </div>
             <div class="text-center mt60">
                 <?php
-                if ($doctorInfo->isVerified) {
-                    echo '<p>您已通过实名认证,信息不可以再修改。</p>';
+                if ($doctorInfo->profile_verified == 2) {
+                    echo '<p>您已通过认证,信息不可以再修改。</p>';
                 } else {
                     echo '<a href="' . $urlDoctorProfile . '" class="btn btn-yes btn-block" data-target="link">修改</a>';
                 }
