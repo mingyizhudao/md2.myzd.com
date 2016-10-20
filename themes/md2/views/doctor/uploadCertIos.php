@@ -10,7 +10,7 @@ Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('医生执业证书');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
@@ -46,7 +46,7 @@ if ($register == 1) {
                 </div>
             </a>
         </nav>
-        <h1 class="title">医生执业证书</h1>
+        <h1 class="title">医师执业证书</h1>
         <?php
         if ($register == 1) {
             ?>
