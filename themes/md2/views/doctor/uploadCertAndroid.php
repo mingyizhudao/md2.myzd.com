@@ -195,6 +195,7 @@ if ($register == 1) {
                         ?>
                     </div>
                 </div>
+                <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
                 <div class="">
                     <div class="example">
                         <label class="color-red">示例:</label>
