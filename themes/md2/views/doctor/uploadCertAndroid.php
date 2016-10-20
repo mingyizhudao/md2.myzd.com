@@ -8,12 +8,12 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/ui.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/qiniu.min.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/highlight.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
 
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/userUpload.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -51,44 +51,10 @@ $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
-<style>
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-    #container a{
-        width: 100%;
-        display: block!important;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    #container a.showImg{
-        background-color: inherit!important;
-        padding: 0px;
-        height: 110px;
-    }
-    #container a.showImg img{
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .h110p{
-        height: 110px;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
+    <header id="uploadCertAndroid_header" class="bg-green">
         <nav class="left">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
@@ -112,7 +78,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article id="" class="active android_article" data-scroll="true">
+<article id="uploadCertAndroid_article" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
