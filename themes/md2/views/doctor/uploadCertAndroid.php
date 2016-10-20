@@ -162,22 +162,8 @@ if ($register == 1) {
                     </div>
                 </div>
                 <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
-                <div class="">
-                    <div class="example">
-                        <label class="color-red">示例:</label>
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                <div class="pt30 pl20 pr20 pb20">
+                    <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                 </div>
             </div>
         </div>
