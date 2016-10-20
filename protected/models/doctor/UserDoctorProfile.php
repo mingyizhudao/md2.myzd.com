@@ -189,7 +189,7 @@ class UserDoctorProfile extends EActiveRecord {
      * @return bool
      */
     public function isVerified() {
-        return $this->date_verified !== null;
+        return $this->profile_verified !== null ||$this->profile_verified == 1;
     }
 
     public function isRealAuthVerified() {
