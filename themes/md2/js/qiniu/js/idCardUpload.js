@@ -27,7 +27,6 @@ $(function () {
     $.ajax({
         url: $('article').attr('data-realAuth'),
         success: function (data) {
-            console.log(data);
             setImg(data);
         },
         error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -135,10 +134,7 @@ $(function () {
                     var infoJson = eval('(' + info + ')');
                     progress.setComplete(up, info);
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
-
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
-                    console.log('firstImg:' + imgUrl);
-
                     firstData = '"1":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
@@ -245,7 +241,6 @@ $(function () {
                     progress.setComplete(up, info);
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
-                    console.log('secondImg:' + imgUrl);
                     secondData = '"2":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
@@ -336,7 +331,9 @@ $(function () {
                 },
                 'UploadComplete': function () {
                     //图片信息存储
-                    var formData = '{"auth_file":{' + firstData + secondData + thirdData + '}}';
+                    var allImg = firstData + secondData + thirdData;
+                    allImg = allImg.substr(0, allImg.length - 1);
+                    var formData = '{"auth_file":{' + allImg + '}}';
                     var encryptContext = do_encrypt(formData, pubkey);
                     var param = {param: encryptContext};
                     $.ajax({
@@ -366,7 +363,6 @@ $(function () {
                     progress.setComplete(up, info);
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
-                    console.log('thirdImg:' + imgUrl);
                     thirdData = '"3":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
@@ -374,7 +370,7 @@ $(function () {
                             '","file_ext":"' + encodeURIComponent(fileExtension) +
                             '","remote_domain":"' + encodeURIComponent(domForm.find('#domain').val()) +
                             '","remote_file_key":"' + encodeURIComponent(infoJson.key) +
-                            '"}';
+                            '"},';
                 },
                 'Error': function (up, err, errTip) {
                     returnResult = false;
