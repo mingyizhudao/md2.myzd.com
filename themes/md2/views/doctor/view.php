@@ -238,8 +238,27 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
             location.href = '<?php echo $urlDrView; ?>';
         });
 
-        $('#userbankViewInputKey').tap(function () {
-            location.href = '<?php echo $urlUserbankViewInputKey; ?>';
+        $('#userbankViewInputKey').tap(function (e) {
+            e.preventDefault();
+            if ('<?php echo $user->results->userInfo->isProfile; ?>' == '') {
+                J.hideMask();
+                J.customConfirm('',
+                        '<div class="mt10 mb10">您尚未完善个人信息</div>',
+                        '<a id="closeLogout" class="w50">暂不</a>',
+                        '<a id="doctorProfile" class="color-green w50">完善信息</a>',
+                        function () {
+                        },
+                        function () {
+                        });
+                $('#closeLogout').tap(function () {
+                    J.closePopup();
+                });
+                $('#doctorProfile').tap(function () {
+                    location.href = '<?php echo $urlDoctorProfile; ?>';
+                });
+            } else {
+                location.href = '<?php echo $urlUserbankViewInputKey; ?>';
+            }
         });
 
         //医生顾问协议

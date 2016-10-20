@@ -1,6 +1,6 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/viewContractDoctors.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.8.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/viewContractDoctors.min.1.9.js', CClientScript::POS_END);
 ?>                                                                               
 <?php
 $this->setPageTitle('签约专家');
@@ -68,9 +68,8 @@ if ($source == 1) {
     </div>
 </article>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         J.showMask();
-
         //请求医生
         $requestDoc = '<?php echo $urlAjaxContractDoctor; ?>';
 
@@ -85,6 +84,7 @@ if ($source == 1) {
         }
 
         $condition = new Array();
+        $condition["source"] = '<?php echo $source; ?>';
         $condition["hospital"] = '';
         $condition["state"] = '<?php echo $state ?>';
         $condition["disease_sub_category"] = '<?php echo $disease_sub_category; ?>';
@@ -94,7 +94,7 @@ if ($source == 1) {
         //J.showMask();
         $.ajax({
             url: urlAjaxLoadDoctor,
-            success: function(data) {
+            success: function (data) {
                 readyDoc(data);
                 $hospital = data.results.hospital;
             }
@@ -106,10 +106,10 @@ if ($source == 1) {
         var requestState = '<?php echo $urlState; ?>';
         $.ajax({
             url: requestState,
-            success: function(data) {
+            success: function (data) {
                 $stateHtml = readyState(data);
             },
-            error: function(data) {
+            error: function (data) {
                 console.log(data);
             }
         });
@@ -123,7 +123,7 @@ if ($source == 1) {
         var urlloadDiseaseCategory = '<?php echo $urlDept; ?>';
         $.ajax({
             url: urlloadDiseaseCategory,
-            success: function(data) {
+            success: function (data) {
                 $deptHtml = readyDept(data);
             }
         });

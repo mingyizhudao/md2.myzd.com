@@ -43,7 +43,7 @@ class ApiViewDoctorInfo extends EApiViewService {
     }
 
     private function loadDoctorInfoById() {
-        $model = $this->userMgr->loadUserDoctorProflieByUserId($this->userId);
+        $model = $this->userMgr->loadUserDoctorProfileByUserId($this->userId);
         if (isset($model)) {
             $this->setDoctorInfo($model);
         }

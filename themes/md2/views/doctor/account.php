@@ -10,34 +10,102 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlDoctorProfile = $this->createUrl('doctor/profile');
 $urlDoctorTerms = $this->createUrl('doctor/doctorTerms');
 $urlDoctorUploadCert = $this->createUrl('doctor/uploadCert');
+$urlUploadRealAuth = $this->createUrl('doctor/uploadRealAuth');
 $urlLogout = $this->createUrl('doctor/logout');
-$userProfile = $userDoctorProfile;
-$userVerified = $verified;
-$userDoctorCerts = $doctorCerts;
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
-<article class="active" data-scroll="true">
+<article id="doctorAccount_article" class="active bg-gray" data-scroll="true">
     <div class="">
+        <p class="list-label">个人信息</p>
         <ul class="list">
             <li>
                 <a href="<?php echo $urlDoctorInfo; ?>" class="color-000 text-center" data-target="link">
                     <div class="grid font-type">
-                        <div class="col-0 w20 color-000 text-center" data-icon="user"></div>
-                        <div class="col-0 w40 text-left">
+                        <div class="col-1 w10 user-icon">
+                        </div>
+                        <div class="col-1 w40 text-left pl5">
                             基本信息
                         </div>
-                        <div class="col-0 ml20"></div>
+                        <div class="col-1 w50 grid">
+                            <div class="col-1 text-right">
+                                <?php
+                                if ($userDoctorProfile == 0) {
+                                    echo '<span class="color-gray">未填写</span>';
+                                } else if ($userDoctorProfile == 1) {
+                                    echo '<span class="c-red">认证中</span>';
+                                } else if ($userDoctorProfile == 2) {
+                                    echo '<span class="c-red">已认证</span>';
+                                } else if ($userDoctorProfile == 3) {
+                                    echo '<span class="c-red">未通过认证</span>';
+                                }
+                                ?>
+                            </div>
+                            <div class="col-0">
+                                <div class="next-icon">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <p class="list-label">实名认证</p>
+        <ul class="list">
+            <li>
+                <a href="<?php echo $urlUploadRealAuth; ?>" class="color-000 text-center" data-target="link">
+                    <div class="grid font-type">
+                        <div class="col-1 w10 idCard-icon"></div>
+                        <div class="col-1 w40 text-left pl5">
+                            身份认证
+                        </div>
+                        <div class="col-1 w50 grid">
+                            <div class="col-1 text-right">
+                                <?php
+                                if ($realAuth == 0) {
+                                    echo '<span class="color-gray">未上传</span>';
+                                } else if ($realAuth == 1) {
+                                    echo '<span class="c-red">认证中</span>';
+                                } else if ($realAuth == 2) {
+                                    echo '<span class="c-red">已认证</span>';
+                                } else if ($realAuth == 3) {
+                                    echo '<span class="c-red">未通过认证</span>';
+                                }
+                                ?>
+                            </div>
+                            <div class="col-0">
+                                <div class="next-icon">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </li>
             <li>
                 <a href="<?php echo $urlUploadCert; ?>" class="color-000 text-center" data-target="link">
                     <div class="grid font-type">
-                        <div class="col-0 w20 color-000 text-center" data-icon="images"></div>
-                        <div class="col-0 w40 text-left">
-                            实名认证
+                        <div class="col-1 w10 qualify-icon"></div>
+                        <div class="col-1 w40 text-left pl5">
+                            医师资格认证
                         </div>
-                        <div class="col-0 ml20"></div>
+                        <div class="col-1 w50 grid">
+                            <div class="col-1 text-right">
+                                <?php
+                                if ($doctorCerts == 0) {
+                                    echo '<span class="color-gray">未上传</span>';
+                                } else if ($doctorCerts == 1) {
+                                    echo '<span class="c-red">认证中</span>';
+                                } else if ($doctorCerts == 2) {
+                                    echo '<span class="c-red">已认证</span>';
+                                } else if ($doctorCerts == 3) {
+                                    echo '<span class="c-red">未通过认证</span>';
+                                }
+                                ?>
+                            </div>
+                            <div class="col-0">
+                                <div class="next-icon">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </a>
             </li>

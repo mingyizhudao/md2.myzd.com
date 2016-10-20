@@ -2,6 +2,9 @@
 
 class ApiViewUserInfo extends EApiViewService {
 
+    /**
+     * @var $user User
+     */
     private $user;
     private $userMgr;
 
@@ -26,26 +29,41 @@ class ApiViewUserInfo extends EApiViewService {
 
     public function loadUserInfo() {
         $profile = $this->user->getUserDoctorProfile();   // UserDoctorProfile model
-        $models = $this->userMgr->loadUserDoctorFilesByUserId($this->user->id);
-        $doctorCerts = false;
-        if (arrayNotEmpty($models)) {
-            $doctorCerts = true;
+        $cert_models = $this->userMgr->loadUserDoctorFilesByUserId($this->user->id);//医师认证信息
+        $real_auth_model = $this->userMgr->loadUserRealNameAuthByUserId($this->user->id); //实名认证信息
+
+        $doctorCerts = 0;
+        $realNameAuth = 0;
+        $userDoctorProfile = 0;
+
+        if (arrayNotEmpty($cert_models)) {
+            $doctorCerts = 1;
+        }
+        if(arrayNotEmpty($real_auth_model)) {
+            $realNameAuth = 1;
         }
         $data = new stdClass();
         $data->hasKey = strIsEmpty($this->user->getUserKey()) ? false : true;
         $data->doctorCerts = $doctorCerts;
         if (isset($profile)) {
-            $data->isProfile = true;
+            $userDoctorProfile = 1;
+            $userDoctorProfile = $userDoctorProfile + $profile->getProfileVerifyState();
+            $doctorCerts = $doctorCerts == 0 ? 0 : $doctorCerts + $profile->getCertVerifyState();
+            $realNameAuth = $realNameAuth ==0 ? 0 : $realNameAuth + $profile->getRealAuthState();
+
+            $data->isProfile = $userDoctorProfile;
+            $data->realAuth = $realNameAuth;
             $data->name = $profile->getName();
             //是否是签约医生
-            $data->verified = $profile->isVerified();
+            $data->verified = $doctorCerts;
             $data->teamDoctor = $profile->isTermsDoctor();
             $data->isCommonweal = $profile->isCommonweal();
             $data->isContractDoctor = $profile->isContractDoctor();
         } else {
-            $data->isProfile = false;
+            $data->isProfile = 0;
             $data->name = $this->user->getMobile();
-            $data->verified = false;
+            $data->realAuth = 0;
+            $data->verified = 0;
             $data->teamDoctor = false;
             $data->isCommonweal = false;
             $data->isContractDoctor = false;

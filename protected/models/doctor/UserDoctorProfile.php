@@ -20,8 +20,12 @@
  * @property string $state_name
  * @property integer $city_id
  * @property string $city_name
- * @property string $date_verified
- * @property integer $verified_by
+ * @property integer $real_auth_verified
+ * @property integer $real_auth_by
+ * @property integer $cert_verified
+ * @property integer $cert_verified_by
+ * @property integer $profile_verified
+ * @property integer $profile_verified_by
  * @property string $preferred_patient
  * @property string $date_contracted
  * @property string $date_deleted
@@ -45,14 +49,13 @@ class UserDoctorProfile extends EActiveRecord {
         // will receive user inputs.
         return array(
             array('user_id, name, clinical_title', 'required'),
-            array('user_id, gender, hospital_id, hp_dept_id, clinical_title, academic_title, country_id, state_id, city_id', 'numerical', 'integerOnly' => true),
+            array('user_id, gender, hospital_id, hp_dept_id, clinical_title, academic_title, country_id, state_id, city_id, real_auth_verified, real_auth_by, cert_verified, cert_verified_by, profile_verified, profile_verified_by', 'numerical', 'integerOnly' => true),
             array('name, hospital_name, hp_dept_name, state_name, city_name', 'length', 'max' => 50),
-            array('verified_by', 'length', 'max' => 20),
             array('mobile', 'length', 'max' => 11),
-            array('date_verified, date_deleted, date_updated ,date_contracted, preferred_patient, date_terms_doctor', 'safe'),
+            array('real_auth_verified, cert_verified, profile_verified, date_deleted, date_updated ,date_contracted, preferred_patient, date_terms_doctor', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, user_id, name, mobile, gender, hospital_id, hospital_name, hp_dept_id, hp_dept_name, clinical_title, academic_title, country_id, state_id, state_name, city_id, city_name, date_verified, verified_by, date_deleted, date_created, date_updated', 'safe', 'on' => 'search'),
+            array('id, user_id, name, mobile, gender, hospital_id, hospital_name, hp_dept_id, hp_dept_name, clinical_title, academic_title, country_id, state_id, state_name, city_id, city_name, real_auth_verified, real_auth_by, cert_verified,cert_verified_by, profile_verified,profile_verified_by,date_deleted, date_created, date_updated', 'safe', 'on' => 'search'),
         );
     }
 
@@ -94,8 +97,14 @@ class UserDoctorProfile extends EActiveRecord {
             'state_name' => '省份名称',
             'city_id' => '城市',
             'city_name' => '城市名称',
-            'date_verified' => '认证日期',
-            'verified_by' => '认证人员',
+            'real_auth_verified' => '实名认证日期',
+            'real_auth_by' => '实名认证审核人员id',
+            'cert_verified' => '医师资格认证状态',
+            'cert_verified_by' => '医师资格认证人员',
+            'profile_verified' => '基本信息认证',
+            'profile_verified_by' => '基本信息认证人员',
+            'date_verified' => '医师资格认证认证日期(废弃)',
+            'verified_by' => '医师资格认证人员(废弃)',
             'preferred_patient' => '希望收到的病人/病历',
             'date_contracted' => '签约专家签约日期',
             'date_deleted' => 'Date Deleted',
@@ -144,8 +153,12 @@ class UserDoctorProfile extends EActiveRecord {
         $criteria->compare('state_name', $this->state_name, true);
         $criteria->compare('city_id', $this->city_id);
         $criteria->compare('city_name', $this->city_name, true);
-        $criteria->compare('date_verified', $this->date_verified, true);
-        $criteria->compare('verified_by', $this->verified_by);
+        $criteria->compare('real_auth_verified', $this->real_auth_verified);
+        $criteria->compare('real_auth_by', $this->real_auth_by);
+        $criteria->compare('cert_verified', $this->cert_verified);
+        $criteria->compare('cert_verified_by', $this->cert_verified_by);
+        $criteria->compare('profile_verified', $this->profile_verified);
+        $criteria->compare('profile_verified_by', $this->profile_verified_by);
         $criteria->compare('date_contracted', $this->date_contracted);
         $criteria->compare('date_deleted', $this->date_deleted, true);
         $criteria->compare('date_created', $this->date_created, true);
@@ -171,13 +184,42 @@ class UserDoctorProfile extends EActiveRecord {
         return array('name', 'hospital_name', 'hp_dept_name');
     }
 
+    /**
+     * 废弃
+     * @return bool
+     */
     public function isVerified() {
-        return $this->date_verified !== null;
+        return $this->profile_verified !== null ||$this->profile_verified == 1;
     }
 
+    public function isRealAuthVerified() {
+        return $this->real_auth_verified == 1;
+    }
+
+    public function isDoctorCertVerified() {
+        return $this->cert_verified == 1;
+    }
+
+    public function isProfileVerified() {
+        return $this->profile_verified == 1;
+    }
+
+    /**
+     * 实名认证
+     * @return bool
+     */
+    public function isDoctorAuth() {
+        return $this->isRealAuthVerified() && $this->isRealAuthVerified();
+    }
     /*     * ****** Query Methods ******* */
 
-    //医生信息查询
+    /**
+     * 医生信息查询
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return $this
+     */
     public function getByUserId($userId, $attributes = null, $with = null) {
         return $this->getByAttributes(array('user_id' => $userId), $with);
     }
@@ -288,6 +330,22 @@ class UserDoctorProfile extends EActiveRecord {
         return $this->getDatetimeAttribute($this->date_verified);
     }
 
+    public function getCertVerifyState() {
+        return $this->cert_verified;
+    }
+
+    public function getProfileVerifyState() {
+        return $this->profile_verified;
+    }
+
+    public function getRealAuthState() {
+        return $this->real_auth_verified;
+    }
+
+    /**
+     * 获取医师资格认证审核人
+     * @return int
+     */
     public function getVerifiedBy() {
         return $this->verified_by;
     }
@@ -327,6 +385,7 @@ class UserDoctorProfile extends EActiveRecord {
     public function setVerifiedBy($v) {
         $this->verified_by = $v;
     }
+
 
     public function isContractDoctor() {
         return $this->date_contracted !== null;

@@ -13,7 +13,7 @@
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/patientUpload.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientUpload.min.1.3.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/patientUpload.min.1.4.js', CClientScript::POS_END);
 ?>
 
 <?php
@@ -110,7 +110,7 @@ $this->show_footer = false;
                 <div id="skipSection" class="mt10">
                     <?php
                     if ($type == 'create') {
-                        echo '<a href="' . $urlReturn . '" class="btn btn-full skipBtn" data-ajax="false">稍后补充</a>' .
+                        echo '<a href="javascript:;" class="btn btn-full skipBtn" data-ajax="false">稍后补充</a>' .
                         '<div class="text-center color-gray font-s12">(提交订单后可在订单详情里补充)</div>';
                     }
                     ?>
@@ -136,21 +136,26 @@ $this->show_footer = false;
     </div>
 </article>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#deleteConfirm .cancel").click(function() {
+    $(document).ready(function () {
+        $('.skipBtn').click(function () {
+            sessionStorage.removeItem('intention');
+            sessionStorage.removeItem('detail');
+            location.href = '<?php echo $urlReturn; ?>';
+        });
+        $("#deleteConfirm .cancel").click(function () {
             $("#deleteConfirm").hide();
             $("#jingle_toast").show();
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#jingle_toast").hide();
             }, 1000);
         });
-        $("#deleteConfirm .delete").click(function() {
+        $("#deleteConfirm .delete").click(function () {
             $("#deleteConfirm").hide();
             id = $(this).attr("data-id");
             domId = "#" + id;
             domLi = $(domId);
             deleteImg(id, domLi);
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#jingle_toast").hide();
             }, 2000);
         });
@@ -181,7 +186,7 @@ $this->show_footer = false;
         initDelete();
     }
     function initDelete() {
-        $('.imglist .delete').click(function() {
+        $('.imglist .delete').click(function () {
             domLi = $(this).parents("li");
             id = domLi.attr("id");
             $("#deleteConfirm .delete").attr("data-id", id);
@@ -193,17 +198,17 @@ $this->show_footer = false;
         urlDelectDoctorCert = '<?php echo $urldelectPatientMRFile ?>' + id;
         $.ajax({
             url: urlDelectDoctorCert,
-            beforeSend: function() {
+            beforeSend: function () {
 
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     domLi.remove();
                     $("#jingle_toast a").text('删除成功!');
                     $("#jingle_toast").show();
                 }
             },
-            complete: function() {
+            complete: function () {
                 $(".ui-loader").hide();
             }
         });

@@ -8,6 +8,7 @@
  * @property integer $user_id
  * @property string $name
  * @property integer $card_no
+ * @property string $card_type
  * @property integer $state_id
  * @property string $state_name
  * @property integer $city_id
@@ -39,11 +40,11 @@ class DoctorBankCard extends EActiveRecord {
         // will receive user inputs.
         return array(
             array('user_id, card_no, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
-            array('name, state_name, city_name, bank, subbranch', 'length', 'max' => 50),
+            array('name, state_name, card_type, city_name, bank, subbranch', 'length', 'max' => 50),
             array('date_updated, date_deleted, date_created', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, user_id, name, card_no, state_id, state_name, city_id, city_name, bank, subbranch, is_default, date_updated, date_deleted, date_created', 'safe', 'on' => 'search'),
+            array('id, user_id, name, card_no, card_type, state_id, state_name, city_id, city_name, bank, subbranch, is_default, date_updated, date_deleted, date_created', 'safe', 'on' => 'search'),
         );
     }
 
@@ -67,6 +68,7 @@ class DoctorBankCard extends EActiveRecord {
             'user_id' => 'User',
             'name' => '持卡人姓名',
             'card_no' => '卡号',
+            'card_type' => '卡类型',
             'state_id' => 'State',
             'state_name' => 'State Name',
             'city_id' => 'City',
@@ -101,6 +103,7 @@ class DoctorBankCard extends EActiveRecord {
         $criteria->compare('user_id', $this->user_id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('card_no', $this->card_no);
+        $criteria->compare('card_type', $this->card_type);
         $criteria->compare('state_id', $this->state_id);
         $criteria->compare('state_name', $this->state_name, true);
         $criteria->compare('city_id', $this->city_id);

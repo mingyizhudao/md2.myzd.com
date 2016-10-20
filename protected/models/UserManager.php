@@ -19,10 +19,15 @@ class UserManager {
         }
         $attributes = $form->getSafeAttributes();
         $card->setAttributes($attributes, true);
-        $regionState = RegionState::model()->getById($card->state_id);
-        $card->state_name = $regionState->getName();
-        $regionCity = RegionCity::model()->getById($card->city_id);
-        $card->city_name = $regionCity->getName();
+        if (isset($card->state_id)) {
+            $regionState = RegionState::model()->getById($card->state_id);
+            $card->state_name = $regionState->getName();
+        }
+        if (isset($card->city_id)) {
+            $regionCity = RegionCity::model()->getById($card->city_id);
+            $card->city_name = $regionCity->getName();
+        }
+
         if ($card->save() === false) {
             $output['status'] = 'no';
             $output['errors'] = $card->getErrors();
@@ -62,8 +67,9 @@ class UserManager {
 
     /**
      * 创建用户
-     * @param type $mobile
-     * @param type $statCode
+     * @param $mobile
+     * @param $statCode
+     * @return null|User
      */
     private function createUser($mobile, $statCode) {
         $model = new User();
@@ -108,16 +114,15 @@ class UserManager {
     }
 
     /**
-     * Get EUploadedFile from $_FILE. 
-     * Create DoctorCert model. 
-     * Save file in filesystem. 
+     * Get EUploadedFile from $_FILE.
+     * Create DoctorCert model.
+     * Save file in filesystem.
      * Save model in db.
-     * @param EUploadedFile $file EUploadedFile::getInstances()
-     * @param integer $doctorId Doctor.id     
-     * @return DoctorCert 
+     * @param $file
+     * @param $userId
+     * @return UserDoctorCert
      */
     private function saveUserDoctorCert($file, $userId) {
-        //$dFile = new DoctorCert();
         $dFile = new UserDoctorCert();
         $dFile->initModel($userId, $file);
         $dFile->saveModel();
@@ -125,14 +130,37 @@ class UserManager {
         return $dFile;
     }
 
-    //医生信息查询
-    public function loadUserDoctorProflieByUserId($userId, $attributes = null, $with = null) {
+    /**
+     * 医生信息查询
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return $this
+     */
+    public function loadUserDoctorProfileByUserId($userId, $attributes = null, $with = null) {
         return UserDoctorProfile::model()->getByUserId($userId, $attributes, $with);
     }
 
-    //医生文件查询
+    /**
+     * 医生文件查询
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return type
+     */
     public function loadUserDoctorFilesByUserId($userId, $attributes = null, $with = null) {
         return UserDoctorCert::model()->getDoctorFilesByUserId($userId, $attributes, $with);
+    }
+
+    /**
+     * 获取医生实名认证文件
+     * @param $userId
+     * @param null $attributes
+     * @param null $with
+     * @return type
+     */
+    public function loadUserRealNameAuthByUserId($userId, $attributes = null, $with = null) {
+        return UserDoctorRealAuth::model()->getRealAuthFilesByUserId($userId, $attributes, $with);
     }
 
     //异步删除医生证明图片
@@ -183,13 +211,13 @@ class UserManager {
 
     /**
      * 注册医生
-     * @param type $username
-     * @param type $password
-     * @param type $terms
-     * @return User $model.
+     * @param $username
+     * @param $password
+     * @param int $terms
+     * @param int $activate
+     * @return User
      */
     public function doRegisterDoctor($username, $password, $terms = 1, $activate = 1) {
-        // create new User model and save into db.
         $model = new User();
         $model->scenario = 'register';
         $model->username = $username;
@@ -241,10 +269,11 @@ class UserManager {
 
     /**
      * Auto login user.
-     * @param type $username
-     * @param type $password
-     * @param type $rememberMe
-     * @return type 
+     * @param $username
+     * @param $password
+     * @param $role
+     * @param int $rememberMe
+     * @return UserLoginForm
      */
     public function autoLoginUser($username, $password, $role, $rememberMe = 0) {
         $form = new UserLoginForm();
@@ -482,17 +511,30 @@ class UserManager {
     }
 
     //删除银行卡
-    public function apiBankDelete($id, $userId) {
+    public function apiBankDelete($ids, $userId) {
         $output = array('status' => 'no', 'errorCode' => ErrorList::NOT_FOUND);
-        $card = $this->loadCardByUserIdAndId($userId, $id);
-        if (isset($card)) {
-            $card->delete();
-            $output['status'] = EApiViewService::RESPONSE_OK;
-            $output['errorCode'] = ErrorList::ERROR_NONE;
-            $output['errorMsg'] = 'success';
-        } else {
-            $output['errorMsg'] = '无权限操作!';
+        
+        if (!is_array($ids)) {
+            $id = $ids;
+            $card = $this->loadCardByUserIdAndId($userId, $id);
+            if (isset($card)) {
+                $card->delete();
+                $output['status'] = EApiViewService::RESPONSE_OK;
+                $output['errorCode'] = ErrorList::ERROR_NONE;
+                $output['errorMsg'] = 'success';
+            } else {
+                $output['errorMsg'] = '无权限操作!';
+            }
+        } elseif (count($ids) > 0) {
+            $cardManager = new CardManager();
+            $result = $cardManager->deleteCardsByIds($userId, $ids);
+            if ($result === true) {
+                $output['status'] = 'ok';
+            }
+            $result === true ? $output['status'] = 'ok' : $output['errors'] = '银行卡解绑失败!';
+            $result === true && $output['errorCode'] = 0;
         }
+
         return $output;
     }
 
@@ -528,6 +570,43 @@ class UserManager {
             if ($card->is_default == 1) {
                 $this->updateUnDefault($card->getId());
             }
+        }
+        return $output;
+    }
+
+    /**
+     * 身份认证信息保存
+     * @param $values
+     * @return array
+     */
+    public function apiSaveDoctorRealAuth($values) {
+        $output = array('status' => 'ok', 'errorCode' => ErrorList::ERROR_NONE, 'errorMsg' => 'success');
+        //三张照片一起上传
+        if (isset($values['auth_file']) && is_array($values['auth_file'])) {
+            $form = new UserDoctorRealAuthForm();
+            $form->setAttributes($values['auth_file'], true);
+            $form->user_id = $values['user_id'];
+            $form->initModel();
+            if ($form->validate()) {
+                //先删除已存在的后保存
+                UserDoctorRealAuth::model()->deleteAllByAttributes(['user_id' => $form->user_id, 'cert_type' => $form->cert_type]);
+                $file = new UserDoctorRealAuth();
+                $file->setAttributes($form->attributes, true);
+                if ($file->save() === false) {
+                    $output['errorMsg'] = $file->getErrors();
+                    $output['errorCode'] = ErrorList::NOT_FOUND;
+                    $output['status'] = 'no';
+                }
+            }else {
+                $output['errorMsg'] = $form->getFirstErrors();
+                $output['status'] = 'no';
+                $output['errorCode'] = ErrorList::NOT_FOUND;
+                return $output;
+            }
+        } else {
+            $output['errorMsg'] = 'no data....';
+            $output['status'] = 'no';
+            $output['errorCode'] = ErrorList::NOT_FOUND;
         }
         return $output;
     }

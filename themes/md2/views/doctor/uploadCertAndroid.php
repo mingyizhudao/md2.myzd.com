@@ -13,14 +13,14 @@
 
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/userUpload.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('实名认证');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
@@ -33,7 +33,12 @@ $urlQiniuAjaxDrToken = $this->createUrl('qiniu/ajaxDrToken');
 
 
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
-$urlReturn = $this->createUrl('doctor/view');
+$register = Yii::app()->request->getQuery('register', 0);
+if ($register == 0) {
+    $urlReturn = $this->createUrl('doctor/account');
+} else {
+    $urlReturn = $this->createUrl('doctor/view');
+}
 if (isset($output['id'])) {
     $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
@@ -41,29 +46,73 @@ if (isset($output['id'])) {
     $urlDoctorCerts = "";
     $urlDelectDoctorCert = "";
 }
-
+$register = Yii::app()->request->getQuery('register', 0);
+$isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
+$this->show_footer = false;
 ?>
-<article id="" class="active pad1 android_article" data-scroll="true">
-    <div class="form-wrapper">
-        <!-- file uploader -->
-        <div class="">
-            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
-            <div class="">
-                <label>上传医生职业证书或者手持工牌照</label>
-            </div>
-            <div>&nbsp;&nbsp;请确保图片内容清晰可见</div>
-            <?php
-            if ($output['isVerified']) {
-                echo '<p class="color-red mt10">您已通过实名认证,信息不可以再修改。</p>';
-            }
+<?php
+if ($register == 1) {
+    ?>
+    <header id="uploadCertAndroid_header" class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
+        <h1 class="title">医师执业证书</h1>
+        <?php
+        if ($register == 1) {
             ?>
+            <nav class="right">
+                <a id="skip-btn" href="javascript:;">
+                    稍后补充
+                </a>
+            </nav>
+            <?php
+        }
+        ?>
+    </header>
+    <?php
+}
+?>
+<article id="uploadCertAndroid_article" class="active android_article" data-scroll="true">
+    <div class="form-wrapper">
+        <?php
+        if ($register == 1) {
+            ?>
+            <div>
+                <img src="http://static.mingyizhudao.com/147643110651649" class="w100">
+            </div>
+            <div class="grid text-center pb5">
+                <div class="col-1 w25 c-red">
+                    注册成功
+                </div>
+                <div class="col-1 w25 c-red">
+                    基本信息
+                </div>
+                <div class="col-1 w25 c-red">
+                    实名认证
+                </div>
+                <div class="col-1 w25 c-red">
+                    医师认证
+                </div>
+            </div>
+            <div class="line-tab"></div>
+            <?php
+        }
+        ?>
+        <div class="pad10">
+            <h4 id="tip" class="hide">请完成实名认证,认证后开通名医主刀账户</h4>
+            <p class="text-justify">请您上传医生执业证书的含有本人姓名，性别，身份证号，医师资格证书编码，执业类别，执业范围的那页</p>
             <div class="imglist mt10">
                 <ul class="filelist"></ul>
             </div>
             <div class="clearfix"></div>
             <div class="form-wrapper mt20">
-                <div class="uploadFileAndroid hide">
+                <div class="uploadFileAndroid">
                     <div class="container">
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
@@ -75,39 +124,46 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                         <div class="body mt10">
                             <div class="text-center">
                                 <div id="container">
-                                    <a class="btn btn-default btn-lg " id="pickfiles" href="#" >
-                                        <span>选择图片</span>
-                                    </a>
+                                    <?php
+                                    if ($isVerified == 0) {
+                                        ?>
+                                        <a class="btn btn-default btn-lg" id="pickfiles" href="#">
+                                            <span>选择图片</span>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <a class="btn btn-default btn-lg showImg" id="pickfiles" href="#">
+                                            <img src="">
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt10">
+                            <div class="col-md-12 mt10 hide">
                                 <table class="table table-striped table-hover text-left" style="display:none">
                                     <tbody id="fsUploadProgress">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div id="submitBtn" class="hide">
-                            <a class="btn btn-full bg-green color-white">上传</a>
-                        </div>
+                        <?php
+                        if ($isVerified == 0) {
+                            echo '<div id="submitBtn" class="hide pt20">' .
+                            '<a class="btn btn-full bg-green color-white">上传</a>' .
+                            '</div>';
+                        } else {
+                            echo '<div id="submitBtn" class="pt20">' .
+                            '<a class="btn btn-full bg-green color-white">修改</a>' .
+                            '</div>';
+                        }
+                        ?>
                     </div>
                 </div>
-                <div class="">
-                    <div class="example">
-                        <label class="color-red">示例:</label>
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
+                <div class="pt30 pl20 pr20 pb20">
+                    <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                 </div>
             </div>
         </div>
@@ -143,7 +199,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         </div>
         <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
     </div>
-
     <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
     <div id="jingle_popup_mask" style="opacity: 0.3;"></div>
 </article>
@@ -155,10 +210,14 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var isVerified = '<?php echo $output['isVerified']; ?>';
-        if (!isVerified) {
-            $(".uploadFileAndroid").removeClass('hide');
-        }
+        $('#skip-btn').click(function () {
+            $('#jingle_toast').find('a').text('感谢注册!请记得上传照片以完成认证');
+            $('#jingle_toast').show();
+            setTimeout(function () {
+                location.href = '<?php echo $urlReturn; ?>';
+            }, 3000);
+        });
+
         $("#imgConfirm #tag_close_popup").click(function () {
             $(this).parents(".confirm").hide();
         });
@@ -183,10 +242,22 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
         $.ajax({
             url: urlDoctorCerts,
             success: function (data) {
-                setImgHtml(data.results.files, isVerified);
+                setImg(data);
+//                setImgHtml(data.results.files, isVerified);上一个版本
             }
         });
     });
+    function setImg(data) {
+        var files = data.results.files;
+        var imgHtml = '<span>选择图片</span>';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                imgHtml = '<img src="' + files[i].thumbnailUrl + '">';
+            }
+        }
+        $('#pickfiles').html(imgHtml);
+    }
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {
@@ -201,10 +272,6 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
                         imgfile.id + '"><p class="imgWrap"><img src="' +
                         imgfile.thumbnailUrl + '" data-src="' +
                         imgfile.absFileUrl + '"></p>' + deleteHtml + '</li>';
-            }
-            if (!'<?php echo $output['isVerified']; ?>') {
-                $('#tip').html('您已提交实名认证照片，名医助手正在审核中，请您耐心等待！');
-                $('#tip').removeClass('hide');
             }
         } else {
             innerHtml += '';

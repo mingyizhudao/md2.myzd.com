@@ -2,11 +2,14 @@
 
 class QiniuController extends MobiledoctorController {
 
+    const REAL_AUTH_PIC_NUM = 3;
+
     /**
      * 安卓获取医生头像七牛上传权限
      */
     public function actionAjaxDrToken() {
         $url = 'http://file.mingyizhudao.com/api/tokendrcert';
+//        $url = 'http://121.40.127.64:8089/api/tokenpatientmr';
         $data = $this->send_get($url);
         $output = array('uptoken' => $data['results']['uploadToken']);
         $this->renderJsonOutput($output);
@@ -73,6 +76,37 @@ class QiniuController extends MobiledoctorController {
                     $output['fileId'] = $file->getId();
                 } else {
                     $output['errors'] = $file->getErrors();
+                }
+            }
+        } else {
+            $output['errors'] = 'no data....';
+        }
+        $this->renderJsonOutput($output);
+    }
+
+    public function actionAjaxDoctorRealAuth() {
+        $post = $this->decryptInput();
+        $output = array('status' => 'no');
+        //三张照片一起上传
+        if (isset($post['auth_file']) && is_array($post['auth_file'])) {
+            foreach ($post['auth_file'] as $key => $value) {
+                $form = new UserDoctorRealAuthForm();
+                $form->setAttributes($value, true);
+                $form->user_id = $this->getCurrentUserId();
+                $form->cert_type = $key;
+                $form->initModel();
+                if ($form->validate()) {
+                    //先删除已存在的后保存
+                    UserDoctorRealAuth::model()->deleteAllByAttributes(['user_id' => $form->user_id, 'cert_type' => $form->cert_type]);
+                    $file = new UserDoctorRealAuth();
+                    $file->setAttributes($form->attributes, true);
+                    if ($file->save()) {
+                        $output['status'] = 'ok';
+                        $output['fileId'][$key] = $file->getId();
+                    } else {
+                        $output['errors'] = $file->getErrors();
+                        break;
+                    }
                 }
             }
         } else {
