@@ -65,6 +65,7 @@ class ApiViewDoctorInfo extends EApiViewService {
             }
             $data->hasCerts = $hasCerts;
         }
+
         $data->profile_verified = $model->getProfileVerifyState() + 1;
         $data->stateName = $model->getStateName();    //省会
         $data->cityName = $model->getCityName();
