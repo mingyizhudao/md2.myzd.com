@@ -77,7 +77,7 @@ class DoctorController extends MobiledoctorController {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         if (isset($doctorProfile)) {
-            if ($doctorProfile->isVerified()) {
+            if ($doctorProfile->getProfileVerifyState() == 1) {
                 $output = array('status' => 'no', 'error' => '您已通过实名认证,信息不可以再修改。');
                 if (isset($_POST['plugin'])) {
                     echo CJSON::encode($output);
@@ -609,6 +609,11 @@ class DoctorController extends MobiledoctorController {
             $form = new UserDoctorProfileForm();
             $form->setAttributes($values, true);
             $form->initModel();
+            if ($form->validate() === false) {
+                $output['status'] = 'no';
+                $output['errors'] = $form->getErrors();
+                $this->renderJsonOutput($output);
+            }
             $regionMgr = new RegionManager();
             $user = $this->loadUser();
             $userId = $user->getId();
