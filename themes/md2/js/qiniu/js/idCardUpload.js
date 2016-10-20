@@ -34,7 +34,7 @@ $(function () {
             console.log(XmlHttpRequest);
             console.log(textStatus);
             console.log(errorThrown);
-        },
+        }
     });
     function setImg(data) {
         var firstImgClick = 'http://static.mingyizhudao.com/147634523695755';
