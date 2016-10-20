@@ -609,11 +609,6 @@ class DoctorController extends MobiledoctorController {
             $form = new UserDoctorProfileForm();
             $form->setAttributes($values, true);
             $form->initModel();
-            if ($form->validate() === false) {
-                $output['status'] = 'no';
-                $output['errors'] = $form->getErrors();
-                $this->renderJsonOutput($output);
-            }
             $regionMgr = new RegionManager();
             $user = $this->loadUser();
             $userId = $user->getId();
