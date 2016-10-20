@@ -525,6 +525,7 @@ class ApimdController extends Controller {
                     $output = $userMgr->apiBankDelete($values['card_ids'], $user->id);
                 }
                 break;
+
             case 'saverealauth':
                 if(isset($post['auth'])) {
                     $user = $this->userLoginRequired($post['auth']);
