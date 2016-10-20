@@ -9,14 +9,20 @@ $(function () {
     var domForm = $('#idCard-form'),
             uploadFile = domForm.attr('data-url-uploadfile'),
             urlReturn = domForm.attr('data-url-return'),
+            isVerified = $('article').attr('data-isVerified'),
             submitBtn = $('#submitBtn');
     //存储成功上传图片的信息
     var firstData = '';
-    var firstImg = false;
     var secondData = '';
-    var secondImg = false;
     var thirdData = '';
+    var firstImg = false;
+    var secondImg = false;
     var thirdImg = false;
+    if (isVerified != 0) {
+        firstImg = true;
+        secondImg = true;
+        thirdImg = true;
+    }
     //加载已上传图片
     $.ajax({
         url: $('article').attr('data-realAuth'),
@@ -38,9 +44,15 @@ $(function () {
         if (data != '') {
             var files = data.results.files;
             if (files && files.length > 0) {
-                firstImgClick = files[0].thumbnailUrl;
-                secondImgClick = files[1].thumbnailUrl;
-                thirdImgClick = files[2].thumbnailUrl;
+                for (var i = 0; i < files.length; i++) {
+                    if (files[i].certType == 1) {
+                        firstImgClick = files[i].thumbnailUrl;
+                    } else if (files[i].certType == 2) {
+                        secondImgClick = files[i].thumbnailUrl;
+                    } else if (files[i].certType == 3) {
+                        thirdImgClick = files[i].thumbnailUrl;
+                    }
+                }
             }
         }
         $('#pickfiles1').find('img').attr('src', firstImgClick);
@@ -127,14 +139,14 @@ $(function () {
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                     console.log('firstImg:' + imgUrl);
 
-                    firstData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
+                    firstData = '"1":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
                             '","file_url":"' + encodeURIComponent(file.name) +
                             '","file_ext":"' + encodeURIComponent(fileExtension) +
                             '","remote_domain":"' + encodeURIComponent(domForm.find('#domain').val()) +
                             '","remote_file_key":"' + encodeURIComponent(infoJson.key) +
-                            '"}';
+                            '"},';
                 },
                 'Error': function (up, err, errTip) {
                     returnResult = false;
@@ -234,14 +246,14 @@ $(function () {
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                     console.log('secondImg:' + imgUrl);
-                    secondData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
+                    secondData = '"2":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
                             '","file_url":"' + encodeURIComponent(file.name) +
                             '","file_ext":"' + encodeURIComponent(fileExtension) +
                             '","remote_domain":"' + encodeURIComponent(domForm.find('#domain').val()) +
                             '","remote_file_key":"' + encodeURIComponent(infoJson.key) +
-                            '"}';
+                            '"},';
                 },
                 'Error': function (up, err, errTip) {
                     returnResult = false;
@@ -324,7 +336,7 @@ $(function () {
                 },
                 'UploadComplete': function () {
                     //图片信息存储
-                    var formData = '{"auth_file":{"1":' + firstData + ',"2":' + secondData + ',"3":' + thirdData + '}}';
+                    var formData = '{"auth_file":{' + firstData + secondData + thirdData + '}}';
                     var encryptContext = do_encrypt(formData, pubkey);
                     var param = {param: encryptContext};
                     $.ajax({
@@ -355,7 +367,7 @@ $(function () {
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
                     console.log('thirdImg:' + imgUrl);
-                    thirdData = '{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
+                    thirdData = '"3":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
                             '","file_url":"' + encodeURIComponent(file.name) +

@@ -115,7 +115,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>">
+<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>" data-isVerified="<?php echo $isVerified; ?>">
     <div>
         <?php
         if ($register == 1) {
