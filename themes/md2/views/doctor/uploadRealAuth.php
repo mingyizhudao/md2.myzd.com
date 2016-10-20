@@ -142,7 +142,7 @@ if ($register == 1) {
         } else {
             ?>
             <div class="pad10">
-                <p class="text-justify">为了确保您能正常使用名医主刀账户，请您配合完成以下认证:</p>
+                <div class="text-justify">为了确保您能正常使用名医主刀账户，请您配合完成以下认证:</div>
             </div>
             <?php
         }
@@ -158,8 +158,8 @@ if ($register == 1) {
         <div class="pl10">
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <p>一张用户手持身份证正面的照片</p>
-                    <p class="font-s12 c-red">*需看到完整头部，建议手拿身份证正面放于胸前</p>
+                    <div>一张用户手持身份证正面的照片</div>
+                    <div class="font-s12 c-red">*需看到完整头部，建议手拿身份证正面放于胸前</div>
                 </div>
                 <div class="col-0">
                     <div class="body">
@@ -183,8 +183,8 @@ if ($register == 1) {
             </div>
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <p>一张清晰完整的身份证正面照</p>
-                    <p class="font-s12 c-red">*只需拍身份证的正面即可</p>
+                    <div>一张清晰完整的身份证正面照</div>
+                    <div class="font-s12 c-red">*只需拍身份证的正面即可</div>
                 </div>
                 <div class="col-0">
                     <div class="body">
@@ -208,8 +208,8 @@ if ($register == 1) {
             </div>
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <p>一张清晰完整的身份证反面照</p>
-                    <p class="font-s12 c-red">*只需拍身份证的反面即可</p>
+                    <div>一张清晰完整的身份证反面照</div>
+                    <div class="font-s12 c-red">*只需拍身份证的反面即可</div>
                 </div>
                 <div class="col-0">
                     <div class="body">
