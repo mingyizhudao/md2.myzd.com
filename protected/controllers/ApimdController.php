@@ -527,7 +527,7 @@ class ApimdController extends Controller {
             case 'saverealauth':
                 if(isset($post['auth'])) {
                     $user = $this->userLoginRequired($post['auth']);
-                    $post['user_id'] = $user->getId();
+                    $post['auth']['user_id'] = $user->getId();
                     $userMgr = new UserManager();
                     $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
