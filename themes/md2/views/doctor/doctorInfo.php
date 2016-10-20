@@ -6,7 +6,7 @@ $this->setPageID('pPersonalCenter');
 $this->setPageTitle('基本信息');
 $urlDoctorProfile = $this->createUrl('doctor/profile', array('addBackBtn' => 1));
 $doctorInfo = $data->results->doctorInfo;
-$this->show_footer=false;
+$this->show_footer = false;
 ?>
 <article id="a1" class="active" data-scroll="true">
     <div class="doctorInfo pb20">
