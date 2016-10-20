@@ -95,6 +95,7 @@ class ApimdController extends Controller {
                 $apiService = new ApiViewDoctorZz($user->id);
                 $output = $apiService->loadApiViewData(true);
                 break;
+
             case 'patientlist'://患者列表
                 $user = $this->userLoginRequired($values);
                 $apisvc = new ApiViewDoctorPatientList($user->id);
@@ -468,7 +469,7 @@ class ApimdController extends Controller {
                     }
                 }
                 break;
-            case 'bankverifycode': //账户验证码验证
+            case 'bankverifycode'; //账户验证码验证
                 if (isset($post['bank'])) {
                     $values = $post['bank'];
                     $user = $this->userLoginRequired($values);
@@ -515,7 +516,7 @@ class ApimdController extends Controller {
                     $output = $apiSvc->loadApiViewData();
                 }
                 break;
-            case 'bankdelete'://删除银行卡
+            case 'bankdelete'://删除银行卡a
                 if (isset($post['card'])) {
                     $values = $post['card'];
                     $user = $this->userLoginRequired($values);
@@ -524,10 +525,11 @@ class ApimdController extends Controller {
                     $output = $userMgr->apiBankDelete($values['card_ids'], $user->id);
                 }
                 break;
+
             case 'saverealauth':
                 if(isset($post['auth'])) {
                     $user = $this->userLoginRequired($post['auth']);
-                    $post['user_id'] = $user->getId();
+                    $post['auth']['user_id'] = $user->getId();
                     $userMgr = new UserManager();
                     $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
