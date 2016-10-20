@@ -115,7 +115,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>">
+<article class="active" data-scroll="true" data-realAuth="<?php echo $urlDoctorRealAuth; ?>" data-isVerified="<?php echo $isVerified; ?>">
     <div>
         <?php
         if ($register == 1) {
@@ -208,7 +208,7 @@ if ($register == 1) {
             </div>
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <p>一张用户手持身份证反面的照片</p>
+                    <p>一张用户手持身份证反面的照</p>
                     <p class="font-s12 c-red">*只需拍身份证的反面即可</p>
                 </div>
                 <div class="col-0">
