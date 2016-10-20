@@ -8,19 +8,19 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/ui.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/qiniu.min.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/highlight.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
 
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/userUpload.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('医生执业证书');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
@@ -40,7 +40,7 @@ if ($register == 0) {
     $urlReturn = $this->createUrl('doctor/view');
 }
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
@@ -51,44 +51,10 @@ $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
-<style>
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-    #container a{
-        width: 100%;
-        display: block!important;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    #container a.showImg{
-        background-color: inherit!important;
-        padding: 0px;
-        height: 110px;
-    }
-    #container a.showImg img{
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .h110p{
-        height: 110px;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
+    <header id="uploadCertAndroid_header" class="bg-green">
         <nav class="left">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
@@ -96,7 +62,7 @@ if ($register == 1) {
                 </div>
             </a>
         </nav>
-        <h1 class="title">医生执业证书</h1>
+        <h1 class="title">医师执业证书</h1>
         <?php
         if ($register == 1) {
             ?>
@@ -112,7 +78,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article id="" class="active android_article" data-scroll="true">
+<article id="uploadCertAndroid_article" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -151,7 +117,7 @@ if ($register == 1) {
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
                                 <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
-                                <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
+                                <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
                                 <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
                             </form>
                         </div>
@@ -196,22 +162,8 @@ if ($register == 1) {
                     </div>
                 </div>
                 <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
-                <div class="">
-                    <div class="example">
-                        <label class="color-red">示例:</label>
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                <div class="pt30 pl20 pr20 pb20">
+                    <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                 </div>
             </div>
         </div>

@@ -2,20 +2,20 @@
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/doctorprofile.min.1.2.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
 ?>
 <?php
 /*
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('医生执业证书');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
-$urlUploadFile = 'http://121.40.127.64:8089/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
+$urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
 $register = Yii::app()->request->getQuery('register', 0);
 if ($register == 0) {
@@ -26,7 +26,7 @@ if ($register == 0) {
 $register = Yii::app()->request->getQuery('register', 0);
 $this->show_footer = false;
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
@@ -35,61 +35,10 @@ if (isset($output['id'])) {
 $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<style>
-    #uploader .queueList{
-        margin: 0px;
-    }
-    #uploader .webuploader-pick{
-        display: block;
-        padding-left: 1em;
-        background-color: #32c9c0;
-    }
-    #uploader .webuploader-pick:after{
-        display: none;
-    }
-    #filePicker.has-img .webuploader-pick{
-        background-color: #fff;
-        box-shadow: inherit;
-    }
-    #filePicker.has-img .webuploader-pick>img{
-        height: 110px;
-    }
-    #uploader .filelist li{
-        width: 100%;
-        height: 110px;
-        margin: 0px;
-    }
-    #uploader .filelist li img{
-        height: 100%;
-    }
-    #uploader .filelist div.file-panel{
-        display: none;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-    #filePicker.showImg .webuploader-pick{
-        background-color: #fff;
-        box-shadow: inherit;
-    }
-    #filePicker.showImg img{
-        height: 110px;
-        width: 100%;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
+    <header id="uploadCertIos_header" class="bg-green">
         <nav class="left">
             <a href="javascript:;" data-target="back">
                 <div class="pl5">
@@ -97,7 +46,7 @@ if ($register == 1) {
                 </div>
             </a>
         </nav>
-        <h1 class="title">医生执业证书</h1>
+        <h1 class="title">医师执业证书</h1>
         <?php
         if ($register == 1) {
             ?>
@@ -113,7 +62,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
+<article id="uploadCertIos_article" class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -188,19 +137,8 @@ if ($register == 1) {
                     </div>
                     <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
                     <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
-                    <div class="example">
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
+                    <div class="pt30 pl20 pr20 pb20">
+                        <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                     </div>
                 </div>
             </div>

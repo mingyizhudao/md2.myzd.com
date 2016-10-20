@@ -14,38 +14,7 @@ $urlUploadRealAuth = $this->createUrl('doctor/uploadRealAuth');
 $urlLogout = $this->createUrl('doctor/logout');
 $this->show_footer = false;
 ?>
-<style>
-    .list-label{
-        padding: 5px 10px;
-        font-size: 12px;
-    }
-    .next-icon{
-        width: 16px;
-        height: 23px;
-        background: url('http://static.mingyizhudao.com/146967375501082') no-repeat;
-        background-size: 8px 15px;
-        background-position: 8px 5px;
-    }
-    .user-icon{
-        background: url('http://static.mingyizhudao.com/147643866526133') no-repeat;
-        background-size: 25px 25px;
-        background-position: center center;
-    }
-    .idCard-icon{
-        background: url('http://static.mingyizhudao.com/147643866628756') no-repeat;
-        background-size: 25px 25px;
-        background-position: center center;
-    }
-    .qualify-icon{
-        background: url('http://static.mingyizhudao.com/147643866652466') no-repeat;
-        background-size: 25px 25px;
-        background-position: center center;
-    }
-    .c-red{
-        color: #FB9096;
-    }
-</style>
-<article class="active bg-gray" data-scroll="true">
+<article id="doctorAccount_article" class="active bg-gray" data-scroll="true">
     <div class="">
         <p class="list-label">个人信息</p>
         <ul class="list">

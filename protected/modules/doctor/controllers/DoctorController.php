@@ -14,7 +14,7 @@ class DoctorController extends WebsiteController {
 
     //获取医生头像七牛上传权限
     public function actionAjaxDrToken() {
-        $url = 'http://121.40.127.64:8089/api/tokendrcert';
+        $url = 'http://file.mingyizhudao.com/api/tokendrcert';
         $data = $this->send_get($url);
         $output = array('uptoken' => $data['results']['uploadToken']);
         $this->renderJsonOutput($output);

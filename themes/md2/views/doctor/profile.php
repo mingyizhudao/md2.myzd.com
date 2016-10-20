@@ -1,9 +1,9 @@
 <?php
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.form.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/jquery.validate.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/profile.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/profile.js?ts=' . time(), CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/jquery.formvalidate.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/profile.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/profile.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
@@ -18,25 +18,6 @@ $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlReturn = $returnUrl;
 $this->show_footer = false;
 ?>
-<style>
-    .c-red{
-        color: #FF857E;
-    }
-    .noPaddingInput {
-        padding: 10px 0 10px 10px;
-        margin-bottom: 0!important;
-        border: none!important;
-        -webkit-box-shadow: none!important;
-        box-shadow: none!important;
-        height: 40px;
-    }
-    select{
-        background-color: #fff;
-    }
-    .error{
-        padding-top: 10px;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
@@ -53,7 +34,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article id="a1" class="active bg-gray" data-scroll="true" data-register="<?php echo $register; ?>">
+<article id="doctorProfile_article" class="active bg-gray" data-scroll="true" data-register="<?php echo $register; ?>">
     <div class="pb20">
         <?php
         if ($register == 1) {
