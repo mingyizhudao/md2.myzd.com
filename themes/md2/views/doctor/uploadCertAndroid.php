@@ -40,7 +40,7 @@ if ($register == 0) {
     $urlReturn = $this->createUrl('doctor/view');
 }
 if (isset($output['id'])) {
-    $urlDoctorCerts = 'http://121.40.127.64:8089/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
+    $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
 } else {
     $urlDoctorCerts = "";
@@ -117,7 +117,7 @@ if ($register == 1) {
                         <div class="text-left wrapper">
                             <form id="booking-form" data-url-uploadfile="<?php echo $urlUploadFile; ?>" data-url-return="<?php echo $urlReturn; ?>" data-url-sendEmail="<?php echo $urlSendEmailForCert; ?>">
                                 <input id="userId" type="hidden" name="cert[user_id]" value="<?php echo $output['id']; ?>" />
-                                <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
+                                <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
                                 <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxDrToken; ?>">
                             </form>
                         </div>

@@ -64,6 +64,9 @@ class ApimdController extends Controller {
             case 'main'://登陆成功 返回的主页信息
                 $user = $this->userLoginRequired($values);
                 $apiSvc = new ApiViewUserInfo($user);
+                if(isset($values['api'])) {
+                    $apiSvc->setApiVersion($values['api']);
+                }
                 $output = $apiSvc->loadApiViewData(true);
                 break;
             case 'doctorinfo'://医生信息
