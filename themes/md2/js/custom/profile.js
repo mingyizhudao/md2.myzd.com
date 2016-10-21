@@ -1,5 +1,4 @@
 $(function () {
-
     var domForm = $("#doctor-form"), // form - html dom object.
             btnSubmit = $("#btnSubmit"),
             returnUrl = domForm.attr("data-url-return");

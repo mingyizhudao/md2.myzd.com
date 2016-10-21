@@ -8,19 +8,19 @@
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/ui.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/qiniu.min.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/highlight.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/userUpload.js?ts=' . time(), CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/jquery-1.9.1.min.js?ts=' . time(), CClientScript::POS_END);
 
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
-//Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/userUpload.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/userUpload.min.1.1.js', CClientScript::POS_END);
 ?>
 <?php
 /*
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('实名认证');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
@@ -33,7 +33,12 @@ $urlQiniuAjaxDrToken = $this->createUrl('qiniu/ajaxDrToken');
 
 
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
-$urlReturn = $this->createUrl('doctor/view');
+$register = Yii::app()->request->getQuery('register', 0);
+if ($register == 0) {
+    $urlReturn = $this->createUrl('doctor/account');
+} else {
+    $urlReturn = $this->createUrl('doctor/view');
+}
 if (isset($output['id'])) {
     $urlDoctorCerts = 'http://file.mingyizhudao.com/api/loaddrcert?userId=' . $output['id']; //$this->createUrl('doctor/doctorCerts', array('id' => $output['id']));
     $urlDelectDoctorCert = 'http://file.mingyizhudao.com/api/deletedrcert?userId=' . $output['id'] . '&id='; //$this->createUrl('doctor/delectDoctorCert');
@@ -46,42 +51,18 @@ $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer = false;
 ?>
-<style>
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-    #container a{
-        width: 100%;
-        display: block!important;
-        font-size: 14px;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    #container a.showImg{
-        background-color: inherit!important;
-        padding: 0px;
-        height: 110px;
-    }
-    #container a.showImg img{
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
-        <h1 class="title">医生执业证书</h1>
+    <header id="uploadCertAndroid_header" class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
+        <h1 class="title">医师执业证书</h1>
         <?php
         if ($register == 1) {
             ?>
@@ -97,7 +78,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article id="" class="active android_article" data-scroll="true">
+<article id="uploadCertAndroid_article" class="active android_article" data-scroll="true">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -143,9 +124,21 @@ if ($register == 1) {
                         <div class="body mt10">
                             <div class="text-center">
                                 <div id="container">
-                                    <a class="btn btn-default btn-lg" id="pickfiles" href="#">
-                                        <span>选择图片</span>
-                                    </a>
+                                    <?php
+                                    if ($isVerified == 0) {
+                                        ?>
+                                        <a class="btn btn-default btn-lg" id="pickfiles" href="#">
+                                            <span>选择图片</span>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <a class="btn btn-default btn-lg showImg" id="pickfiles" href="#">
+                                            <img src="">
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="col-md-12 mt10 hide">
@@ -161,29 +154,16 @@ if ($register == 1) {
                             '<a class="btn btn-full bg-green color-white">上传</a>' .
                             '</div>';
                         } else {
-                            echo '<div id="submitBtn" class="hide pt20">' .
+                            echo '<div id="submitBtn" class="pt20">' .
                             '<a class="btn btn-full bg-green color-white">修改</a>' .
                             '</div>';
                         }
                         ?>
                     </div>
                 </div>
-                <div class="">
-                    <div class="example">
-                        <label class="color-red">示例:</label>
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+                <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
+                <div class="pt30 pl20 pr20 pb20">
+                    <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                 </div>
             </div>
         </div>
@@ -219,7 +199,6 @@ if ($register == 1) {
         </div>
         <div id="tag_close_popup" data-target="closePopup" class="icon cancel-circle"></div>
     </div>
-
     <div id="jingle_toast" class="toast"><a href="#" class="font-s18">取消!</a></div>
     <div id="jingle_popup_mask" style="opacity: 0.3;"></div>
 </article>
@@ -232,7 +211,8 @@ if ($register == 1) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#skip-btn').click(function () {
-            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            $('#jingle_toast').find('a').text('感谢注册!请记得上传照片以完成认证');
+            $('#jingle_toast').show();
             setTimeout(function () {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
@@ -262,10 +242,22 @@ if ($register == 1) {
         $.ajax({
             url: urlDoctorCerts,
             success: function (data) {
-                setImgHtml(data.results.files, isVerified);
+                setImg(data);
+//                setImgHtml(data.results.files, isVerified);上一个版本
             }
         });
     });
+    function setImg(data) {
+        var files = data.results.files;
+        var imgHtml = '<span>选择图片</span>';
+        if (files && files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                imgHtml = '<img src="' + files[i].thumbnailUrl + '">';
+            }
+        }
+        $('#pickfiles').html(imgHtml);
+    }
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {

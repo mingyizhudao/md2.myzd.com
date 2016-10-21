@@ -1686,3 +1686,158 @@ body #viewCommonweal_article{
 #loading_popup.loading p{
     color:#bdc3c7
 }
+
+/*个人信息*/
+#doctorAccount_article .list-label{
+    padding: 5px 10px;
+    font-size: 12px;
+}
+#doctorAccount_article .next-icon{
+    width: 16px;
+    height: 23px;
+    background: url('http://static.mingyizhudao.com/146967375501082') no-repeat;
+    background-size: 8px 15px;
+    background-position: 8px 5px;
+}
+#doctorAccount_article .user-icon{
+    background: url('http://static.mingyizhudao.com/147643866526133') no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+}
+#doctorAccount_article .idCard-icon{
+    background: url('http://static.mingyizhudao.com/147643866628756') no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+}
+#doctorAccount_article .qualify-icon{
+    background: url('http://static.mingyizhudao.com/147643866652466') no-repeat;
+    background-size: 25px 25px;
+    background-position: center center;
+}
+#doctorAccount_article .c-red{
+    color: #FB9096;
+}
+
+/*个人信息*/
+#doctorProfile_article .c-red{
+    color: #FF857E;
+}
+#doctorProfile_article .noPaddingInput {
+    padding: 10px 0 10px 10px;
+    margin-bottom: 0!important;
+    border: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    height: 40px;
+}
+#doctorProfile_article select{
+    background-color: #fff;
+}
+#doctorProfile_article .error{
+    padding-top: 10px;
+}
+
+/*实名认证*/
+#uploadRealAuth_header nav.right {
+    width: auto!important;
+    background-color: inherit!important;
+    margin-top: 12px!important;
+}
+#uploadRealAuth_article .uploadTab{
+    margin-bottom: 0px;
+}
+#uploadRealAuth_article .uploadTab a {
+    width: inherit;
+    min-width: inherit;
+    line-height: normal;
+    display: inline-block!important;
+    background-color: #fff;
+}
+#uploadRealAuth_article .c-red{
+    color: #FF857E;
+}
+#uploadRealAuth_article .line-tab{
+    height: 10px;
+    background: #F1F1F1;
+}
+
+/*医师资格认证*/
+#uploadCertAndroid_header nav.right {
+    width: auto!important;
+    background-color: inherit!important;
+    margin-top: 12px!important;
+}
+#uploadCertAndroid_article .c-red{
+    color: #FF857E;
+}
+#uploadCertAndroid_article .line-tab{
+    height: 10px;
+    background: #F1F1F1;
+}
+#uploadCertAndroid_article #container a{
+    width: 100%;
+    display: block!important;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+}
+#uploadCertAndroid_article #container a.showImg{
+    background-color: inherit!important;
+    padding: 0px;
+    height: 110px;
+}
+#uploadCertAndroid_article #container a.showImg img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+#uploadCertIos_header nav.right {
+    width: auto!important;
+    background-color: inherit!important;
+    margin-top: 12px!important;
+}
+#uploadCertIos_article #uploader .queueList{
+    margin: 0px;
+}
+#uploadCertIos_article #uploader .webuploader-pick{
+    display: block;
+    padding-left: 1em;
+    background-color: #32c9c0;
+}
+#uploadCertIos_article #uploader .webuploader-pick:after{
+    display: none;
+}
+#uploadCertIos_article #filePicker.has-img .webuploader-pick{
+    background-color: #fff;
+    box-shadow: inherit;
+}
+#uploadCertIos_article #filePicker.has-img .webuploader-pick>img{
+    height: 110px;
+}
+#uploadCertIos_article #uploader .filelist li{
+    width: 100%;
+    height: 110px;
+    margin: 0px;
+}
+#uploadCertIos_article #uploader .filelist li img{
+    height: 100%;
+}
+#uploadCertIos_article #uploader .filelist div.file-panel{
+    display: none;
+}
+#uploadCertIos_article .c-red{
+    color: #FF857E;
+}
+#uploadCertIos_article .line-tab{
+    height: 10px;
+    background: #F1F1F1;
+}
+#uploadCertIos_article #filePicker.showImg .webuploader-pick{
+    background-color: #fff;
+    box-shadow: inherit;
+}
+#uploadCertIos_article #filePicker.showImg img{
+    height: 110px;
+    width: 100%;
+}

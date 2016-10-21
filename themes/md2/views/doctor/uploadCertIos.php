@@ -2,21 +2,27 @@
 Yii::app()->clientScript->registerCssFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/css/webuploader.css');
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/webuploader.custom.1.0.css');
 Yii::app()->clientScript->registerScriptFile('http://myzd.oss-cn-hangzhou.aliyuncs.com/static/mobile/js/webuploader/js/webuploader.min.js', CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctorprofile.min.1.1.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/doctorprofile.min.1.2.js', CClientScript::POS_END);
+//Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/custom/doctorprofile.js', CClientScript::POS_END);
 ?>
 <?php
 /*
  * $model UserDoctorProfileForm.
  */
 $this->setPageID('pUserDoctorProfile');
-$this->setPageTitle('医生执业证书');
+$this->setPageTitle('医师执业证书');
 $urlLogin = $this->createUrl('doctor/login');
 $urlTermsPage = $this->createUrl('home/page', array('view' => 'terms'));
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlSubmitProfile = $this->createUrl("doctor/ajaxProfile");
 $urlUploadFile = 'http://file.mingyizhudao.com/api/uploaddoctorcert'; //$this->createUrl("doctor/ajaxUploadCert");
 $urlSendEmailForCert = $this->createUrl('doctor/sendEmailForCert');
-$urlReturn = $this->createUrl('doctor/view');
+$register = Yii::app()->request->getQuery('register', 0);
+if ($register == 0) {
+    $urlReturn = $this->createUrl('doctor/account');
+} else {
+    $urlReturn = $this->createUrl('doctor/view');
+}
 $register = Yii::app()->request->getQuery('register', 0);
 $this->show_footer = false;
 if (isset($output['id'])) {
@@ -29,47 +35,18 @@ if (isset($output['id'])) {
 $isVerified = $output['isVerified'];
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 ?>
-<style>
-    #uploader .queueList{
-        margin: 0px;
-    }
-    #uploader .webuploader-pick{
-        display: block;
-        padding-left: 1em;
-        background-color: #32c9c0;
-    }
-    #uploader .webuploader-pick:after{
-        display: none;
-    }
-    #uploader .filelist li{
-        width: 100%;
-        height: 110px;
-        margin: 0px;
-    }
-    #uploader .filelist li img{
-        height: 100%;
-    }
-    #uploader .filelist div.file-panel{
-        display: none;
-    }
-    nav.right {
-        width: auto!important;
-        background-color: inherit!important;
-        margin-top: 12px!important;
-    }
-    .c-red{
-        color: #FF857E;
-    }
-    .line-tab{
-        height: 10px;
-        background: #F1F1F1;
-    }
-</style>
 <?php
 if ($register == 1) {
     ?>
-    <header class="bg-green">
-        <h1 class="title">医生执业证书</h1>
+    <header id="uploadCertIos_header" class="bg-green">
+        <nav class="left">
+            <a href="javascript:;" data-target="back">
+                <div class="pl5">
+                    <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
+                </div>
+            </a>
+        </nav>
+        <h1 class="title">医师执业证书</h1>
         <?php
         if ($register == 1) {
             ?>
@@ -85,7 +62,7 @@ if ($register == 1) {
     <?php
 }
 ?>
-<article class="active" data-scroll="true">
+<article id="uploadCertIos_article" class="active" data-scroll="true" data-upload-cert="<?php echo $urlDoctorCerts; ?>">
     <div class="form-wrapper">
         <?php
         if ($register == 1) {
@@ -125,11 +102,17 @@ if ($register == 1) {
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
                             <!-- btn 选择图片 -->
-                            <div id="filePicker"></div>
+                            <?php
+                            if ($isVerified == 0) {
+                                echo '<div id="filePicker" class=""></div>';
+                            } else {
+                                echo '<div id="filePicker" class="showImg"></div>';
+                            }
+                            ?>
                         <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
-                    <div class="statusBar clearfix" style="display:none;">
+                    <div class="statusBar clearfix" style="<?php $isVerified == 0 ? 'display:none;' : ''; ?>">
                         <div class="hide">
                             <div class="progress" style="display: none;">
                                 <span class="text">0%</span>
@@ -154,19 +137,8 @@ if ($register == 1) {
                     </div>
                     <!--一开始就显示提交按钮就注释上面的提交 取消下面的注释 -->
                     <p class="text-center font-s12 pt30">示例:(各省卫生厅颁发的证书可能不同)</p>
-                    <div class="example">
-                        <div class="ui-grid-b">
-                            <div class="ui-block-a">
-                                <img src="http://static.mingyizhudao.com/146968477003421"/>
-                            </div>
-                            <div class="ui-block-b">
-                                <span>或</span>
-                            </div>
-                            <div class="ui-block-c">
-                                <img src="http://static.mingyizhudao.com/146968481261970"/>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
+                    <div class="pt30 pl20 pr20 pb20">
+                        <img src="http://static.mingyizhudao.com/147694775017891" class="w100">
                     </div>
                 </div>
             </div>
@@ -176,19 +148,14 @@ if ($register == 1) {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#skip-btn').click(function () {
-            J.showToast('感谢注册！请记得上传照片以完成认证。', '', '3000');
+            J.showToast('感谢注册!请记得上传照片以完成认证', '', '3000');
             setTimeout(function () {
                 location.href = '<?php echo $urlReturn; ?>';
             }, 3000);
         });
-        urlDoctorCerts = "<?php echo $urlDoctorCerts; ?>";
-        $.ajax({
-            url: urlDoctorCerts,
-            success: function (data) {
-                setImgHtml(data.results.files, isVerified);
-            }
-        });
     });
+
+    //上一个版本
     function setImgHtml(imgfiles, isVerified) {
         var innerHtml = '';
         if (imgfiles && imgfiles.length > 0) {

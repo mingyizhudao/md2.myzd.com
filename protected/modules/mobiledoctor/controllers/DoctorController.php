@@ -77,7 +77,7 @@ class DoctorController extends MobiledoctorController {
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         if (isset($doctorProfile)) {
-            if ($doctorProfile->isVerified()) {
+            if ($doctorProfile->getProfileVerifyState() == 1) {
                 $output = array('status' => 'no', 'error' => '您已通过实名认证,信息不可以再修改。');
                 if (isset($_POST['plugin'])) {
                     echo CJSON::encode($output);
@@ -669,7 +669,7 @@ class DoctorController extends MobiledoctorController {
      * @param int $register
      */
     public function actionProfile($register = 0) {
-        $returnUrl = $this->getReturnUrl($this->createUrl('doctor/view'));
+        $returnUrl = $this->getReturnUrl($this->createUrl('doctor/account'));
         $user = $this->loadUser();
         $doctorProfile = $user->getUserDoctorProfile();
         $form = new UserDoctorProfileForm();
@@ -679,11 +679,11 @@ class DoctorController extends MobiledoctorController {
         $userMgr = new UserManager();
         $certs = $userMgr->loadUserDoctorFilesByUserId($user->id);
 
-        if(arrayNotEmpty($certs) === false) {
-            $returnUrl = $this->createUrl('doctor/uploadCert');
+        if (arrayNotEmpty($certs) === false) {
+            $returnUrl = $this->createUrl('doctor/account');
         }
         if ($register == 1) {
-            $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1));
+            $returnUrl = $this->createUrl('doctor/uploadRealAuth', array('register' => 1, 'addBackBtn' => 1));
         }
         if ($register == 2) {
             $returnUrl = $this->createUrl('doctor/viewCommonweal');
