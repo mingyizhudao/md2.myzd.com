@@ -71,7 +71,7 @@ class ApiViewIndex extends EApiViewService {
             array(
                 'pageTitle' => '达芬奇机器人',
                 'actionUrl' => 'http://md.mingyizhudao.com/mobiledoctor/home/page/view/robot',
-                'imageUrl' => 'http://7xsq2z.com2.z0.glb.qiniucdn.com/146485938425858',
+                'imageUrl' => 'http://static.mingyizhudao.com/147703399525568',
             )
         );
 
