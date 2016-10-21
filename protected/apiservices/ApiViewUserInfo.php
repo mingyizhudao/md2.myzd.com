@@ -24,10 +24,44 @@ class ApiViewUserInfo extends EApiViewService {
     }
 
     protected function loadData() {
-        $this->loadUserInfo();
+        if($this->api_version > 3) {
+            $this->loadApi4UserInfo();
+        } else {
+            $this->loadUserInfo();
+        }
     }
 
     public function loadUserInfo() {
+        $profile = $this->user->getUserDoctorProfile();   // UserDoctorProfile model
+        $models = $this->userMgr->loadUserDoctorFilesByUserId($this->user->id);
+        $doctorCerts = false;
+        if (arrayNotEmpty($models)) {
+            $doctorCerts = true;
+        }
+        $data = new stdClass();
+        $data->hasKey = strIsEmpty($this->user->getUserKey()) ? false : true;
+        $data->doctorCerts = $doctorCerts;
+        if (isset($profile)) {
+            $data->isProfile = true;
+            $data->name = $profile->getName();
+            //是否是签约医生
+            $data->verified = $profile->isVerified();
+            $data->teamDoctor = $profile->isTermsDoctor();
+            $data->isCommonweal = $profile->isCommonweal();
+            $data->isContractDoctor = $profile->isContractDoctor();
+        } else {
+            $data->isProfile = false;
+            $data->name = $this->user->getMobile();
+            $data->verified = false;
+            $data->teamDoctor = false;
+            $data->isCommonweal = false;
+            $data->isContractDoctor = false;
+        }
+        $this->results->userInfo = $data;
+    }
+
+
+    public function loadApi4UserInfo() {
         $profile = $this->user->getUserDoctorProfile();   // UserDoctorProfile model
         $cert_models = $this->userMgr->loadUserDoctorFilesByUserId($this->user->id);//医师认证信息
         $real_auth_model = $this->userMgr->loadUserRealNameAuthByUserId($this->user->id); //实名认证信息
@@ -54,6 +88,7 @@ class ApiViewUserInfo extends EApiViewService {
             $realNameAuth = $realNameAuth ==0 ? 0 : $realNameAuth + $profile->getRealAuthState();
 
             $data->isProfile = $userDoctorProfile;
+            $data->new_isProfile = $userDoctorProfile;
             $data->realAuth = $realNameAuth;
             $data->name = $profile->getName();
             //是否是签约医生
