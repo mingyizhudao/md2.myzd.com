@@ -65,7 +65,7 @@ class ApimdController extends Controller {
                 $user = $this->userLoginRequired($values);
                 $apiSvc = new ApiViewUserInfo($user);
                 if(isset($values['api'])) {
-                    $apiSvc->setApiVersion($apiSvc);
+                    $apiSvc->setApiVersion($values['api']);
                 }
                 $output = $apiSvc->loadApiViewData(true);
                 break;
