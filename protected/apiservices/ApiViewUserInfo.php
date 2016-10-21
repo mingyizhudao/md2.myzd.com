@@ -33,18 +33,20 @@ class ApiViewUserInfo extends EApiViewService {
         $real_auth_model = $this->userMgr->loadUserRealNameAuthByUserId($this->user->id); //实名认证信息
 
         $doctorCerts = 0;
+        $cert = false;
         $realNameAuth = 0;
         $userDoctorProfile = 0;
 
         if (arrayNotEmpty($cert_models)) {
             $doctorCerts = 1;
+            $cert = true;
         }
         if(arrayNotEmpty($real_auth_model)) {
             $realNameAuth = 1;
         }
         $data = new stdClass();
         $data->hasKey = strIsEmpty($this->user->getUserKey()) ? false : true;
-        $data->doctorCerts = $doctorCerts;
+        $data->doctorCerts = $cert;
         if (isset($profile)) {
             $userDoctorProfile = 1;
             $userDoctorProfile = $userDoctorProfile + $profile->getProfileVerifyState();
