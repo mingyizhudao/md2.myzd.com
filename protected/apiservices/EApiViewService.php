@@ -10,6 +10,7 @@ abstract class EApiViewService {
 
     protected $results;
     public $output; // used for output data.
+    public $api_version = 3;
 
     public function __construct($value1 = null, $value2 = null, $value3 = null, $value4 = null) {
         $this->results = new stdClass();
@@ -96,4 +97,7 @@ abstract class EApiViewService {
         throw new CException($msg);
     }
 
+    public function setApiVersion($v) {
+        $this->api_version = $v;
+    }
 }
