@@ -43,7 +43,7 @@ class ApiViewDoctorSearch extends EApiViewService {
             $this->output->errorCode = 0;
             $this->output->dataNum = $this->doctorCount;
             $this->output->errorMsg = 'success';
-            if ($this->api == 3) {
+            if ($this->api >= 3) {
                 $this->output->results = new stdClass();
                 $this->output->results->doctors = $this->doctors;
                 $this->output->results->hospital = $this->hospital;
