@@ -446,10 +446,11 @@ class UserManager {
             // auto login user and return token.            
             $output = $authMgr->doTokenDoctorLoginByPassword($mobile, $password, $userHostIp);
         } else {
+            $userToken = $authMgr->doTokenDoctorAutoLogin($user);
             $output['status'] = EApiViewService::RESPONSE_OK;
             $output['errorCode'] = ErrorList::ERROR_NONE;
             $output['errorMsg'] = 'success';
-            $output['results'] = [];
+            $output['results'] = array('token' => $userToken->getToken(), 'uid' => $user->getUid(), 'isProfile' => is_object(UserDoctorProfile::model()->getByUserId($user->getId())) ? 1 : 0);
         }
         // deactive current smsverify.                
         if (isset($authSmsVerify)) {

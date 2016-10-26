@@ -38,6 +38,7 @@ class QiniuController extends MobiledoctorController {
             $form->initModel();
             if ($form->validate()) {
                 $file = new UserDoctorCert();
+                UserDoctorCert::model()->deleteAllByAttributes(['user_id' => $form->user_id]);
                 $file->setAttributes($form->attributes, true);
                 if ($file->save()) {
                     $output['status'] = 'ok';
