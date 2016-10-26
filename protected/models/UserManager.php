@@ -11,12 +11,12 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
-        $isCreate = false;
+        $isCreate = true;
         if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
             if (isset($model)) {
                 $card = $model;
-                $isCreate = true;
+                $isCreate = false;
             }
         }
         $attributes = $form->getSafeAttributes();
@@ -43,18 +43,20 @@ class UserManager {
 //                 $this->updateUnDefault($card->getId());
 //             }
             
-            //只能绑定一张卡，创建新卡删除老卡
-            $result = $this->loadCardsByUserId($values['user_id']);
-            if (!is_null($result) && is_array($result)) {
-                foreach($result as $r) {
-                    $deleteResult = $r->delete();
-                    if ($deleteResult === false) {
-                        $isOk = false;
-                        $output['status'] = 'no';
-                        $output['errors'] = '删除老卡失败!';
-                        break;
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        $deleteResult = $r->delete();
+                        if ($deleteResult === false) {
+                            $isOk = false;
+                            $output['status'] = 'no';
+                            $output['errors'] = '删除老卡失败!';
+                            break;
+                        }
                     }
-                }
+                }   
             }
         }
         $isOk === true ? $transaction->commit() : $transaction->rollBack();
@@ -569,10 +571,12 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
+        $isCreate = true;
         if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
             if (isset($model)) {
                 $card = $model;
+                $isCreate = false;
             }
         }
         $attributes = $form->getSafeAttributes();
@@ -595,19 +599,21 @@ class UserManager {
 //                 $this->updateUnDefault($card->getId());
 //             }
 
-            //只能绑定一张卡，创建新卡删除老卡
-            $result = $this->loadCardsByUserId($values['user_id']);
-            if (!is_null($result) && is_array($result)) {
-                foreach($result as $r) {
-                    $deleteResult = $r->delete();
-                    if ($deleteResult === false) {
-                        $isOk = false;
-                        $output['status'] = EApiViewService::RESPONSE_NO;
-                        $output['errorCode'] = ErrorList::NOT_FOUND;
-                        $output['errorMsg'] = '删除老卡失败!';
-                        break;
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        $deleteResult = $r->delete();
+                        if ($deleteResult === false) {
+                            $isOk = false;
+                            $output['status'] = EApiViewService::RESPONSE_NO;
+                            $output['errorCode'] = ErrorList::NOT_FOUND;
+                            $output['errorMsg'] = '删除老卡失败!';
+                            break;
+                        }
                     }
-                }
+                }   
             }
         }
         $isOk === true ? $transaction->commit() : $transaction->rollBack();
