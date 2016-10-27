@@ -10,7 +10,7 @@ Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2
  * $model PatientMRForm.
  */
 $this->setPageID('pCreatePatientMR');
-$this->setPageTitle('上传患者病历');
+$this->setPageTitle('上传病历');
 $urlLogin = $this->createUrl('doctor/login');
 $patientId = $output['id'];
 $user = $this->loadUser();
@@ -53,12 +53,12 @@ $this->show_footer = false;
             <input id="reportType" type="hidden" name="patient[report_type]" value="mr" />
         </form>
         <div class="pad10">
-            <div class="text-center mt20">
+            <div class="mt20">
                 <div class="font-w800">
-                    请您上传患者的相关病历资料
+                    请上传支持目前诊断的辅助检查报告（至少1张）以便医疗助手协助您与专家详细沟通
                 </div>
                 <div class="font-s12 color-gray">
-                    (图片需清晰可见，最多9张)
+                    (最多9张，提交后可以在订单详情里补充)
                 </div>
             </div>
             <div class="mt20">
@@ -67,9 +67,11 @@ $this->show_footer = false;
                     <!--<div class="imglist"><ul class="filelist"></ul></div>-->
                     <div class="queueList">
                         <div id="dndArea" class="placeholder">
+                            <div id="filePicker"></div>
+                            <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                             <div class="exampleSection mb20">
-                                <div class="text-center font-s14 color-black">
-                                    示例(如CT、磁共振、病理报告等)
+                                <div class="font-s14 color-black">
+                                    示例(如CT、磁共振、病理报告等，图片需清晰可见)
                                 </div>
                                 <div class="grid mt20">
                                     <div class="col-1 w40">
@@ -83,16 +85,6 @@ $this->show_footer = false;
                                     </div>
                                 </div>
                             </div>
-                            <div id="filePicker"></div>
-                            <div class="mt10">
-                                <?php
-                                if ($type == 'create') {
-                                    echo '<a href="javascript:;" class="btn btn-full skipBtn">稍后补充</a>' .
-                                    '<div class="text-center color-gray font-s12">(提交订单后可在订单详情里补充)</div>';
-                                }
-                                ?>
-                            </div>
-                            <!-- <p>或将照片拖到这里，单次最多可选10张</p>-->
                         </div>
                     </div>
                     <div class="statusBar" style="display:none; padding-bottom: 40px;">
@@ -122,11 +114,6 @@ $this->show_footer = false;
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.skipBtn').click(function () {
-            sessionStorage.removeItem('intention');
-            sessionStorage.removeItem('detail');
-            location.href = '<?php echo $urlReturn; ?>';
-        });
         var urlPatientMRFiles = "<?php echo $urlPatientMRFiles; ?>";
 //        $.ajax({
 //            url: urlPatientMRFiles,
