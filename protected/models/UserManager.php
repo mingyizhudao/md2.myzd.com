@@ -48,12 +48,14 @@ class UserManager {
                 $result = $this->loadCardsByUserId($values['user_id']);
                 if (!is_null($result) && is_array($result)) {
                     foreach($result as $r) {
-                        $deleteResult = $r->delete();
-                        if ($deleteResult === false) {
-                            $isOk = false;
-                            $output['status'] = 'no';
-                            $output['errors'] = '删除老卡失败!';
-                            break;
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = 'no';
+                                $output['errors'] = '删除老卡失败!';
+                                break;
+                            } 
                         }
                     }
                 }   
@@ -604,13 +606,15 @@ class UserManager {
                 $result = $this->loadCardsByUserId($values['user_id']);
                 if (!is_null($result) && is_array($result)) {
                     foreach($result as $r) {
-                        $deleteResult = $r->delete();
-                        if ($deleteResult === false) {
-                            $isOk = false;
-                            $output['status'] = EApiViewService::RESPONSE_NO;
-                            $output['errorCode'] = ErrorList::NOT_FOUND;
-                            $output['errorMsg'] = '删除老卡失败!';
-                            break;
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = EApiViewService::RESPONSE_NO;
+                                $output['errorCode'] = ErrorList::NOT_FOUND;
+                                $output['errorMsg'] = '删除老卡失败!';
+                                break;
+                            }
                         }
                     }
                 }   
