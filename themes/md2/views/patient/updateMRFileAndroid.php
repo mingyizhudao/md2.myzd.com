@@ -21,7 +21,7 @@ Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2
  * $model PatientMRForm.
  */
 $this->setPageID('pCreatePatientMR');
-$this->setPageTitle('上传患者病历');
+$this->setPageTitle('上传病历');
 $urlLogin = $this->createUrl('doctor/login');
 $patientId = $output['id'];
 $user = $this->loadUser();
@@ -56,28 +56,12 @@ $this->show_footer = false;
 ?>
 <article id="updateMRFileAndroid_article" class="active android_article" data-scroll="true">
     <div class="pad10">
-        <div class="text-center mt20">
+        <div class="mt20">
             <div class="font-w800">
-                请您上传患者的相关病历资料
+                请上传支持目前诊断的辅助检查报告（至少1张）以便医疗助手协助您与专家详细沟通
             </div>
             <div class="font-s12 color-gray">
-                (图片需清晰可见，最多9张)
-            </div>
-        </div>
-        <div class="exampleSection">
-            <div class="text-center font-s14">
-                示例(如CT、磁共振、病理报告等)
-            </div>
-            <div class="grid mt20">
-                <div class="col-1 w40">
-                    <img src="http://static.mingyizhudao.com/147433914906338"/>
-                </div>
-                <div class="col-1 w20">
-
-                </div>
-                <div class="col-1 w40">
-                    <img src="http://static.mingyizhudao.com/146968742128587"/>
-                </div>
+                (最多9张，提交后可以在订单详情里补充)
             </div>
         </div>
         <div class="imglist mt10">
@@ -107,17 +91,25 @@ $this->show_footer = false;
                         </a>
                     </div>
                 </div>
-                <div id="skipSection" class="mt10">
-                    <?php
-                    if ($type == 'create') {
-                        echo '<a href="javascript:;" class="btn btn-full skipBtn" data-ajax="false">稍后补充</a>' .
-                        '<div class="text-center color-gray font-s12">(提交订单后可在订单详情里补充)</div>';
-                    }
-                    ?>
-                </div>
             </div>
             <div id="submitBtn" class="hide pt20">
                 <button class="btn btn-full bg-green color-white">确认</button>
+            </div>
+        </div>
+        <div class="exampleSection">
+            <div class="text-center font-s14">
+                示例(如CT、磁共振、病理报告等)
+            </div>
+            <div class="grid mt20">
+                <div class="col-1 w40">
+                    <img src="http://static.mingyizhudao.com/147433914906338"/>
+                </div>
+                <div class="col-1 w20">
+
+                </div>
+                <div class="col-1 w40">
+                    <img src="http://static.mingyizhudao.com/146968742128587"/>
+                </div>
             </div>
         </div>
         <div id="deleteConfirm" class="confirm" style="top: 50%; left: 5%; right: 5%; border-radius: 3px; margin-top: -64.5px;">
@@ -137,11 +129,6 @@ $this->show_footer = false;
 </article>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('.skipBtn').click(function () {
-            sessionStorage.removeItem('intention');
-            sessionStorage.removeItem('detail');
-            location.href = '<?php echo $urlReturn; ?>';
-        });
         $("#deleteConfirm .cancel").click(function () {
             $("#deleteConfirm").hide();
             $("#jingle_toast").show();

@@ -11,10 +11,12 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
+        $isCreate = true;
         if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
             if (isset($model)) {
                 $card = $model;
+                $isCreate = false;
             }
         }
         $attributes = $form->getSafeAttributes();
@@ -27,7 +29,9 @@ class UserManager {
             $regionCity = RegionCity::model()->getById($card->city_id);
             $card->city_name = $regionCity->getName();
         }
-
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        $isOk = true;
         if ($card->save() === false) {
             $output['status'] = 'no';
             $output['errors'] = $card->getErrors();
@@ -35,10 +39,30 @@ class UserManager {
             $output['status'] = 'ok';
             $output['cardId'] = $card->getId();
             //若该卡为默认 则将其它都都改为不默认
-            if ($card->is_default == 1) {
-                $this->updateUnDefault($card->getId());
+//             if ($card->is_default == 1) {
+//                 $this->updateUnDefault($card->getId());
+//             }
+            
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = 'no';
+                                $output['errors'] = '删除老卡失败!';
+                                break;
+                            } 
+                        }
+                    }
+                }   
             }
         }
+        $isOk === true ? $transaction->commit() : $transaction->rollBack();
+
         return $output;
     }
 
@@ -549,10 +573,12 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
+        $isCreate = true;
         if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
             if (isset($model)) {
                 $card = $model;
+                $isCreate = false;
             }
         }
         $attributes = $form->getSafeAttributes();
@@ -561,6 +587,9 @@ class UserManager {
         $card->state_name = $regionState->getName();
         $regionCity = RegionCity::model()->getById($card->city_id);
         $card->city_name = $regionCity->getName();
+        
+        $transaction = Yii::app()->db->beginTransaction();
+        $isOk = true;
         if ($card->save() === false) {
             $output['errorMsg'] = $card->getFirstErrors();
         } else {
@@ -568,10 +597,31 @@ class UserManager {
             $output['errorCode'] = ErrorList::ERROR_NONE;
             $output['errorMsg'] = 'success';
             //若该卡为默认 则将其它都都改为不默认
-            if ($card->is_default == 1) {
-                $this->updateUnDefault($card->getId());
+//             if ($card->is_default == 1) {
+//                 $this->updateUnDefault($card->getId());
+//             }
+
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = EApiViewService::RESPONSE_NO;
+                                $output['errorCode'] = ErrorList::NOT_FOUND;
+                                $output['errorMsg'] = '删除老卡失败!';
+                                break;
+                            }
+                        }
+                    }
+                }   
             }
         }
+        $isOk === true ? $transaction->commit() : $transaction->rollBack();
+        
         return $output;
     }
 
