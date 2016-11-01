@@ -131,31 +131,7 @@ if ($register == 1) {
             </div>
         </div>
         <div class="pl10">
-            <div class="grid pt10 pr10 pb10 bb-gray">
-                <div class="col-1">
-                    <div>一张用户手持身份证正面的照片</div>
-                    <div class="font-s12 c-red">*需看到完整头部，建议手拿身份证正面放于胸前</div>
-                </div>
-                <div class="col-0">
-                    <div class="body">
-                        <div class="">
-                            <div id="container1" class="uploadTab">
-                                <a class="btn btn-lg " id="pickfiles1" href="#">
-                                    <span>
-                                        <img src="" class="w70p h70">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt10 hide">
-                            <table class="table table-striped table-hover text-left" style="display:none">
-                                <tbody id="fsUploadProgress1">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
                     <div>一张清晰完整的身份证正面照</div>
