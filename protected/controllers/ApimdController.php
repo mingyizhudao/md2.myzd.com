@@ -98,6 +98,7 @@ class ApimdController extends Controller {
                 $apiService = new ApiViewDoctorZz($user->id);
                 $output = $apiService->loadApiViewData(true);
                 break;
+
             case 'patientlist'://患者列表
                 $user = $this->userLoginRequired($values);
                 $apisvc = new ApiViewDoctorPatientList($user->id);
@@ -192,6 +193,26 @@ class ApimdController extends Controller {
             case 'bookingtodoctor':     //订单关联上级医生
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
+                break;
+            case 'account_center':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountCenter();
+                break;
+            case 'account_detail_total':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountDetailTotal();
+                break;
+            case 'account_detail_withdraw':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountDetailWithdraw();
+                break;
+            case 'withdraw_detail':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadWithDrawDetail();
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
@@ -471,7 +492,7 @@ class ApimdController extends Controller {
                     }
                 }
                 break;
-            case 'bankverifycode': //账户验证码验证
+            case 'bankverifycode'; //账户验证码验证
                 if (isset($post['bank'])) {
                     $values = $post['bank'];
                     $user = $this->userLoginRequired($values);
@@ -518,7 +539,7 @@ class ApimdController extends Controller {
                     $output = $apiSvc->loadApiViewData();
                 }
                 break;
-            case 'bankdelete'://删除银行卡
+            case 'bankdelete'://删除银行卡a
                 if (isset($post['card'])) {
                     $values = $post['card'];
                     $user = $this->userLoginRequired($values);
@@ -527,13 +548,19 @@ class ApimdController extends Controller {
                     $output = $userMgr->apiBankDelete($values['card_ids'], $user->id);
                 }
                 break;
+
             case 'saverealauth':
                 if(isset($post['auth'])) {
                     $user = $this->userLoginRequired($post['auth']);
-                    $post['user_id'] = $user->getId();
+                    $post['auth']['user_id'] = $user->getId();
                     $userMgr = new UserManager();
                     $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
+                break;
+            case 'withdraw':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadWithDraw(200);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));

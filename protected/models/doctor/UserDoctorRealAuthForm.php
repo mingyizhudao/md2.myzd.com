@@ -23,7 +23,7 @@ class UserDoctorRealAuthForm extends EFormModel
 
     public function rules() {
         return array(
-            array('user_id, uid, cert_type, file_name, file_url, file_ext, file_size, has_remote, remote_file_key, remote_domain, mime_type', 'required'),
+            array('user_id, uid, cert_type, file_name, file_url, file_ext, file_size, has_remote, remote_file_key, remote_domain', 'required'),
             array('user_id, cert_type, file_size, has_remote', 'numerical', 'integerOnly' => true),
             array('uid', 'length', 'max' => 32),
             array('remote_file_key', 'length', 'max' => 40),

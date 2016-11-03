@@ -238,6 +238,7 @@ class PatientManager {
             $return = Yii::app()->db->createCommand()->update(PatientInfo::model()->tableName(), $data, 'id = ' . (int)$values['id']);
             if($return != 0) {
                 $output['status'] = 'ok';
+                $output['errorCode'] = 0;
                 $output['errorMsg'] = 'success';
             } else {
                 $output['errorMsg'] = 'failed';
