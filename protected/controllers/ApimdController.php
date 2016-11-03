@@ -194,6 +194,26 @@ class ApimdController extends Controller {
                 $wxMgr = new WeixinManager();
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
                 break;
+            case 'account_center':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountCenter();
+                break;
+            case 'account_detail_total':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountDetailTotal();
+                break;
+            case 'account_detail_withdraw':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadAccountDetailWithdraw();
+                break;
+            case 'withdraw_detail':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadWithDrawDetail();
+                break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
                 Yii::app()->end();
@@ -536,6 +556,11 @@ class ApimdController extends Controller {
                     $userMgr = new UserManager();
                     $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
+                break;
+            case 'withdraw':
+                //$user = $this->userLoginRequired($values);
+                $apiService = new ApiViewAccount();
+                $output = $apiService->loadWithDraw(200);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
