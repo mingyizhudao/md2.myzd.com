@@ -532,12 +532,17 @@ class DoctorController extends MobiledoctorController {
      * 个人中心
      */
     public function actionUserView() {
+        $user = $this->getCurrentUser();
+        $userMgr = new UserManager();
+        $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
+        $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
+
         // var_dump(Yii::app()->user->id);exit;
         $user = $this->loadUser();  // User model
         $svc = new ApiViewUserInfo($user);
         $output = $svc->loadApiViewData();
         $this->render('view', array(
-            'user' => $output
+            'user' => $output, 'isRealAuth' => $isRealAuth
         ));
     }
 
