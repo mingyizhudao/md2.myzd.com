@@ -39,27 +39,27 @@ class UserManager {
             $output['status'] = 'ok';
             $output['cardId'] = $card->getId();
             //若该卡为默认 则将其它都都改为不默认
-            if ($card->is_default == 1) {
-                $this->updateUnDefault($card->getId());
-            }
-            
-//             if ($isCreate === true) {
-//                 //只能绑定一张卡，创建新卡删除老卡
-//                 $result = $this->loadCardsByUserId($values['user_id']);
-//                 if (!is_null($result) && is_array($result)) {
-//                     foreach($result as $r) {
-//                         if ($r->id != $card->getId()) {
-//                             $deleteResult = $r->delete();
-//                             if ($deleteResult === false) {
-//                                 $isOk = false;
-//                                 $output['status'] = 'no';
-//                                 $output['errors'] = '删除老卡失败!';
-//                                 break;
-//                             } 
-//                         }
-//                     }
-//                 }   
+//             if ($card->is_default == 1) {
+//                 $this->updateUnDefault($card->getId());
 //             }
+            
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = 'no';
+                                $output['errors'] = '删除老卡失败!';
+                                break;
+                            } 
+                        }
+                    }
+                }   
+            }
         }
         $isOk === true ? $transaction->commit() : $transaction->rollBack();
 
@@ -597,28 +597,28 @@ class UserManager {
             $output['errorCode'] = ErrorList::ERROR_NONE;
             $output['errorMsg'] = 'success';
             //若该卡为默认 则将其它都都改为不默认
-            if ($card->is_default == 1) {
-                $this->updateUnDefault($card->getId());
-            }
-
-//             if ($isCreate === true) {
-//                 //只能绑定一张卡，创建新卡删除老卡
-//                 $result = $this->loadCardsByUserId($values['user_id']);
-//                 if (!is_null($result) && is_array($result)) {
-//                     foreach($result as $r) {
-//                         if ($r->id != $card->getId()) {
-//                             $deleteResult = $r->delete();
-//                             if ($deleteResult === false) {
-//                                 $isOk = false;
-//                                 $output['status'] = EApiViewService::RESPONSE_NO;
-//                                 $output['errorCode'] = ErrorList::NOT_FOUND;
-//                                 $output['errorMsg'] = '删除老卡失败!';
-//                                 break;
-//                             }
-//                         }
-//                     }
-//                 }   
+//             if ($card->is_default == 1) {
+//                 $this->updateUnDefault($card->getId());
 //             }
+
+            if ($isCreate === true) {
+                //只能绑定一张卡，创建新卡删除老卡
+                $result = $this->loadCardsByUserId($values['user_id']);
+                if (!is_null($result) && is_array($result)) {
+                    foreach($result as $r) {
+                        if ($r->id != $card->getId()) {
+                            $deleteResult = $r->delete();
+                            if ($deleteResult === false) {
+                                $isOk = false;
+                                $output['status'] = EApiViewService::RESPONSE_NO;
+                                $output['errorCode'] = ErrorList::NOT_FOUND;
+                                $output['errorMsg'] = '删除老卡失败!';
+                                break;
+                            }
+                        }
+                    }
+                }   
+            }
         }
         $isOk === true ? $transaction->commit() : $transaction->rollBack();
         
