@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth', 'myAccount'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -233,4 +233,9 @@ class UserbankController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
+    //我的账户
+    public function actionMyAccount() {
+        $this->render('myAccount', array()
+        );
+    }
 }
