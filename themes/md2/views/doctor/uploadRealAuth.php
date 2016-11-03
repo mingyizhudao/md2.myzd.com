@@ -2,8 +2,8 @@
 Yii::app()->clientScript->registerCssFile('http://static.mingyizhudao.com/common.min.1.1.css');
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/custom.min.1.0.js', CClientScript::POS_END);
 //Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/idCardUpload.js?ts=' . time(), CClientScript::POS_END);
-Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/idCardUpload.min.1.0.js', CClientScript::POS_END);
-?>
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/md2/idCardUpload.min.1.2.js', CClientScript::POS_END);
+?>                                       
 <?php
 $this->setPageTitle('实名认证');
 $urlPatientAjaxDrTask = $this->createUrl('patient/ajaxDrTask');
@@ -131,10 +131,11 @@ if ($register == 1) {
             </div>
         </div>
         <div class="pl10">
+           
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <div>一张用户手持身份证正面的照片</div>
-                    <div class="font-s12 c-red">*需看到完整头部，建议手拿身份证正面放于胸前</div>
+                    <div>一张清晰完整的身份证正面照</div>
+                    <div class="font-s12 c-red">*只需拍身份证的正面即可</div>
                 </div>
                 <div class="col-0">
                     <div class="body">
@@ -158,8 +159,8 @@ if ($register == 1) {
             </div>
             <div class="grid pt10 pr10 pb10 bb-gray">
                 <div class="col-1">
-                    <div>一张清晰完整的身份证正面照</div>
-                    <div class="font-s12 c-red">*只需拍身份证的正面即可</div>
+                    <div>一张清晰完整的身份证反面照</div>
+                    <div class="font-s12 c-red">*只需拍身份证的反面即可</div>
                 </div>
                 <div class="col-0">
                     <div class="body">
@@ -175,31 +176,6 @@ if ($register == 1) {
                         <div class="col-md-12 mt10 hide">
                             <table class="table table-striped table-hover text-left" style="display:none">
                                 <tbody id="fsUploadProgress2">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="grid pt10 pr10 pb10 bb-gray">
-                <div class="col-1">
-                    <div>一张清晰完整的身份证反面照</div>
-                    <div class="font-s12 c-red">*只需拍身份证的反面即可</div>
-                </div>
-                <div class="col-0">
-                    <div class="body">
-                        <div class="">
-                            <div id="container3" class="uploadTab">
-                                <a class="btn btn-lg " id="pickfiles3" href="#">
-                                    <span>
-                                        <img src="" class="w70p h70">
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt10 hide">
-                            <table class="table table-striped table-hover text-left" style="display:none">
-                                <tbody id="fsUploadProgress3">
                                 </tbody>
                             </table>
                         </div>
