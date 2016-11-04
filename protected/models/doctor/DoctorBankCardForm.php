@@ -20,7 +20,7 @@ class DoctorBankCardForm extends EFormModel {
         // will receive user inputs.
         return array(
             array('user_id, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
-            array('identification_card','name, card_no, bank, subbranch', 'length', 'max' => 50),
+            array('identification_card, name, card_no, bank, subbranch', 'length', 'max' => 50),
             array('id, card_no', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
