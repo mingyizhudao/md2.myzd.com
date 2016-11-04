@@ -239,19 +239,45 @@ class UserbankController extends MobiledoctorController {
         $userMgr = new UserManager();
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
         $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
-
-        $this->render('myAccount', array('count' => '', 'cash' => '', 'isRealAuth' => $isRealAuth));
+        $card = DoctorBankCard::model()->getByAttributes(array('user_id' => $user->id));
+        $bindCard = 0;
+        if($card) {
+            $bindCard = 1;
+        }
+        $this->render('myAccount', array('count' => '5000', 'cash' => '1000', 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
     
     //我的账户详细页
     public function actionAccountDetail() {
-        $this->render('accountDetail', array()
+        $total = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $total[] = $output;
+        }
+        $withdraw = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $withdraw[] = $output;
+        }
+
+        $this->render('accountDetail', array(
+                'total' => $total,
+                'withdraw' => $withdraw)
         );
     }
     
     //提现页
     public function actionDrawCash() {
-        $this->render('drawCash', array()
+        $output = new \stdClass();
+        $output->bankinfo = '浦发银行(1234)';
+        $output->enable_money = 5000;
+        $this->render('drawCash', array('withdraw' => $output)
         );
     }
+
+
 }

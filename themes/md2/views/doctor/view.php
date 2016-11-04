@@ -256,6 +256,9 @@ $isContractDoctor = $user->results->userInfo->isContractDoctor;
                 $('#doctorProfile').tap(function () {
                     location.href = '<?php echo $urlDoctorProfile; ?>';
                 });
+            } else if ('<?php echo $verified; ?>' == '') {
+                J.hideMask();
+                J.showToast('请您先完成实名认证，谢谢！', '', '1500');
             } else {
                 location.href = '<?php echo $urlUserbankViewInputKey; ?>';
             }
