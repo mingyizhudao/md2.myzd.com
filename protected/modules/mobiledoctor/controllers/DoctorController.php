@@ -111,7 +111,7 @@ class DoctorController extends MobiledoctorController {
             'userDoctorContext + profile ajaxProfile createPatient ajaxCreatePatient createPatientMR createBooking account',
             'patientContext + createPatientMR',
             'patientCreatorContext + createBooking',
-            'userDoctorProfileContext + contract uploadCert AccountDetail',
+            'userDoctorProfileContext + contract uploadCert',
             'userDoctorVerified + delectDoctorCert ajaxUploadCert ajaxUploadCert ajaxProfile',
             'userContext + viewContractDoctors viewCommonweal'
         );
@@ -135,7 +135,7 @@ class DoctorController extends MobiledoctorController {
                     'profile', 'ajaxProfile', 'ajaxUploadCert', 'doctorInfo', 'doctorCerts', 'account', 'delectDoctorCert', 'uploadCert',
                     'updateDoctor', 'toSuccess', 'contract', 'ajaxContract', 'sendEmailForCert', 'ajaxViewDoctorZz', 'createDoctorZz', 'ajaxDoctorZz',
                     'ajaxViewDoctorHz', 'createDoctorHz', 'ajaxDoctorHz', 'drView', 'ajaxDoctorTerms', 'doctorTerms', 'ajaxJoinCommonweal', 'commonwealList', 'userView', 'savepatientdisease', 'searchDisease', 'diseaseCategoryToSub', 'diseaseByCategoryId', 'ajaxSearchDoctor', 'diseaseSearch', 'diseaseResult', 'doctorList', 'inputDoctorInfo', 'addDisease',
-                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract', 'uploadRealAuth', 'AccountDetail'),
+                    'questionnaire', 'ajaxQuestionnaire', 'ajaxDoctorContract', 'uploadRealAuth'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -1162,26 +1162,5 @@ class DoctorController extends MobiledoctorController {
         }
         
         $this->renderJsonOutput($output);
-    }
-
-    public function actionAccountDetail() {
-        $total = [];
-        for($i = 2;$i<13;$i++) {
-            $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
-            $total[] = $output;
-        }
-        $withdraw = [];
-        for($i = 2;$i<13;$i++) {
-            $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
-            $withdraw[] = $output;
-        }
-        $this->render('accountDetail', [
-            'total' => $total,
-            'withdraw' => $withdraw
-        ]);
     }
 }

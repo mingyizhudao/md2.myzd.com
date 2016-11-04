@@ -245,7 +245,24 @@ class UserbankController extends MobiledoctorController {
     
     //我的账户详细页
     public function actionAccountDetail() {
-        $this->render('accountDetail', array()
+        $total = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $total[] = $output;
+        }
+        $withdraw = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $withdraw[] = $output;
+        }
+
+        $this->render('accountDetail', array(
+                'total' => $total,
+                'withdraw' => $withdraw)
         );
     }
     
@@ -254,4 +271,6 @@ class UserbankController extends MobiledoctorController {
         $this->render('drawCash', array()
         );
     }
+
+
 }
