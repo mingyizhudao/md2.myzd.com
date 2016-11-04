@@ -272,7 +272,10 @@ class UserbankController extends MobiledoctorController {
     
     //提现页
     public function actionDrawCash() {
-        $this->render('drawCash', array()
+        $output = new \stdClass();
+        $output->bankinfo = '浦发银行(1234)';
+        $output->enable_money = 5000;
+        $this->render('drawCash', array('withdraw' => $output)
         );
     }
 
