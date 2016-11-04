@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth', 'myAccount'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth', 'myAccount', 'accountDetail', 'drawCash'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -233,9 +233,25 @@ class UserbankController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //我的账户
+    //我的账户页
     public function actionMyAccount() {
-        $this->render('myAccount', array()
+        $user = $this->getCurrentUser();
+        $userMgr = new UserManager();
+        $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
+        $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
+
+        $this->render('myAccount', array('count' => '', 'cash' => '', 'isRealAuth' => $isRealAuth));
+    }
+    
+    //我的账户详细页
+    public function actionAccountDetail() {
+        $this->render('accountDetail', array()
+        );
+    }
+    
+    //提现页
+    public function actionDrawCash() {
+        $this->render('drawCash', array()
         );
     }
 }
