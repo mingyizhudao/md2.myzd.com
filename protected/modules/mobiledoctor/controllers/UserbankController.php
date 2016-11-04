@@ -239,8 +239,12 @@ class UserbankController extends MobiledoctorController {
         $userMgr = new UserManager();
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
         $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
-
-        $this->render('myAccount', array('count' => '', 'cash' => '', 'isRealAuth' => $isRealAuth));
+        $card = DoctorBankCard::model()->getByAttributes(array('user_id' => $user->id));
+        $bindCard = 0;
+        if($card) {
+            $bindCard = 1;
+        }
+        $this->render('myAccount', array('count' => '5000', 'cash' => '1000', 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
     
     //我的账户详细页
