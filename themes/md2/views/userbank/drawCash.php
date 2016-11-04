@@ -5,7 +5,7 @@ $this->show_footer = false;
 // var_dump($withdraw);die;
 ?>
 <style>
-  .bb-h{border-bottom: 1px solid #D3D3D3;} 
+  .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
   .c-red{color: #F7847F;} 
   .c-h{color:#BEBEBE;}
 </style>
@@ -27,11 +27,11 @@ $this->show_footer = false;
    <div class="pad10 ">
        <div class="">到账银行卡：<span><?php echo $withdraw->bankinfo;?></span></div>
        <div class="pt20">提现金额:</div>
-       <div class="bb-h pt10 pb10 mr30 grid">
+       <div class="bb-h pt10  mr30 grid">
         <div class="col-0 pt8">￥<span class="c-h">|</span></div>
         <div class="col-1"><input type="number"style="border:none;box-shadow:none;"value=""></div>
       </div>
-       <div class="pad10 font-s12 c-h">您的账户目前共有<span id="money"><?php echo $withdraw->enable_money;?></span>元<span class="c-red pl10"id="all">全部提现</span></div>
+       <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money"><?php echo $withdraw->enable_money;?></span>元<span class="c-red pl10"id="all">全部提现</span></div>
    </div>
 
  </div>
@@ -45,13 +45,19 @@ $this->show_footer = false;
       document.addEventListener('input', function(e) {
             var bool = true;
             $('input').each(function() {
-               if ($(this).val() == '') {
+                var value=$(this).val();
+                // var valTest=/^\d+(\.\d{2})?$/;
+                // if(!valTest.test(value)){
+                //   alert('a');
+                // }else{alert('b');}
+                if ($(this).val() == '') {
                     bool = false;
                     return false;
                 }else if($(this).val()>5000){
                   J.showToast('不能超过可提现总数','','1000');
                 }
             });
+           
             if (bool) {
                 $('#btnSubmit').removeAttr('disabled');
             } else {

@@ -56,7 +56,7 @@ header nav.right {
  		</div>
  		<div class="pl10 grid pt10">
  			<div class="col-0  pt10 text-right pr5 font-w800"style="width:40% ;font-size:13px;">已提现金额：</div>
- 			<div class="col-1 text-right"style="color:#32c9c0;">￥<?php echo $cash;?></div>
+ 			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥<?php echo $cash;?></div>
  		</div>
  	</div>
  	<div class="pt10 text-right font-s12 c-h">
