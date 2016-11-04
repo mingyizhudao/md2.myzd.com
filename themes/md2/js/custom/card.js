@@ -4,13 +4,11 @@ $(function () {
     btnSubmit.click(function () {
         var cardTest = /^(\d{15,20})$/;
         var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
         if (!cardTest.test(cardNo)) {
             J.showToast('银行卡号不正确', '', '1500');
             return;
         }
         var bool = validator.form();
-        // alert(bool);
         if (bool) {
             formAjaxSubmit();
         }
@@ -75,30 +73,19 @@ $(function () {
 
     function formAjaxSubmit() {
         disabled(btnSubmit);
+        var formdata = domForm.serializeArray();
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
-        var change=$('article').attr('data-change');
-        // console.log(change);
-        // var change="<?php echo $change;?>";
-        // console.log(change);
-        //对卡号进行去除空格
-        var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
-        var dataArray = '{"card":{"card_no":"' + cardNo + '"}}';
+        var dataArray = structure_formdata('card', formdata);
         var encryptContext = do_encrypt(dataArray, pubkey);
         var param = {param: encryptContext};
         $.ajax({
             type: 'post',
             url: requestUrl,
             data: param,
-            success: function (data) { 
-                  console.log('aa',data);
+            success: function (data) {
                 if (data.status == 'ok') {
-                    // var a=returnUrl+'/'+data.cardId+'/change='+change;
-                    // console.log(a);
-                   location.href = returnUrl+'/'+data.cardId;
-                   
-                 
+                    location.href = returnUrl;
                 } else {
                     enable(btnSubmit);
                 }
