@@ -44,17 +44,14 @@ $this->show_footer = false;
     $(function(){
       document.addEventListener('input', function(e) {
             var bool = true;
+            var money='<?php echo $withdraw->enable_money;?>';
+            var num1=parseFloat(money);
             $('input').each(function() {
-                var value=$(this).val();
-                // var valTest=/^\d+(\.\d{2})?$/;
-                // if(!valTest.test(value)){
-                //   alert('a');
-                // }else{alert('b');}
-                if ($(this).val() == '') {
+               if ($(this).val() == '') {
                     bool = false;
                     return false;
-                }else if($(this).val()>5000){
-                  J.showToast('不能超过可提现总数','','1000');
+                }else if($(this).val()>num1){
+                   J.showToast('不能超过可提现总数','','1000');
                 }
             });
            
@@ -64,7 +61,15 @@ $this->show_footer = false;
                 $('#btnSubmit').attr('disabled', 'disabled');
             }
         });
-        
+        $('input').change(function(){
+         var value=$(this).val();
+         var valTest=/^\d+(\.\d{1,2})?$/;
+         if(!valTest.test(value)){
+          alert('a');
+                  $(this).val('');
+                  $('#btnSubmit').attr('disabled', 'disabled');
+                }
+        })
    
 
         $('button').click(function(){

@@ -56,7 +56,7 @@ $this->show_footer = false;
                         银行卡号：
                     </div>
                     <div class="col-1 pr10 ">
-                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
+                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入您的银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@ $this->show_footer = false;
                         开户人身份证：
                     </div>
                     <div class="col-1 pr10 text-right">
-                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
+                       <?php echo $form->textField($model, 'identification_card', array('name' => 'card[identification_card]', 'placeholder' => '请输入开户人身份证号', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@ $this->show_footer = false;
                         开户行:
                     </div>
                     <div class="col-1 pr10">
-                       <?php echo $form->textField($model, 'subbranch', array('name' => 'card[subbranch]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'noPaddingInput')); ?>
+                      <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div> 
@@ -125,7 +125,7 @@ $this->show_footer = false;
         ?>
         <div class="pad10 mt20">
             <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
-            <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
+            <button id="submitBtn"  class="btn btn-full btn-yellow3"disabled="disabled">下一步</button>
         </div>
     </div>
 </article>
