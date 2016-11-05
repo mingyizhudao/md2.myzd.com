@@ -66,7 +66,7 @@ $this->show_footer = false;
                         开户人身份证：
                     </div>
                     <div class="col-1 pr10 text-right">
-                       <?php echo $form->textField($model, 'identification_card', array('name' => 'card[identification_card]', 'placeholder' => '请输入开户人身份证号', 'class' => 'noPaddingInput')); ?>
+                        <?php echo $form->textField($model, 'identification_card', array('name' => 'card[identification_card]', 'placeholder' => '请输入开户人身份证号', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@ $this->show_footer = false;
                         开户行:
                     </div>
                     <div class="col-1 pr10">
-                      <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'noPaddingInput')); ?>
+                        <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'noPaddingInput')); ?>
                     </div>
                 </div>
             </div> 
@@ -131,26 +131,8 @@ $this->show_footer = false;
 </article>
 <script>
     $(document).ready(function () {
-        document.addEventListener('input', function(e) {
-            var bool = true;
-            $('input').each(function() {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
-            $('select').each(function() {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
-            // alert(bool);
-            if (bool) {
-                $('#submitBtn').removeAttr('disabled');
-            } else {
-                $('#submitBtn').attr('disabled', 'disabled');
-            }
+        document.addEventListener('input', function (e) {
+            checkInput();
         });
         $('#bankCard').on('input', function () {
             var $this = $(this);
@@ -170,6 +152,7 @@ $this->show_footer = false;
                 // dataType: "html",
                 'success': function (data) {
                     $("select#card_city_id").html(data);
+                    checkInput();
                     // jquery mobile fix.
                     captionText = $("select#card_city_id>option:first-child").text();
                     $("#card_city_id-button>span:first-child").text(captionText);
@@ -183,5 +166,27 @@ $this->show_footer = false;
             });
             return false;
         });
+
+        function checkInput() {
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            $('select').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            // alert(bool);
+            if (bool) {
+                $('#submitBtn').removeAttr('disabled');
+            } else {
+                $('#submitBtn').attr('disabled', 'disabled');
+            }
+        }
     });
 </script>

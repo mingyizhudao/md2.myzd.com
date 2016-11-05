@@ -10,16 +10,19 @@ $(function () {
     uploadFile = domForm.attr('data-url-uploadfile'),
     urlReturn = domForm.attr('data-url-return'),
     isVerified = $('article').attr('data-isVerified'),
-    submitBtn = $('#submitBtn');//提交修改按钮
+    submitBtn = $('#submitBtn');
     //存储成功上传图片的信息
-    var firstData = '';
+   var firstData = '';
     var secondData = '';
+    var thirdData = '';
     var firstImg = false;
     var secondImg = false;
+    var thirdImg = false;
     if (isVerified != 0) {
-        firstImg = true;
+         firstImg = true;
         secondImg = true;
-     }
+        thirdImg = true;
+    }
     //加载已上传图片
     $.ajax({
         url: $('article').attr('data-realAuth'),
@@ -34,8 +37,9 @@ $(function () {
         }
     });
     function setImg(data) {
-        var firstImgClick = 'http://static.mingyizhudao.com/147634523727390';
-        var secondImgClick = 'http://static.mingyizhudao.com/147634523577826';
+        var firstImgClick = 'http://static.mingyizhudao.com/147634523695755';
+        var secondImgClick = 'http://static.mingyizhudao.com/147634523727390';
+        var thirdImgClick = 'http://static.mingyizhudao.com/147634523577826';
         if (data != '') {
             var files = data.results.files;
             if (files && files.length > 0) {
@@ -44,13 +48,16 @@ $(function () {
                         firstImgClick = files[i].thumbnailUrl;
                     } else if (files[i].certType == 2) {
                         secondImgClick = files[i].thumbnailUrl;
-                    } 
+                    } else if (files[i].certType == 3) {
+                        thirdImgClick = files[i].thumbnailUrl;
+                    }
                 }
             }
         }
         $('#pickfiles1').find('img').attr('src', firstImgClick);
         $('#pickfiles2').find('img').attr('src', secondImgClick);
-    
+        $('#pickfiles3').find('img').attr('src', thirdImgClick);
+
         var uploader = Qiniu.uploader({
             
             runtimes: 'html5,flash,html4',//上传模式,依次退化
@@ -158,7 +165,6 @@ $(function () {
         uploader.bind('FileUploaded', function () {
             // console.log('hello man,a file is uploaded');
         });
-        
         var Qiniu2 = new QiniuJsSDK();
         var uploader2 = Qiniu2.uploader({
             runtimes: 'html5,flash,html4',
@@ -194,7 +200,7 @@ $(function () {
             },
             init: {
                 'FilesAdded': function (up, files) {
-                    thirdImg = true;
+                    secondImg = true;
                     $('table').show();
                     $('#success').hide();
                     plupload.each(files, function (file) {
@@ -218,22 +224,7 @@ $(function () {
                     progress.setProgress(file.percent + "%", file.speed, chunk_size);
                 },
                 'UploadComplete': function () {
-                    //图片信息存储
-                    var allImg = firstData + secondData ;
-                    allImg = allImg.substr(0, allImg.length - 1);
-                    var formData = '{"auth_file":{' + allImg + '}}';
-                    var encryptContext = do_encrypt(formData, pubkey);
-                    var param = {param: encryptContext};
-                    $.ajax({
-                        url: uploadFile,
-                        data: param,
-                        type: 'post',
-                        success: function (data) {
-                            if (data.status == 'ok') {
-                              location.href = urlReturn;
-                            }
-                        }
-                    });
+                    uploader3.start();
                 },
                 'FileUploaded': function (up, file, info) {
                     //单个文件上传成功所做的事情 
@@ -251,7 +242,7 @@ $(function () {
                     progress.setComplete(up, info);
                     var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
                     var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
-                    thirdData = '"3":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
+                    secondData = '"2":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
                             '","mime_type":"' + encodeURIComponent(file.type) +
                             '","file_name":"' + encodeURIComponent(file.name) +
                             '","file_url":"' + encodeURIComponent(file.name) +
@@ -277,7 +268,129 @@ $(function () {
                 }
             }
         });
-        uploader.bind('FileUploaded', function () {
+        uploader2.bind('FileUploaded', function () {
+            //console.log('hello man,a file is uploaded');
+        });
+
+        var Qiniu3 = new QiniuJsSDK();
+        var uploader3 = Qiniu3.uploader({
+            runtimes: 'html5,flash,html4',
+            browse_button: 'pickfiles3',
+            container: 'container3',
+            drop_element: 'container3',
+            max_file_size: '100mb',
+            flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
+            dragdrop: true,
+            chunk_size: '4mb',
+            uptoken_url: $('#uptoken_url').val(),
+            domain: $('#domain').val(),
+            get_new_uptoken: false,
+            multi_selection: false,
+            // downtoken_url: '/downtoken',
+            // unique_names: true,
+            // save_key: true,
+            // x_vars: {
+            //     'id': '1234',
+            //     'time': function(up, file) {
+            //         var time = (new Date()).getTime();
+            //         // do something with 'time'
+            //         return time;
+            //     },
+            // },
+            auto_start: false,
+            log_level: 5,
+            filters: {
+                prevent_duplicates: true,
+                mime_types: [
+                    {title: "Image files", extensions: "bmp,jpg,gif,png,jpeg"}
+                ]
+            },
+            init: {
+                'FilesAdded': function (up, files) {
+                    thirdImg = true;
+                    $('table').show();
+                    $('#success').hide();
+                    plupload.each(files, function (file) {
+                        //图片预览
+                        showPreview(file, '#container3');
+                        var progress = new FileProgress(file, 'fsUploadProgress3');
+                        progress.setStatus("等待...");
+                        progress.bindUploadCancel(up);
+                    });
+                },
+                'BeforeUpload': function (up, file) {
+                    var progress = new FileProgress(file, 'fsUploadProgress3');
+                    var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+                    if (up.runtime === 'html5' && chunk_size) {
+                        progress.setChunkProgess(chunk_size);
+                    }
+                },
+                'UploadProgress': function (up, file) {
+                    var progress = new FileProgress(file, 'fsUploadProgress3');
+                    var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
+                    progress.setProgress(file.percent + "%", file.speed, chunk_size);
+                },
+                'UploadComplete': function () {
+                    //图片信息存储
+                    var allImg = firstData + secondData + thirdData;
+                    allImg = allImg.substr(0, allImg.length - 1);
+                    var formData = '{"auth_file":{' + allImg + '}}';
+                    var encryptContext = do_encrypt(formData, pubkey);
+                    var param = {param: encryptContext};
+                    $.ajax({
+                        url: uploadFile,
+                        data: param,
+                        type: 'post',
+                        success: function (data) {
+                            if (data.status == 'ok') {
+                                location.href = urlReturn;
+                            }
+                        }
+                    });
+                },
+                'FileUploaded': function (up, file, info) {
+                    //单个文件上传成功所做的事情 
+                    // 其中 info 是文件上传成功后，服务端返回的json，形式如
+                    // {
+                    //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
+                    //    "key": "gogopher.jpg"
+                    //  }
+                    // 参考http://developer.qiniu.com/docs/v6/api/overview/up/response/simple-response.html
+                    // var domain = up.getOption('domain');
+                    // var res = parseJSON(info);
+                    // var sourceLink = domain + res.key; 获取上传成功后的文件的Url
+                    var progress = new FileProgress(file, 'fsUploadProgress3');
+                    var infoJson = eval('(' + info + ')');
+                    progress.setComplete(up, info);
+                    var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
+                    var imgUrl = domForm.find('#domain').val() + '/' + infoJson.key;
+                    thirdData = '"3":{"report_type":"","file_size":"' + encodeURIComponent(file.size) +
+                            '","mime_type":"' + encodeURIComponent(file.type) +
+                            '","file_name":"' + encodeURIComponent(file.name) +
+                            '","file_url":"' + encodeURIComponent(file.name) +
+                            '","file_ext":"' + encodeURIComponent(fileExtension) +
+                            '","remote_domain":"' + encodeURIComponent(domForm.find('#domain').val()) +
+                            '","remote_file_key":"' + encodeURIComponent(infoJson.key) +
+                            '"},';
+                },
+                'Error': function (up, err, errTip) {
+                    returnResult = false;
+                    console.log('错误信息' + errTip);
+                    $('table').show();
+                    var progress = new FileProgress(err.file, 'fsUploadProgress3');
+                    progress.setError();
+                    progress.setStatus(errTip);
+                }
+                ,
+                'Key': function (up, file) {
+                    var fileExtension = file.name.substring(file.name.lastIndexOf('.') + 1);
+                    var key = (new Date()).getTime() + '' + Math.floor(Math.random() * 100) + '.' + fileExtension;
+                    // do something with key
+                    return key;
+                }
+            }
+        });
+        uploader2.bind('FileUploaded', function () {
             //console.log('hello man,a file is uploaded');
         });
 
@@ -293,11 +406,11 @@ $(function () {
 
         submitBtn.click(function () {
             submitBtn.find('button').attr('disabled', true);
-            if (firstImg && secondImg ) {
+            if (firstImg && secondImg && thirdImg) {
                 $('#jingle_loading.initLoading').show();
                 $('#jingle_loading_mask').show();
                 uploader.start();
-           } else {
+            } else {
                 $('#jingle_toast').show();
                 setTimeout(function () {
                     $('#jingle_toast').hide();
