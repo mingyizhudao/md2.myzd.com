@@ -7,17 +7,21 @@ $urlViewInputKey = $this->createUrl('userbank/viewInputKey', array('addBackBtn' 
 $urlDoctorView = $this->createUrl('doctor/view');
  $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
-$a=count($data->results->cards);
+$urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
+
 
 $cardId = Yii::app()->request->getQuery('card_id', '');
-// var_dump($data);die;
+// var_dump($data->results->cards);die;
 $this->show_footer = false;
 
 ?>
+<style>
+    .b{border: 1px solid #fff;border-radius: 5px;padding:2px;}
+</style>
 
 <header class="bg-green" id="patientList_header">
     <nav class="left">
-        <a href="<?php echo $urlDoctorView; ?>" data-target="link">
+        <a href="<?php echo $urlDoctorView;?>" data-target="link">
             <div class="pl5">
                 <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
@@ -37,7 +41,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
 
     ?>
     <footer class="bg-white ">
-        <a href="#" class="btn btn-block bg-yellow color-white"id="change" data-target="link">更换银行卡</a>
+        <a href="javascript:;" class="btn btn-block bg-yellow color-white"id="change" >更换银行卡</a>
     </footer>
     <?php
 }
@@ -53,9 +57,12 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                     ?>
                     <div class="cardBg">
                         <div class="grid">
-                            <div class="col-1 select"data-active="1"data-id="<?php echo $card->id;?>">
-                                <?php echo $card->bank; ?>
+                            <div class="col-1  select"data-active="1"data-id="<?php echo $card->id;?>">
+                                <!-- <?php echo $card->bank; ?> -->
+                               <img src="http://static.mingyizhudao.com/147823936954362"style="width:27px;"> 招商银行
                             </div>
+                            <div class="col-0  text-right b font-s12">等待激活 </div>
+
                            
                         </div>
                         <div class="pt30 pb10">
@@ -67,6 +74,9 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                 }
             }
             ?>
+            <div class="font-s12 text-justify" style="color:#E79086;">
+                *提现服务由易宝提供，易宝需要再次对银行卡和持卡人进行快速校验，请您稍等。
+            </div>
         </div>
 
         <?php
@@ -126,7 +136,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                         J.hideMask();
                         J.showToast('删除成功', '', '1500');
                         setTimeout(function () {
-                           location.href = '<?php echo $urlCardList; ?>';
+                           location.href = '<?php echo $urlMyAccount; ?>';
                             // location.reload();
                         }, 1500);
                     } else {
@@ -146,8 +156,23 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
         })
      //更换银行卡
      $("#change").click(function(){
-        location.href="<?php echo $urlCreate;?>";
+        console.log('a');
+        J.customConfirm('<div style="color:black">提示</div>',
+                        '<div class="text-justify">将要删除您目前绑定的银行卡信息，确认更换银行卡?</div>',
+                        '<a id="turn" class="w50 color-green">确认更换</a>',
+                        '<a id="close" class=" w50">关闭弹框</a>',
+                        function () {
+                        },
+                        function () {
+                        });
+             $("#close").click(function(){
+                J.closePopup();
+             });
+             $("#turn").click(function(){
+                location.href="<?php echo $urlCreate;?>"
+             })
             
+        
      });
 
       }

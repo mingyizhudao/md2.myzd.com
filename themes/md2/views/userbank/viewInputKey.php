@@ -5,6 +5,7 @@ $cardId = Yii::app()->request->getQuery('id', 0);
 $urlUpdate = $this->createUrl('userbank/update', array('id' => $cardId, 'addBackBtn' => 1));
 $urlVerifyKey = $this->createUrl('userbank/verifyKey');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
+$urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
 $urlSmsCode = $this->createUrl('userbank/smsCode', array('addBackBtn' => 1));
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $this->show_footer=false;
@@ -98,7 +99,7 @@ $this->show_footer=false;
                 success: function (data) {
                     if (data.status == 'ok') {
                         if ('<?php echo $returnType; ?>' == 0) {
-                            location.href = '<?php echo $urlCardList; ?>';
+                            location.href = '<?php echo $urlMyAccount; ?>';
                         } else {
                             location.href = '<?php echo $urlUpdate; ?>';
                         }

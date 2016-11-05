@@ -69,7 +69,8 @@ class User extends EActiveRecord {
             'userMedicalRecords' => array(self::HAS_MANY, 'MedicalRecord', 'user_id'),
             'userDoctorProfile' => array(self::HAS_ONE, 'UserDoctorProfile', 'user_id'),
             'userDoctorCerts' => array(self::HAS_MANY, 'UserDoctorCert', 'user_id'),
-            'userPatients' => array(self::HAS_MANY, 'PatientInfo', 'creator_id')
+            'userPatients' => array(self::HAS_MANY, 'PatientInfo', 'creator_id'),
+            'doctorBank' => array(self::HAS_ONE, 'DoctorBankCard', 'user_id')
         );
     }
 
@@ -252,6 +253,13 @@ class User extends EActiveRecord {
 
     public function getUserMedicalRecords() {
         return $this->userMedicalRecords->with('mrBookings');
+    }
+
+    /**
+     * @return DoctorBankCard
+     */
+    public function getDoctorBank(){
+        return $this->doctorBank;
     }
 
     public function getUsername() {

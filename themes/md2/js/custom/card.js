@@ -2,15 +2,14 @@ $(function () {
     var domForm = $('#card-form'),
             btnSubmit = $('#submitBtn');
     btnSubmit.click(function () {
+        // alert('a');
         var cardTest = /^(\d{15,20})$/;
         var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
-        if (!cardTest.test(cardNo)) {
+       if (!cardTest.test(cardNo)) {
             J.showToast('银行卡号不正确', '', '1500');
             return;
         }
         var bool = validator.form();
-        // alert(bool);
         if (bool) {
             formAjaxSubmit();
         }
@@ -18,10 +17,11 @@ $(function () {
 
     var validator = domForm.validate({
         rules: {
-            'card[name]': {
+            
+            'card[card_no]': {
                 required: true
             },
-            'card[card_no]': {
+            'card[identification_card]': {
                 required: true
             },
             'card[state_id]': {
@@ -33,19 +33,18 @@ $(function () {
             'card[bank]': {
                 required: true
             },
-            'card[subbranch]': {
-                required: true
-            },
+            
             'card[is_default]': {
                 required: true
             }
         },
         messages: {
-            'card[name]': {
-                required: '请输入姓名'
-            },
+            
             'card[card_no]': {
-                required: '请输入银行卡号'
+                required: '请输入您的银行卡号'
+            },
+            'card[identification_card]': {
+                required: '请输入开户人身份证号'
             },
             'card[state_id]': {
                 required: '省份'
@@ -56,9 +55,7 @@ $(function () {
             'card[bank]': {
                 required: '开户银行'
             },
-            'card[subbranch]': {
-                required: '银行支行'
-            },
+            
             'card[is_default]': {
                 required: '设为默认'
             }
@@ -75,32 +72,23 @@ $(function () {
 
     function formAjaxSubmit() {
         disabled(btnSubmit);
+        var formdata = domForm.serializeArray();
+        // console.log(formdata);
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
-        var change=$('article').attr('data-change');
-        // console.log(change);
-        // var change="<?php echo $change;?>";
-        // console.log(change);
-        //对卡号进行去除空格
-        var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
-        var dataArray = '{"card":{"card_no":"' + cardNo + '"}}';
+        var dataArray = structure_formdata('card', formdata);
         var encryptContext = do_encrypt(dataArray, pubkey);
         var param = {param: encryptContext};
         $.ajax({
             type: 'post',
             url: requestUrl,
             data: param,
-            success: function (data) { 
-                  console.log('aa',data);
+            success: function (data) {
+                console.log('aa',data);
                 if (data.status == 'ok') {
-                    // var a=returnUrl+'/'+data.cardId+'/change='+change;
-                    // console.log(a);
-                   location.href = returnUrl+'/'+data.cardId;
-                   
-                 
+                   location.href = returnUrl;
                 } else {
-                    enable(btnSubmit);
+                   enable(btnSubmit);
                 }
             },
             error: function (XmlHttpRequest, textStatus, errorThrown) {
@@ -109,6 +97,9 @@ $(function () {
                 console.log(textStatus);
                 console.log(errorThrown);
             },
+            complete: function() {
+                enableBtn(btnSubmit);
+            }
         });
     }
 });

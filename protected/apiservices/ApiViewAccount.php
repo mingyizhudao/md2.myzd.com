@@ -33,6 +33,9 @@ class ApiViewAccount extends EApiViewService
         $output->total = 5000;
         $output->withdraw = 1000;
         $output->date_update= date("Y年m月d日", time());
+        $output->cardbind = 1;
+        $output->card_no = '123456799888888888';
+        $output->card_name = '中国银行';
         $this->results = $output;
         return $this->loadApiViewData();
     }
