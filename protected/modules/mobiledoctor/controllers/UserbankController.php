@@ -324,7 +324,7 @@ class UserbankController extends MobiledoctorController {
                     try{
                         $paymentSer = new ApiForPayment();
                         $paymentSer->registerAccount($user->id);
-                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => 1]);
+                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
                         if($bank->is_active == 1) {
                             $paymentSer->activateAccount($user->id);
                         }
