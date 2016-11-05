@@ -13,17 +13,18 @@ class DoctorBankCardForm extends EFormModel {
     public $is_default;
     public $options_state;
     public $options_city;
+    public $identification_card;
 
     public function rules() {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
             array('user_id, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
-            array('name, card_no, bank, subbranch', 'length', 'max' => 50),
+            array('identification_card, name, card_no, bank, subbranch', 'length', 'max' => 50),
             array('id, card_no', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, user_id, name, card_no, state_id, city_id, bank, subbranch, is_default', 'safe', 'on' => 'search'),
+            array('id, user_id, name, card_no, identification_card, state_id, city_id, bank, subbranch, is_default', 'safe', 'on' => 'search'),
         );
     }
 
@@ -36,6 +37,7 @@ class DoctorBankCardForm extends EFormModel {
             'state_name' => 'State Name',
             'city_id' => 'City',
             'city_name' => 'City Name',
+            'identification_card' => '身份证号',
             'bank' => '开户银行',
             'subbranch' => '银行支行',
             'is_default' => '默认'

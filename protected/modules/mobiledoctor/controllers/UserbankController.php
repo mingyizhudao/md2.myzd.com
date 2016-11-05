@@ -32,7 +32,7 @@ class UserbankController extends MobiledoctorController {
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('viewInputKey', 'verifyKey', 'viewSetKey', 'ajaxSetKey',
-                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth', 'myAccount'),
+                    'smsCode', 'ajaxVerifyCode', 'cardList', 'create', 'update', 'ajaxCreate', 'ajaxDelete', 'identify', 'ajaxAuth', 'myAccount', 'accountDetail', 'drawCash'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -233,9 +233,90 @@ class UserbankController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    //我的账户
+    //我的账户页
     public function actionMyAccount() {
-        $this->render('myAccount', array()
+        $user = $this->getCurrentUser();
+        $userMgr = new UserManager();
+        $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
+        $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
+        $card = DoctorBankCard::model()->getByAttributes(array('user_id' => $user->id));
+        $bindCard = 0;
+        if($card) {
+            $bindCard = 1;
+        }
+        $this->render('myAccount', array('count' => '5000', 'cash' => '1000', 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
+    }
+    
+    //我的账户详细页
+    public function actionAccountDetail() {
+        $total = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $total[] = $output;
+        }
+        $withdraw = [];
+        for($i = 2;$i<13;$i++) {
+            $output = new \stdClass();
+            $output->money = 5000;
+            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $withdraw[] = $output;
+        }
+
+        $this->render('accountDetail', array(
+                'total' => $total,
+                'withdraw' => $withdraw)
         );
     }
+    
+    //提现页
+    public function actionDrawCash() {
+
+        $output = new \stdClass();
+        $output->bankinfo = '浦发银行(1234)';
+        $output->enable_money = 5000;
+        $this->render('drawCash', array('withdraw' => $output)
+        );
+    }
+
+    public function actionAjaxWithdraw() {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
+        $output = new \stdClass();
+        $output->code = 0;
+        $output->msg = '';
+        if(!$bank) {
+            $output->code = 1;
+            $output->msg = '请您先添加银行卡！';
+        } else{
+            $profile = $user->getUserDoctorProfile();
+            if(!$profile) {
+                $output->code = 1;
+                $output->msg = '请您先完成实名认证，谢谢！';
+            }else {
+                if($profile->getRealAuthState() == 0) {
+                    $output->code = 1;
+                    $output->msg = '请您先等待实名认证通过，谢谢！';
+                } elseif($profile->getRealAuthState() == 2) {
+                    $output->code = 1;
+                    $output->msg = '实名认证未通过，请联系管理员，谢谢！';
+                }
+            }
+            //易宝信息认证状态
+            if($output->code == 0) {
+                $status = $bank->is_active;
+                if($status == 0) {
+                    $output->code = 1;
+                    $output->msg = '账户信息认证中，请等待，谢谢！';
+                } elseif($status == 2) {
+                    $output->code = 1;
+                    $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
+                }
+            }
+        }
+
+        $this->renderJsonOutput($output);
+    }
+
 }
