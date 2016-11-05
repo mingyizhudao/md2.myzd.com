@@ -11,13 +11,14 @@ class ApiForPayment
     private static $_instance;
 
     //注册url
-    private $register_url = '';
+    private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register';
     //激活url
     private $activate_url = '';
     //转账url
     private $giro_url = '';
     //资质文件url
-    private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';
+    //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
+    private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
 
     public static function instance() {
         if(self::$_instance == null) {
