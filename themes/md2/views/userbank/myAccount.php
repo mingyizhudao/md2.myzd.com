@@ -5,6 +5,7 @@ $urlAccoutDetail = $this->createUrl('userbank/accountDetail', array('addBackBtn'
 $urlDrawCash = $this->createUrl('userbank/drawCash', array('addBackBtn' => 1));
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
+$urlAjaxWithdraw = $this->createUrl('userbank/ajaxWithdraw');
 
 // $isRealAuth = Yii::app()->request->getQuery('isRealAuth', '');
 // var_dump($date_update);die;
@@ -73,14 +74,22 @@ header nav.right {
 <script>
 	$(function(){
         var cardBind='<?php echo $cardBind;?>';
-        // alert(cardBind);
+        
        $("#drawCash").click(function(){
-        if(cardBind!=1){
-            J.showToast('请您先添加银行卡！');
-        }else{
-          location.href="<?php echo $urlDrawCash;?>";  
-        }
+        $.ajax({
+            url:'<?php echo $urlAjaxWithdraw;?>',
+            success:function(data){
+                // console.log(data);
+                if(data.code==1){
+                     J.showToast(data.msg);
+                }else{
+                    location.href='<?php echo $urlDrawCash;?>';
+                }
+            }
+        })
+
        });
+
        $("#card").click(function(){
         if(cardBind!=1){
             location.href="<?php echo $urlCreate;?>" ;

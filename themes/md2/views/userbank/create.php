@@ -40,7 +40,7 @@ $this->show_footer = false;
                     <div class="col-0  vertical-center w130p pl10">
                         银行卡开户人：
                     </div>
-                    <div class="col-1 pt5 pb5 pr10">
+                    <div class="col-1 pt5 pb5 pr10 text-right">
                         <?php echo $name; ?>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ $this->show_footer = false;
                         银行卡号：
                     </div>
                     <div class="col-1 pr10 ">
-                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入您的银行卡号', 'class' => 'noPaddingInput', 'id' => 'bankCard')); ?>
+                        <?php echo $form->telField($model, 'card_no', array('name' => 'card[card_no]', 'placeholder' => '请输入您的银行卡号', 'class' => 'text-right', 'id' => 'bankCard')); ?>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@ $this->show_footer = false;
                         开户人身份证：
                     </div>
                     <div class="col-1 pr10 text-right">
-                        <?php echo $form->textField($model, 'identification_card', array('name' => 'card[identification_card]', 'placeholder' => '请输入开户人身份证号', 'class' => 'noPaddingInput')); ?>
+                        <?php echo $form->textField($model, 'identification_card', array('name' => 'card[identification_card]', 'placeholder' => '请输入开户人身份证号', 'class' => 'text-right')); ?>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ $this->show_footer = false;
                         开户行:
                     </div>
                     <div class="col-1 pr10">
-                        <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'noPaddingInput')); ?>
+                        <?php echo $form->textField($model, 'bank', array('name' => 'card[bank]', 'placeholder' => '例如:招商银行股份有限公司杭州分行', 'class' => 'text-right')); ?>
                     </div>
                 </div>
             </div> 
@@ -92,7 +92,7 @@ $this->show_footer = false;
                         echo $form->dropDownList($model, 'state_id', $model->loadOptionsState(), array(
                             'name' => 'card[state_id]',
                             'prompt' => '请输入开户银行卡所在的省份',
-                            'class' => '',
+                            'class' => 'text-right',
                         ));
                         ?>
                     </div>
@@ -108,7 +108,7 @@ $this->show_footer = false;
                         echo $form->dropDownList($model, 'city_id', $model->loadOptionsCity(), array(
                             'name' => 'card[city_id]',
                             'prompt' => '请输入开户银行卡所在的城市',
-                            'class' => '',
+                            'class' => 'text-right pl10',
                         ));
                         ?>
                     </div>
