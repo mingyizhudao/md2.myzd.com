@@ -52,7 +52,9 @@ $this->show_footer = false;
                     return false;
                 }else if($(this).val()>num1){
                    J.showToast('不能超过可提现总数','','1000');
-                }
+                   bool = false;
+                    return false;
+                } 
             });
            
             if (bool) {
@@ -62,13 +64,15 @@ $this->show_footer = false;
             }
         });
         $('input').change(function(){
+          var money='<?php echo $withdraw->enable_money;?>';
+            var num1=parseFloat(money);
          var value=$(this).val();
-         var valTest=/^\d+(\.\d{1,2})?$/;
+         var valTest=/^[1-9]\d+(\.\d{1,2})?$/;
          if(!valTest.test(value)){
-          alert('a');
-                  $(this).val('');
+              $(this).val('');
                   $('#btnSubmit').attr('disabled', 'disabled');
                 }
+        
         })
    
 
