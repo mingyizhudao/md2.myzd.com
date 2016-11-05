@@ -149,6 +149,7 @@ class ApiForPayment
          * @var $user User
          */
         $user = User::model()->getById($user_id);
+        $bank = '';
         if($user) {
             $arg['bindmobile'] = $user->getMobile();
             $profile = $user->getUserDoctorProfile();
@@ -181,6 +182,11 @@ class ApiForPayment
         }
 
         $result = $this->HttpPost($this->register_url, $arg);
+        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+            $bank->is_active = 1;
+            $bank->ledgerno = $result['resultLocale']['ledgerno'];
+            $bank->save();
+        }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
 
@@ -213,6 +219,11 @@ class ApiForPayment
             return ['code' => 2, 'msg' => '用户未添加银行卡', 'result' => []];
         }
         $result = $this->HttpPost($this->activate_url, $arg);
+        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+            $bank->is_active = 1;
+            $bank->ledgerno = $result['resultLocale']['ledgerno'];
+            $bank->save();
+        }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
 
