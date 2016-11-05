@@ -243,8 +243,6 @@ class ApiForPayment
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
         if($bank) {
             $arg['ledgerno'] = $bank->ledgerno;
-        } else {
-            return ['code' => 2, 'msg' => '用户未添加银行卡', 'result' => []];
         }
 
         $file_info = $this->HttpGet($this->file_url, $user_id);
@@ -260,21 +258,18 @@ class ApiForPayment
                 } elseif($item->certType == 1) {
                     $type = 'PERSON_PHOTO';
                 }
-                $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
+                $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
+                if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+                    $bank->is_active = 2;
+                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
+                    $bank->save();
+                }else {
+                    $bank->is_active = 3;
+                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
+                    $bank->save();
+                }
             }
         }
-        if(empty($file)) {
-            return ['code' => 1, 'msg' => '用户照片未上传', 'result' => []];
-        }
-        $arg['file'] = $file;
-//
-        $result = $this->HttpPost($file['url'], 1);
-//        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
-//            $bank->is_active = 1;
-//            $bank->ledgerno = $result['resultLocale']['ledgerno'];
-//            $bank->save();
-//        }
-        return ['code' => 0, 'msg' => '', 'result' => $result];
     }
 
     /**

@@ -313,6 +313,7 @@ class UserbankController extends MobiledoctorController {
                     if($status == 0) {
                         $paymentSer = new ApiForPayment();
                         $paymentSer->registerAccount($user->id);
+                        $paymentSer->activateAccount($user->id);
                     }
                 } elseif($status == 3) {
                     $output->code = 1;
