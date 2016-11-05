@@ -235,8 +235,8 @@ class UserbankController extends MobiledoctorController {
 
     //我的账户页
     public function actionMyAccount() {
-        //$sg = new ApiForPayment();
-        //$sg->activateAccount('100409');
+//        $sg = new ApiForPayment();
+//        $sg->activateAccount('100409');
         $user = $this->getCurrentUser();
         $userMgr = new UserManager();
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
