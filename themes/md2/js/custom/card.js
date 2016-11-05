@@ -5,8 +5,7 @@ $(function () {
         // alert('a');
         var cardTest = /^(\d{15,20})$/;
         var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
-        if (!cardTest.test(cardNo)) {
+       if (!cardTest.test(cardNo)) {
             J.showToast('银行卡号不正确', '', '1500');
             return;
         }

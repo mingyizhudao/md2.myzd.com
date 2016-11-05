@@ -9,12 +9,7 @@ $urlResImage = Yii::app()->theme->baseUrl . "/images/";
 $urlLoadCity = $this->createUrl('/region/loadCities', array('state' => ''));
 $urlAjaxCreate = $this->createUrl('userbank/ajaxCreate');
 $urlIdentify = $this->createUrl('userbank/identify', array('card_id' => ''));
-
-
-
-// var_dump($urlIdentify);die;
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
-
 $this->show_footer = false;
 // var_dump($model);die;
 ?>
@@ -134,13 +129,7 @@ $this->show_footer = false;
         document.addEventListener('input', function (e) {
             checkInput();
         });
-        $('#bankCard').on('input', function () {
-            var $this = $(this);
-            var v = $this.val();
-            /\S{5}/.test(v) && $this.val(v.replace(/[^(\d)]/g, "").replace(/(.{4})/g, "$1 "));
-        });
-
-        $("select#card_state_id").change(function () {
+       $("select#card_state_id").change(function () {
             $("select#card_city_id").attr("disabled", true);
             var stateId = $(this).val();
             var actionUrl = "<?php echo $urlLoadCity; ?>";// + stateId + "&prompt=选择城市";
@@ -181,7 +170,7 @@ $this->show_footer = false;
                     return false;
                 }
             });
-            // alert(bool);
+           
             if (bool) {
                 $('#submitBtn').removeAttr('disabled');
             } else {
