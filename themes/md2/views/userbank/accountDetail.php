@@ -5,7 +5,7 @@ $this->show_footer = false;
 ?>
 <style>
     .bb-g{border-bottom: 2px solid #32c9c0;}
-    .c-h{color:#D3D3D3;}
+    .c-h{color:#999;}
 </style>
 <header class="bg-green" id="patientList_header">
     <nav class="left">

@@ -30,7 +30,7 @@ header nav.right {
     z-index: 2;
 }
 .b-h{border: 1px solid #D3D3D3;border-radius: 5px;}
-.c-h{color:#D3D3D3;}
+.c-h{color:#999;}
 .btn-c1{background: #F58124;}
 .btn-c2{background: #FFB45D;}
 </style>
@@ -52,11 +52,11 @@ header nav.right {
  <div class="mt20 pad10">
  	<div class="pad10 b-h">
  		<div class="pl10 grid">
- 			<div class="col-0 text-right font-w800"style="width:40%">累计总收入：</div>
+ 			<div class="col-0 text-right "style="width:40%;font-size:16px;">累计总收入：</div>
  			<div class="col-1 text-right"style="color:#32c9c0;">￥<?php echo $count;?></div>
  		</div>
  		<div class="pl10 grid pt10">
- 			<div class="col-0  pt10 text-right pr5 font-w800"style="width:40% ;font-size:13px;">已提现金额：</div>
+ 			<div class="col-0  pt10 text-right pr5 "style="width:40% ;">已提现金额：</div>
  			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥<?php echo $cash;?></div>
  		</div>
  	</div>
@@ -81,7 +81,7 @@ header nav.right {
             success:function(data){
                 // console.log(data);
                 if(data.code==1){
-                     J.showToast(data.msg);
+                     J.showToast(data.msg);location.href='<?php echo $urlDrawCash;?>';
                 }else{
                     location.href='<?php echo $urlDrawCash;?>';
                 }

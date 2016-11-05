@@ -7,7 +7,7 @@ $this->show_footer = false;
 <style>
   .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
   .c-red{color: #F7847F;} 
-  .c-h{color:#BEBEBE;}
+  .c-h{color:#999;}
 </style>
 <header class="bg-green" id="patientList_header">
     <nav class="left">
