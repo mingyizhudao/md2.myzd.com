@@ -291,34 +291,19 @@ class UserbankController extends MobiledoctorController {
             $output->code = 1;
             $output->msg = '请您先添加银行卡！';
         } else{
-            $profile = $user->getUserDoctorProfile();
-            if(!$profile) {
-                $output->code = 1;
-                $output->msg = '请您先完成实名认证，谢谢！';
-            }else {
-                if($profile->getRealAuthState() == 0) {
-                    $output->code = 1;
-                    $output->msg = '请您先等待实名认证通过，谢谢！';
-                } elseif($profile->getRealAuthState() == 2) {
-                    $output->code = 1;
-                    $output->msg = '实名认证未通过，请联系管理员，谢谢！';
-                }
-            }
             //易宝信息认证状态
-            if($output->code == 0) {
-                $status = $bank->is_active;
-                if($status == 0 || $status == 1) {
-                    $output->code = 1;
-                    $output->msg = '账户信息认证中，请等待，谢谢！';
-                    if($status == 0) {
-                        $paymentSer = new ApiForPayment();
-                        $paymentSer->registerAccount($user->id);
-                        $paymentSer->activateAccount($user->id);
-                    }
-                } elseif($status == 3) {
-                    $output->code = 1;
-                    $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
+            $status = $bank->is_active;
+            if($status == 0 || $status == 1) {
+                $output->code = 1;
+                $output->msg = '账户信息认证中，请等待，谢谢！';
+                if($status == 0) {
+                    $paymentSer = new ApiForPayment();
+                    $paymentSer->registerAccount($user->id);
+                    $paymentSer->activateAccount($user->id);
                 }
+            } elseif($status == 3) {
+                $output->code = 1;
+                $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
             }
         }
 
