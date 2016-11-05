@@ -2,7 +2,7 @@ $(function () {
     var domForm = $('#card-form'),
             btnSubmit = $('#submitBtn');
     btnSubmit.click(function () {
-        
+        // alert('a');
         var cardTest = /^(\d{15,20})$/;
         var cardNo = $('input[name="card[card_no]"]').val();
         cardNo = cardNo.replace(/\s/g, "");
@@ -12,7 +12,6 @@ $(function () {
         }
         var bool = validator.form();
         if (bool) {
-            // btnSubmit.removeAttr('disabled');
             formAjaxSubmit();
         }
     });
@@ -74,13 +73,11 @@ $(function () {
 
     function formAjaxSubmit() {
         disabled(btnSubmit);
-       
+        var formdata = domForm.serializeArray();
+        // console.log(formdata);
         var requestUrl = domForm.attr('data-action-url');
         var returnUrl = domForm.attr('data-return-url');
-        //对卡号进行去除空格
-        var cardNo = $('input[name="card[card_no]"]').val();
-        cardNo = cardNo.replace(/\s/g, "");
-        var dataArray = '{"card":{"card_no":"' + cardNo + '"}}';
+        var dataArray = structure_formdata('card', formdata);
         var encryptContext = do_encrypt(dataArray, pubkey);
         var param = {param: encryptContext};
         $.ajax({
@@ -88,10 +85,11 @@ $(function () {
             url: requestUrl,
             data: param,
             success: function (data) {
+                console.log('aa',data);
                 if (data.status == 'ok') {
-                    location.href = returnUrl;
+                   location.href = returnUrl;
                 } else {
-                    enable(btnSubmit);
+                   enable(btnSubmit);
                 }
             },
             error: function (XmlHttpRequest, textStatus, errorThrown) {
