@@ -20,7 +20,8 @@ class ApiForPayment
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
 
-    private $base_dir = '../doc/pic/';
+    private $base_dir = '.\\protected\\doc\\pic\\';
+
     public static function instance() {
         if(self::$_instance == null) {
             self::$_instance = new self();
@@ -54,21 +55,28 @@ class ApiForPayment
     }
 
     public function uploadRemoteFile($path, $ledger_no, $file_type) {
-        header('content-type:text/html;charset=utf8');
+        //header('content-type:text/html;charset=utf8');
         $ch = curl_init();
         $curlPost = array('file' => new \CURLFile(realpath($path)), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
         curl_setopt($ch, CURLOPT_URL, $this->activate_url);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
+        //curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1); //POST提交
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
         $data = curl_exec($ch);
         curl_close($ch);
-        return $data;
+        return json_decode($data);
     }
 
-    public function getRemoteFile($url, $index) {
+    public function getRemoteFile($url) {
+        $count = preg_match("/com\/(.*?)\?/", $url, $match);
+        $filename = '';
+        if($count > 0) {
+            $filename = $match[1];
+        } else {
+            return $filename;
+        }
         $ch=curl_init();
         $timeout = 6;
         curl_setopt($ch,CURLOPT_URL,$url);
@@ -84,12 +92,12 @@ class ApiForPayment
         if(!@file_exists($this->base_dir) && !@mkdir($this->base_dir,0777,true)){
             return array('file_name'=>'','save_path'=>'','error'=>5);
         }
-        $fp2=@fopen($this->base_dir.'pic'.$index,'w');
+        $fp2=@fopen($this->base_dir.$filename,'w');
         fwrite($fp2,$file);
         fclose($fp2);
         unset($file,$url);
 
-        return $this->base_dir.'pic'.$index;
+        return $this->base_dir.$filename;
     }
 
     public function HttpGet($url, $id) {
@@ -223,9 +231,9 @@ class ApiForPayment
         }
 
         $result = $this->HttpPost($this->register_url, $arg);
-        if(isset($result['code']) && $result['code'] == 1) {
+        if(isset($result->code) && $result->code == 1) {
             $bank->is_active = 1;
-            $bank->ledgerno = $result['resultLocale']['ledgerno'];
+            $bank->custom_number = $result->customnumber;
             $bank->save();
         }
         return ['code' => 0, 'msg' => '', 'result' => $result];
@@ -238,18 +246,23 @@ class ApiForPayment
      */
     public function activateAccount($user_id) {
         $arg = [
-            'file' => [],
+            'ledgerno' => ''
         ];
-        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 1]);
         if($bank) {
-            $arg['ledgerno'] = $bank->ledgerno;
+            $arg['ledgerno'] = $bank->custom_number;
+        } else{
+            return;
         }
 
         $file_info = $this->HttpGet($this->file_url, $user_id);
         $result = json_decode($file_info);
         if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
-            foreach($result->results->files as $item) {
-                $path = $this->getRemoteFile($item->absFileUrl, $item->certType);
+            foreach($result->results->files as $key=>$item) {
+                $path = $this->getRemoteFile($item->absFileUrl);
+                if($path == '') {
+                    continue;
+                }
                 $type = '';
                 if($item->certType == 2) {
                     $type = 'ID_CARD_FRONT';
@@ -259,13 +272,11 @@ class ApiForPayment
                     $type = 'PERSON_PHOTO';
                 }
                 $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
-                if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+                if(isset($result->code) && $result->code == 1) {
                     $bank->is_active = 2;
-                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
                     $bank->save();
                 }else {
                     $bank->is_active = 3;
-                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
                     $bank->save();
                 }
             }
