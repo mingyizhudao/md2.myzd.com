@@ -13,7 +13,7 @@ class ApiForPayment
     //注册url
     private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register';
     //激活url
-    private $activate_url = '';
+    private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';
     //转账url
     private $giro_url = '';
     //资质文件url
@@ -197,33 +197,33 @@ class ApiForPayment
      */
     public function activateAccount($user_id) {
         $arg = [
-            'ledgerno' => '',
             'file' => [],
         ];
         $file = [];
         $file_info = $this->HttpGet($this->file_url, $user_id);
         $result = json_decode($file_info);
-        if($result['status'] == 'ok' && isset($result['files']) && !empty($result['files'])) {
-            foreach($result['status'] as $item) {
-                $file[] = ['type' => $item['type'], 'url' => $item['absFileUrl']];
+        if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
+            foreach($result->results->files as $item) {
+                $file = ['type' => $item->certType, 'url' => '@'.$item->absFileUrl];
+                break;
             }
         }
         if(empty($file)) {
             return ['code' => 1, 'msg' => '用户照片未上传', 'result' => []];
         }
         $arg['file'] = $file;
-        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
-        if($bank) {
-            $arg['ledgerno'] = $bank->ledgerno;
-        } else {
-            return ['code' => 2, 'msg' => '用户未添加银行卡', 'result' => []];
-        }
+//        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
+//        if($bank) {
+//            $arg['ledgerno'] = $bank->ledgerno;
+//        } else {
+//            return ['code' => 2, 'msg' => '用户未添加银行卡', 'result' => []];
+//        }
         $result = $this->HttpPost($this->activate_url, $arg);
-        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
-            $bank->is_active = 1;
-            $bank->ledgerno = $result['resultLocale']['ledgerno'];
-            $bank->save();
-        }
+//        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+//            $bank->is_active = 1;
+//            $bank->ledgerno = $result['resultLocale']['ledgerno'];
+//            $bank->save();
+//        }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
 

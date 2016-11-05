@@ -19,6 +19,7 @@ class DoctorBankCardForm extends EFormModel {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('card_no, identification_card, state_id, city_id, bank', 'required'),
             array('user_id, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
             array('identification_card, name, card_no, bank, subbranch', 'length', 'max' => 50),
             array('id, card_no', 'safe'),
