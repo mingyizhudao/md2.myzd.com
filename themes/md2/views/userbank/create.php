@@ -131,11 +131,33 @@ $this->show_footer = false;
 </article>
 <script>
     $(document).ready(function () {
+        document.addEventListener('input', function(e) {
+            var bool = true;
+            $('input').each(function() {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            $('select').each(function() {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            // alert(bool);
+            if (bool) {
+                $('#submitBtn').removeAttr('disabled');
+            } else {
+                $('#submitBtn').attr('disabled', 'disabled');
+            }
+        });
         $('#bankCard').on('input', function () {
             var $this = $(this);
             var v = $this.val();
             /\S{5}/.test(v) && $this.val(v.replace(/[^(\d)]/g, "").replace(/(.{4})/g, "$1 "));
         });
+
         $("select#card_state_id").change(function () {
             $("select#card_city_id").attr("disabled", true);
             var stateId = $(this).val();
