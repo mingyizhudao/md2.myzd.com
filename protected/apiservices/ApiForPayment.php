@@ -44,9 +44,9 @@ class ApiForPayment
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        $header = array("Content-Type:text/html;charset=UTF-8");
+        //$header = array("Content-Type:text/html;charset=UTF-8");
 
-        curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
+        //curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
         $result = $this->executeByTimes($curl, 1);
