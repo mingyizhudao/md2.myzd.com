@@ -50,7 +50,7 @@ class ApiForPayment
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
         $result = $this->executeByTimes($curl, 1);
-        return $result;
+        return json_decode($result);
     }
 
     public function uploadRemoteFile($path, $ledger_no, $file_type) {
@@ -223,7 +223,7 @@ class ApiForPayment
         }
 
         $result = $this->HttpPost($this->register_url, $arg);
-        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+        if(isset($result['code']) && $result['code'] == 1) {
             $bank->is_active = 1;
             $bank->ledgerno = $result['resultLocale']['ledgerno'];
             $bank->save();

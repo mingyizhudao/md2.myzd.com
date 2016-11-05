@@ -321,9 +321,16 @@ class UserbankController extends MobiledoctorController {
                 $output->code = 1;
                 $output->msg = '账户信息认证中，请等待，谢谢！';
                 if($status == 0) {
-                    $paymentSer = new ApiForPayment();
-                    $paymentSer->registerAccount($user->id);
-                    $paymentSer->activateAccount($user->id);
+                    try{
+                        $paymentSer = new ApiForPayment();
+                        $paymentSer->registerAccount($user->id);
+                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => 1]);
+                        if($bank->is_active == 1) {
+                            $paymentSer->activateAccount($user->id);
+                        }
+                    }catch (Exception $ex) {
+                        $output->code = 1;
+                    }
                 }
             } elseif($status == 3) {
                 $output->code = 1;
