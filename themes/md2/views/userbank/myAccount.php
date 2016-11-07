@@ -53,11 +53,13 @@ header nav.right {
  	<div class="pad10 b-h">
  		<div class="pl10 grid">
  			<div class="col-0 text-right "style="width:40%;font-size:16px;">累计总收入：</div>
- 			<div class="col-1 text-right"style="color:#32c9c0;">￥<?php echo $count;?></div>
+ 			<div class="col-1 text-right"style="color:#32c9c0;">￥
+              <?php echo floor($count/1000).",".substr($count,-3,3);?>
+            </div>
  		</div>
  		<div class="pl10 grid pt10">
  			<div class="col-0  pt10 text-right pr5 "style="width:40% ;">已提现金额：</div>
- 			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥<?php echo $cash;?></div>
+ 			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥<?php echo floor($cash/1000).",".substr($cash,-3,3);?></div>
  		</div>
  	</div>
  	<div class="pt10 text-right font-s12 c-h">
@@ -81,7 +83,7 @@ header nav.right {
             success:function(data){
                 // console.log(data);
                 if(data.code==1){
-                     J.showToast(data.msg);location.href='<?php echo $urlDrawCash;?>';
+                     J.showToast(data.msg);
                 }else{
                     location.href='<?php echo $urlDrawCash;?>';
                 }

@@ -7,19 +7,7 @@ $this->show_footer = false;
     .bb-g{border-bottom: 2px solid #32c9c0;}
     .c-h{color:#999;}
 </style>
-<header class="bg-green" id="patientList_header">
-    <nav class="left">
-        <a href="#" data-target="back">
-            <div class="pl5">
-                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
-            </div>
-        </a>
 
-    </nav>
-    <h1 class="title">查看详情</h1>
-
-    
-</header>
 <article id="detail_article" class="active bg-gray" data-scroll="true">
     <div class="bg-white   grid">
        <div class="col-1 w50 text-center pt10 pb10 bb-g"id="showAll">全部</div> 
@@ -32,7 +20,7 @@ $this->show_footer = false;
         <div class="mt10">
             <div class="bg-white pad10 grid">
                 <div class="w50 col-1"><?php echo $data->date;?></div>
-                <div class="w50 col-1 text-right">￥<?php echo $data->money;?></div>
+                <div class="w50 col-1 text-right">￥<?php echo floor($data->money/1000).",".substr($data->money,-3,3);?></div>
             </div>
         </div>
         <?php }?>
@@ -54,7 +42,7 @@ $this->show_footer = false;
             ?>
         <div class="mt10">   
            <div class="pad10 bg-white">
-             <div>提取金额：￥<?php echo $withd->money;?></div>
+             <div>提取金额：￥<?php echo floor($withd->money/1000).",".substr($withd->money,-3,3);?></div>
              <div>提取时间：<?php echo $withd->date;?></div>
            </div>
         </div>

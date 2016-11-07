@@ -9,19 +9,7 @@ $this->show_footer = false;
   .c-red{color: #F7847F;} 
   .c-h{color:#999;}
 </style>
-<header class="bg-green" id="patientList_header">
-    <nav class="left">
-        <a href="#" data-target="back">
-            <div class="pl5">
-                <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
-            </div>
-        </a>
 
-    </nav>
-    <h1 class="title">申请提现</h1>
-
-    
-</header>
 <article id="detail_article" class="active bg-gray" data-scroll="true">
  <div class="mt20 ml10 mr10 bg-white">
    <div class="pad10 ">
@@ -29,9 +17,9 @@ $this->show_footer = false;
        <div class="pt20">提现金额:</div>
        <div class="bb-h pt10  mr30 grid">
         <div class="col-0 pt8">￥<span class="c-h">|</span></div>
-        <div class="col-1"><input type="number"style="border:none;box-shadow:none;"value=""></div>
+        <div class="col-1"><input type="text"style="border:none;box-shadow:none;"value=""></div>
       </div>
-       <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money"><?php echo $withdraw->enable_money;?></span>元<span class="c-red pl10"id="all">全部提现</span></div>
+       <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money"><?php echo floor($withdraw->enable_money/1000).",".substr($withdraw->enable_money,-3,3);?></span>元<span class="c-red pl10"id="all">全部提现</span></div>
    </div>
 
  </div>
