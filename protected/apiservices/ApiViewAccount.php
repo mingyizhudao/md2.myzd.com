@@ -53,12 +53,20 @@ class ApiViewAccount extends EApiViewService
         return $this->loadApiViewData();
     }
 
-    public function loadAccountDetailTotal($user_id) {
+    public function loadAccountDetailTotal($user) {
         $list = [];
-        for($i = 2;$i<13;$i++) {
+        //每月统计详情
+        $account_total = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as money, `create_date`')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->queryAll();
+
+        foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $output->money = $item['money'];
+            $output->date= date("Y年m月", strtotime($item['create_date']));
             $list[] = $output;
         }
         $this->results = $list;
@@ -68,10 +76,12 @@ class ApiViewAccount extends EApiViewService
 
     public function loadAccountDetailWithdraw($user_id) {
         $list = [];
-        for($i = 2;$i<13;$i++) {
+        //提现详情
+        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user_id]);
+        foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $output->money = $item->amount;
+            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
             $list[] = $output;
         }
         $this->results = $list;

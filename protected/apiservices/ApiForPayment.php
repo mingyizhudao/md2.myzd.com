@@ -317,21 +317,33 @@ class ApiForPayment
         $bank = $user->getDoctorBank();
         $arg['ledgerno'] = $bank->ledger_no;
         $arg['amount'] = $amount;
-
+        //插入提现记录
+        $history = new UserAccountHistory();
+        $history->user_id = $user_id;
+        $history->requestid = '';
+        $history->ledgerno = $bank->ledger_no;
+        $history->amount = $amount;
+        $history->save();
         $result = $this->HttpPost($this->giro_url, $arg);
         if(isset($result->code)){
             $output['code'] = $result->code;
             $output['msg'] = $result->msg;
             if($result->code == 1) {
-
+                //更新状态
+                $history->status = 1;
+                $history->save();
+            } else {
+                $history->status = 2;
+                $history->save();
             }
         }
 
         if(isset($result->errcode)) {
+            $history->status = 2;
+            $history->save();
             $output['code'] = $result->errcode;
             $output['msg'] = $result->errmsg;
         }
-
         return $output;
     }
 

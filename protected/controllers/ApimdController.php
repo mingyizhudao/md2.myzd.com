@@ -202,7 +202,7 @@ class ApimdController extends Controller {
             case 'account_detail_total':
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadAccountDetailTotal($user->id);
+                $output = $apiService->loadAccountDetailTotal($user);
                 break;
             case 'account_detail_withdraw':
                 $user = $this->userLoginRequired($values);

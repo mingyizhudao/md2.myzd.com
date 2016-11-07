@@ -251,18 +251,30 @@ class UserbankController extends MobiledoctorController {
     
     //我的账户详细页
     public function actionAccountDetail() {
+        $user = $this->getCurrentUser();
         $total = [];
-        for($i = 2;$i<13;$i++) {
+        //每月统计详情
+        $account_total = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as money, `create_date`')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->queryAll();
+
+        foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $output->money = $item['money'];
+            $output->date= date("Y年m月", strtotime($item['create_date']));
             $total[] = $output;
         }
+
+        //提现详情
+        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user->id]);
         $withdraw = [];
-        for($i = 2;$i<13;$i++) {
+        foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $output->money = $item->amount;
+            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
             $withdraw[] = $output;
         }
 
@@ -333,9 +345,14 @@ class UserbankController extends MobiledoctorController {
         if($bank) {
             $pay = new ApiForPayment();
             $result = $pay->giroAccount($user->id, $amount);
+            $output->code = $result['code'];
+            $output->msg = $result['msg'];
         }else{
-
+            $output->code = 1;
+            $output->msg = '银行卡未绑定！';
         }
+
+        $this->renderJsonOutput($output);
     }
 
 }
