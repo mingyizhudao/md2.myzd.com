@@ -21,7 +21,7 @@ $this->show_footer = false;
 
 <header class="bg-green" id="patientList_header">
     <nav class="left">
-        <a href="<?php echo $urlDoctorView;?>" data-target="link">
+        <a href="<?php echo $urlMyAccount;?>" data-target="link">
             <div class="pl5">
                 <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
