@@ -193,6 +193,35 @@ class UserbankController extends MobiledoctorController {
             $values['user_id'] = $this->getCurrentUserId();
             $userMgr = new UserManager();
             $output = $userMgr->createCard($values);
+
+            if($output['status'] == 'ok') {
+                //注册&激活
+                //易宝信息认证状态
+                $bank = DoctorBankCard::model()->getById($output['cardId']);
+                $status = $bank->is_active;
+                if($status == 0 || $status == 1) {
+                    $output->code = 1;
+                    $output->msg = '账户信息认证中，请等待，谢谢！';
+                    if($status == 0) {
+                        try{
+                            $paymentSer = new ApiForPayment();
+                            $paymentSer->registerAccount($values['user_id']);
+                            $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
+                            if($bank->is_active == 1) {
+                                $result = $paymentSer->activateAccount($values['user_id']);
+                                $output['code'] = $result['code'];
+                                $output['msg'] = $result['msg'];
+                            }
+                        }catch (Exception $ex) {
+                            $output['code'] = 1;
+                            $output['msg'] = '信息错误！';
+                        }
+                    }
+                } elseif($status == 3) {
+                    $output['code'] = 1;
+                    $output['msg'] = '账户信息未认证通过，请联系管理员，谢谢！';
+                }
+            }
         } else {
             $output['errors'] = 'miss data...';
         }
@@ -235,8 +264,6 @@ class UserbankController extends MobiledoctorController {
 
     //我的账户页
     public function actionMyAccount() {
-//        $sg = new ApiForPayment();
-//        $sg->activateAccount('100409');
         $user = $this->getCurrentUser();
         $userMgr = new UserManager();
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
@@ -315,24 +342,11 @@ class UserbankController extends MobiledoctorController {
             if($status == 0 || $status == 1) {
                 $output->code = 1;
                 $output->msg = '账户信息认证中，请等待，谢谢！';
-                if($status == 0) {
-                    try{
-                        $paymentSer = new ApiForPayment();
-                        $paymentSer->registerAccount($user->id);
-                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
-                        if($bank->is_active == 1) {
-                            $paymentSer->activateAccount($user->id);
-                        }
-                    }catch (Exception $ex) {
-                        $output->code = 1;
-                    }
-                }
             } elseif($status == 3) {
                 $output->code = 1;
                 $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
             }
         }
-
         $this->renderJsonOutput($output);
     }
 

@@ -232,6 +232,10 @@ class ApiForPayment
             $bank->ledger_no = $result->ledgerno;
             $bank->save();
         }
+
+        if(isset($result->errcode)) {
+            return ['code' => $result->errcode, 'msg' => $result->errmsg];
+        }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
 
@@ -250,33 +254,48 @@ class ApiForPayment
         } else{
             return;
         }
-
+        //身份证照片获取
         $file_info = $this->HttpGet($this->file_url, $user_id);
+        //银行卡照片信息获取
+        $card_info = $this->HttpGet($this->file_url, $user_id.'&type=4');
+        $file = [];
         $result = json_decode($file_info);
+        $card_result = json_decode($card_info);
         if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
-            foreach($result->results->files as $key=>$item) {
-                $path = $this->getRemoteFile($item->absFileUrl);
-                if($path == '') {
-                    continue;
-                }
-                $type = '';
-                if($item->certType == 2) {
-                    $type = 'ID_CARD_FRONT';
-                } elseif($item->certType == 3) {
-                    $type = 'ID_CARD_BACK';
-                } elseif($item->certType == 1) {
-                    $type = 'PERSON_PHOTO';
-                }
-                $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
-                if(isset($result->code) && $result->code == 1) {
-                    $bank->is_active = 2;
-                    $bank->save();
-                }else {
-                    $bank->is_active = 3;
-                    $bank->save();
-                }
+            $file += $result->results->files;
+        }
+        if($card_result->status == 'ok' && isset($card_result->results->files) && !empty($card_result->results->files)) {
+            $file += $card_result->results->files;
+        }
+
+        foreach($file as $key=>$item) {
+            $path = $this->getRemoteFile($item->absFileUrl);
+            if($path == '') {
+                continue;
+            }
+            $type = '';
+            if($item->certType == 2) {
+                $type = 'ID_CARD_FRONT';
+            } elseif($item->certType == 3) {
+                $type = 'ID_CARD_BACK';
+            } elseif($item->certType == 1) {
+                $type = 'PERSON_PHOTO';
+            }
+            $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
+            if(isset($result->code) && $result->code == 1) {
+                $bank->is_active = 2;
+                $bank->save();
+            }else {
+                $bank->is_active = 3;
+                $bank->save();
+            }
+
+            if(isset($result->errcode)) {
+                return ['code' => $result->errcode, 'msg' => $result->errmsg];
             }
         }
+
+        return ['code' => 0, 'msg' => '激活成功!'];
     }
 
     /**
