@@ -336,26 +336,31 @@ class UserbankController extends MobiledoctorController {
         $this->renderJsonOutput($output);
     }
 
-    public function actionAjaxDraw($amount) {
-        $user = $this->getCurrentUser();
-        $bank = $user->getDoctorBank();
+    public function actionAjaxDraw() {
+        $post = $this->decryptInput();
         $output = new stdClass();
         $output->code = 0;
         $output->msg = '';
-        if($bank) {
-            $pay = new ApiForPayment();
-            //$result = $pay->giroAccount($user->id, $amount);
-            $result = [
-                'code' => 0,
-                'msg' => '提款成功'
-            ];
-            $output->code = $result['code'];
-            $output->msg = $result['msg'];
-        }else{
+        if(isset($post['amount']) && $post['amount'] > 0) {
+            $user = $this->getCurrentUser();
+            $bank = $user->getDoctorBank();
+            if($bank) {
+                $pay = new ApiForPayment();
+                //$result = $pay->giroAccount($user->id, $amount);
+                $result = [
+                    'code' => 0,
+                    'msg' => '提款成功'
+                ];
+                $output->code = $result['code'];
+                $output->msg = $result['msg'];
+            }else{
+                $output->code = 1;
+                $output->msg = '银行卡未绑定！';
+            }
+        } else {
             $output->code = 1;
-            $output->msg = '银行卡未绑定！';
+            $output->msg = '请输入取款金额！';
         }
-
         $this->renderJsonOutput($output);
     }
 

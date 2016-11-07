@@ -557,6 +557,12 @@ class ApimdController extends Controller {
                     $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
                 }
                 break;
+            case 'savecardpic':
+                $user = $this->userLoginRequired($post);
+                $post['user_id'] = $user->id;
+                $userMgr = new UserManager();
+                $output = $userMgr->apiSaveDoctorRealAuth($post);
+                break;
             case 'withdraw':
                 if(isset($post['money'])) {
                     $user = $this->userLoginRequired($post);
