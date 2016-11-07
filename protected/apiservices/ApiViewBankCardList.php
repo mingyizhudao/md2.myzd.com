@@ -49,7 +49,7 @@ class ApiViewBankCardList extends EApiViewService {
             );
             return;
         }
-        $this->results->isFirst = $isHave;
+        $this->results->isFirst = $isHave ? 1: 0;
         $isHave === false && $this->loadCardList();
     }
 

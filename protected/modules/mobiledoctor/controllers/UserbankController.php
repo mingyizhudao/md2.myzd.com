@@ -209,15 +209,19 @@ class UserbankController extends MobiledoctorController {
                             $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
                             if($bank->is_active == 1) {
                                 $result = $paymentSer->activateAccount($values['user_id']);
-                                $output['code'] = $result['code'];
+                                $code = $result['code'];
+                                $output['status'] = $code ? 'no' : 'ok';
+                                $output['code'] = $code;
                                 $output['msg'] = $result['msg'];
                             }
                         }catch (Exception $ex) {
+                            $output['status'] = 'no';
                             $output['code'] = 1;
                             $output['msg'] = '信息错误！';
                         }
                     }
                 } elseif($status == 3) {
+                    $output['status'] = 'no';
                     $output['code'] = 1;
                     $output['msg'] = '账户信息未认证通过，请联系管理员，谢谢！';
                 }
