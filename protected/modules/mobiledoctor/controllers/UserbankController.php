@@ -274,35 +274,18 @@ class UserbankController extends MobiledoctorController {
     
     //提现页
     public function actionDrawCash() {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
         $output = new \stdClass();
-        $output->bankinfo = '浦发银行(1234)';
-        $output->enable_money = 5000;
-//        $user = $this->getCurrentUser();
-//        $bank = $user->getDoctorBank();
-//        $output = new \stdClass();
-//        $output->code = 0;
-//        $output->msg = '';
-//        if(!$bank) {
-//            $output->code = 1;
-//            $output->msg = '请您先添加银行卡！';
-//        } else{
-//            //易宝信息认证状态
-//            $status = $bank->is_active;
-//            if($status == 0 || $status == 1) {
-//                $output->code = 1;
-//                $output->msg = '账户信息认证中，请等待，谢谢！';
-//                if($status == 0) {
-//                    $paymentSer = new ApiForPayment();
-//                    $paymentSer->registerAccount($user->id);
-//                    $paymentSer->activateAccount($user->id);
-//                }
-//            } elseif($status == 3) {
-//                $output->code = 1;
-//                $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
-//            }
-//        }
-        $this->render('drawCash', array('withdraw' => $output)
-        );
+        if($bank) {
+            $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
+            $output->enable_money = $bank->balance;
+        } else {
+            $output->bankinfo = '';
+            $output->enable_money = 0;
+        }
+
+        $this->render('drawCash', array('withdraw' => $output));
     }
 
     public function actionAjaxWithdraw() {
@@ -339,6 +322,20 @@ class UserbankController extends MobiledoctorController {
         }
 
         $this->renderJsonOutput($output);
+    }
+
+    public function actionAjaxDraw($amount) {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
+        $output = new stdClass();
+        $output->code = 0;
+        $output->msg = '';
+        if($bank) {
+            $pay = new ApiForPayment();
+            $result = $pay->giroAccount($user->id, $amount);
+        }else{
+
+        }
     }
 
 }

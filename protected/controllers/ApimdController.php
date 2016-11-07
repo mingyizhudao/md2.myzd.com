@@ -195,24 +195,24 @@ class ApimdController extends Controller {
                 $output = $wxMgr->bookingtodoctor($values['bookingid'], $values['type']);
                 break;
             case 'account_center':
-                //$user = $this->userLoginRequired($values);
+                $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadAccountCenter();
+                $output = $apiService->loadAccountCenter($user->id);
                 break;
             case 'account_detail_total':
-                //$user = $this->userLoginRequired($values);
+                $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadAccountDetailTotal();
+                $output = $apiService->loadAccountDetailTotal($user->id);
                 break;
             case 'account_detail_withdraw':
-                //$user = $this->userLoginRequired($values);
+                $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadAccountDetailWithdraw();
+                $output = $apiService->loadAccountDetailWithdraw($user->id);
                 break;
             case 'withdraw_detail':
-                //$user = $this->userLoginRequired($values);
+                $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadWithDrawDetail();
+                $output = $apiService->loadWithDrawDetail($user->id);
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));
@@ -558,9 +558,11 @@ class ApimdController extends Controller {
                 }
                 break;
             case 'withdraw':
-                //$user = $this->userLoginRequired($values);
-                $apiService = new ApiViewAccount();
-                $output = $apiService->loadWithDraw(200);
+                if(isset($post['money'])) {
+                    $user = $this->userLoginRequired($post);
+                    $apiService = new ApiViewAccount();
+                    $output = $apiService->loadWithDraw($user->id, 200);
+                }
                 break;
             default:
                 $this->_sendResponse(501, sprintf('Error: Invalid request', $model));

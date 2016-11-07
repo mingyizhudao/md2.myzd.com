@@ -15,7 +15,7 @@ class ApiForPayment
     //激活url
     private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';
     //转账url
-    private $giro_url = '';
+    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
@@ -45,9 +45,6 @@ class ApiForPayment
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        //$header = array("Content-Type:text/html;charset=UTF-8");
-
-        //curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
         $result = $this->executeByTimes($curl, 1);
@@ -55,11 +52,9 @@ class ApiForPayment
     }
 
     public function uploadRemoteFile($path, $ledger_no, $file_type) {
-        //header('content-type:text/html;charset=utf8');
         $ch = curl_init();
         $curlPost = array('file' => new \CURLFile(realpath($path)), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
         curl_setopt($ch, CURLOPT_URL, $this->activate_url);
-        //curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1); //POST提交
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
@@ -168,6 +163,7 @@ class ApiForPayment
 
         return $ret_msg;
     }
+
     /**
      * 账户查询接口
      * @param $user_id
@@ -233,7 +229,7 @@ class ApiForPayment
         $result = $this->HttpPost($this->register_url, $arg);
         if(isset($result->code) && $result->code == 1) {
             $bank->is_active = 1;
-            $bank->custom_number = $result->customnumber;
+            $bank->ledger_no = $result->ledgerno;
             $bank->save();
         }
         return ['code' => 0, 'msg' => '', 'result' => $result];
@@ -250,7 +246,7 @@ class ApiForPayment
         ];
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 1]);
         if($bank) {
-            $arg['ledgerno'] = $bank->custom_number;
+            $arg['ledgerno'] = $bank->ledger_no;
         } else{
             return;
         }
@@ -301,14 +297,42 @@ class ApiForPayment
 
     /**
      * 转账接口
+     * @param $user_id
+     * @param $amount
+     * @return array
      */
-    public function giroAccount() {
-        $file_info =
+    public function giroAccount($user_id, $amount) {
         $arg = [
             'ledgerno' => '', //子账户商户编号
             'amount' => '', //转账金额
         ];
-        $result = $this->HttpPost($this->activate_url, $arg);
+        $output = [
+            'code' => 0,
+            'msg' => ''
+        ];
+        /**
+         * @var $user User
+         */
+        $user = User::model()->getById($user_id);
+        $bank = $user->getDoctorBank();
+        $arg['ledgerno'] = $bank->ledger_no;
+        $arg['amount'] = $amount;
+
+        $result = $this->HttpPost($this->giro_url, $arg);
+        if(isset($result->code)){
+            $output['code'] = $result->code;
+            $output['msg'] = $result->msg;
+            if($result->code == 1) {
+
+            }
+        }
+
+        if(isset($result->errcode)) {
+            $output['code'] = $result->errcode;
+            $output['msg'] = $result->errmsg;
+        }
+
+        return $output;
     }
 
 

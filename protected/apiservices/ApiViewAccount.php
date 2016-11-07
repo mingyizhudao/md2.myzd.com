@@ -28,19 +28,32 @@ class ApiViewAccount extends EApiViewService
     }
 
 
-    public function loadAccountCenter(){
+    public function loadAccountCenter($user_id){
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
+        $history = UserAccountHistory::model()->findAllByAttributes(['user_id' => $user_id]);
+        $withdraw = 0;
+        foreach($history as $item) {
+            $withdraw += $item->amount;
+        }
         $output = new \stdClass();
-        $output->total = 5000;
-        $output->withdraw = 1000;
+        $output->total = $bank->balance;
+        $output->withdraw = $withdraw.'.00';
         $output->date_update= date("Y年m月d日", time());
-        $output->cardbind = 1;
-        $output->card_no = '123456799888888888';
-        $output->card_name = '中国银行';
+        if($bank) {
+            $output->cardbind = 1;
+            $output->card_no = $bank->card_no;
+            $output->card_name = $bank->bank;
+        } else {
+            $output->cardbind = 0;
+            $output->card_no = '';
+            $output->card_name = '';
+        }
+
         $this->results = $output;
         return $this->loadApiViewData();
     }
 
-    public function loadAccountDetailTotal() {
+    public function loadAccountDetailTotal($user_id) {
         $list = [];
         for($i = 2;$i<13;$i++) {
             $output = new \stdClass();
@@ -53,7 +66,7 @@ class ApiViewAccount extends EApiViewService
     }
 
 
-    public function loadAccountDetailWithdraw() {
+    public function loadAccountDetailWithdraw($user_id) {
         $list = [];
         for($i = 2;$i<13;$i++) {
             $output = new \stdClass();
@@ -65,15 +78,22 @@ class ApiViewAccount extends EApiViewService
         return $this->loadApiViewData();
     }
 
-    public function loadWithDrawDetail(){
+    public function loadWithDrawDetail($user_id){
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
         $output = new \stdClass();
-        $output->bankinfo = '浦发银行(1234)';
-        $output->enable_money = 5000;
+        if($bank) {
+            $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
+            $output->enable_money = $bank->balance;
+        } else {
+            $output->bankinfo = '';
+            $output->enable_money = 0;
+        }
+
         $this->results = $output;
         return $this->loadApiViewData();
     }
 
-    public function loadWithDraw($money){
+    public function loadWithDraw($user_id, $money){
         return $this->loadApiViewData();
     }
 }

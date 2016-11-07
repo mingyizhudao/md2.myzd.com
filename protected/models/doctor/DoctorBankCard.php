@@ -17,7 +17,8 @@
  * @property string $bank
  * @property string $subbranch
  * @property integer $is_default
- * @property string $custom_number
+ * @property string $balance
+ * @property string $ledger_no
  * @property integer $is_active
  * @property string $date_updated
  * @property string $date_deleted
@@ -43,7 +44,7 @@ class DoctorBankCard extends EActiveRecord {
         // will receive user inputs.
         return array(
             array('user_id, card_no, state_id, city_id, is_default, is_active', 'numerical', 'integerOnly' => true),
-            array('name, state_name, card_type, city_name, bank, subbranch, custom_number', 'length', 'max' => 50),
+            array('name, state_name, card_type, city_name, bank, subbranch, ledger_no', 'length', 'max' => 50),
             array('identification_card', 'length', 'max' => 20),
             array('date_updated, date_deleted, date_created', 'safe'),
             // The following rule is used by search().
@@ -81,7 +82,8 @@ class DoctorBankCard extends EActiveRecord {
             'bank' => '开户银行',
             'subbranch' => '银行支行',
             'is_default' => '默认0 不是 1 是',
-            'custom_number' => '子商户编号',
+            'balance' => '账户余额',
+            'ledger_no' => '子商户编号',
             'is_active' => '激活状态0:等待激活1:可以使用2:无效卡',
             'date_updated' => 'Date Updated',
             'date_deleted' => 'Date Deleted',
