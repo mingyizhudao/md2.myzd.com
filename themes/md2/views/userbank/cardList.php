@@ -21,7 +21,7 @@ $this->show_footer = false;
 
 <header class="bg-green" id="patientList_header">
     <nav class="left">
-        <a href="<?php echo $urlDoctorView;?>" data-target="link">
+        <a href="<?php echo $urlMyAccount;?>" data-target="link">
             <div class="pl5">
                 <img src="http://static.mingyizhudao.com/146968435878253" class="w11p">
             </div>
@@ -59,7 +59,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                         <div class="grid">
                             <div class="col-1  select"data-active="1"data-id="<?php echo $card->id;?>">
                                 <!-- <?php echo $card->bank; ?> -->
-                               <img src="http://static.mingyizhudao.com/147823936954362"style="width:27px;"> 招商银行
+                               <img src="http://static.mingyizhudao.com/147823936954362"style="width:27px;"><span class="pl5"><?php echo $card->bank;?></span>
                             </div>
                             <div class="col-0  text-right b font-s12">等待激活 </div>
 

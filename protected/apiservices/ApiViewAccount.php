@@ -28,21 +28,45 @@ class ApiViewAccount extends EApiViewService
     }
 
 
-    public function loadAccountCenter(){
+    public function loadAccountCenter($user_id){
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
+        $history = UserAccountHistory::model()->findAllByAttributes(['user_id' => $user_id]);
+        $withdraw = 0;
+        foreach($history as $item) {
+            $withdraw += $item->amount;
+        }
         $output = new \stdClass();
-        $output->total = 5000;
-        $output->withdraw = 1000;
+        $output->total = $bank->balance;
+        $output->withdraw = $withdraw.'.00';
         $output->date_update= date("Y年m月d日", time());
+        if($bank) {
+            $output->cardbind = 1;
+            $output->card_no = $bank->card_no;
+            $output->card_name = $bank->bank;
+        } else {
+            $output->cardbind = 0;
+            $output->card_no = '';
+            $output->card_name = '';
+        }
+
         $this->results = $output;
         return $this->loadApiViewData();
     }
 
-    public function loadAccountDetailTotal() {
+    public function loadAccountDetailTotal($user) {
         $list = [];
-        for($i = 2;$i<13;$i++) {
+        //每月统计详情
+        $account_total = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as money, `create_date`')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->queryAll();
+
+        foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $output->money = $item['money'];
+            $output->date= date("Y年m月", strtotime($item['create_date']));
             $list[] = $output;
         }
         $this->results = $list;
@@ -50,27 +74,36 @@ class ApiViewAccount extends EApiViewService
     }
 
 
-    public function loadAccountDetailWithdraw() {
+    public function loadAccountDetailWithdraw($user_id) {
         $list = [];
-        for($i = 2;$i<13;$i++) {
+        //提现详情
+        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user_id]);
+        foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $output->money = $item->amount;
+            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
             $list[] = $output;
         }
         $this->results = $list;
         return $this->loadApiViewData();
     }
 
-    public function loadWithDrawDetail(){
+    public function loadWithDrawDetail($user_id){
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
         $output = new \stdClass();
-        $output->bankinfo = '浦发银行(1234)';
-        $output->enable_money = 5000;
+        if($bank) {
+            $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
+            $output->enable_money = $bank->balance;
+        } else {
+            $output->bankinfo = '';
+            $output->enable_money = 0;
+        }
+
         $this->results = $output;
         return $this->loadApiViewData();
     }
 
-    public function loadWithDraw($money){
+    public function loadWithDraw($user_id, $money){
         return $this->loadApiViewData();
     }
 }

@@ -235,6 +235,8 @@ class UserbankController extends MobiledoctorController {
 
     //我的账户页
     public function actionMyAccount() {
+//        $sg = new ApiForPayment();
+//        $sg->activateAccount('100409');
         $user = $this->getCurrentUser();
         $userMgr = new UserManager();
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
@@ -249,18 +251,30 @@ class UserbankController extends MobiledoctorController {
     
     //我的账户详细页
     public function actionAccountDetail() {
+        $user = $this->getCurrentUser();
         $total = [];
-        for($i = 2;$i<13;$i++) {
+        //每月统计详情
+        $account_total = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as money, `create_date`')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->queryAll();
+
+        foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月", strtotime('-'.$i.'months'));
+            $output->money = $item['money'];
+            $output->date= date("Y年m月", strtotime($item['create_date']));
             $total[] = $output;
         }
+
+        //提现详情
+        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user->id]);
         $withdraw = [];
-        for($i = 2;$i<13;$i++) {
+        foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = 5000;
-            $output->date= date("Y年m月d H:i:s", strtotime('-'.$i.'days'));
+            $output->money = $item->amount;
+            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
             $withdraw[] = $output;
         }
 
@@ -272,12 +286,77 @@ class UserbankController extends MobiledoctorController {
     
     //提现页
     public function actionDrawCash() {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
         $output = new \stdClass();
-        $output->bankinfo = '浦发银行(1234)';
-        $output->enable_money = 5000;
-        $this->render('drawCash', array('withdraw' => $output)
-        );
+        if($bank) {
+            $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
+            $output->enable_money = $bank->balance;
+        } else {
+            $output->bankinfo = '';
+            $output->enable_money = 0;
+        }
+
+        $this->render('drawCash', array('withdraw' => $output));
     }
 
+    public function actionAjaxWithdraw() {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
+        $output = new \stdClass();
+        $output->code = 0;
+        $output->msg = '';
+        if(!$bank) {
+            $output->code = 1;
+            $output->msg = '请您先添加银行卡！';
+        } else{
+            //易宝信息认证状态
+            $status = $bank->is_active;
+            if($status == 0 || $status == 1) {
+                $output->code = 1;
+                $output->msg = '账户信息认证中，请等待，谢谢！';
+                if($status == 0) {
+                    try{
+                        $paymentSer = new ApiForPayment();
+                        $paymentSer->registerAccount($user->id);
+                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
+                        if($bank->is_active == 1) {
+                            $paymentSer->activateAccount($user->id);
+                        }
+                    }catch (Exception $ex) {
+                        $output->code = 1;
+                    }
+                }
+            } elseif($status == 3) {
+                $output->code = 1;
+                $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
+            }
+        }
+
+        $this->renderJsonOutput($output);
+    }
+
+    public function actionAjaxDraw($amount) {
+        $user = $this->getCurrentUser();
+        $bank = $user->getDoctorBank();
+        $output = new stdClass();
+        $output->code = 0;
+        $output->msg = '';
+        if($bank) {
+            $pay = new ApiForPayment();
+            //$result = $pay->giroAccount($user->id, $amount);
+            $result = [
+                'code' => 0,
+                'msg' => '提款成功'
+            ];
+            $output->code = $result['code'];
+            $output->msg = $result['msg'];
+        }else{
+            $output->code = 1;
+            $output->msg = '银行卡未绑定！';
+        }
+
+        $this->renderJsonOutput($output);
+    }
 
 }

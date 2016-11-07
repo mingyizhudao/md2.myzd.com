@@ -9,6 +9,7 @@
  * @property string $name
  * @property integer $card_no
  * @property string $card_type
+ * @property string $identification_card
  * @property integer $state_id
  * @property string $state_name
  * @property integer $city_id
@@ -17,6 +18,9 @@
  * @property string $subbranch
  * @property integer $is_default
  * @property integer $is_first
+ * @property string $balance
+ * @property string $ledger_no
+ * @property integer $is_active
  * @property string $date_updated
  * @property string $date_deleted
  * @property string $date_created
@@ -40,8 +44,9 @@ class DoctorBankCard extends EActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, card_no, state_id, city_id, is_default, is_first','numerical', 'integerOnly' => true),
-            array('name, state_name, card_type, city_name, bank, subbranch', 'length', 'max' => 50),
+            array('user_id, card_no, state_id, city_id, is_default, is_active, is_first', 'numerical', 'integerOnly' => true),
+            array('name, state_name, card_type, city_name, bank, subbranch, ledger_no', 'length', 'max' => 50),
+            array('identification_card', 'length', 'max' => 20),
             array('date_updated, date_deleted, date_created', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -68,6 +73,7 @@ class DoctorBankCard extends EActiveRecord {
             'id' => 'ID',
             'user_id' => 'User',
             'name' => '持卡人姓名',
+            'identification_card' => '身份证号',
             'card_no' => '卡号',
             'card_type' => '卡类型',
             'state_id' => 'State',
@@ -77,6 +83,9 @@ class DoctorBankCard extends EActiveRecord {
             'bank' => '开户银行',
             'subbranch' => '银行支行',
             'is_default' => '默认0 不是 1 是',
+            'balance' => '账户余额',
+            'ledger_no' => '子商户编号',
+            'is_active' => '激活状态0:等待激活1:可以使用2:无效卡',
             'date_updated' => 'Date Updated',
             'date_deleted' => 'Date Deleted',
             'date_created' => 'Date Created',
