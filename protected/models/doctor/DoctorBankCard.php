@@ -16,6 +16,7 @@
  * @property string $bank
  * @property string $subbranch
  * @property integer $is_default
+ * @property integer $is_first
  * @property string $date_updated
  * @property string $date_deleted
  * @property string $date_created
@@ -39,7 +40,7 @@ class DoctorBankCard extends EActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, card_no, state_id, city_id, is_default', 'numerical', 'integerOnly' => true),
+            array('user_id, card_no, state_id, city_id, is_default, is_first','numerical', 'integerOnly' => true),
             array('name, state_name, card_type, city_name, bank, subbranch', 'length', 'max' => 50),
             array('date_updated, date_deleted, date_created', 'safe'),
             // The following rule is used by search().
