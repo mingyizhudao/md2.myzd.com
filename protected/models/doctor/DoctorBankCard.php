@@ -17,6 +17,7 @@
  * @property string $bank
  * @property string $subbranch
  * @property integer $is_default
+ * @property integer $is_first
  * @property string $balance
  * @property string $ledger_no
  * @property integer $is_active
@@ -43,7 +44,7 @@ class DoctorBankCard extends EActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, card_no, state_id, city_id, is_default, is_active', 'numerical', 'integerOnly' => true),
+            array('user_id, card_no, state_id, city_id, is_default, is_active, is_first', 'numerical', 'integerOnly' => true),
             array('name, state_name, card_type, city_name, bank, subbranch, ledger_no', 'length', 'max' => 50),
             array('identification_card', 'length', 'max' => 20),
             array('date_updated, date_deleted, date_created', 'safe'),

@@ -22,9 +22,7 @@ class ApiViewBankCardList extends EApiViewService {
         $this->userId = $userId;
         $this->userMgr = new UserManager();
         $this->cards = array();
-    }
-
-    protected function createOutput() {
+        
         $this->output = array(
             'status' => self::RESPONSE_OK,
             'errorCode' => 0,
@@ -33,10 +31,50 @@ class ApiViewBankCardList extends EApiViewService {
         );
     }
 
-    protected function loadData() {
-        $this->loadCardList();
+    protected function createOutput() {
+        $this->output;
     }
 
+    protected function loadData() {
+        try {
+            $isHave = $this->isHaveFirstCard();
+        }
+        catch (Exception $e) {
+            $this->results->cards = array();
+            $this->output = array(
+                'status' => self::RESPONSE_NOT_FOUND,
+                'errorCode' => 404,
+                'errorMsg' => $e->getMessage(),
+                'results' => $this->results
+            );
+            return;
+        }
+        $this->results->isFirst = $isHave;
+        $isHave === false && $this->loadCardList();
+    }
+
+    private function isHaveFirstCard(){
+        $models = $this->userMgr->isHaveFirstCard($this->userId);
+        $transaction = Yii::app()->db->beginTransaction();
+        $isOk = false;
+
+        if (arrayNotEmpty($models)) {
+            foreach ($models as $v) {
+                $this->userMgr->deleteDoctorBankCardByCardId($v->id) === true && $isOk = true; 
+                if ($isOk === false) break;
+            }
+            
+            $isOk === true ? $transaction->commit() : $transaction->rollback();
+            if ($isOk === false) {
+                throw new Exception('老银行卡信息删除失败!');
+            }
+            
+            return true;
+        }
+
+        return false;
+    }
+    
     private function loadCardList() {
         $models = $this->userMgr->loadCardsByUserId($this->userId);
         if (arrayNotEmpty($models)) {
@@ -56,6 +94,8 @@ class ApiViewBankCardList extends EApiViewService {
             $data->is_active = $v->is_active;
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/bankcardinfo/' . $v->id);
             $this->cards[] = $data;
+
+            break;
         }
     }
 
