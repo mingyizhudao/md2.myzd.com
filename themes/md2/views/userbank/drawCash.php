@@ -67,7 +67,7 @@ $this->show_footer = false;
           var money='<?php echo $withdraw->enable_money;?>';
             var num1=parseFloat(money);
          var value=$(this).val();
-         var valTest=/^[1-9]\d+(\.\d{1,2})?$/;
+         var valTest=/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
          if(!valTest.test(value)){
               $(this).val('');
                   $('#btnSubmit').attr('disabled', 'disabled');
