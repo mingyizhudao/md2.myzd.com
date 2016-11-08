@@ -644,10 +644,17 @@ class UserManager {
             if($status == 0) {
                 try{
                     $paymentSer = new ApiForPayment();
-                    $paymentSer->registerAccount($user_id);
-                    $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
-                    if($bank->is_active == 1) {
-                        $result = $paymentSer->activateAccount($user_id);
+                    $result = $paymentSer->registerAccount($user_id);
+                    if($result['code'] == 0) {
+                        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
+                        if($bank->is_active == 1) {
+                            $result = $paymentSer->activateAccount($user_id);
+                            $code = $result['code'];
+                            $output['status'] = $code ? 'no' : 'ok';
+                            $output['errorCode'] = $code;
+                            $output['errorMsg'] = $result['msg'];
+                        }
+                    } else {
                         $code = $result['code'];
                         $output['status'] = $code ? 'no' : 'ok';
                         $output['errorCode'] = $code;
