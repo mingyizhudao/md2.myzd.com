@@ -593,7 +593,8 @@ class UserManager {
         $card->state_name = $regionState->getName();
         $regionCity = RegionCity::model()->getById($card->city_id);
         $card->city_name = $regionCity->getName();
-        
+        $card->is_first = 1;
+
         $transaction = Yii::app()->db->beginTransaction();
         $isOk = true;
         if ($card->save() === false) {
@@ -631,6 +632,11 @@ class UserManager {
         return $output;
     }
 
+    public function apiDeleteOldCard($user_id) {
+        $output = array('status' => 'no', 'errorCode' => ErrorList::ERROR_NONE);
+        DoctorBankCard::model()->deleteAllByAttributes(['user_id' => $user_id, 'is_first' => 0]);
+        return $output;
+    }
     /**
      * 身份认证信息保存
      * @param $values
