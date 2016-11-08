@@ -188,7 +188,7 @@ class UserbankController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $output = array("status" => "ok");
         $post = $this->decryptInput();
-        //$post = $_POST;
+        $post = $_POST;
         if (isset($post['card'])) {
             $values = $post['card'];
             $values['user_id'] = $this->getCurrentUserId();
@@ -208,7 +208,7 @@ class UserbankController extends MobiledoctorController {
                             try{
                                 $paymentSer = new ApiForPayment();
                                 $result = $paymentSer->registerAccount($values['user_id']);
-                                if($result['code'] == 0) {
+                                if($result['code'] == '0') {
                                     $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
                                     if($bank->is_active == 1) {
                                         $result = $paymentSer->activateAccount($values['user_id']);
