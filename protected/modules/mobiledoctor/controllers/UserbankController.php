@@ -186,7 +186,7 @@ class UserbankController extends MobiledoctorController {
 
     //异步提交新增或保存信息
     public function actionAjaxCreate() {
-        $output = array("status" => "no");
+        $output = array("status" => "ok");
         $post = $this->decryptInput();
         //$post = $_POST;
         if (isset($post['card'])) {
@@ -198,40 +198,42 @@ class UserbankController extends MobiledoctorController {
             if($output['status'] == 'ok') {
                 //注册&激活
                 //易宝信息认证状态
-                $bank = DoctorBankCard::model()->getById($output['cardId']);
-                $status = $bank->is_active;
-                if($status == 0 || $status == 1) {
-                    $output['code'] = 1;
-                    $output['msg'] = '账户信息认证中，请等待，谢谢！';
-                    if($status == 0) {
-                        try{
-                            $paymentSer = new ApiForPayment();
-                            $result = $paymentSer->registerAccount($values['user_id']);
-                            if($result['code'] == 0) {
-                                $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
-                                if($bank->is_active == 1) {
-                                    $result = $paymentSer->activateAccount($values['user_id']);
+                $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
+                if($bank) {
+                    $status = $bank->is_active;
+                    if($status == 0 || $status == 1) {
+                        $output['code'] = 0;
+                        $output['msg'] = '账户信息认证中，请等待，谢谢！';
+                        if($status == 0) {
+                            try{
+                                $paymentSer = new ApiForPayment();
+                                $result = $paymentSer->registerAccount($values['user_id']);
+                                if($result['code'] == 0) {
+                                    $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
+                                    if($bank->is_active == 1) {
+                                        $result = $paymentSer->activateAccount($values['user_id']);
+                                        $code = $result['code'];
+                                        $output['status'] = $code ? 'no' : 'ok';
+                                        $output['code'] = $code;
+                                        $output['msg'] = $result['msg'];
+                                    }
+                                } else {
                                     $code = $result['code'];
                                     $output['status'] = $code ? 'no' : 'ok';
                                     $output['code'] = $code;
                                     $output['msg'] = $result['msg'];
                                 }
-                            } else {
-                                $code = $result['code'];
-                                $output['status'] = $code ? 'no' : 'ok';
-                                $output['errorCode'] = $code;
-                                $output['errorMsg'] = $result['msg'];
+                            }catch (Exception $ex) {
+                                $output['status'] = 'no';
+                                $output['code'] = 1;
+                                $output['msg'] = '信息错误！';
                             }
-                        }catch (Exception $ex) {
-                            $output['status'] = 'no';
-                            $output['code'] = 1;
-                            $output['msg'] = '信息错误！';
                         }
+                    } elseif($status == 3) {
+                        $output['status'] = 'no';
+                        $output['code'] = 1;
+                        $output['msg'] = '账户信息未认证通过，请联系管理员，谢谢！';
                     }
-                } elseif($status == 3) {
-                    $output['status'] = 'no';
-                    $output['code'] = 1;
-                    $output['msg'] = '账户信息未认证通过，请联系管理员，谢谢！';
                 }
             }
         } else {

@@ -639,7 +639,7 @@ class UserManager {
         $status = $bank->is_active;
         $output = ['status' => 'ok', 'errorCode'=> '0', 'errorMsg' => ''];
         if($status == 0 || $status == 1) {
-            $output['status'] = 'no';
+            $output['status'] = 'ok';
             $output['errorMsg'] = '账户信息认证中，请等待，谢谢！';
             if($status == 0) {
                 try{
@@ -650,24 +650,20 @@ class UserManager {
                         if($bank->is_active == 1) {
                             $result = $paymentSer->activateAccount($user_id);
                             $code = $result['code'];
-                            $output['status'] = $code ? 'no' : 'ok';
                             $output['errorCode'] = $code;
                             $output['errorMsg'] = $result['msg'];
                         }
                     } else {
                         $code = $result['code'];
-                        $output['status'] = $code ? 'no' : 'ok';
                         $output['errorCode'] = $code;
                         $output['errorMsg'] = $result['msg'];
                     }
                 }catch (Exception $ex) {
-                    $output['status'] = 'no';
                     $output['errorCode'] = 1;
                     $output['errorMsg'] = '信息错误！';
                 }
             }
         } elseif($status == 3) {
-            $output['status'] = 'no';
             $output['errorCode'] = 1;
             $output['errorMsg'] = '账户信息未认证通过，请联系管理员，谢谢！';
         }
