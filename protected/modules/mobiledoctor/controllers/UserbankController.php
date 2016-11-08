@@ -130,7 +130,7 @@ class UserbankController extends MobiledoctorController {
 
         $form = new DoctorBankCardForm();
         $this->render('create', array(
-            'model' => $form, 'name' => $result->name)
+            'model' => $form, 'name' => $result->name, 'user_id' => $userId)
         );
     }
     
@@ -359,14 +359,14 @@ class UserbankController extends MobiledoctorController {
                             if ($bank->is_active == 1) {
                                 $result = $paymentSer->activateAccount($user->id);
                                 $code = $result['code'];
-                                $output['status'] = $code ? 'no' : 'ok';
-                                $output['code'] = $code;
-                                $output['msg'] = $result['msg'];
+                                $output->status = $code ? 'no' : 'ok';
+                                $output->code = $code;
+                                $output->msg = $result['msg'];
                             }
                         } catch (Exception $ex) {
-                            $output['status'] = 'no';
-                            $output['code'] = 1;
-                            $output['msg'] = '信息错误！';
+                            $output->status = 'no';
+                            $output->code = 1;
+                            $output->msg = '信息错误！';
                         }
                     }
                 } elseif ($status == 3) {
