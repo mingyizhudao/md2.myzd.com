@@ -607,7 +607,6 @@ class UserManager {
 //             if ($card->is_default == 1) {
 //                 $this->updateUnDefault($card->getId());
 //             }
-
             if ($isCreate === true) {
                 //只能绑定一张卡，创建新卡删除老卡
                 $result = $this->loadCardsByUserId($values['user_id']);
@@ -628,7 +627,44 @@ class UserManager {
             }
         }
         $isOk === true ? $transaction->commit() : $transaction->rollBack();
-        
+
+        if($output['status'] == 'ok') {
+            $output = $this->registerAndActive($values['user_id'], $card->getId());
+        }
+        return $output;
+    }
+
+    public function registerAndActive($user_id, $card_id) {
+        $bank = DoctorBankCard::model()->getById($card_id);
+        $status = $bank->is_active;
+        $output = ['status' => 'ok', 'errorCode'=> '0', 'errorMsg' => ''];
+        if($status == 0 || $status == 1) {
+            $output['status'] = 'no';
+            $output['errorMsg'] = '账户信息认证中，请等待，谢谢！';
+            if($status == 0) {
+                try{
+                    $paymentSer = new ApiForPayment();
+                    $paymentSer->registerAccount($user_id);
+                    $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
+                    if($bank->is_active == 1) {
+                        $result = $paymentSer->activateAccount($user_id);
+                        $code = $result['code'];
+                        $output['status'] = $code ? 'no' : 'ok';
+                        $output['errorCode'] = $code;
+                        $output['errorMsg'] = $result['msg'];
+                    }
+                }catch (Exception $ex) {
+                    $output['status'] = 'no';
+                    $output['errorCode'] = 1;
+                    $output['errorMsg'] = '信息错误！';
+                }
+            }
+        } elseif($status == 3) {
+            $output['status'] = 'no';
+            $output['errorCode'] = 1;
+            $output['errorMsg'] = '账户信息未认证通过，请联系管理员，谢谢！';
+        }
+
         return $output;
     }
 
