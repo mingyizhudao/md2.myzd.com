@@ -15,12 +15,13 @@ class ApiForPayment
     //激活url
     private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';
     //转账url
-    private $giro_url = '';
+    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
 
-    private $base_dir = '../doc/pic/';
+    private $base_dir = '.\\protected\\doc\\pic\\';
+
     public static function instance() {
         if(self::$_instance == null) {
             self::$_instance = new self();
@@ -44,31 +45,33 @@ class ApiForPayment
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        $header = array("Content-Type:text/html;charset=UTF-8");
-
-        curl_setopt($curl, CURLOPT_HTTPHEADER,$header);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
         $result = $this->executeByTimes($curl, 1);
-        return $result;
+        return json_decode($result);
     }
 
     public function uploadRemoteFile($path, $ledger_no, $file_type) {
-        header('content-type:text/html;charset=utf8');
         $ch = curl_init();
         $curlPost = array('file' => new \CURLFile(realpath($path)), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
         curl_setopt($ch, CURLOPT_URL, $this->activate_url);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1); //POST提交
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
         $data = curl_exec($ch);
         curl_close($ch);
-        return $data;
+        return json_decode($data);
     }
 
-    public function getRemoteFile($url, $index) {
+    public function getRemoteFile($url) {
+        $count = preg_match("/com\/(.*?)\?/", $url, $match);
+        $filename = '';
+        if($count > 0) {
+            $filename = $match[1];
+        } else {
+            return $filename;
+        }
         $ch=curl_init();
         $timeout = 6;
         curl_setopt($ch,CURLOPT_URL,$url);
@@ -84,12 +87,12 @@ class ApiForPayment
         if(!@file_exists($this->base_dir) && !@mkdir($this->base_dir,0777,true)){
             return array('file_name'=>'','save_path'=>'','error'=>5);
         }
-        $fp2=@fopen($this->base_dir.'pic'.$index,'w');
+        $fp2=@fopen($this->base_dir.$filename,'w');
         fwrite($fp2,$file);
         fclose($fp2);
         unset($file,$url);
 
-        return $this->base_dir.'pic'.$index;
+        return $this->base_dir.$filename;
     }
 
     public function HttpGet($url, $id) {
@@ -160,6 +163,7 @@ class ApiForPayment
 
         return $ret_msg;
     }
+
     /**
      * 账户查询接口
      * @param $user_id
@@ -212,7 +216,7 @@ class ApiForPayment
                 $arg['idcard'] = $bank->identification_card;
                 $arg['bankaccountnumber'] = $bank->card_no;
                 $arg['bankname'] = $bank->bank;
-                $arg['accountname'] = $username;
+                $arg['accountname'] = $bank->name;
                 $arg['bankprovince'] = $bank->state_name;
                 $arg['bankcity'] = $bank->city_name;
             } else {
@@ -223,10 +227,14 @@ class ApiForPayment
         }
 
         $result = $this->HttpPost($this->register_url, $arg);
-        if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
+        if(isset($result->code) && $result->code == 1) {
             $bank->is_active = 1;
-            $bank->ledgerno = $result['resultLocale']['ledgerno'];
+            $bank->ledger_no = $result->ledgerno;
             $bank->save();
+        }
+
+        if(isset($result->errcode)) {
+            return ['code' => $result->errcode, 'msg' => $result->errmsg];
         }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
@@ -238,38 +246,56 @@ class ApiForPayment
      */
     public function activateAccount($user_id) {
         $arg = [
-            'file' => [],
+            'ledgerno' => ''
         ];
-        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
+        $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 1]);
         if($bank) {
-            $arg['ledgerno'] = $bank->ledgerno;
+            $arg['ledgerno'] = $bank->ledger_no;
+        } else{
+            return;
+        }
+        //身份证照片获取
+        $file_info = $this->HttpGet($this->file_url, $user_id);
+        //银行卡照片信息获取
+        $card_info = $this->HttpGet($this->file_url, $user_id.'&type=4');
+        $file = [];
+        $result = json_decode($file_info);
+        $card_result = json_decode($card_info);
+        if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
+            $file += $result->results->files;
+        }
+        if($card_result->status == 'ok' && isset($card_result->results->files) && !empty($card_result->results->files)) {
+            $file += $card_result->results->files;
         }
 
-        $file_info = $this->HttpGet($this->file_url, $user_id);
-        $result = json_decode($file_info);
-        if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
-            foreach($result->results->files as $item) {
-                $path = $this->getRemoteFile($item->absFileUrl, $item->certType);
-                $type = '';
-                if($item->certType == 2) {
-                    $type = 'ID_CARD_FRONT';
-                } elseif($item->certType == 3) {
-                    $type = 'ID_CARD_BACK';
-                } elseif($item->certType == 1) {
-                    $type = 'PERSON_PHOTO';
-                }
-                $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
-                if(isset($result['resultLocale']) && $result['resultLocale']['code'] == 1) {
-                    $bank->is_active = 2;
-                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
-                    $bank->save();
-                }else {
-                    $bank->is_active = 3;
-                    $bank->ledgerno = $result['resultLocale']['ledgerno'];
-                    $bank->save();
-                }
+        foreach($file as $key=>$item) {
+            $path = $this->getRemoteFile($item->absFileUrl);
+            if($path == '') {
+                continue;
+            }
+            $type = '';
+            if($item->certType == 2) {
+                $type = 'ID_CARD_FRONT';
+            } elseif($item->certType == 3) {
+                $type = 'ID_CARD_BACK';
+            } elseif($item->certType == 1) {
+                $type = 'PERSON_PHOTO';
+            }
+            $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
+            if(isset($result->code) && $result->code == 1) {
+                $bank->is_active = 2;
+                $bank->save();
+            }else {
+                $bank->is_active = 3;
+                $bank->save();
+            }
+
+            if(isset($result->errcode)) {
+                return ['code' => $result->errcode, 'msg' => $result->errmsg];
             }
         }
+
+        return ['code' => 0, 'msg' => '激活成功!'];
     }
 
     /**
@@ -290,14 +316,54 @@ class ApiForPayment
 
     /**
      * 转账接口
+     * @param $user_id
+     * @param $amount
+     * @return array
      */
-    public function giroAccount() {
-        $file_info =
+    public function giroAccount($user_id, $amount) {
         $arg = [
             'ledgerno' => '', //子账户商户编号
             'amount' => '', //转账金额
         ];
-        $result = $this->HttpPost($this->activate_url, $arg);
+        $output = [
+            'code' => 0,
+            'msg' => ''
+        ];
+        /**
+         * @var $user User
+         */
+        $user = User::model()->getById($user_id);
+        $bank = $user->getDoctorBank();
+        $arg['ledgerno'] = $bank->ledger_no;
+        $arg['amount'] = $amount;
+        //插入提现记录
+        $history = new UserAccountHistory();
+        $history->user_id = $user_id;
+        $history->requestid = '';
+        $history->ledgerno = $bank->ledger_no;
+        $history->amount = $amount;
+        $history->save();
+        $result = $this->HttpPost($this->giro_url, $arg);
+        if(isset($result->code)){
+            $output['code'] = $result->code;
+            $output['msg'] = $result->msg;
+            if($result->code == 1) {
+                //更新状态
+                $history->status = 1;
+                $history->save();
+            } else {
+                $history->status = 2;
+                $history->save();
+            }
+        }
+
+        if(isset($result->errcode)) {
+            $history->status = 2;
+            $history->save();
+            $output['code'] = $result->errcode;
+            $output['msg'] = $result->errmsg;
+        }
+        return $output;
     }
 
 

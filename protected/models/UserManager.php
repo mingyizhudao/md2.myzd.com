@@ -11,6 +11,7 @@ class UserManager {
             return $output;
         }
         $card = new DoctorBankCard();
+        $card->is_first = 1;
         $isCreate = true;
         if (isset($values['id'])) {
             $model = $this->loadCardByUserIdAndId($values['user_id'], $values['id']);
@@ -21,6 +22,7 @@ class UserManager {
         }
         $attributes = $form->getSafeAttributes();
         $card->setAttributes($attributes, true);
+        
         if (isset($card->state_id)) {
             $regionState = RegionState::model()->getById($card->state_id);
             $card->state_name = $regionState->getName();
@@ -79,6 +81,10 @@ class UserManager {
 
     public function loadCardsByUserId($userId) {
         return DoctorBankCard::model()->getAllByAttributes(array("user_id" => $userId));
+    }
+    
+    public function isHaveFirstCard($userId) {
+        return DoctorBankCard::model()->getAllByAttributes(array("user_id" => $userId, 'is_first' => 0));
     }
 
     public function createUserDoctor($mobile) {
@@ -660,6 +666,13 @@ class UserManager {
             $output['errorCode'] = ErrorList::NOT_FOUND;
         }
         return $output;
+    }
+    
+    public function deleteDoctorBankCardByCardId($id) {
+        $doctorBankCard = DoctorBankCard::model();
+        $doctorBankCard->id = $id;
+        $result = $doctorBankCard->delete(true);
+        return $result;
     }
 
     /*     * ******************************微信调用登陆接口********************************************** */

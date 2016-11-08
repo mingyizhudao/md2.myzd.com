@@ -17,8 +17,8 @@ if ($register == 1) {
     $urlReturn = $this->createUrl('doctor/account');
 }
 if (isset($output['id'])) {
-    $urlDoctorRealAuth = 'http://file.mingyizhudao.com/api/loadrealauth?userId=' . $output['id'];
-    // $urlDoctorRealAuth = 'http://121.40.127.64:8089/api/tokenpatientmr' . $output['id'];
+    //$urlDoctorRealAuth = 'http://file.mingyizhudao.com/api/loadrealauth?userId=' . $output['id'];
+    $urlDoctorRealAuth = 'http://121.40.127.64:8089/api/loadrealauth?userId=' . $output['id'];
 } else {
     $urlDoctorRealAuth = "";
 }
