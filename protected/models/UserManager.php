@@ -593,7 +593,8 @@ class UserManager {
         $card->state_name = $regionState->getName();
         $regionCity = RegionCity::model()->getById($card->city_id);
         $card->city_name = $regionCity->getName();
-        
+        $card->is_first = 1;
+
         $transaction = Yii::app()->db->beginTransaction();
         $isOk = true;
         if ($card->save() === false) {
