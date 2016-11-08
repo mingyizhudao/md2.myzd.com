@@ -554,14 +554,16 @@ class ApimdController extends Controller {
                     $user = $this->userLoginRequired($post['auth']);
                     $post['auth']['user_id'] = $user->getId();
                     $userMgr = new UserManager();
-                    $output = $userMgr->apiSaveDoctorRealAuth($post['auth']);
+                    $output = $userMgr->apiSaveDoctorFiles($post['auth']);
                 }
                 break;
             case 'savecardpic':
-                $user = $this->userLoginRequired($post);
-                $post['user_id'] = $user->id;
-                $userMgr = new UserManager();
-                $output = $userMgr->apiSaveDoctorRealAuth($post);
+                if(isset($post['file'])) {
+                    $user = $this->userLoginRequired($post['file']);
+                    $post['file']['user_id'] = $user->id;
+                    $userMgr = new UserManager();
+                    $output = $userMgr->apiSaveDoctorFiles($post['file'] , 1);
+                }
                 break;
             case 'withdraw':
                 if(isset($post['money'])) {

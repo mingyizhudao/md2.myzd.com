@@ -252,7 +252,7 @@ class ApiForPayment
         if($bank) {
             $arg['ledgerno'] = $bank->ledger_no;
         } else{
-            return;
+            return ['code' => 1, 'msg' => '信息不全'];
         }
         //身份证照片获取
         $file_info = $this->HttpGet($this->file_url, $user_id);
@@ -268,6 +268,7 @@ class ApiForPayment
             $file += $card_result->results->files;
         }
 
+        //$ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
         foreach($file as $key=>$item) {
             $path = $this->getRemoteFile($item->absFileUrl);
             if($path == '') {
@@ -280,6 +281,8 @@ class ApiForPayment
                 $type = 'ID_CARD_BACK';
             } elseif($item->certType == 1) {
                 $type = 'PERSON_PHOTO';
+            } elseif($item->certType == 4) {
+                $type = 'BANK_CARD_FRONT';
             }
             $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
             if(isset($result->code) && $result->code == 1) {

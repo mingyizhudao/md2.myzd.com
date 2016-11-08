@@ -634,14 +634,20 @@ class UserManager {
     /**
      * 身份认证信息保存
      * @param $values
+     * @param $type
      * @return array
      */
-    public function apiSaveDoctorRealAuth($values) {
+    public function apiSaveDoctorFiles($values , $type =0) {
         $output = array('status' => 'ok', 'errorCode' => ErrorList::ERROR_NONE, 'errorMsg' => 'success');
         //三张照片一起上传
-        if (isset($values['auth_file']) && is_array($values['auth_file'])) {
+        if($type == 0)  {
+            $files = isset($values['auth_file']) ? $values['auth_file']: [];  //身份认证信息
+        } else {
+            $files = isset($values['file']) ? $values['file'] : [];       //银行卡照片
+        }
+        if ($files && is_array($files)) {
             $form = new UserDoctorRealAuthForm();
-            $form->setAttributes($values['auth_file'], true);
+            $form->setAttributes($files, true);
             $form->user_id = $values['user_id'];
             $form->initModel();
             if ($form->validate()) {
