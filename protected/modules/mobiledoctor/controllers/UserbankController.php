@@ -188,6 +188,7 @@ class UserbankController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $output = array("status" => "no");
         $post = $this->decryptInput();
+        //$post = $_POST;
         if (isset($post['card'])) {
             $values = $post['card'];
             $values['user_id'] = $this->getCurrentUserId();
@@ -205,14 +206,21 @@ class UserbankController extends MobiledoctorController {
                     if($status == 0) {
                         try{
                             $paymentSer = new ApiForPayment();
-                            $paymentSer->registerAccount($values['user_id']);
-                            $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
-                            if($bank->is_active == 1) {
-                                $result = $paymentSer->activateAccount($values['user_id']);
+                            $result = $paymentSer->registerAccount($values['user_id']);
+                            if($result['code'] == 0) {
+                                $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $values['user_id']]);
+                                if($bank->is_active == 1) {
+                                    $result = $paymentSer->activateAccount($values['user_id']);
+                                    $code = $result['code'];
+                                    $output['status'] = $code ? 'no' : 'ok';
+                                    $output['code'] = $code;
+                                    $output['msg'] = $result['msg'];
+                                }
+                            } else {
                                 $code = $result['code'];
                                 $output['status'] = $code ? 'no' : 'ok';
-                                $output['code'] = $code;
-                                $output['msg'] = $result['msg'];
+                                $output['errorCode'] = $code;
+                                $output['errorMsg'] = $result['msg'];
                             }
                         }catch (Exception $ex) {
                             $output['status'] = 'no';
