@@ -633,7 +633,7 @@ class UserManager {
     }
 
     public function apiDeleteOldCard($user_id) {
-        $output = array('status' => 'no', 'errorCode' => ErrorList::ERROR_NONE);
+        $output = array('status' => 'ok', 'errorCode' => ErrorList::ERROR_NONE);
         DoctorBankCard::model()->deleteAllByAttributes(['user_id' => $user_id, 'is_first' => 0]);
         return $output;
     }
