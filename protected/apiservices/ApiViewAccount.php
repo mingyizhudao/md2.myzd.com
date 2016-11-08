@@ -44,6 +44,7 @@ class ApiViewAccount extends EApiViewService
             $output->cardbind = 1;
             $output->card_no = $bank->card_no;
             $output->card_name = $bank->bank;
+            $output->is_first = $bank->is_first;
         } else {
             $output->total = 0;
             $output->withdraw = 0;
@@ -51,6 +52,7 @@ class ApiViewAccount extends EApiViewService
             $output->cardbind = 0;
             $output->card_no = '';
             $output->card_name = '';
+            $output->is_first = 0;
         }
 
         $this->results = $output;
