@@ -155,7 +155,7 @@ class ApimdController extends Controller {
                 $output = $apisvc->loadApiViewData(true);
                 $this->renderJsonOutput($output);
                 break;
-            case 'bankcardlist'://我的银行卡列表
+            case 'bankcardlist'://我的银行卡列表 
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewBankCardList($user->id, $isApp = true);
                 $output = $apiService->loadApiViewData();
