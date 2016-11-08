@@ -188,7 +188,7 @@ class UserbankController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $output = array("status" => "ok");
         $post = $this->decryptInput();
-        $post = $_POST;
+        //$post = $_POST;
         if (isset($post['card'])) {
             $values = $post['card'];
             $values['user_id'] = $this->getCurrentUserId();
