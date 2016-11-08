@@ -71,7 +71,7 @@ $(function () {
     });
 
     function formAjaxSubmit() {
-        disabled(btnSubmit);
+        disabled(submitBtn);
         var formdata = domForm.serializeArray();
         // console.log(formdata);
         var requestUrl = domForm.attr('data-action-url');
@@ -88,17 +88,17 @@ $(function () {
                 if (data.status == 'ok') {
                    location.href = returnUrl;
                 } else {
-                   enable(btnSubmit);
+                   enable( submitBtn);
                 }
             },
             error: function (XmlHttpRequest, textStatus, errorThrown) {
-                enable(btnSubmit);
+                enable( submitBtn);
                 console.log(XmlHttpRequest);
                 console.log(textStatus);
                 console.log(errorThrown);
             },
             complete: function() {
-                enableBtn(btnSubmit);
+                enableBtn( submitBtn);
             }
         });
     }
