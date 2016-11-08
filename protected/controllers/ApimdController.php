@@ -566,10 +566,17 @@ class ApimdController extends Controller {
                 }
                 break;
             case 'withdraw':
-                if(isset($post['money'])) {
-                    $user = $this->userLoginRequired($post);
+                if(isset($post['withdraw'])) {
+                    $user = $this->userLoginRequired($post['withdraw']);
                     $apiService = new ApiViewAccount();
-                    $output = $apiService->loadWithDraw($user->id, 200);
+                    $output = $apiService->loadWithDraw($user->id, $post['withdraw']['money']);
+                }
+                break;
+            case 'delete_old_card':
+                if(isset($post['user'])) {
+                    $user = $this->userLoginRequired($post['user']);
+                    $userMgr = new UserManager();
+                    $output = $userMgr->apiDeleteOldCard($user->id);
                 }
                 break;
             default:
