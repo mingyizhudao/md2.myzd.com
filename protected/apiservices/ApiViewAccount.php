@@ -36,14 +36,18 @@ class ApiViewAccount extends EApiViewService
             $withdraw += $item->amount;
         }
         $output = new \stdClass();
-        $output->total = $bank->balance;
-        $output->withdraw = $withdraw.'.00';
-        $output->date_update= date("Y年m月d日", time());
+
         if($bank) {
+            $output->total = $bank->balance;
+            $output->withdraw = $withdraw.'.00';
+            $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 1;
             $output->card_no = $bank->card_no;
             $output->card_name = $bank->bank;
         } else {
+            $output->total = 0;
+            $output->withdraw = 0;
+            $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 0;
             $output->card_no = '';
             $output->card_name = '';
@@ -93,7 +97,7 @@ class ApiViewAccount extends EApiViewService
         $output = new \stdClass();
         if($bank) {
             $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
-            $output->enable_money = $bank->balance;
+            $output->enable_money = ltrim($bank->balance, 0);
         } else {
             $output->bankinfo = '';
             $output->enable_money = 0;
@@ -104,6 +108,8 @@ class ApiViewAccount extends EApiViewService
     }
 
     public function loadWithDraw($user_id, $money){
+        $pay = new ApiForPayment();
+        $this->results = $pay->giroAccount($user_id, $money);
         return $this->loadApiViewData();
     }
 }
