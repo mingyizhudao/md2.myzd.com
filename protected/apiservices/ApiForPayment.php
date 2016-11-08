@@ -11,11 +11,13 @@ class ApiForPayment
     private static $_instance;
 
     //注册url
-    private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register';
+    private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register'; //测试注册
+    //private $register_url = 'http://crm560.mingyizd.com/financial/yee/register'; //正式注册
     //激活url
-    private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';
+    private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';  //测试激活
+    //private $activate_url = 'http://crm560.mingyizd.com/financial/yee/activation';//正式激活
     //转账url
-    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
+    private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
@@ -220,7 +222,7 @@ class ApiForPayment
                 $arg['bankprovince'] = $bank->state_name;
                 $arg['bankcity'] = $bank->city_name;
             } else {
-                return ['code' => 2, 'msg' => '银行卡信息不完整', 'result' => []];
+                return ['code' => 1, 'msg' => '银行卡信息不完整', 'result' => []];
             }
         } else {
             return ['code' => 1, 'msg' => '未找到用户', 'result' => []];
@@ -254,6 +256,12 @@ class ApiForPayment
         } else{
             return ['code' => 1, 'msg' => '信息不全'];
         }
+        if($bank->is_active == 2) {
+            return ['code' => 1, 'msg' => '账户已激活，无需再次激活！'];
+        }
+        if($bank->is_active == 3) {
+            return ['code' => 1, 'msg' => '账户被拒接，请联系管理员！'];
+        }
         //身份证照片获取
         $file_info = $this->HttpGet($this->file_url, $user_id);
         //银行卡照片信息获取
@@ -268,7 +276,7 @@ class ApiForPayment
             $file += $card_result->results->files;
         }
 
-        //$ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
+        $ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
         foreach($file as $key=>$item) {
             $path = $this->getRemoteFile($item->absFileUrl);
             if($path == '') {
