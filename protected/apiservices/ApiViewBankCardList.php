@@ -16,12 +16,14 @@ class ApiViewBankCardList extends EApiViewService {
     private $userId;
     private $cards;
     private $userMgr;
+    private $isApp;
 
-    public function __construct($userId) {
+    public function __construct($userId, $isApp = false) {
         parent::__construct();
         $this->userId = $userId;
         $this->userMgr = new UserManager();
         $this->cards = array();
+        $this->isApp = $isApp;
         
         $this->output = array(
             'status' => self::RESPONSE_OK,
@@ -49,7 +51,7 @@ class ApiViewBankCardList extends EApiViewService {
             );
             return;
         }
-        $this->results->isFirst = $isHave ? 1: 0;
+        $this->isApp === false && $this->results->isFirst = $isHave ? 1: 0;
         $isHave === false && $this->loadCardList();
     }
 

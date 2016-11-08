@@ -157,7 +157,7 @@ class ApimdController extends Controller {
                 break;
             case 'bankcardlist'://我的银行卡列表
                 $user = $this->userLoginRequired($values);
-                $apiService = new ApiViewBankCardList($user->id);
+                $apiService = new ApiViewBankCardList($user->id, $isApp = true);
                 $output = $apiService->loadApiViewData();
                 break;
             case 'searchDisease'://根据关键字查询疾病
