@@ -276,7 +276,7 @@ class ApiForPayment
             $file += $card_result->results->files;
         }
 
-        $ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
+        //$ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
         foreach($file as $key=>$item) {
             $path = $this->getRemoteFile($item->absFileUrl);
             if($path == '') {
