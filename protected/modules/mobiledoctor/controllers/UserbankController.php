@@ -351,24 +351,24 @@ class UserbankController extends MobiledoctorController {
                 if ($status == 0 || $status == 1) {
                     $output->code = 1;
                     $output->msg = '账户信息认证中，请等待，谢谢！';
-                    if ($status == 0) {
-                        try {
-                            $paymentSer = new ApiForPayment();
-                            $paymentSer->registerAccount($user->id);
-                            $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
-                            if ($bank->is_active == 1) {
-                                $result = $paymentSer->activateAccount($user->id);
-                                $code = $result['code'];
-                                $output->status = $code ? 'no' : 'ok';
-                                $output->code = $code;
-                                $output->msg = $result['msg'];
-                            }
-                        } catch (Exception $ex) {
-                            $output->status = 'no';
-                            $output->code = 1;
-                            $output->msg = '信息错误！';
-                        }
-                    }
+//                    if ($status == 0) {
+//                        try {
+//                            $paymentSer = new ApiForPayment();
+//                            $paymentSer->registerAccount($user->id);
+//                            $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
+//                            if ($bank->is_active == 1) {
+//                                $result = $paymentSer->activateAccount($user->id);
+//                                $code = $result['code'];
+//                                $output->status = $code ? 'no' : 'ok';
+//                                $output->code = $code;
+//                                $output->msg = $result['msg'];
+//                            }
+//                        } catch (Exception $ex) {
+//                            $output->status = 'no';
+//                            $output->code = 1;
+//                            $output->msg = '信息错误！';
+//                        }
+//                    }
                 } elseif ($status == 3) {
                     $output->code = 1;
                     $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
