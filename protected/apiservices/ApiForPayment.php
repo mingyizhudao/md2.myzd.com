@@ -216,7 +216,7 @@ class ApiForPayment
                 $arg['idcard'] = $bank->identification_card;
                 $arg['bankaccountnumber'] = $bank->card_no;
                 $arg['bankname'] = $bank->bank;
-                $arg['accountname'] = $username;
+                $arg['accountname'] = $bank->name;
                 $arg['bankprovince'] = $bank->state_name;
                 $arg['bankcity'] = $bank->city_name;
             } else {

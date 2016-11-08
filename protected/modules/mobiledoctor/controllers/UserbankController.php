@@ -331,44 +331,64 @@ class UserbankController extends MobiledoctorController {
         $this->render('drawCash', array('withdraw' => $output));
     }
 
-    public function actionAjaxWithdraw() {
+    public function actionAjaxWithdraw()
+    {
         $user = $this->getCurrentUser();
         $bank = $user->getDoctorBank();
         $output = new \stdClass();
         $output->code = 0;
         $output->msg = '';
-        if(!$bank) {
+        if (!$bank) {
             $output->code = 1;
             $output->msg = '请您先添加银行卡！';
-        } else{
+        } else {
             //易宝信息认证状态
             $status = $bank->is_active;
-            if($status == 0 || $status == 1) {
+            if ($status == 0 || $status == 1) {
                 $output->code = 1;
                 $output->msg = '账户信息认证中，请等待，谢谢！';
-            } elseif($status == 3) {
-                $output->code = 1;
-                $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
+                $status = $bank->is_active;
+                if ($status == 0 || $status == 1) {
+                    $output->code = 1;
+                    $output->msg = '账户信息认证中，请等待，谢谢！';
+                    if ($status == 0) {
+                        try {
+                            $paymentSer = new ApiForPayment();
+                            $paymentSer->registerAccount($user->id);
+                            $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user->id]);
+                            if ($bank->is_active == 1) {
+                                $result = $paymentSer->activateAccount($user->id);
+                                $code = $result['code'];
+                                $output['status'] = $code ? 'no' : 'ok';
+                                $output['code'] = $code;
+                                $output['msg'] = $result['msg'];
+                            }
+                        } catch (Exception $ex) {
+                            $output['status'] = 'no';
+                            $output['code'] = 1;
+                            $output['msg'] = '信息错误！';
+                        }
+                    }
+                } elseif ($status == 3) {
+                    $output->code = 1;
+                    $output->msg = '账户信息未认证通过，请联系管理员，谢谢！';
+                }
             }
+            $this->renderJsonOutput($output);
         }
-        $this->renderJsonOutput($output);
     }
 
     public function actionAjaxDraw() {
-        $post = $this->decryptInput();
+        //$post = $this->decryptInput();
         $output = new stdClass();
         $output->code = 0;
         $output->msg = '';
-        if(isset($post['amount']) && $post['amount'] > 0) {
+        if(isset($_POST['amount']) && $_POST['amount'] > 0) {
             $user = $this->getCurrentUser();
             $bank = $user->getDoctorBank();
             if($bank) {
                 $pay = new ApiForPayment();
-                //$result = $pay->giroAccount($user->id, $amount);
-                $result = [
-                    'code' => 0,
-                    'msg' => '提款成功'
-                ];
+                $result = $pay->giroAccount($user->id, $_POST['amount']);
                 $output->code = $result['code'];
                 $output->msg = $result['msg'];
             }else{
