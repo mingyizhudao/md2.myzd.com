@@ -6,7 +6,6 @@ $urlDrawCash = $this->createUrl('userbank/drawCash', array('addBackBtn' => 1));
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
 $urlAjaxWithdraw = $this->createUrl('userbank/ajaxWithdraw');
-
 // $isRealAuth = Yii::app()->request->getQuery('isRealAuth', '');
 // var_dump($date_update);die;
 $this->show_footer = false;
@@ -54,12 +53,23 @@ header nav.right {
  		<div class="pl10 grid">
  			<div class="col-0 text-right "style="width:40%;font-size:16px;">累计总收入：</div>
  			<div class="col-1 text-right"style="color:#32c9c0;">￥
-              <?php echo floor($count/1000).",".substr($count,-3,3);?>
+                <?php if($count>=1000){
+                  echo floor($count/1000).",".substr($count,-3,3);
+               }else{
+                  echo $count;
+               }?>
+             
             </div>
  		</div>
  		<div class="pl10 grid pt10">
  			<div class="col-0  pt10 text-right pr5  "style="width:40% ;font-size:13px;">已提现金额：</div>
- 			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥<?php echo floor($cash/1000).",".substr($cash,-3,3);?></div>
+ 			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥
+                <?php if($cash>=1000){
+                  echo floor($cash/1000).",".substr($cash,-3,3);
+               }else{
+                  echo $cash;
+               }?>
+            </div>
  		</div>
  	</div>
  	<div class="pt10 text-right font-s12 c-h">

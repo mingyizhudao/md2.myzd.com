@@ -1,8 +1,9 @@
 <?php
 $this->setPageTitle('申请提现');
 $urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
+$urlAjaxDraw = $this->createUrl('userbank/ajaxDraw');
 $this->show_footer = false;
-// var_dump($withdraw);die;
+// var_dump($output);die;
 ?>
 <style>
   .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
@@ -19,12 +20,18 @@ $this->show_footer = false;
         <div class="col-0 pt8">￥<span class="c-h">|</span></div>
         <div class="col-1"><input type="text"style="border:none;box-shadow:none;"value=""></div>
       </div>
-       <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money"><?php echo floor($withdraw->enable_money/1000).",".substr($withdraw->enable_money,-3,3);?></span>元<span class="c-red pl10"id="all">全部提现</span></div>
+       <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money">
+     <?php if($withdraw->enable_money>1000){
+        echo floor($withdraw->enable_money/1000).",".substr($withdraw->enable_money,-3,3);
+        }else{
+        echo $withdraw->enable_money;
+           }?>  
+      </span>元<span class="c-red pl10"id="all">全部提现</span></div>
    </div>
 
  </div>
  <div class="mt50 ml10 mr10">
-     <button class="btn btn-block btn-green"disabled="disabled"id="btnSubmit">确认提现</button>
+     <button class="btn btn-block btn-green"id="btnSubmit">确认提现</button>
  </div>
  <div class="mt10 text-center font-s12 c-h">具体到账时间以易宝和银行为准</div>
 </article>
@@ -65,14 +72,27 @@ $this->show_footer = false;
    
 
         $('button').click(function(){
-          J.showToast('申请成功！','','1000');
-          setTimeout(function(){
-            location.href = '<?php echo $urlMyAccount; ?>';
-          },'3000');
+           var val=$('input').val();
+          $.ajax({
+              type:'post',
+              url:'<?php echo $urlAjaxDraw?>',
+              data:{amount:val},
+             success:function(data){
+              // console.log('aa',data);
+              if(data.code==0){
+                J.showToast('申请成功！','','1000');
+                setTimeout(function(){
+                      location.href = '<?php echo $urlMyAccount; ?>';
+                },'3000');
+              }
+             
+             }
+          })
+          
           
         });
         $("#all").click(function(){
-              var money=$("#money").html();
+              var money=$("#money").html().replace(/\,/ig,'');
             $("input").val(money);
              $('#btnSubmit').removeAttr('disabled');
         })

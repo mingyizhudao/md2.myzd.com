@@ -11,11 +11,13 @@ class ApiForPayment
     private static $_instance;
 
     //注册url
-    private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register';
+    private $register_url = 'http://crm.dev.mingyizd.com/financial/yee/register'; //测试注册
+    //private $register_url = 'http://crm560.mingyizd.com/financial/yee/register'; //正式注册
     //激活url
-    private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';
+    private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';  //测试激活
+    //private $activate_url = 'http://crm560.mingyizd.com/financial/yee/activation';//正式激活
     //转账url
-    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
+    private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
@@ -216,11 +218,11 @@ class ApiForPayment
                 $arg['idcard'] = $bank->identification_card;
                 $arg['bankaccountnumber'] = $bank->card_no;
                 $arg['bankname'] = $bank->bank;
-                $arg['accountname'] = $username;
+                $arg['accountname'] = $bank->name;
                 $arg['bankprovince'] = $bank->state_name;
                 $arg['bankcity'] = $bank->city_name;
             } else {
-                return ['code' => 2, 'msg' => '银行卡信息不完整', 'result' => []];
+                return ['code' => 1, 'msg' => '银行卡信息不完整', 'result' => []];
             }
         } else {
             return ['code' => 1, 'msg' => '未找到用户', 'result' => []];
@@ -231,6 +233,10 @@ class ApiForPayment
             $bank->is_active = 1;
             $bank->ledger_no = $result->ledgerno;
             $bank->save();
+        }
+
+        if(isset($result->errcode)) {
+            return ['code' => $result->errcode, 'msg' => $result->errmsg];
         }
         return ['code' => 0, 'msg' => '', 'result' => $result];
     }
@@ -248,35 +254,59 @@ class ApiForPayment
         if($bank) {
             $arg['ledgerno'] = $bank->ledger_no;
         } else{
-            return;
+            return ['code' => 1, 'msg' => '信息不全'];
+        }
+        if($bank->is_active == 2) {
+            return ['code' => 1, 'msg' => '账户已激活，无需再次激活！'];
+        }
+        if($bank->is_active == 3) {
+            return ['code' => 1, 'msg' => '账户被拒接，请联系管理员！'];
+        }
+        //身份证照片获取
+        $file_info = $this->HttpGet($this->file_url, $user_id);
+        //银行卡照片信息获取
+        $card_info = $this->HttpGet($this->file_url, $user_id.'&type=4');
+        $file = [];
+        $result = json_decode($file_info);
+        $card_result = json_decode($card_info);
+        if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
+            $file += $result->results->files;
+        }
+        if($card_result->status == 'ok' && isset($card_result->results->files) && !empty($card_result->results->files)) {
+            $file += $card_result->results->files;
         }
 
-        $file_info = $this->HttpGet($this->file_url, $user_id);
-        $result = json_decode($file_info);
-        if($result->status == 'ok' && isset($result->results->files) && !empty($result->results->files)) {
-            foreach($result->results->files as $key=>$item) {
-                $path = $this->getRemoteFile($item->absFileUrl);
-                if($path == '') {
-                    continue;
-                }
-                $type = '';
-                if($item->certType == 2) {
-                    $type = 'ID_CARD_FRONT';
-                } elseif($item->certType == 3) {
-                    $type = 'ID_CARD_BACK';
-                } elseif($item->certType == 1) {
-                    $type = 'PERSON_PHOTO';
-                }
-                $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
-                if(isset($result->code) && $result->code == 1) {
-                    $bank->is_active = 2;
-                    $bank->save();
-                }else {
-                    $bank->is_active = 3;
-                    $bank->save();
-                }
+        $ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
+        foreach($file as $key=>$item) {
+            $path = $this->getRemoteFile($item->absFileUrl);
+            if($path == '') {
+                continue;
+            }
+            $type = '';
+            if($item->certType == 2) {
+                $type = 'ID_CARD_FRONT';
+            } elseif($item->certType == 3) {
+                $type = 'ID_CARD_BACK';
+            } elseif($item->certType == 1) {
+                $type = 'PERSON_PHOTO';
+            } elseif($item->certType == 4) {
+                $type = 'BANK_CARD_FRONT';
+            }
+            $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
+            if(isset($result->code) && $result->code == 1) {
+                $bank->is_active = 2;
+                $bank->save();
+            }else {
+                $bank->is_active = 3;
+                $bank->save();
+            }
+
+            if(isset($result->errcode)) {
+                return ['code' => $result->errcode, 'msg' => $result->errmsg];
             }
         }
+
+        return ['code' => 0, 'msg' => '激活成功!'];
     }
 
     /**
