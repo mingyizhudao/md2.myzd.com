@@ -283,11 +283,22 @@ class UserbankController extends MobiledoctorController {
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
         $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
         $card = DoctorBankCard::model()->getByAttributes(array('user_id' => $user->id));
+
+        $withdraw = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as draw')
+            ->from('user_account_history')
+            ->where('user_id = :user_id', array('user_id' => $user->id))
+            ->queryAll();
+        $money = $total = 0;
+        if($withdraw) {
+            $money = $total->draw;
+        }
         $bindCard = 0;
         if($card) {
             $bindCard = 1;
+            $total = $card->balance;
         }
-        $this->render('myAccount', array('count' => '5000', 'cash' => '1000', 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
+        $this->render('myAccount', array('count' => $total, 'cash' => $money, 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
     
     //我的账户详细页
@@ -332,7 +343,7 @@ class UserbankController extends MobiledoctorController {
         $output = new \stdClass();
         if($bank) {
             $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
-            $output->enable_money = $bank->balance;
+            $output->enable_money = $bank->balance > 0 ? ltrim($bank->balance, 0) : '0.00';
         } else {
             $output->bankinfo = '';
             $output->enable_money = 0;
