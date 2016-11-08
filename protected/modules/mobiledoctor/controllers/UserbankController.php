@@ -186,7 +186,7 @@ class UserbankController extends MobiledoctorController {
 
     //异步提交新增或保存信息
     public function actionAjaxCreate() {
-        $output = array("status" => "no");
+        $output = array("status" => "ok");
         $post = $this->decryptInput();
         //$post = $_POST;
         if (isset($post['card'])) {
@@ -202,7 +202,7 @@ class UserbankController extends MobiledoctorController {
                 if($bank) {
                     $status = $bank->is_active;
                     if($status == 0 || $status == 1) {
-                        $output['code'] = 1;
+                        $output['code'] = 0;
                         $output['msg'] = '账户信息认证中，请等待，谢谢！';
                         if($status == 0) {
                             try{
