@@ -280,10 +280,7 @@ $(function () {
                 $('#jingle_loading.initLoading').show();
                 $('#jingle_loading_mask').show();
                 uploader.start();
-                alert('a');
             } else {
-                alert('b');
-
                 $('#jingle_toast').show();
                 setTimeout(function () {
                     $('#jingle_toast').hide();
