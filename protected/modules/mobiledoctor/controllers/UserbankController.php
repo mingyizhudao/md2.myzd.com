@@ -355,11 +355,11 @@ class UserbankController extends MobiledoctorController {
     }
 
     public function actionAjaxDraw() {
-        $post = $this->decryptInput();
+        // $post = $this->decryptInput();
         $output = new stdClass();
         $output->code = 0;
         $output->msg = '';
-        if(isset($post['amount']) && $post['amount'] > 0) {
+        if(isset($_POST['amount']) && $_POST['amount'] > 0) {
             $user = $this->getCurrentUser();
             $bank = $user->getDoctorBank();
             if($bank) {
@@ -367,7 +367,7 @@ class UserbankController extends MobiledoctorController {
                 //$result = $pay->giroAccount($user->id, $amount);
                 $result = [
                     'code' => 0,
-                    'msg' => '提款成功'
+                    'msg' => '申请成功'
                 ];
                 $output->code = $result['code'];
                 $output->msg = $result['msg'];

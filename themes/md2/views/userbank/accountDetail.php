@@ -20,7 +20,13 @@ $this->show_footer = false;
         <div class="mt10">
             <div class="bg-white pad10 grid">
                 <div class="w50 col-1"><?php echo $data->date;?></div>
-                <div class="w50 col-1 text-right">￥<?php echo floor($data->money/1000).",".substr($data->money,-3,3);?></div>
+                <div class="w50 col-1 text-right">￥
+                    <?php if($data->money>=1000){
+                        echo floor($data->money/1000).",".substr($data->money,-3,3);
+                        }else{
+                        echo $data->money;
+                        } ?>
+                    
             </div>
         </div>
         <?php }?>
@@ -42,7 +48,13 @@ $this->show_footer = false;
             ?>
         <div class="mt10">   
            <div class="pad10 bg-white">
-             <div>提取金额：￥<?php echo floor($withd->money/1000).",".substr($withd->money,-3,3);?></div>
+             <div>提取金额：￥
+                <?php if($withd->money>=1000){
+                        echo floor($$withd->money/1000).",".substr($withd->money,-3,3);
+                        }else{
+                        echo $withd->money;
+                        } ?>
+                
              <div>提取时间：<?php echo $withd->date;?></div>
            </div>
         </div>
