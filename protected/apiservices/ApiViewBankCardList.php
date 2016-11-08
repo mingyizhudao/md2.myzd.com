@@ -55,10 +55,11 @@ class ApiViewBankCardList extends EApiViewService {
 
     private function isHaveFirstCard(){
         $models = $this->userMgr->isHaveFirstCard($this->userId);
-        $transaction = Yii::app()->db->beginTransaction();
         $isOk = false;
 
         if (arrayNotEmpty($models)) {
+            $transaction = Yii::app()->db->beginTransaction();
+            
             foreach ($models as $v) {
                 $this->userMgr->deleteDoctorBankCardByCardId($v->id) === true && $isOk = true; 
                 if ($isOk === false) break;
