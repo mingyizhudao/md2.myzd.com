@@ -127,10 +127,10 @@ $this->show_footer = false;
         <?php
         $this->endWidget();
         ?>
-      <!--   <div class="container">
+       <div class="container">
             <div class="text-left wrapper">
                 <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlCardList; ?>">
-                    <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
+                    <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                 </form>
             </div>
@@ -159,11 +159,11 @@ $this->show_footer = false;
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         
         <div class="pad10 mt20">
             <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
-            <button id="submitBtn"  class="btn btn-full btn-yellow3"disabled="disabled">下一步</button>
+            <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
         </div>
 
     </div>
@@ -217,25 +217,25 @@ $this->show_footer = false;
         });
 
         function checkInput() {
-            var bool = true;
-            $('input').each(function () {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
-            $('select').each(function () {
-                if ($(this).val() == '') {
-                    bool = false;
-                    return false;
-                }
-            });
+            // var bool = true;
+            // $('input').each(function () {
+            //     if ($(this).val() == '') {
+            //         bool = false;
+            //         return false;
+            //     }
+            // });
+            // $('select').each(function () {
+            //     if ($(this).val() == '') {
+            //         bool = false;
+            //         return false;
+            //     }
+            // });
            
-            if (bool) {
-                $('#submitBtn').removeAttr('disabled');
-            } else {
-                $('#submitBtn').attr('disabled', 'disabled');
-            }
+            // if (bool) {
+            //     $('#submitBtn').removeAttr('disabled');
+            // } else {
+            //     $('#submitBtn').attr('disabled', 'disabled');
+            // }
         }
     });
 </script>

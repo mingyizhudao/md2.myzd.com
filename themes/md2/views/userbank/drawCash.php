@@ -31,7 +31,7 @@ $this->show_footer = false;
 
  </div>
  <div class="mt50 ml10 mr10">
-     <button class="btn btn-block btn-green"id="btnSubmit">确认提现</button>
+     <button class="btn btn-block btn-green"id="btnSubmit"disabled="disabled">确认提现</button>
  </div>
  <div class="mt10 text-center font-s12 c-h">具体到账时间以易宝和银行为准</div>
 </article>
@@ -72,7 +72,7 @@ $this->show_footer = false;
    
 
         $('button').click(function(){
-           var val=$('input').val();
+         var val=$('input').val();
           $.ajax({
               type:'post',
               url:'<?php echo $urlAjaxDraw?>',
