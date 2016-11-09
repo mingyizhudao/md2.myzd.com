@@ -35,6 +35,17 @@ class ApiViewAccount extends EApiViewService
     public function loadAccountCenter($user_id, $user_name){
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
 
+        $total = 0;
+        $result = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as total')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user_name))
+            ->andWhere('is_withdrawal = 1')
+            ->queryAll();
+        if($result) {
+            $total = empty($result[0]['total']) ? '0.00' : ltrim($result[0]['total'], 0);
+        }
+
         $output = new \stdClass();
         if($bank) {
             $withdraw = Yii::app()->db->createCommand()
@@ -50,17 +61,6 @@ class ApiViewAccount extends EApiViewService
 
             if(empty($money)) {
                 $money = '0.00';
-            }
-
-            $total = 0;
-            $result = Yii::app()->db->createCommand()
-                ->select('SUM(`amount`) as total')
-                ->from('doctor_withdrawal')
-                ->where('phone = :phone', array('phone' => $user_name))
-                ->andWhere('is_withdrawal = 1')
-                ->queryAll();
-            if($result) {
-                $total = empty($result[0]['total']) ? '0.00' : ltrim($result[0]['total'], 0);
             }
 
             $output->total = $total;
