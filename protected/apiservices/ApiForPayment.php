@@ -226,7 +226,7 @@ class ApiForPayment
                 $arg['bankprovince'] = $bank->state_name;
                 $arg['bankcity'] = $bank->city_name;
             } else {
-                return ['code' => 1, 'msg' => '银行卡信息不完整', 'result' => []];
+                return ['code' => 1, 'msg' => $msg, 'result' => []];
             }
         } else {
             return ['code' => 1, 'msg' => '未找到用户', 'result' => []];

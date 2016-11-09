@@ -30,16 +30,21 @@ class ApiViewAccount extends EApiViewService
 
     public function loadAccountCenter($user_id){
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
-        $history = UserAccountHistory::model()->findAllByAttributes(['user_id' => $user_id]);
-        $withdraw = 0;
-        foreach($history as $item) {
-            $withdraw += $item->amount;
-        }
-        $output = new \stdClass();
 
+        $output = new \stdClass();
         if($bank) {
+            $withdraw = Yii::app()->db->createCommand()
+                ->select('SUM(`amount`) as draw')
+                ->from('user_account_history')
+                ->where('user_id = :user_id', array('user_id' => $user_id))
+                ->andWhere('ledgerno = :ledgerno', array('ledgerno' => $bank->ledger_no))
+                ->queryAll();
+            $money = 0;
+            if($withdraw) {
+                $money = $withdraw[0]['draw'];
+            }
             $output->total = $bank->balance;
-            $output->withdraw = $withdraw.'.00';
+            $output->withdraw = $money;
             $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 1;
             $output->card_no = $bank->card_no;
@@ -99,7 +104,7 @@ class ApiViewAccount extends EApiViewService
         $output = new \stdClass();
         if($bank) {
             $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
-            $output->enable_money = $bank->balance > 0 ? ltrim($bank->balance, 0) : $bank->balance;
+            $output->enable_money = $bank->balance > 0 ? ltrim($bank->balance, 0) : '0.00';
         } else {
             $output->bankinfo = '';
             $output->enable_money = 0;
