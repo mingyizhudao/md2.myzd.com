@@ -434,5 +434,4 @@ class UserbankController extends MobiledoctorController {
         }
         $this->renderJsonOutput($output);
     }
-
 }

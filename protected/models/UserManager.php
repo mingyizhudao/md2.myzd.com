@@ -40,11 +40,7 @@ class UserManager {
         } else {
             $output['status'] = 'ok';
             $output['cardId'] = $card->getId();
-            //若该卡为默认 则将其它都都改为不默认
-//             if ($card->is_default == 1) {
-//                 $this->updateUnDefault($card->getId());
-//             }
-            
+
             if ($isCreate === true) {
                 //只能绑定一张卡，创建新卡删除老卡
                 $result = $this->loadCardsByUserId($values['user_id']);
