@@ -7,6 +7,10 @@
  */
 class ApiViewAccount extends EApiViewService
 {
+    private $errorCode = 0;
+    private $errorMsg = 'success';
+    private $status = self::RESPONSE_OK;
+
     public function __construct()
     {
         parent::__construct();
@@ -20,9 +24,9 @@ class ApiViewAccount extends EApiViewService
     public function createOutput()
     {
         $this->output = array(
-            'status' => self::RESPONSE_OK,
-            'errorCode' => 0,
-            'errorMsg' => 'success',
+            'status' => $this->status,
+            'errorCode' => $this->errorCode,
+            'errorMsg' => $this->errorMsg,
             'results' => $this->results,
         );
     }
@@ -135,7 +139,12 @@ class ApiViewAccount extends EApiViewService
 
     public function loadWithDraw($user_id, $money){
         $pay = new ApiForPayment();
-        $this->results = $pay->giroAccount($user_id, $money);
+        $result = $pay->giroAccount($user_id, $money);
+        if($result['code'] != 1) {
+            $this->status = 'no';
+            $this->errorCode = $result['code'];
+            $this->errorMsg = $result['msg'];
+        }
         return $this->loadApiViewData();
     }
 }
