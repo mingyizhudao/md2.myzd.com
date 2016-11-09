@@ -373,7 +373,7 @@ class ApiForPayment
         $result = $this->HttpPost($this->giro_url, $arg);
         if(isset($result->code)){
             $output['code'] = $result->code;
-            $output['msg'] = $result->msg;
+            $output['msg'] = $result->requestid;
             if($result->code == 1) {
                 //更新状态
                 $history->status = 1;
