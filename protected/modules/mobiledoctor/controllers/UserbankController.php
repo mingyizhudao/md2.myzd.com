@@ -420,10 +420,15 @@ class UserbankController extends MobiledoctorController {
             $user = $this->getCurrentUser();
             $bank = $user->getDoctorBank();
             if($bank) {
-                $pay = new ApiForPayment();
-                $result = $pay->giroAccount($user->id, $_POST['amount']);
-                $output->code = $result['code'];
-                $output->msg = $result['msg'];
+                if(empty($bank->ledger_no)) {
+                    $output->code = 1;
+                    $output->msg = '账户未激活！';
+                } else{
+                    $pay = new ApiForPayment();
+                    $result = $pay->giroAccount($user->id, $_POST['amount']);
+                    $output->code = $result['code'];
+                    $output->msg = $result['msg'];
+                }
             }else{
                 $output->code = 1;
                 $output->msg = '银行卡未绑定！';
