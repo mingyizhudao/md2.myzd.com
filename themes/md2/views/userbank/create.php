@@ -1,5 +1,5 @@
 <?php
-// Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/custom.min.1.0.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/custom.min.1.0.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/doctor/jquery.formvalidate.min.1.1.js', CClientScript::POS_END);
 // Yii::app()->clientScript->registerScriptFile('http://static.mingyizhudao.com/card.min.1.0.js', CClientScript::POS_END);
 // Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl . '/js/qiniu/js/bankCreate.js?ts=' . time(), CClientScript::POS_END);
@@ -163,7 +163,7 @@ $this->show_footer = false;
         
         <div class="pad10 mt20">
             <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
-            <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button>
+            <button id="submitBtn"  class="btn btn-full btn-yellow3"disabled="disabled">下一步</button>
         </div>
 
     </div>
@@ -217,25 +217,25 @@ $this->show_footer = false;
         });
 
         function checkInput() {
-            // var bool = true;
-            // $('input').each(function () {
-            //     if ($(this).val() == '') {
-            //         bool = false;
-            //         return false;
-            //     }
-            // });
-            // $('select').each(function () {
-            //     if ($(this).val() == '') {
-            //         bool = false;
-            //         return false;
-            //     }
-            // });
+            var bool = true;
+            $('input').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
+            $('select').each(function () {
+                if ($(this).val() == '') {
+                    bool = false;
+                    return false;
+                }
+            });
            
-            // if (bool) {
-            //     $('#submitBtn').removeAttr('disabled');
-            // } else {
-            //     $('#submitBtn').attr('disabled', 'disabled');
-            // }
+            if (bool) {
+                $('#submitBtn').removeAttr('disabled');
+            } else {
+                $('#submitBtn').attr('disabled', 'disabled');
+            }
         }
     });
 </script>
