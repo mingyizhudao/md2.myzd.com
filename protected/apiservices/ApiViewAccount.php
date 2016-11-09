@@ -139,13 +139,20 @@ class ApiViewAccount extends EApiViewService
     }
 
     public function loadWithDraw($user_id, $money){
-        $pay = new ApiForPayment();
-        $result = $pay->giroAccount($user_id, $money);
-        if($result['code'] != 1) {
+        if($money > 0) {
+            $pay = new ApiForPayment();
+            $result = $pay->giroAccount($user_id, $money);
+            if($result['code'] != 1) {
+                $this->status = 'no';
+                $this->errorCode = $result['code'];
+                $this->errorMsg = $result['msg'];
+            }
+        } else {
             $this->status = 'no';
-            $this->errorCode = $result['code'];
-            $this->errorMsg = $result['msg'];
+            $this->errorCode = ErrorList::BAD_REQUEST;
+            $this->errorMsg = '请输入正确金额';
         }
+
         return $this->loadApiViewData();
     }
 }
