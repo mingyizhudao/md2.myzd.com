@@ -22,11 +22,12 @@ $withdraw->enable_money=3000;
         <div class="col-1"><input type="text"style="border:none;box-shadow:none;"value=""></div>
       </div>
        <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money">
-     <?php if($withdraw->enable_money>1000){
-        echo floor($withdraw->enable_money/1000).",".substr($withdraw->enable_money,-3,3);
-        }else{
-        echo $withdraw->enable_money;
-           }?>  
+          <?php   if(is_int($withdraw->enable_money)){
+                    echo number_format($withdraw->enable_money);
+                }else{
+                    echo number_format($withdraw->enable_money,2);
+                }?>
+ 
       </span>元<span class="c-red pl10"id="all">全部提现</span></div>
    </div>
 

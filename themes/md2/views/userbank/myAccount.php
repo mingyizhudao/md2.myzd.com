@@ -52,22 +52,24 @@ header nav.right {
  		<div class="pl10 grid">
  			<div class="col-0 text-right "style="width:40%;font-size:16px;">累计总收入：</div>
  			<div class="col-1 text-right"style="color:#32c9c0;">￥
-                <?php if($count>=1000){
-                  echo floor($count/1000).",".substr($count,-3,3);
-               }else{
-                  echo $count;
-               }?>
-             
+            <?php   if(is_int($count)){
+                    echo number_format($count);
+                }else{
+                    echo number_format($count,2);
+                }?>
+
             </div>
  		</div>
  		<div class="pl10 grid pt10">
  			<div class="col-0  pt10 text-right pr5  "style="width:40% ;font-size:13px;">已提现金额：</div>
  			<div class="col-1 text-right pt10"style="color:#32c9c0;">￥
-                <?php if($cash>=1000){
-                  echo floor($cash/1000).",".substr($cash,-3,3);
-               }else{
-                  echo $cash;
-               }?>
+        <?php   if(is_int($cash)){
+                    echo number_format($cash);
+                }else{
+                    echo number_format($cash,2);
+                }?>
+
+                
             </div>
  		</div>
  	</div>
