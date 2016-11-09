@@ -17,7 +17,8 @@ class ApiForPayment
     private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';  //测试激活
     //private $activate_url = 'http://crm560.mingyizd.com/financial/yee/activation';//正式激活
     //转账url
-    private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
+    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
+    //private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
