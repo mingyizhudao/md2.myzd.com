@@ -32,7 +32,6 @@ class ApiViewAccount extends EApiViewService
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
 
         $output = new \stdClass();
-
         if($bank) {
             $withdraw = Yii::app()->db->createCommand()
                 ->select('SUM(`amount`) as draw')
