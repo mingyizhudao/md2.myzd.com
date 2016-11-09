@@ -93,6 +93,7 @@ class ApiViewAccount extends EApiViewService
             ->select('SUM(`amount`) as money, `create_date`')
             ->from('doctor_withdrawal')
             ->where('phone = :phone', array('phone' => $user->username))
+            ->andWhere('is_withdrawal = 1')
             ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
             ->order('create_date desc')
             ->queryAll();
