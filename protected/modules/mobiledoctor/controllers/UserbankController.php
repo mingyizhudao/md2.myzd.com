@@ -293,10 +293,19 @@ class UserbankController extends MobiledoctorController {
         if($withdraw) {
             $money = $withdraw[0]['draw'];
         }
+        $total = 0;
+        $result = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as total')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->andWhere('is_withdrawal = 1')
+            ->queryAll();
+        if($result) {
+            $total = empty($result[0]['total']) ? '0.00' : ltrim($result[0]['total'], 0);
+        }
         $bindCard = 0;
         if($card) {
             $bindCard = 1;
-            $total = $card->balance > 0 ? ltrim($card->balance, 0) : '0.00';
         }
         $this->render('myAccount', array('count' => $total, 'cash' => $money, 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
