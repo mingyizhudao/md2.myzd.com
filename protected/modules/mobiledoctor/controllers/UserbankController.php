@@ -321,7 +321,9 @@ class UserbankController extends MobiledoctorController {
             ->select('SUM(`amount`) as money, `create_date`')
             ->from('doctor_withdrawal')
             ->where('phone = :phone', array('phone' => $user->username))
+            ->andWhere('is_withdrawal = 1')
             ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->order('create_date desc')
             ->queryAll();
 
         foreach($account_total as $item) {
@@ -343,7 +345,7 @@ class UserbankController extends MobiledoctorController {
         foreach($withdraw_history as $item) {
             $output = new \stdClass();
             $output->money = $item['amount'];
-            $output->date= date("Y年m月d H:i:s", strtotime($item['date_created']));
+            $output->date= date("Y年m月d日 H:i:s", strtotime($item['date_created']));
             $withdraw[] = $output;
         }
 
