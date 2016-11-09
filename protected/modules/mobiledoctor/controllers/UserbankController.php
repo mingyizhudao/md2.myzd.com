@@ -193,7 +193,7 @@ class UserbankController extends MobiledoctorController {
         if (isset($post['card'])) {
             $values = $post['card'];
             $values['user_id'] = $user->id;
-            $values['name'] = $user->username;
+            $values['name'] = $user->getUserDoctorProfile()->getName();
             $userMgr = new UserManager();
             $output = $userMgr->createCard($values);
 

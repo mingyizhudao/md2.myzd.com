@@ -17,11 +17,13 @@ class ApiForPayment
     private $activate_url = 'http://crm.dev.mingyizd.com/financial/yee/activation';  //测试激活
     //private $activate_url = 'http://crm560.mingyizd.com/financial/yee/activation';//正式激活
     //转账url
-    private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
+    private $giro_url = 'http://crm.dev.mingyizd.com/financial/yee/transfer';
+    //private $giro_url = 'http://crm560.mingyizd.com/financial/yee/transfer';
     //资质文件url
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
 
+    private $file_system = 'http://7xp8ky.com1.z0.glb.clouddn.com/';
     //账户信息更新url
     private $modify_url = 'http://crm.dev.mingyizd.com/financial/yee/modify';
     //private $modify_url = 'http://crm560.mingyizd.com/financial/yee/modify';
@@ -274,9 +276,10 @@ class ApiForPayment
             $file += $card_result->results->files;
         }
 
-        //$ret = $this->uploadRemoteFile($this->base_dir.'265525841654736346.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
+        //$ret = $this->uploadRemoteFile($this->base_dir.'5D0AC0FE3F0CB8DD962D0F7B3F99D6BE.jpg', $arg['ledgerno'], 'BANK_CARD_FRONT');
         foreach($file as $key=>$item) {
-            $path = $this->getRemoteFile($item->absFileUrl);
+            $file_url = str_replace('undefined', $this->file_system, $item->absFileUrl);
+            $path = $this->getRemoteFile($file_url);
             if($path == '') {
                 continue;
             }
@@ -370,9 +373,10 @@ class ApiForPayment
         $result = $this->HttpPost($this->giro_url, $arg);
         if(isset($result->code)){
             $output['code'] = $result->code;
-            $output['msg'] = $result->msg;
+            $output['msg'] = $result->requestid;
             if($result->code == 1) {
                 //更新状态
+                $output['code'] = 0;
                 $history->status = 1;
                 $history->save();
             } else {
