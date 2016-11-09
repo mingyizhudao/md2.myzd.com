@@ -72,7 +72,7 @@ class ApiViewAccount extends EApiViewService
             $output->card_name = $bank->bank;
             $output->is_first = $bank->is_first;
         } else {
-            $output->total = 0;
+            $output->total = $total;
             $output->withdraw = 0;
             $output->balance = 0;
             $output->date_update= date("Y年m月d日", time());
