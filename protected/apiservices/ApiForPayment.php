@@ -22,6 +22,9 @@ class ApiForPayment
     //private $file_url = 'http://file.mingyizhudao.com/api/loadrealauth?userId=';  //正式服务器
     private $file_url = 'http://121.40.127.64:8089/api/loadrealauth?userId='; //测试服务器
 
+    //账户信息更新url
+    private $modify_url = 'http://crm.dev.mingyizd.com/financial/yee/modify';
+    //private $modify_url = 'http://crm560.mingyizd.com/financial/yee/modify';
     private $base_dir = '.\\protected\\doc\\pic\\';
 
     public static function instance() {
@@ -248,9 +251,10 @@ class ApiForPayment
     /**
      * 激活账户
      * @param $user_id
+     * @param $active_type 0 创建 1 更新
      * @return array
      */
-    public function activateAccount($user_id) {
+    public function activateAccount($user_id , $active_type = 0) {
         $arg = [
             'ledgerno' => ''
         ];
@@ -297,12 +301,14 @@ class ApiForPayment
                 $type = 'BANK_CARD_FRONT';
             }
             $result = $this->uploadRemoteFile($path, $arg['ledgerno'], $type);
-            if(isset($result->code) && $result->code == 1) {
-                $bank->is_active = 2;
-                $bank->save();
-            }else {
-                $bank->is_active = 3;
-                $bank->save();
+            if($active_type == 0) {
+                if(isset($result->code) && $result->code == 1) {
+                    $bank->is_active = 2;
+                    $bank->save();
+                }else {
+                    $bank->is_active = 3;
+                    $bank->save();
+                }
             }
 
             if(isset($result->errcode)) {
@@ -315,10 +321,13 @@ class ApiForPayment
 
     /**
      * 账户信息修改接口
+     * @param $user_id
      * @param $data
+     * @return array
      */
-    public function updateAccount($data) {
+    public function updateAccount($user_id, $data) {
         $arg = [
+            'ledgerno' => '', //子账户商编
             'bankaccountnumber' => '', //银行卡号
             'bankname' => '', //开户行
             'accountname' => '', //开户名
@@ -327,6 +336,16 @@ class ApiForPayment
             'callbackurl' => '', //后台回调地址
             'bindmobile' => '', //绑定手机号
         ];
+        $result = $this->HttpPost($this->modify_url, $data);
+        if(isset($result->code) && $result->code == 1) { //信息更新成功,重新激活
+            $ret = $this->activateAccount($user_id, 1);
+            return $ret;
+        }else {
+            if(isset($result->errcode)) {
+                return ['code' => $result->errcode, 'msg' => $result->errmsg];
+            }
+        }
+        return ['code' => 0, 'msg' => '更新成功'];
     }
 
     /**
