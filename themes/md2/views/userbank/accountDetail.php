@@ -1,7 +1,6 @@
 <?php
 $this->setPageTitle('查看详情');
 $this->show_footer = false;
-// var_dump($withdraw);die;
 ?>
 <style>
     .bb-g{border-bottom: 2px solid #32c9c0;}
@@ -21,23 +20,17 @@ $this->show_footer = false;
             <div class="bg-white pad10 grid">
                 <div class="w50 col-1"><?php echo $data->date;?></div>
                 <div class="w50 col-1 text-right">￥
-                    <?php if($data->money>=1000){
-                        echo floor($data->money/1000).",".substr($data->money,-3,3);
-                        }else{
-                        echo $data->money;
-                        } ?>
+                    <?php   if(is_int($data->money)){
+                    echo number_format($data->money);
+                }else{
+                    echo number_format($data->money,2);
+                }?>
+
+
                     
             </div>
         </div>
         <?php }?>
-         <!-- <div class="mt10">
-            <div class="bg-white pad10 grid">
-                <div class="w50 col-1">2016年10月</div>
-                <div class="w50 col-1 text-right">￥5000</div>
-            </div>
-        </div> -->
-        
-        
         <div class="text-center font-s12 mt10 c-h mb50">
             账户信息从2016年9月开始计算
         </div>
@@ -49,11 +42,13 @@ $this->show_footer = false;
         <div class="mt10">   
            <div class="pad10 bg-white">
              <div>提取金额：￥
-                <?php if($withd->money>=1000){
-                        echo floor($$withd->money/1000).",".substr($withd->money,-3,3);
-                        }else{
-                        echo $withd->money;
-                        } ?>
+                 <?php   if(is_int($withd->money)){
+                    echo number_format($withd->money);
+                }else{
+                    echo number_format($withd->money,2);
+                }?>
+
+                
                 
              <div>提取时间：<?php echo $withd->date;?></div>
            </div>
@@ -63,10 +58,7 @@ $this->show_footer = false;
             <div>温馨提示：</div>
             <div class="text-justify">具体到帐时间以易宝为准，通常需要一个工作日，请您留意银行卡到帐信息。</div>
         </div>
-
-
-
-    </div>
+     </div>
 </article>
 <script>
     $(function(){
