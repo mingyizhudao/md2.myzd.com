@@ -28,7 +28,7 @@ class ApiViewAccount extends EApiViewService
     }
 
 
-    public function loadAccountCenter($user_id){
+    public function loadAccountCenter($user_id, $user_name){
         $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id]);
 
         $output = new \stdClass();
@@ -43,7 +43,23 @@ class ApiViewAccount extends EApiViewService
             if($withdraw) {
                 $money = $withdraw[0]['draw'];
             }
-            $output->total = $bank->balance;
+
+            if(empty($money)) {
+                $money = '0.00';
+            }
+
+            $total = 0;
+            $result = Yii::app()->db->createCommand()
+                ->select('SUM(`amount`) as total')
+                ->from('doctor_withdrawal')
+                ->where('phone = :phone', array('phone' => $user_name))
+                ->andWhere('is_withdrawal = 1')
+                ->queryAll();
+            if($result) {
+                $total = empty($result[0]['total']) ? '0.00' : ltrim($result[0]['total'], 0);
+            }
+
+            $output->total = $total;
             $output->withdraw = $money;
             $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 1;
@@ -72,11 +88,12 @@ class ApiViewAccount extends EApiViewService
             ->from('doctor_withdrawal')
             ->where('phone = :phone', array('phone' => $user->username))
             ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->order('create_date desc')
             ->queryAll();
 
         foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = $item['money'];
+            $output->money = empty($item['money']) ? '0.00' : $item['money'];
             $output->date= date("Y年m月", strtotime($item['create_date']));
             $list[] = $output;
         }

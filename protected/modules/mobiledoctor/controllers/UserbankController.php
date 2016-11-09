@@ -293,10 +293,19 @@ class UserbankController extends MobiledoctorController {
         if($withdraw) {
             $money = $withdraw[0]['draw'];
         }
+        $total = 0;
+        $result = Yii::app()->db->createCommand()
+            ->select('SUM(`amount`) as total')
+            ->from('doctor_withdrawal')
+            ->where('phone = :phone', array('phone' => $user->username))
+            ->andWhere('is_withdrawal = 1')
+            ->queryAll();
+        if($result) {
+            $total = empty($result[0]['total']) ? '0.00' : ltrim($result[0]['total'], 0);
+        }
         $bindCard = 0;
         if($card) {
             $bindCard = 1;
-            $total = $card->balance > 0 ? ltrim($card->balance, 0) : '0.00';
         }
         $this->render('myAccount', array('count' => $total, 'cash' => $money, 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
@@ -315,18 +324,24 @@ class UserbankController extends MobiledoctorController {
 
         foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = $item['money'];
+            $output->money = empty($item['money']) ? '0.00' : $item['money'];
             $output->date= date("Y年m月", strtotime($item['create_date']));
             $total[] = $output;
         }
-
+        $bank = $user->getDoctorBank();
         //提现详情
-        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user->id]);
+        $withdraw_history = Yii::app()->db->createCommand()
+            ->select('amount, date_created')
+            ->from('user_account_history')
+            ->where('user_id = :user_id', array('user_id' => $user->id))
+            ->andWhere('ledgerno=:ledgerno', array('ledgerno' => $bank->ledger_no))
+            ->order('date_created desc')
+            ->queryAll();
         $withdraw = [];
         foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = $item->amount;
-            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
+            $output->money = $item['amount'];
+            $output->date= date("Y年m月d H:i:s", strtotime($item['date_created']));
             $withdraw[] = $output;
         }
 

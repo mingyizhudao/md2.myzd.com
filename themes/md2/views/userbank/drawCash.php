@@ -3,7 +3,8 @@ $this->setPageTitle('申请提现');
 $urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
 $urlAjaxDraw = $this->createUrl('userbank/ajaxDraw');
 $this->show_footer = false;
-// var_dump($output);die;
+$withdraw->enable_money=3000;
+
 ?>
 <style>
   .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
@@ -21,11 +22,12 @@ $this->show_footer = false;
         <div class="col-1"><input type="text"style="border:none;box-shadow:none;"value=""></div>
       </div>
        <div class="pad10 font-s12 c-h bt-h">您的账户目前共有<span id="money">
-     <?php if($withdraw->enable_money>1000){
-        echo floor($withdraw->enable_money/1000).",".substr($withdraw->enable_money,-3,3);
-        }else{
-        echo $withdraw->enable_money;
-           }?>  
+          <?php   if(is_int($withdraw->enable_money)){
+                    echo number_format($withdraw->enable_money);
+                }else{
+                    echo number_format($withdraw->enable_money,2);
+                }?>
+ 
       </span>元<span class="c-red pl10"id="all">全部提现</span></div>
    </div>
 
@@ -78,7 +80,7 @@ $this->show_footer = false;
               url:'<?php echo $urlAjaxDraw?>',
               data:{amount:val},
              success:function(data){
-              // console.log('aa',data);
+              console.log('aa',data);
               if(data.code==0){
                 J.showToast('申请成功！','','1000');
                 setTimeout(function(){
@@ -92,7 +94,7 @@ $this->show_footer = false;
           
         });
         $("#all").click(function(){
-              var money=$("#money").html().replace(/\,/ig,'');
+              var money=parseFloat($("#money").html().replace(/\,/ig,''));
             $("input").val(money);
              $('#btnSubmit').removeAttr('disabled');
         })

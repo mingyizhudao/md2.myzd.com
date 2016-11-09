@@ -197,7 +197,7 @@ class ApimdController extends Controller {
             case 'account_center':
                 $user = $this->userLoginRequired($values);
                 $apiService = new ApiViewAccount();
-                $output = $apiService->loadAccountCenter($user->id);
+                $output = $apiService->loadAccountCenter($user->id, $user->username);
                 break;
             case 'account_detail_total':
                 $user = $this->userLoginRequired($values);

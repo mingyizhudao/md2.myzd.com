@@ -1,19 +1,14 @@
 <?php
 $this->setPageTitle('我的银行卡');
 $urlResImage = Yii::app()->theme->baseUrl . "/images/";
-$urlAjaxCardList = $this->createUrl('userbank/ajaxCardList');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
 $urlViewInputKey = $this->createUrl('userbank/viewInputKey', array('addBackBtn' => 1, 'type' => 1, 'id' => ''));
 $urlDoctorView = $this->createUrl('doctor/view');
- $urlAjaxDelete = $this->createUrl('userbank/ajaxDelete');
+$urlAjaxDelete = $this->createUrl('userbank/ajaxDelete');
 $urlCardList = $this->createUrl('userbank/cardList', array('addBackBtn' => 1));
 $urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
-
-
 $cardId = Yii::app()->request->getQuery('card_id', '');
-// var_dump($data->results->cards);die;
 $this->show_footer = false;
-
 ?>
 <style>
     .b{border: 1px solid #fff;border-radius: 5px;padding:2px;}
@@ -61,7 +56,17 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                                 <!-- <?php echo $card->bank; ?> -->
                                <img src="http://static.mingyizhudao.com/147823936954362"style="width:27px;"><span class="pl5"><?php echo $card->bank;?></span>
                             </div>
-                            <div class="col-0  text-right b font-s12">等待激活 </div>
+                            <div class="col-0  text-right b font-s12">
+                            <?php if($card->is_active==2){
+                                echo "可以使用";
+                               }else if($card->is_active==3){
+                                echo "此卡无效";
+                               }else {
+                                echo "等待激活";
+                               }
+
+                                ?>
+                            </div>
 
                            
                         </div>
@@ -101,8 +106,22 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
 </article>
 <script>
     $(function(){
-       
-        var length='<?php echo count($data->results->cards);?>';
+         var length='<?php echo count($data->results->cards);?>';
+         var isFirst='<?php echo $data->results->isFirst;?>';
+         if(isFirst==0){
+             J.customConfirm('',
+                        '<div class="text-justify">尊敬的医生，因账户服务优化提升，烦请您再次填写正确的银行卡信息。谢谢您的谅解和支持。</div>',
+                        '<a id="close" class=" color-green">我知道了</a>',
+                        '',
+                        function () {
+                        },
+                        function () {
+                        });
+         $("#close").click(function(){
+                J.closePopup();
+             });
+
+         }
        if(length>0){
         $("#delCard").click(function(){
              J.customConfirm('',
@@ -156,7 +175,6 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
         })
      //更换银行卡
      $("#change").click(function(){
-        console.log('a');
         J.customConfirm('<div style="color:black">提示</div>',
                         '<div class="text-justify">将要删除您目前绑定的银行卡信息，确认更换银行卡?</div>',
                         '<a id="turn" class="w50 color-green">确认更换</a>',
@@ -169,7 +187,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                 J.closePopup();
              });
              $("#turn").click(function(){
-                location.href="<?php echo $urlCreate;?>"
+                location.href="<?php echo $urlCreate;?>"+"?isFirst="+'<?php echo $data->results->isFirst;?>';
              })
             
         

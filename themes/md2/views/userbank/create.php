@@ -127,7 +127,7 @@ $this->show_footer = false;
         <?php
         $this->endWidget();
         ?>
-        <div class="container">
+      <!--   <div class="container">
             <div class="text-left wrapper">
                 <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlCardList; ?>">
                     <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
@@ -159,7 +159,7 @@ $this->show_footer = false;
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         
         <div class="pad10 mt20">
             <!--  <button id="submitBtn"  class="btn btn-full btn-yellow3">下一步</button> -->
