@@ -188,10 +188,12 @@ class UserbankController extends MobiledoctorController {
     public function actionAjaxCreate() {
         $output = array("status" => "ok");
         $post = $this->decryptInput();
+        $user = $this->getCurrentUser();
         //$post = $_POST;
         if (isset($post['card'])) {
             $values = $post['card'];
-            $values['user_id'] = $this->getCurrentUserId();
+            $values['user_id'] = $user->id;
+            $values['name'] = $user->username;
             $userMgr = new UserManager();
             $output = $userMgr->createCard($values);
 
@@ -418,10 +420,15 @@ class UserbankController extends MobiledoctorController {
             $user = $this->getCurrentUser();
             $bank = $user->getDoctorBank();
             if($bank) {
-                $pay = new ApiForPayment();
-                $result = $pay->giroAccount($user->id, $_POST['amount']);
-                $output->code = $result['code'];
-                $output->msg = $result['msg'];
+                if(empty($bank->ledger_no)) {
+                    $output->code = 1;
+                    $output->msg = '账户未激活！';
+                } else{
+                    $pay = new ApiForPayment();
+                    $result = $pay->giroAccount($user->id, $_POST['amount']);
+                    $output->code = $result['code'];
+                    $output->msg = $result['msg'];
+                }
             }else{
                 $output->code = 1;
                 $output->msg = '银行卡未绑定！';
@@ -432,5 +439,4 @@ class UserbankController extends MobiledoctorController {
         }
         $this->renderJsonOutput($output);
     }
-
 }
