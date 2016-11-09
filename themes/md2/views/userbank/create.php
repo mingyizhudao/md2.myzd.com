@@ -130,7 +130,7 @@ $this->show_footer = false;
        <div class="container">
             <div class="text-left wrapper">
                 <form id="idCard-form" data-url-uploadfile="<?php echo $ajaxDoctorRealAuth; ?>" data-url-return="<?php echo $urlCardList; ?>">
-                    <input type="hidden" id="domain" value="http://drcert.file.mingyizhudao.com">
+                    <input type="hidden" id="domain" value="http://7xp8ky.com1.z0.glb.clouddn.com">
                     <input type="hidden" id="uptoken_url" value="<?php echo $urlQiniuAjaxToken; ?>">
                 </form>
             </div>
