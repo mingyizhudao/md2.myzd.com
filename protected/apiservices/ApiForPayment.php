@@ -376,6 +376,7 @@ class ApiForPayment
             $output['msg'] = $result->requestid;
             if($result->code == 1) {
                 //更新状态
+                $output['code'] = 0;
                 $history->status = 1;
                 $history->save();
             } else {
