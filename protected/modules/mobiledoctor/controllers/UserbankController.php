@@ -292,6 +292,7 @@ class UserbankController extends MobiledoctorController {
                 ->from('user_account_history')
                 ->where('user_id = :user_id', array('user_id' => $user->id))
                 ->andWhere('ledgerno = :ledgerno', array('ledgerno' => $card->ledger_no))
+                ->andWhere('status = 1')
                 ->queryAll();
             if($withdraw) {
                 $money = $withdraw[0]['draw'];
@@ -342,6 +343,7 @@ class UserbankController extends MobiledoctorController {
                 ->from('user_account_history')
                 ->where('user_id = :user_id', array('user_id' => $user->id))
                 ->andWhere('ledgerno=:ledgerno', array('ledgerno' => $bank->ledger_no))
+                ->andWhere('status = 1')
                 ->order('date_created desc')
                 ->queryAll();
             foreach($withdraw_history as $item) {

@@ -53,6 +53,7 @@ class ApiViewAccount extends EApiViewService
                 ->from('user_account_history')
                 ->where('user_id = :user_id', array('user_id' => $user_id))
                 ->andWhere('ledgerno = :ledgerno', array('ledgerno' => $bank->ledger_no))
+                ->andWhere('status = 1')
                 ->queryAll();
             $money = 0;
             if($withdraw) {
