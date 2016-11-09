@@ -283,20 +283,20 @@ class UserbankController extends MobiledoctorController {
         $realAuthModel = $userMgr->loadUserRealNameAuthByUserId($user->id);
         $isRealAuth = arrayNotEmpty($realAuthModel) ? 1 : 0;
         $card = DoctorBankCard::model()->getByAttributes(array('user_id' => $user->id));
-
         $withdraw = Yii::app()->db->createCommand()
             ->select('SUM(`amount`) as draw')
             ->from('user_account_history')
             ->where('user_id = :user_id', array('user_id' => $user->id))
+            ->andWhere('ledgerno = :ledgerno', array('ledgerno' => $card->ledger_no))
             ->queryAll();
         $money = $total = 0;
         if($withdraw) {
-            $money = $total->draw;
+            $money = $withdraw[0]['draw'];
         }
         $bindCard = 0;
         if($card) {
             $bindCard = 1;
-            $total = $card->balance;
+            $total = $card->balance > 0 ? ltrim($card->balance) : '0.00';
         }
         $this->render('myAccount', array('count' => $total, 'cash' => $money, 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
