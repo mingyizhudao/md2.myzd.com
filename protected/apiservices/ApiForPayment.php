@@ -203,25 +203,13 @@ class ApiForPayment
          * @var $user User
          */
         $user = User::model()->getById($user_id);
-        $bank = '';
         if($user) {
             $arg['bindmobile'] = $user->getMobile();
-            $profile = $user->getUserDoctorProfile();
-            $username = '';
-            if($profile) {
-                $username = $profile->getName();
-            } else {
-                return ['code' => 1, 'msg' => '用户信息基本不完整', 'result' => []];
-            }
 
-            if($username == '') {
-                return ['code' => 1, 'msg' => '用户手机未填写', 'result' => []];
-            }
-
-            $arg['linkman'] = $username;
             $bank = DoctorBankCard::model()->getByAttributes(['user_id' => $user_id, 'is_active' => 0]);
             $msg = $this->checkValid($bank);
             if($bank && $msg == '') {
+                $arg['linkman'] = $bank->name;
                 $arg['idcard'] = $bank->identification_card;
                 $arg['bankaccountnumber'] = $bank->card_no;
                 $arg['bankname'] = $bank->bank;
