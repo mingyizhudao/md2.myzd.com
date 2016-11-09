@@ -3,8 +3,6 @@ $this->setPageTitle('申请提现');
 $urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
 $urlAjaxDraw = $this->createUrl('userbank/ajaxDraw');
 $this->show_footer = false;
-$withdraw->enable_money=3000;
-
 ?>
 <style>
   .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
