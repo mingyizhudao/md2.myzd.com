@@ -231,6 +231,8 @@ class ApiForPayment
         }
 
         if(isset($result->errcode)) {
+            $bank->is_active = 3;
+            $bank->save();
             return ['code' => $result->errcode, 'msg' => $result->errmsg];
         }
         return ['code' => 0, 'msg' => '', 'result' => $result];
