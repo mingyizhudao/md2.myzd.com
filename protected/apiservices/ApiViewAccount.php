@@ -99,7 +99,7 @@ class ApiViewAccount extends EApiViewService
         $output = new \stdClass();
         if($bank) {
             $output->bankinfo = $bank->bank.'('. substr($bank->card_no, -4) .')';
-            $output->enable_money = $bank->balance > 0 ? ltrim($bank->balance, 0) : $bank->balance;
+            $output->enable_money = $bank->balance > 0 ? ltrim($bank->balance, 0) : '0.00';
         } else {
             $output->bankinfo = '';
             $output->enable_money = 0;
