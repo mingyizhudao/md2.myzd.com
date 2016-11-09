@@ -6,9 +6,8 @@ $urlDrawCash = $this->createUrl('userbank/drawCash', array('addBackBtn' => 1));
 $urlDoctorView = $this->createUrl('doctor/view');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
 $urlAjaxWithdraw = $this->createUrl('userbank/ajaxWithdraw');
-// $isRealAuth = Yii::app()->request->getQuery('isRealAuth', '');
-// var_dump($date_update);die;
 $this->show_footer = false;
+
 ?>
 <style>
 	#accountList_header nav.right{width:auto!important;background-color: inherit!important;margin-top: 12px;}
@@ -91,7 +90,7 @@ header nav.right {
         $.ajax({
             url:'<?php echo $urlAjaxWithdraw;?>',
             success:function(data){
-                // console.log(data);
+                // console.log('aa',data);
                 if(data.code==1){
                      J.showToast(data.msg);
                 }else{

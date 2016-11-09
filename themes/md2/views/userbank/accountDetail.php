@@ -1,7 +1,6 @@
 <?php
 $this->setPageTitle('查看详情');
 $this->show_footer = false;
-// var_dump($withdraw);die;
 ?>
 <style>
     .bb-g{border-bottom: 2px solid #32c9c0;}
@@ -30,14 +29,6 @@ $this->show_footer = false;
             </div>
         </div>
         <?php }?>
-         <!-- <div class="mt10">
-            <div class="bg-white pad10 grid">
-                <div class="w50 col-1">2016年10月</div>
-                <div class="w50 col-1 text-right">￥5000</div>
-            </div>
-        </div> -->
-        
-        
         <div class="text-center font-s12 mt10 c-h mb50">
             账户信息从2016年9月开始计算
         </div>
@@ -63,10 +54,7 @@ $this->show_footer = false;
             <div>温馨提示：</div>
             <div class="text-justify">具体到帐时间以易宝为准，通常需要一个工作日，请您留意银行卡到帐信息。</div>
         </div>
-
-
-
-    </div>
+     </div>
 </article>
 <script>
     $(function(){
