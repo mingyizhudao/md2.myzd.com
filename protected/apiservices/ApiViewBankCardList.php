@@ -56,6 +56,7 @@ class ApiViewBankCardList extends EApiViewService {
             $data->name = $this->setName($v->name);
             $data->isDefault = $v->is_default;
             $data->is_active = $v->is_active;
+            $data->is_first = $v->is_first;
             $data->actionUrl = Yii::app()->createAbsoluteUrl('/apimd/bankcardinfo/' . $v->id);
             $this->cards[] = $data;
 

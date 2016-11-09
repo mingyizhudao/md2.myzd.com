@@ -315,18 +315,24 @@ class UserbankController extends MobiledoctorController {
 
         foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = $item['money'];
+            $output->money = empty($item['money']) ? '0.00' : $item['money'];
             $output->date= date("Y年m月", strtotime($item['create_date']));
             $total[] = $output;
         }
-
+        $bank = $user->getDoctorBank();
         //提现详情
-        $withdraw_history = UserAccountHistory::model()->getAllByAttributes(['user_id' => $user->id]);
+        $withdraw_history = Yii::app()->db->createCommand()
+            ->select('amount, date_created')
+            ->from('user_account_history')
+            ->where('user_id = :user_id', array('user_id' => $user->id))
+            ->andWhere('ledgerno=:ledgerno', array('ledgerno' => $bank->ledger_no))
+            ->order('date_created desc')
+            ->queryAll();
         $withdraw = [];
         foreach($withdraw_history as $item) {
             $output = new \stdClass();
-            $output->money = $item->amount;
-            $output->date= date("Y年m月d H:i:s", strtotime($item->date_created));
+            $output->money = $item['amount'];
+            $output->date= date("Y年m月d H:i:s", strtotime($item['date_created']));
             $withdraw[] = $output;
         }
 

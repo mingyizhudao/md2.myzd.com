@@ -43,6 +43,11 @@ class ApiViewAccount extends EApiViewService
             if($withdraw) {
                 $money = $withdraw[0]['draw'];
             }
+
+            if(empty($money)) {
+                $money = '0.00';
+            }
+
             $output->total = $bank->balance;
             $output->withdraw = $money;
             $output->date_update= date("Y年m月d日", time());
@@ -72,11 +77,12 @@ class ApiViewAccount extends EApiViewService
             ->from('doctor_withdrawal')
             ->where('phone = :phone', array('phone' => $user->username))
             ->group('DATE_FORMAT(`create_date`, \'%y%m\')')
+            ->order('create_date desc')
             ->queryAll();
 
         foreach($account_total as $item) {
             $output = new \stdClass();
-            $output->money = $item['money'];
+            $output->money = empty($item['money']) ? '0.00' : $item['money'];
             $output->date= date("Y年m月", strtotime($item['create_date']));
             $list[] = $output;
         }
