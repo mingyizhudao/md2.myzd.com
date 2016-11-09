@@ -61,6 +61,7 @@ class ApiViewAccount extends EApiViewService
 
             $output->total = $total;
             $output->withdraw = $money;
+            $output->balance = $bank->balance;
             $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 1;
             $output->card_no = $bank->card_no;
@@ -69,6 +70,7 @@ class ApiViewAccount extends EApiViewService
         } else {
             $output->total = 0;
             $output->withdraw = 0;
+            $output->balance = 0;
             $output->date_update= date("Y年m月d日", time());
             $output->cardbind = 0;
             $output->card_no = '';
