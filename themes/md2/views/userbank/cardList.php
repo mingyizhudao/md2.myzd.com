@@ -83,7 +83,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                 *提现服务由易宝提供，易宝需要再次对银行卡和持卡人进行快速校验，请您稍等。
             </div>
         </div>
-
+ 
         <?php
         if (isset($data) && !(is_null($data))&&(count($data->results->cards) == 0) ) {
 
@@ -103,12 +103,13 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
         }
         ?>
     </div>
+
 </article>
 <script>
     $(function(){
          var length='<?php echo count($data->results->cards);?>';
-         var isFirst='<?php echo $data->results->isFirst;?>';
-         if(isFirst==0){
+         var isFirst='<?php echo $data->results->cards[0]->is_first;?>';
+         if(isFirst==1){
              J.customConfirm('',
                         '<div class="text-justify">尊敬的医生，因账户服务优化提升，烦请您再次填写正确的银行卡信息。谢谢您的谅解和支持。</div>',
                         '<a id="close" class=" color-green">我知道了</a>',
@@ -187,7 +188,7 @@ if (isset($data) && !(is_null($data))&&(count($data->results->cards) > 0) ) {
                 J.closePopup();
              });
              $("#turn").click(function(){
-                location.href="<?php echo $urlCreate;?>"+"?isFirst="+'<?php echo $data->results->isFirst;?>';
+                location.href="<?php echo $urlCreate;?>";
              })
             
         

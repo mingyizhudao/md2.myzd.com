@@ -3,8 +3,6 @@ $this->setPageTitle('申请提现');
 $urlMyAccount = $this->createUrl('userbank/myAccount', array('addBackBtn' => 1));
 $urlAjaxDraw = $this->createUrl('userbank/ajaxDraw');
 $this->show_footer = false;
-$withdraw->enable_money=3000;
-
 ?>
 <style>
   .bt-h{border-top: 1px solid #D3D3D3;margin-top:-10px;} 
@@ -33,7 +31,7 @@ $withdraw->enable_money=3000;
 
  </div>
  <div class="mt50 ml10 mr10">
-     <button class="btn btn-block btn-green"id="btnSubmit">确认提现</button>
+     <button class="btn btn-block btn-green"id="btnSubmit"disabled="disabled">确认提现</button>
  </div>
  <div class="mt10 text-center font-s12 c-h">具体到账时间以易宝和银行为准</div>
 </article>
@@ -74,7 +72,7 @@ $withdraw->enable_money=3000;
    
 
         $('button').click(function(){
-           var val=$('input').val();
+         var val=$('input').val();
           $.ajax({
               type:'post',
               url:'<?php echo $urlAjaxDraw?>',

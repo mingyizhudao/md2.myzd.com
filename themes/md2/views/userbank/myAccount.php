@@ -7,7 +7,6 @@ $urlDoctorView = $this->createUrl('doctor/view');
 $urlCreate = $this->createUrl('userbank/create', array('addBackBtn' => 1));
 $urlAjaxWithdraw = $this->createUrl('userbank/ajaxWithdraw');
 $this->show_footer = false;
-
 ?>
 <style>
 	#accountList_header nav.right{width:auto!important;background-color: inherit!important;margin-top: 12px;}
