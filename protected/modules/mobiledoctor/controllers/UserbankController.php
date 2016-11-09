@@ -296,7 +296,7 @@ class UserbankController extends MobiledoctorController {
         $bindCard = 0;
         if($card) {
             $bindCard = 1;
-            $total = $card->balance > 0 ? ltrim($card->balance) : '0.00';
+            $total = $card->balance > 0 ? ltrim($card->balance, 0) : '0.00';
         }
         $this->render('myAccount', array('count' => $total, 'cash' => $money, 'isRealAuth' => $isRealAuth, 'cardBind' => $bindCard, 'date_update' => date("Y年m月d日", time())));
     }
