@@ -55,11 +55,15 @@ class ApiForPayment
 
     public function uploadRemoteFile($path, $ledger_no, $file_type) {
         $ch = curl_init();
-        $curlPost = array('file' => new \CURLFile(realpath($path)), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
+//        if (class_exists('\CURLFile')) {
+//            $curlPost = array('file' => new \CURLFile(realpath($path)), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
+//        } else {
+            $curlPost = array('file' => '@' . realpath($path), 'ledgerno' => $ledger_no, 'filetype' => $file_type);
+        //}
         curl_setopt($ch, CURLOPT_URL, $this->activate_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1); //POST提交
-        curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+        //curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
         $data = curl_exec($ch);
         curl_close($ch);
